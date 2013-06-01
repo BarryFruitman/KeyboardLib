@@ -1,0 +1,18 @@
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/arrow_keypad_layout"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="#CC000000">
+
+	<com.comet.keyboard.KeyboardView
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:id="@+id/arrowKeyboardView"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:layout_alignParentLeft="true"
+		android:layout_alignParentBottom="true"
+		android:padding="0px"
+		android:keyTextSize="@dimen/key_text_size" />
+
+</RelativeLayout>

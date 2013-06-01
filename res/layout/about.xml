@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:background="@drawable/page_background"
+	android:fillViewport="true">
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:padding="0dp"
+		android:orientation="vertical">
+
+		<!-- TypeSmart logo -->
+		<ImageView
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center"
+		    android:gravity="center"
+		    android:padding="10dp"
+		    android:scaleType="fitCenter"
+		    android:src="@drawable/title_logo" />
+
+		<TextView
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center"
+		    android:gravity="center"
+		    android:paddingBottom="2dp"
+		    android:paddingLeft="0dp"
+		    android:paddingRight="5dp"
+		    android:paddingTop="2dp"
+		    android:id="@+id/tvAboutTitle"
+		    android:text="@string/about_title"
+		    android:textColor="@color/label_text"
+		    android:textSize="@dimen/heading_font_size" />
+
+
+
+		<!-- ABOUT -->
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dp"
+			android:background="@drawable/text_bg"
+			android:paddingLeft="10dp"
+			android:paddingRight="10dp"
+			android:paddingBottom ="10dp"
+			android:orientation="vertical">
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text=""
+				android:textColor="@color/label_text"
+				android:id="@+id/tvProductVersion"
+				android:layout_marginLeft="15dp"
+				android:textSize="@dimen/heading_font_size"
+				android:layout_marginTop="10dp" />
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/tvDicVersion"
+				android:textColor="@color/label_text"
+				android:text=""
+				android:layout_marginLeft="15dp"
+				android:textSize="@dimen/heading_font_size" />
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/tvThanks"
+				android:textColor="@color/label_text"
+				android:text=""
+				android:layout_marginLeft="15dp"
+				android:textSize="@dimen/heading_font_size" />
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/tvExpiry"
+				android:textColor="@color/label_text"
+				android:text=""
+				android:layout_marginLeft="15dp"
+				android:textSize="@dimen/heading_font_size" />
+			<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/tvCopyright"
+				android:textColor="@color/label_text"
+				android:text=""
+				android:paddingTop="10dp"
+				android:layout_gravity="center_horizontal"
+				android:textSize="@dimen/body_font_size" />
+		</LinearLayout>
+
+	    <!-- Comet logo -->
+    	<include layout="@layout/comet_logo" />
+	</LinearLayout>
+</ScrollView>

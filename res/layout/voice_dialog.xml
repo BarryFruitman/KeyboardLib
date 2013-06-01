@@ -1,0 +1,89 @@
+<com.comet.keyboard.voice.dragon.DragonVoiceView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/voice_dialog"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#000000"
+        android:padding="10dp" >
+
+        <!-- Title -->
+
+        <TextView
+            android:id="@+id/voice_label_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="@string/voice_input_title"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/popup_title_font_size" />
+
+        <TextView
+            android:id="@+id/voice_label_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/voice_label_title"
+            android:layout_centerHorizontal="true"
+            android:text=""
+            android:textColor="#ffffff"
+            android:textSize="@dimen/title_font_size" />
+
+        <TextView
+            android:id="@+id/voice_label_level"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/voice_bar_level"
+            android:layout_centerHorizontal="true"
+            android:text="%"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/heading_font_size" />
+
+        <ProgressBar
+            android:id="@id/voice_bar_level"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:max="100"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" />
+
+        <Button
+            android:id="@+id/voice_btn_done"
+            style="@style/btn_std"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:text="@string/done"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/body_font_size" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/voice_icn_dragon" />
+
+        <Button
+            android:id="@+id/voice_btn_retry"
+            style="@style/btn_std"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="@string/retry"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/body_font_size" />
+    </RelativeLayout>
+
+</com.comet.keyboard.voice.dragon.DragonVoiceView>

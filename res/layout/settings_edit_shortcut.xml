@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:padding="10dp"
+	android:orientation="vertical">
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+		<TextView
+			android:layout_height="wrap_content"
+			android:textSize="@dimen/heading_font_size"
+			android:text="@string/setting_shortcut_keystrokes"
+			android:layout_width="90dp"/>
+		<EditText
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:id="@+id/etExpand"
+			android:singleLine="true"
+			android:inputType="textNoSuggestions" />
+	</LinearLayout>
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal">
+		<TextView
+			android:layout_height="wrap_content"
+			android:textSize="@dimen/heading_font_size"
+			android:text="@string/setting_shortcut_expandto"
+			android:layout_width="90dp" />
+		<EditText
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:inputType="textNoSuggestions"
+			android:id="@+id/etKeystroke"
+			android:imeActionLabel="@string/key_label_prev"
+			android:singleLine="true" android:imeActionId="-1001" android:imeOptions="actionDone"/>
+	</LinearLayout>
+	<Button
+		android:text="@string/settings_save_shortcut"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:textSize="@dimen/std_btn_font_size"
+		android:id="@+id/btnSave" />
+	<Button
+		android:text="@string/settings_delete_shortcut"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:textSize="@dimen/std_btn_font_size"
+		android:id="@+id/btnDelete" />
+</LinearLayout>

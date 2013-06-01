@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_wallpaper_photo"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" >
+
+            <ImageView
+                android:id="@+id/photo"
+                android:layout_width="160dp"
+                android:layout_height="120dp"
+                android:scaleType="center" />
+
+            <LinearLayout
+                android:id="@+id/llThemes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:background="@null" >
+
+                <ToggleButton
+                    android:id="@+id/tbBlackTheme"
+                    android:layout_width="45dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/wallpaper_photo_imgbtn_white_touchable"
+                    android:checked="true"
+                    android:textOff=""
+                    android:textOn="" />
+
+                <ToggleButton
+                    android:id="@+id/tbWhiteTheme"
+                    android:layout_width="45dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@drawable/wallpaper_photo_imgbtn_black_touchable"
+                    android:clickable="false"
+                    android:textOff=""
+                    android:textOn="" />
+            </LinearLayout>
+        </FrameLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="0dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="right"
+            android:text="@string/settings_wallpaper_label_transparency"
+            android:textSize="@dimen/body_font_size" />
+
+        <SeekBar
+            android:id="@+id/seekAlpha"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:max="255"
+            android:padding="10dp"
+            android:progress="128" />
+    </LinearLayout>
+
+    <!-- No Default IME -->
+
+    <include layout="@layout/no_default_ime" />
+
+    <CheckBox
+        android:id="@+id/cbFit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|center_vertical"
+        android:gravity="center_vertical"
+        android:text="@string/settings_wallpaper_photo_label_fit_exactly"
+        android:textSize="@dimen/body_font_size" />
+
+</LinearLayout>

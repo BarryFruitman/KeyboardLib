@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<integer name="free_translations_credits">10</integer>
+	<integer name="key_background_alpha">255</integer>
+	<integer name="gap_before_last_row">0</integer>
+</resources>

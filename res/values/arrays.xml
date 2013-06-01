@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Languages -->
+    <string-array name="language_names">
+        <item>@string/lang_english</item>
+        <item>@string/lang_spanish</item>
+        <item>@string/lang_german</item>
+        <item>@string/lang_french</item>
+        <item>@string/lang_hungarian</item>
+        <item>@string/lang_other</item>
+    </string-array>
+    <string-array name="language_codes">
+        <item>@string/lang_code_english</item>
+        <item>@string/lang_code_spanish</item>
+        <item>@string/lang_code_german</item>
+        <item>@string/lang_code_french</item>
+        <item>@string/lang_code_hungarian</item>
+        <item>@string/lang_code_other</item>
+    </string-array>
+
+    <!-- Keyboards -->
+    <string-array name="keyboard_names">
+        <item>@string/kb_qwerty_en</item>
+        <item>@string/kb_qwerty_intl</item>
+        <item>@string/kb_qwerty_sp</item>
+        <item>@string/kb_qwertz_de</item>
+        <item>@string/kb_azerty_fr</item>
+        <item>@string/kb_t9</item>
+    </string-array>
+    <string-array name="keyboard_ids">
+        <item>@string/kb_id_qwerty_en</item>
+        <item>@string/kb_id_qwerty_intl</item>
+        <item>@string/kb_id_qwerty_sp</item>
+        <item>@string/kb_id_qwertz_de</item>
+        <item>@string/kb_id_azerty_fr</item>
+        <item>@string/kb_id_t9</item>
+    </string-array>
+
+    <!-- Languages & Keyboards -->
+    <string-array name="default_keyboard_for_language_names">
+        <item>@string/lang_code_english</item>
+        <item>@string/lang_code_spanish</item>
+        <item>@string/lang_code_french</item>
+        <item>@string/lang_code_german</item>
+    </string-array>
+    
+    <string-array name="default_keyboard_for_language_ids">
+        <item>@string/kb_id_qwerty_en</item>
+        <item>@string/kb_id_qwerty_sp</item>
+        <item>@string/kb_id_azerty_fr</item>
+        <item>@string/kb_id_qwertz_de</item>
+    </string-array>
+    
+    <!-- Currencies -->
+    <string-array name="currency_names">
+        <item>@string/curr_dollar</item>
+        <item>@string/curr_euro</item>
+        <item>@string/curr_pound</item>
+        <item>@string/curr_yuan</item>
+    </string-array>
+    <string-array name="currency_symbols">
+        <item>@string/curr_symbol_dollar</item>
+        <item>@string/curr_symbol_euro</item>
+        <item>@string/curr_symbol_pound</item>
+        <item>@string/curr_symbol_yuan</item>
+    </string-array>
+
+    <!-- Themes -->
+    <string-array name="theme_names">
+        <item>@string/theme_name_eastereggs1</item>
+        <item>@string/theme_name_eastereggs2</item>
+        <item>@string/theme_name_passovermatzoh</item>
+        <item>@string/theme_name_typesmart</item>
+        <item>@string/theme_name_typesmartblack</item>
+        <item>@string/theme_name_clean</item>
+        <item>@string/theme_name_cleandark</item>
+        <item>@string/theme_name_ics</item>
+        <item>@string/theme_name_ice</item>
+        <item>@string/theme_name_light</item>
+        <item>@string/theme_name_dark</item>
+        <item>@string/theme_name_golden</item>
+        <item>@string/theme_name_redwave</item>
+        <item>@string/theme_name_blueocean</item>
+        <item>@string/theme_name_leafypond</item>
+        <item>@string/theme_name_pinkflower</item>
+        <item>@string/theme_name_sunshine</item>
+        <item>@string/theme_name_giftwrapped</item>
+        <item>@string/theme_name_daisy</item>
+        <item>@string/theme_name_butterfly</item>
+        <item>@string/theme_name_clouds</item>
+        <item>@string/theme_name_swimmingpool</item>
+        <item>@string/theme_name_creamsofa</item>
+        <item>@string/theme_name_grapesoda</item>
+        <item>@string/theme_name_bluesatin</item>
+        <item>@string/theme_name_blackwall</item>
+        <item>@string/theme_name_bluemoon</item>
+        <item>@string/theme_name_bluehaze</item>
+        <item>@string/theme_name_fire</item>
+        <item>@string/theme_name_desertcamo</item>
+        <item>@string/theme_name_aliensky</item>
+    </string-array>
+    <string-array name="theme_ids">
+        <item>@string/theme_id_eastereggs1</item>
+        <item>@string/theme_id_eastereggs2</item>
+        <item>@string/theme_id_passovermatzoh</item>
+        <item>@string/theme_id_typesmart</item>
+        <item>@string/theme_id_typesmartblack</item>
+        <item>@string/theme_id_clean</item>
+        <item>@string/theme_id_cleandark</item>
+        <item>@string/theme_id_ics</item>
+        <item>@string/theme_id_ice</item>
+        <item>@string/theme_id_light</item>
+        <item>@string/theme_id_dark</item>
+        <item>@string/theme_id_golden</item>
+        <item>@string/theme_id_redwave</item>
+        <item>@string/theme_id_blueocean</item>
+        <item>@string/theme_id_leafypond</item>
+        <item>@string/theme_id_pinkflower</item>
+        <item>@string/theme_id_sunshine</item>
+        <item>@string/theme_id_giftwrapped</item>
+        <item>@string/theme_id_daisy</item>
+        <item>@string/theme_id_butterfly</item>
+        <item>@string/theme_id_clouds</item>
+        <item>@string/theme_id_swimmingpool</item>
+        <item>@string/theme_id_creamsofa</item>
+        <item>@string/theme_id_grapesoda</item>
+        <item>@string/theme_id_bluesatin</item>
+        <item>@string/theme_id_blackwall</item>
+        <item>@string/theme_id_bluemoon</item>
+        <item>@string/theme_id_bluehaze</item>
+        <item>@string/theme_id_fire</item>
+        <item>@string/theme_id_desertcamo</item>
+        <item>@string/theme_id_aliensky</item>
+    </string-array>
+
+    <!-- Any Key actions -->
+    <string-array name="settings_any_key_action_names">
+        <item>@string/any_key_action_smiley_menu</item>
+        <item>@string/any_key_action_voice_input</item>
+        <item>@string/any_key_action_arrow_keypad</item>
+        <item>@string/any_key_action_translator</item>
+        <item>@string/any_key_action_locale</item>
+        <item>@string/any_key_action_settings</item>
+    </string-array>
+    <string-array name="settings_any_key_action_values">
+        <item>@string/any_key_action_id_smiley_menu</item>
+        <item>@string/any_key_action_id_voice_input</item>
+        <item>@string/any_key_action_id_arrow_keypad</item>
+        <item>@string/any_key_action_id_translator</item>
+        <item>@string/any_key_action_id_locale</item>
+        <item>@string/any_key_action_id_settings</item>
+    </string-array>
+
+    <!-- Swipe actions -->
+    <string-array name="settings_swipe_action_names">
+        <item>@string/any_key_action_voice_input</item>
+        <item>@string/any_key_action_arrow_keypad</item>
+        <item>@string/any_key_action_translator</item>
+        <item>@string/any_key_action_locale</item>
+        <item>@string/swipe_action_delete_word</item>
+        <item>@string/swipe_action_num_row</item>
+        <item>@string/swipe_action_toggle_mode</item>        
+        <item>@string/swipe_action_do_nothing</item>
+    </string-array>
+    <string-array name="settings_swipe_action_values">
+        <item>@string/any_key_action_id_voice_input</item>
+        <item>@string/any_key_action_id_arrow_keypad</item>
+        <item>@string/any_key_action_id_translator</item>
+        <item>@string/any_key_action_id_locale</item>
+        <item>@string/swipe_action_id_delete_word</item>
+        <item>@string/swipe_action_id_num_row</item>
+        <item>@string/swipe_action_id_toggle_mode</item>
+        <item>@string/swipe_action_id_do_nothing</item>
+    </string-array>
+
+    <!-- Locale button behavior -->
+    <string-array name="settings_locale_button_behavior_names">
+        <item>@string/settings_locale_button_next_locale</item>
+        <item>@string/settings_locale_button_open_menu</item>
+    </string-array>
+    <string-array name="settings_locale_button_behavior_values">
+        <item>@string/settings_locale_button_id_next_locale</item>
+        <item>@string/settings_locale_button_id_open_menu</item>
+    </string-array>
+    
+    <!-- Any Key actions -->
+    <string-array name="settings_new_words_names">
+        <item>@string/settings_new_words_ask_first</item>
+        <item>@string/settings_new_words_always_add</item>
+        <item>@string/settings_new_words_never_add</item>
+    </string-array>
+    <string-array name="settings_new_words_values">
+        <item>@string/settings_new_words_id_ask_first</item>
+        <item>@string/settings_new_words_id_always_add</item>
+        <item>@string/settings_new_words_id_never_add</item>
+    </string-array>
+    
+    <!-- Announcements -->
+    <string-array name="announcement_ids">
+        <item>announcement_undo_menu</item>
+        </string-array>
+    <string-array name="announcement_messages">
+        <item>@string/announcement_message_undo_menu</item>
+        </string-array>
+</resources>

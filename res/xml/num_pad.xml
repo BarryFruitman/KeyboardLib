@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:keyHeight="@dimen/key_height"
+    android:horizontalGap="0px"
+    android:verticalGap="0px"
+    >
+
+    <Row android:rowEdgeFlags="top">
+        <Key android:keyLabel="1" android:keyWidth="14.286%p" android:keyEdgeFlags="left"/>
+        <Key android:keyLabel="2" android:keyWidth="14.286%p"/>
+        <Key android:keyLabel="3" android:keyWidth="14.286%p"/>
+        <Key android:keyLabel="-" android:keyWidth="14.286%p"/>
+        <Key android:keyLabel="+" android:keyWidth="14.286%p"/>
+        <Key android:keyLabel="(" android:keyWidth="14.286%p"/>
+        <Key android:keyLabel=")" android:keyWidth="14.286%p" android:keyEdgeFlags="right"/>
+    </Row>
+    
+    <Row>
+        <Key android:keyLabel="4" android:keyWidth="14.286%p" android:keyEdgeFlags="left"/>
+        <Key android:keyLabel="5" android:keyWidth="14.286%p"/>
+        <Key android:keyLabel="6" android:keyWidth="14.286%p"/>
+        <Key android:keyLabel="*" android:keyWidth="14.286%p"/>
+        <Key android:keyLabel="/" android:keyWidth="14.286%p"/>
+        <Key android:keyLabel="=" android:keyWidth="14.286%p"/>
+        <Key android:keyLabel=":" android:keyWidth="14.286%p" android:keyEdgeFlags="right"/>
+    </Row>
+    
+    <Row>
+        <Key android:keyLabel="7" android:keyWidth="14.286%p" android:keyEdgeFlags="left"/>
+        <Key android:keyLabel="8" android:keyWidth="14.286%p"/>
+        <Key android:keyLabel="9" android:keyWidth="14.286%p"/>
+        <Key android:keyLabel="$" android:keyWidth="14.286%p" android:popupKeyboard="@xml/popup_keyboard" android:popupCharacters="$"/>
+        <Key android:keyLabel="%" android:keyWidth="14.286%p"/>
+        <Key android:keyLabel="#" android:keyWidth="14.286%p"/>
+        <Key android:codes="@integer/keycode_delete" android:iconPreview="@drawable/sym_kb_popup_delete"
+                android:keyWidth="14.286%p" android:keyEdgeFlags="right"
+                android:isRepeatable="true"/>
+	    <Gap> </Gap>
+    </Row>
+
+    <Row  android:rowEdgeFlags="bottom">
+        <Key android:codes="@integer/keycode_mode"  android:keyLabel="ABC" android:keyWidth="14.286%p" android:popupKeyboard="@xml/popup_keyboard" android:popupCharacters="{&#x2022;&#x0020;&#x2022;&#x0020;&#x2022;}" android:keyEdgeFlags="left"/>
+        <Key android:codes="@integer/keycode_any_key" android:keyLabel=":-)" android:keyWidth="14.286%p"/>
+        <Key android:keyLabel="0" android:keyWidth="14.286%p"/>
+        <Key android:keyLabel="." android:keyWidth="14.286%p"/>
+        <Key android:keyLabel="," android:keyWidth="14.286%p"/>
+        <Key android:codes="32" android:iconPreview="@drawable/sym_kb_popup_space" android:isRepeatable="true" android:keyWidth="14.286%p"/>
+        <Key android:codes="@integer/keycode_action" android:keyWidth="14.286%p" android:keyEdgeFlags="right"/>
+    </Row>
+</Keyboard>

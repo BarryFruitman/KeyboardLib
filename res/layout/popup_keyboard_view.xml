@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.comet.keyboard.PopupKeyboardView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto/com.comet.keyboard"
+	android:id="@+id/popupKeyboardView"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:layout_weight="0"
+	android:padding="2dp"
+	app:keyTextSize="@dimen/key_text_size"
+	style="@style/PopupKeyboardView"
+	/>

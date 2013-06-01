@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="copyright">Copyright 2011–2013 Comet Inc. Todos los derechos reservados</string>
+ <!-- "&#8211;" is the hyphen "-" symbol -->
+<!-- 		Generic labels -->
+    <!-- These strings are used everywhere, so use equivalent generic translations. -->
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
+    <string name="ok">Aceptar</string>
+    <string name="back">Atrás</string>
+    <string name="done">Listo</string>
+    <string name="cancel">Cancelar</string>
+    <string name="clear">Borrar</string>
+    <string name="close">Cerrar</string>
+    <string name="cont">Continuar</string>
+    <string name="delete">Eliminar</string>
+    <string name="warning">Advertencia</string>
+    <string name="error">Error</string>
+    <string name="exit">Salir</string>
+    <string name="retry">Reintentar</string>
+    <string name="unknown">Desconocido</string>
+    <string name="save">Guardar</string>
+    <string name="submit">Enviar</string>
+    <string name="test">Probar</string>
+    <string name="plus">+</string>
+    <string name="minus">-</string>
+    <string name="keyboard">Teclado</string>
+    <string name="volume_mute">Silenciar</string>
+<!-- 		Key labels -->
+    <!-- These labels must fit on a key so keep them under 6 characters -->
+    <!-- Cursor keypad labels -->
+    <string name="cursor_label_cut">Cortar</string>
+    <string name="cursor_label_copy">Copiar</string>
+    <string name="cursor_label_paste">Pegar</string>
+    <string name="cursor_label_select">Selecc</string>
+ <!-- As in, "select text" -->
+    <string name="cursor_label_select_all">Selecc todo</string>
+ <!-- As in, "select all text" -->
+ <!-- This one may be up to 12 characters -->
+    <string name="cursor_label_home">Inicio</string>
+ <!-- Home key -->
+    <string name="cursor_label_end">Fin</string>
+ <!-- End key -->
+    <string name="cursor_label_abc">ABC</string>
+ <!-- Do not translate -->
+    <string name="cursor_label_del">Supr</string>
+ <!-- Delete key -->
+    <string name="cursor_label_tab">Tab</string>
+ <!-- Tab key -->
+ <!-- Action key labels -->
+    <string name="key_label_done">Listo</string>
+    <string name="key_label_go">Ir</string>
+    <string name="key_label_next">Sig</string>
+    <string name="key_label_prev">Ant</string>
+    <string name="key_label_send">Enviar</string>
+    <string name="key_label_save">Guardar</string>
+    <string name="key_label_sym">{SYM}</string>
+ <!-- Do not translate -->
+    <!--
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+		ACTIVITIES
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    -->
+<!-- 		Home -->
+    <string name="home_title">@string/ime_name</string>
+    <string name="home_label_thank_you">Gracias por descargar %1$s</string>
+ <!-- These strings refer to the setup state of the app -->
+    <string name="home_label_install">La instalación no ha finalizado.</string>
+    <string name="home_btn_install">Instalación finalizada</string>
+    <string name="home_label_enable">%1$s no está habilitada.</string>
+    <string name="home_btn_activate">%1$s habilitada</string>
+    <string name="home_label_select_ime">%1$s no es el teclado predeterminado.</string>
+    <string name="home_btn_select_ime">Establecer como teclado predeterminado</string>
+    <string name="home_label_done">%1$s está habilitada y lista para usar.</string>
+ <!-- Button labels -->
+    <string name="home_btn_tutorials">Tutoriales</string>
+    <string name="home_btn_settings">Configuración</string>
+    <string name="home_btn_help_support">Ayuda y soporte técnico</string>
+    <string name="home_btn_about">Acerca de</string>
+<!-- 		About -->
+    <string name="about_title">Acerca de %1$s</string>
+    <string name="about_product_version">Versión: %1$s (%2$s)</string>
+ <!-- Version number, release number -->
+    <string name="about_dic_version">Diccionarios instalados:</string>
+    <string name="about_special_thanks">\nGracias a:\n\tXDA-Developers\n\tcrnkoj\n\tKim St\n\tGermaniac\n\tdjmcnz\n\n\n</string>
+<!-- 		Welcome -->
+    <string name="welcome_title">@string/home_title</string>
+    <string name="welcome_button">Instalación</string>
+    <!--
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+		KEYBOARD VIEWS
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    -->
+    <!-- Main menu -->
+    <string name="main_menu_title">@string/ime_name</string>
+    <string name="main_menu_label_voice_input">Voz</string>
+    <string name="main_menu_label_arrow_keypad">Cursor</string>
+    <string name="main_menu_label_translator">Traductor</string>
+    <string name="main_menu_label_locale">Idioma</string>
+    <string name="main_menu_label_share">Compartir</string>
+    <string name="main_menu_label_settings">Configuración</string>
+    <string name="main_menu_label_help">Ayuda</string>
+    <string name="main_menu_label_about">Acerca de</string>
+ <!-- Symbols menu -->
+ <!-- These labels refer to different categories of symbols in the Symbols Menu -->
+    <string name="sym_menu_title">Menú de símbolos</string>
+    <string name="sym_menu_label_latin_extended">Latín extendido</string>
+ <!-- Non-English latin characters such as: Ä, Ç and é -->
+    <string name="sym_menu_label_standard">Estándar</string>
+ <!-- Basic punctuation like !%$^$ -->
+    <string name="sym_menu_label_extended">Otros</string>
+ <!-- More punctuation -->
+    <string name="sym_menu_label_currency">Divisa</string>
+ <!-- Currency symbols: $, € ... etc. -->
+    <string name="sym_menu_label_smileys">Emoticonos</string>
+ <!-- :) :( ... etc. -->
+    <string name="sym_menu_label_dingbats">Viñetas</string>
+ <!-- Fun characters such as heart, music notes ... etc. -->
+    <string name="sym_menu_label_business">Negocios</string>
+ <!-- Business symbols like (C) and TM -->
+    <string name="sym_menu_label_arrows">Flechas</string>
+ <!-- Arrow symbols -->
+    <string name="sym_menu_label_fractions">Fracciones</string>
+ <!-- Fraction symbols like 1/2, 1/3 ... etc. -->
+    <string name="sym_menu_label_math">Matemáticas</string>
+ <!-- Math symbols + - = -->
+    <string name="sym_menu_label_misc">Varios</string>
+ <!-- Other symbols -->
+    <string name="sym_menu_btn_more">Más símbolos...</string>
+ <!-- "More symbols..." button in symbols quick menu -->
+ <!-- Arrow keypad -->
+    <string name="arrow_keypad_title">Controles del cursor</string>
+ <!-- Title for cursor keypad -->
+ <!-- Suggestion bar -->
+ <!-- These labels refer to saving (or "remembering") new words in the dictionary -->
+    <string name="candidate_popup_menu_title">Editar diccionario</string>
+    <string name="candidate_popup_menu_new_word_title">Palabra nueva</string>
+    <string name="candidate_add_custom_word_entry">Registrar esta palabra</string>
+    <string name="candidate_dont_add_custom_word_entry">No en este momento</string>
+    <string name="candidate_del_custom_word_entry">Ignorar esta palabra</string>
+    <string name="candidate_always_add_custom_word_entry">Registrar siempre</string>
+    <string name="candidate_never_add_custom_word_entry">No registrar</string>
+    <string name="candidate_auto_add_dic_title">@string/candidate_add_custom_word_entry</string>
+    <string name="candidate_check_password">Revisar contraseña</string>
+ <!-- Gives the user an option to see a password they typed -->
+ <!-- New word menu -->
+    <string name="new_word_dialog_title">Palabra nueva</string>
+    <string name="new_word_dialog_yes">Registrar esta palabra</string>
+    <string name="new_word_dialog_no">No en este momento</string>
+    <string name="new_word_dialog_question">¿Registrar esta palabra?</string>
+    <string name="new_word_dialog_remember">No volver a preguntar</string>
+    <string name="msg_word_remembered">\&quot;%s\&quot; se registró</string>
+    <string name="msg_word_forgotten">se ignoró</string>
+    <string name="error_message_cant_be_deleted">No se puede eliminar esta palabra</string>
+ <!-- Translator -->
+    <string name="translator_title">Traductor</string>
+    <string name="translator_label_your_language">Tu idioma</string>
+ <!-- The user's language -->
+    <string name="translator_label_target_language">Idioma meta</string>
+ <!-- The language to translate to/from -->
+    <string name="translator_label_translating">Traduciendo...</string>
+    <string name="translator_btn_translate">Traducir</string>
+    <string name="translator_btn_translate_clipboard">Traducir portapapeles</string>
+    <string name="translator_label_google">Con tecnología de Google</string>
+    <string name="translator_nothing_to_translate">Nada para traducir</string>
+    <string name="translator_same_languages">Los idiomas seleccionados son iguales</string>
+ <!-- This is an error. The user selected the same language for translation -->
+    <string name="translator_empty_clipboard">El portapapeles está vacío. Corta o copia un texto antes.</string>
+    <string name="google_translate_failed">Google no pudo traducir el texto</string>
+    <string name="purchase_trans_point_description"><b>Quedan %1$s traducciones - </b></string>
+ <!-- Number of translation credits left -->
+    <string name="purchase_trans_buy_more"><u><b>Comprar más</b></u></string>
+    <string name="purchase_no_translation_credits_left">Tus créditos de traducción se agotaron</string>
+ <!-- Share app -->
+    <string name="share_to_sns_title">Prueba %1$s para Android</string>
+    <string name="share_to_sns_description">Estoy utilizando %1$s para Android y lo recomiendo. Haz clic aquí: %2$s</string>
+ <!-- App name, link to app market -->
+ <!-- Voice input -->
+    <string name="voice_input_title">Entrada de voz</string>
+    <string name="popup_menu_closest_match_title">Coincidencias de voz</string>
+ <!-- Title for a menu that displays multiple matches on voice input -->
+    <!--
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+		SETTINGS
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    -->
+    <string name="title_settings">Configuración de %1$s</string>
+<!-- 		Upgrade -->
+    <string name="settings_title_upgrade">Actualizar %1$s</string>
+    <string name="settings_upgrade_description">Actualizar para obtener la versión completa de %1$s</string>
+<!-- 		Help & Support -->
+    <string name="settings_category_help_support_title">Ayuda y soporte técnico</string>
+    <string name="settings_category_help_support_summary">Tutoriales, preguntas frecuentes e información de contacto</string>
+    <string name="settings_category_help">Ayuda</string>
+    <string name="settings_category_support">Soporte técnico</string>
+    <string name="settings_title_tutorials">Tutoriales</string>
+    <string name="settings_category_follow_us">Síguenos</string>
+    <string name="settings_category_follow_us_summary">Síguenos en tu red social favorita</string>
+ <!-- Support -->
+    <string name="contact_email_address">support@cometapps.com</string>
+    <string name="contact_email_subject">Soporte técnico de %1$s</string>
+    <string name="contact_email_dlg_title">Enviar correo electrónico...</string>
+    <string name="contact_email_sent_ok">El correo se envió correctamente.</string>
+    <string name="contact_email_sent_fail">En este momento, no se puede enviar tu mensaje.</string>
+    <string name="support_title">Comunícate con el soporte técnico</string>
+    <string name="support_btn_ticket">Abrir un tiquete de soporte técnico</string>
+    <string name="support_btn_email">Enviar un correo electrónico al soporte técnico</string>
+    <string name="support_btn_website">Ir al sitio web del soporte técnico</string>
+    <string name="support_zendesk_title">¿Cómo te podemos ayudar\?</string>
+    <string name="support_zendesk_subject">Asunto:</string>
+    <string name="support_zendesk_description">Detalles:</string>
+    <string name="support_zendesk_email">Correo electrónico:</string>
+    <string name="support_zendesk_submitted">La solicitud se envió correctamente</string>
+    <string name="support_zendesk_submit_failed">No se pudo enviar la solicitud; inténtalo otra vez</string>
+    <string name="support_zendesk_missing_field">Completa todos los campos</string>
+    <string name="support_zendesk_powered_by">Con tecnología de</string>
+    <string name="settings_rate_description">Si te gusta usar %1$s, tómate un momento para evaluarla. ¡Gracias por tu ayuda!</string>
+    <string name="settings_survey_description">Ayuda a mejorar %1$s completando una breve encuesta de opinión del cliente</string>
+ <!-- Contact us -->
+    <string name="settings_category_contact">Comunícate con nosotros</string>
+    <string name="settings_title_community">Comunidad %1$s</string>
+    <string name="settings_summary_community">Únete a nuestra comunidad y dinos qué opinas sobre %1$s</string>
+    <string name="settings_title_open_ticket">Abrir un tiquete de soporte técnico</string>
+    <string name="settings_title_my_ticket">Mis tiquetes abiertos</string>
+    <string name="settings_title_email_support">Enviar correo electrónico al soporte técnico</string>
+    <string name="settings_title_rate">Evalúa esta aplicación</string>
+    <string name="settings_title_take_our_survey">Completa nuestra encuesta</string>
+ <!-- Follow us -->
+    <string name="settings_follow_twitter">Twitter</string>
+    <string name="settings_follow_facebook">Facebook</string>
+    <string name="settings_follow_google_plus">Google+</string>
+    <string name="settings_follow_youtube">YouTube</string>
+    <string name="settings_follow_typesmart_blog">Blog de TypeSmart</string>
+ <!-- More -->
+    <string name="settings_category_more">Más</string>
+    <string name="settings_category_debug">Depuración</string>
+    <string name="settings_rate_app">Evalúa %1$s</string>
+    <string name="settings_rate_remind_me_later">Recordarme más tarde</string>
+    <string name="settings_rate_no_thanks">No, gracias</string>
+    <string name="settings_title_about">Acerca de</string>
+<!-- 		Locale -->
+    <string name="settings_category_locale_title">Idioma y configuración regional</string>
+    <string name="settings_category_locale_summary">Idioma, distribución del teclado y símbolo de divisa</string>
+    <string name="settings_title_language">Idioma</string>
+    <string name="settings_title_keyboard">Distribución del teclado</string>
+    <string name="settings_title_currency">Símbolo de divisa</string>
+    <string name="settings_locale_button_title">Seleccionar idioma</string>
+    <string name="settings_locale_button_summary">Determina qué sucede al presionar la tecla de idioma</string>
+    <string name="settings_locale_button_open_menu">Abrir menú de idiomas</string>
+    <string name="settings_locale_button_next_locale">Pasar al siguiente idioma</string>
+    <string name="settings_locale_button_id_open_menu">open_locale_menu</string>
+    <string name="settings_locale_button_id_next_locale">next_locale</string>
+    <string name="settings_language_notice">No se mostrarán finalizaciones ni correcciones.</string>
+ <!-- Language names -->
+    <string name="lang_english">Inglés</string>
+    <string name="lang_spanish">Español</string>
+    <string name="lang_french">Francés</string>
+    <string name="lang_german">Alemán</string>
+    <string name="lang_hungarian">Húngaro</string>
+    <string name="lang_other">Otro</string>
+ <!-- Layout names -->
+    <string name="kb_qwerty_en">QWERTY (inglés)</string>
+    <string name="kb_qwerty_intl">QWERTY (internacional)</string>
+    <string name="kb_qwerty_sp">QWERTY (español)</string>
+    <string name="kb_azerty_fr">AZERTY (francés)</string>
+    <string name="kb_qwertz_de">QWERTZ (alemán)</string>
+    <string name="kb_t9">T9</string>
+ <!-- T9 is a keyboard layout. Is it called T9 in other languages? -->
+ <!-- Currency Names -->
+    <string name="curr_dollar">$ (dólar)</string>
+    <string name="curr_euro">€ (euro)</string>
+    <string name="curr_pound">£ (libra)</string>
+    <string name="curr_yuan">¥ (yuan/yen)</string>
+<!-- 		Personalize -->
+    <!-- Any-Key action -->
+    <string name="settings_program_keys_title">Programar teclas</string>
+    <string name="settings_program_keys_summary">Programa la tecla multifunción y la tecla de retorno con tu acción favorita</string>
+    <string name="settings_title_any_key_action">Acción de la tecla multifunción</string>
+    <string name="settings_title_any_key_long_action">Acción de la tecla multifunción al pulsarla de forma prolongada</string>
+    <string name="settings_title_return_key_long_action">Acción de la tecla de retorno al pulsarla de forma prolongada</string>
+ <!-- Any key actions -->
+    <string name="any_key_action_smiley_menu">Menú de emoticonos</string>
+    <string name="any_key_action_voice_input">Entrada de voz</string>
+    <string name="any_key_action_arrow_keypad">Controles del cursor</string>
+    <string name="any_key_action_translator">Traductor</string>
+    <string name="any_key_action_locale">Idioma</string>
+    <string name="any_key_action_settings">Configuración</string>
+ <!-- Theme -->
+    <string name="settings_title_themes">Temas</string>
+    <string name="theme_none_photo">Sin tema (hay una foto como fondo de pantalla)</string>
+    <string name="settings_title_theme">Tema</string>
+    <string name="settings_summary_theme">Más de 30 temas para elegir</string>
+ <!-- Wallpaper -->
+    <string name="settings_title_wallpaper">Fondo de pantalla</string>
+    <string name="settings_summary_wallpaper">Aplicar una imagen de fondo</string>
+    <string name="settings_title_photo_wallpaper">Foto como fondo de pantalla</string>
+    <string name="settings_summary_photo_wallpaper">Aplicar una imagen de fondo predeterminada</string>
+    <string name="settings_title_remove_wallpaper">Eliminar fondo de pantalla</string>
+    <string name="settings_summary_remove_wallpaper">Restaurar el tema de fondo predeterminado</string>
+    <string name="settings_title_lib_wallpaper">Biblioteca de fondos de pantalla</string>
+    <string name="settings_summary_lib_wallpaper">Elegir una imagen de fondo de pantalla de la biblioteca</string>
+    <string name="settings_wallpaper_load_error">No se puede cargar esa foto. Inténtalo con otra.</string>
+    <string name="settings_wallpaper_save_error">Hubo un error al copiar la foto. Inténtalo otra vez.</string>
+    <string name="settings_wallpaper_label_transparency">Transparencia:</string>
+    <string name="settings_wallpaper_btn_save">Guardar fondo de pantalla</string>
+    <string name="settings_wallpaper_photo_label_fit_exactly">Ajustar al tamaño exacto</string>
+    <string name="settings_wallpaper_saving">Guardando fondo de pantalla...</string>
+    <string name="settings_wallpaper_title">Establecer como teclado predeterminado</string>
+    <string name="settings_wallpaper_not_ready">Para poder aplicar un fondo de pantalla, %1$s debe ser tu teclado predeterminado. ¿Establecer como teclado predeterminado ahora?</string>
+    <string name="settings_wallpaper_error_file_not_found">No se encontró el archivo de foto</string>
+ <!-- Key height -->
+    <string name="settings_title_key_height">Altura del teclado</string>
+    <string name="settings_summary_key_height">Aumenta o disminuye la altura del teclado</string>
+    <string name="settings_title_portrait_key_height">Altura vertical</string>
+    <string name="settings_title_landscape_key_height">Altura horizontal</string>
+    <string name="fullscreen_keyboard">Usar teclado en pantalla completa</string>
+    <string name="key_height_bottom_row">Fila inferior: %1$s</string>
+ <!-- This label shows the height of the bottom keyboard row, as a % of total height -->
+ <!-- %1$s is NOT the app name -->
+ <!-- Suggestions height -->
+    <string name="settings_title_candidate_height">Sugerencias del tamaño de fuente</string>
+    <string name="settings_summary_candidate_height">Expande o reduce las sugerencias</string>
+    <string name="settings_candidate_height_title">@string/settings_title_candidate_height</string>
+ <!-- Key Bottom Padding height -->
+    <string name="settings_title_key_bottom_padding_height">Relleno de la fila inferior</string>
+    <string name="settings_summary_key_bottom_padding_height">Ajusta el relleno alrededor de la fila inferior</string>
+    <string name="settings_keyboard_bottom_padding_height_title">Relleno de la fila inferior</string>
+    <string name="settings_keyboard_bottom_padding_above_label">Arriba</string>
+    <string name="settings_keyboard_bottom_padding_below_label">Abajo</string>
+ <!-- Generic -->
+    <string name="default_ime_not_ready">Para tener una vista previa de los cambios, establece %1$s como teclado predeterminado.</string>
+<!-- 		Typing -->
+    <!-- Various typing options -->
+    <string name="settings_category_typing_title">Escritura</string>
+    <string name="settings_category_typing_summary">Opciones y comportamiento de escritura</string>
+    <string name="settings_title_auto_caps">Mayúsculas automáticas</string>
+    <string name="settings_summary_auto_caps">Escribe automáticamente con mayúsculas la primera palabra de una oración.</string>
+    <string name="settings_title_smart_spaces">Espacios inteligentes</string>
+    <string name="settings_summary_smart_spaces">Agrega automáticamente un espacio después de elegir una sugerencia, insertar comas y al final de una oración.</string>
+    <string name="settings_title_double_space">Doble espacio para el punto</string>
+    <string name="settings_summary_double_space">Agrega punto y espacio al pulsar dos veces la barra espaciadora.</string>
+    <string name="settings_summary_long_press_symbols">Ingresa símbolos pulsando las teclas de forma prolongada</string>
+    <string name="settings_title_long_press_symbols">Pulsación prolongada para los símbolos</string>
+    <string name="settings_summary_user_dictionary_press_words_remember">@string/user_dictionary_remember_via_longpress</string>
+ <!-- Preview Popups -->
+    <string name="settings_title_show_key_preview_popups">Mostrar ventanas emergentes con vista previa de teclas</string>
+ <!-- user custom dictionary -->
+    <string name="settings_title_user_dictionary_press_words_remember">Recordar palabras nuevas</string>
+    <string name="user_dictionary_remember_via_press">Al pulsar la sugerencia.</string>
+    <string name="user_dictionary_remember_via_longpress">Al pulsar la sugerencia de forma prolongada.</string>
+    <string name="settings_title_user_dictionary_undo_remember">Recordar palabras borradas</string>
+    <string name="settings_summary_user_dictionary_undo_remember">Las palabras borradas se agregan al diccionario al pulsarlas.</string>
+<!-- 		Suggestions -->
+    <!--
+ Suggestions are the words that appear above the keyboard while typing. Suggestions are either predictions or corrections. 
+    A prediction completes what the user is typing (e.g. "to" -> "today") or corrects a typo (e.g. "tofay" -> "today")
+    -->
+    <string name="settings_category_suggestions_title">Sugerencias</string>
+    <string name="settings_category_suggestions_summary">Predicción de palabras y corrección de errores</string>
+    <string name="settings_title_show_suggestions">Mostrar sugerencias</string>
+    <string name="settings_summary_show_suggestions">Muestra una lista de palabras que predicen lo que estás escribiendo.</string>
+    <string name="settings_title_auto_select">Autoselección predeterminada</string>
+    <string name="settings_summary_auto_select">Selecciona la sugerencia predeterminada al escribir un espacio o signo de puntuación.</string>
+    <string name="settings_title_include_corrections">Corrección de errores</string>
+    <string name="settings_summary_include_corrections">Incluye correcciones de posibles errores en la lista de sugerencias y corrige los errores evidentes de forma automática.</string>
+    <string name="settings_title_predict_nextword">Predicción de la palabra siguiente</string>
+    <string name="settings_summary_predict_nextword">Muestra las predicciones de la palabra siguiente según el historial de escritura.</string>
+    <string name="settings_title_include_contacts">Inclusión de contactos</string>
+    <string name="settings_summary_include_contacts">Incluye las coincidencias con los nombres de la lista de contacto.</string>
+    <string name="settings_title_suggestions_always_show">Mostrar sugerencias siempre</string>
+    <string name="settings_summary_suggestions_always_show">Si se activa, la barra de sugerencias siempre estará visible. Si no se activa, la barra aparecerá cuando sea necesario y estará oculta cuando sea posible.</string>
+    <string name="settings_new_words_title">Agregar palabras nuevas</string>
+    <string name="settings_new_words_always_add">Agregar siempre</string>
+    <string name="settings_new_words_never_add">No agregar nunca</string>
+    <string name="settings_new_words_ask_first">Preguntar antes</string>
+    <string name="settings_category_behavior_title">Comportamiento</string>
+    <string name="settings_category_behavior_summary"></string>
+<!-- 		Sound & Vibration -->
+    <string name="settings_category_feedback_title">Sonido y vibración</string>
+    <string name="settings_category_feedback_summary"></string>
+    <string name="settings_title_vibrate_on_key_press">Vibrar al pulsar las teclas</string>
+    <string name="settings_title_long_press_duration">Duración de la pulsación prolongada</string>
+    <string name="long_press_duration_summary">Duración: %d min.</string>
+    <string name="settings_title_vibrate_on_typo_correction">Corrección de errores</string>
+    <string name="settings_summary_vibrate_on_typo_correction">Vibración prolongada al corregir errores</string>
+    <string name="settings_title_sound">Sonido al pulsar las teclas</string>
+    <string name="settings_title_sound_key_click">Volumen de pulsación de teclas</string>
+    <string name="vibrate_time_summary">Duración: %d min.</string>
+    <string name="vibrate_notime">Sin vibración</string>
+    <string name="volume_val_summary">Volumen: %d por ciento</string>
+<!-- 		Swipe actions -->
+    <!-- Swipe gestures (up, down, left and right) can be programmed by the user to do different actions. -->
+    <string name="settings_title_swipe_actions">Acciones al deslizar la pantalla</string>
+    <string name="settings_summary_swipe_actions">Asigna una acción al movimiento de deslizar la pantalla</string>
+    <string name="settings_title_swipe_num_row">Deslizar la fila numérica</string>
+    <string name="settings_summary_swipe_num_row">Deslizar hacia arriba o hacia abajo para activar la fila numérica</string>
+    <string name="settings_title_swipe_left_action">Deslizar hacia la izquierda</string>
+    <string name="settings_title_swipe_right_action">Deslizar hacia la derecha</string>
+    <string name="settings_title_swipe_up_action">Deslizar hacia arriba</string>
+    <string name="settings_title_swipe_down_action">Deslizar hacia abajo</string>
+ <!-- Actions -->
+    <string name="swipe_action_delete_word">Eliminar palabra</string>
+    <string name="swipe_action_num_row">Activar la fila numérica</string>
+ <!-- Opens or closes the number row -->
+    <string name="swipe_action_do_nothing">No hacer nada</string>
+    <string name="swipe_action_toggle_mode">Cambiar el modo (ABC/123)</string>
+ <!-- Toggles between alpha and number keyboards -->
+<!-- 		Shortcuts -->
+    <!--
+ Shortcuts are short words (2-3 letters) that are programmed to type longer words or even whole sentences.
+	For example, I can program "ts" as a shortcut for "TypeSmart". When I type "ts", it is
+	automatically replaced with "TypeSmart"
+    -->
+    <string name="settings_title_shortcut">Accesos directos</string>
+    <string name="settings_summary_shortcut">Escribe palabras y frases pulsado solo unas pocas teclas</string>
+    <string name="setting_shortcut_keystrokes">Frase: </string>
+ <!-- This is the replacement phrase (e.g. "TypeSmart") -->
+    <string name="setting_shortcut_expandto">Acceso directo: </string>
+ <!-- This is what the user types (e.g. "ts") -->
+    <string name="settings_save_shortcut">Guardar acceso directo</string>
+    <string name="settings_delete_shortcut">Eliminar acceso directo</string>
+    <string name="title_settings_edit_shortcut">Editar acceso directo</string>
+    <string name="setting_shortcut_add">Agregar un nuevo acceso directo</string>
+    <string name="setting_shortcut_description">Tus accesos directos</string>
+    <string name="setting_shortcut_conflict_message">Ya existe esta combinación de teclas para otro acceso directo.</string>
+    <string name="setting_shortcut_notexist_message">@string/error</string>
+ <!-- Delete shortcut confirm dialog -->
+    <string name="setting_delete_shortcut_title">Eliminar acceso directo</string>
+    <string name="setting_delete_shortcut_description">¿Realmente deseas eliminar este acceso directo?</string>
+<!-- 		Advanced -->
+    <string name="settings_category_advanced_title">Avanzado</string>
+    <string name="settings_category_advanced_summary">Configuración varia y avanzada</string>
+ <!-- How to handle voice input with more than one match -->
+    <string name="settings_category_speech_input">Entrada de voz</string>
+    <string name="settings_title_closest_match">Elegir la mejor coincidencia</string>
+    <string name="settings_summary_closest_match">Si hay más de una coincidencia de voz, selecciona automáticamente la más similar.</string>
+ <!-- Debug logging -->
+    <string name="settings_title_debug_mode">Registro de depuración</string>
+    <string name="settings_summary_debug_mode">Registra todos los eventos para el servicio de soporte técnico.</string>
+    <string name="settings_title_submit_logs">Enviar registro de depuración</string>
+    <string name="settings_summary_submit_logs">Envía el registro de depuración al servicio de soporte técnico.</string>
+    <string name="submit_logs_loader">Cargando...</string>
+    <string name="personal_info_can_be_send_to_server">No escribas información personal mientras esté habilitado el registro de depuración. El personal de soporte técnico podrá verla.</string>
+    <string name="submit_logs_success_msg">El archivo de registro se envió correctamente. Se deshabilitó el registro de depuración.</string>
+    <string name="submit_logs_fail_msg">Error al enviar el archivo de registro.</string>
+    <string name="submit_logs_no_file">El registro está vacío. Recopila datos e inténtalo otra vez.</string>
+ <!-- Coupon codes -->
+ <!-- Coupon codes are used to unlock the app -->
+    <string name="settings_category_coupon">Cupón</string>
+    <string name="settings_title_enter_coupon_code">Ingresar el código de cupón</string>
+    <string name="settings_summary_enter_coupon">Si tienes un código de cupón, escríbelo aquí.</string>
+    <string name="error_coupon_code">Ese código de cupón no es válido.</string>
+    <string name="coupon_applied">Gracias. Días restantes: %1$d días</string>
+ <!-- Days left in coupon code -->
+    <string name="waiting">En espera...</string>
+    <string name="dictionary_loading_message">Cargando diccionario...</string>
+    <string name="dictionary_nothing_to_download">No hay ningún diccionario para descargar</string>
+ <!-- Swipe sensitivity -->
+ <!-- This preference controls how sensitive the app is to swipe gestures -->
+    <string name="settings_title_swipe_sensitivity">Sensibilidad al deslizar la pantalla</string>
+    <string name="settings_summary_swipe_sensitivity">Aumenta o disminuye la sensibilidad del teclado al deslizar la pantalla</string>
+    <!--
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+		SETUP
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+    -->
+    <string name="settings_category_customize_title">Personalizar</string>
+    <string name="settings_category_customize_summary">Controla el aspecto del teclado</string>
+<!-- 		Installer -->
+    <string name="installer_title">¡Instalar %1$s es más fácil que contar hasta 3!</string>
+    <string name="installer_label_enable">1. Habilitar %1$s</string>
+    <string name="installer_label_set_default">2. Establecer como teclado predeterminado</string>
+    <string name="installer_label_language">3. Elegir un idioma</string>
+    <string name="installer_label_keyboard">4. Elegir la distribución del teclado</string>
+    <string name="installer_label_currency">5. Elegir un símbolo de divisa</string>
+<!-- 		Enable -->
+    <string name="enable_ime_title">Habilitar %1$s</string>
+    <string name="confirm_enable_ime_title">Información</string>
+    <string name="install_wizard_enable_ime_dialog">Para habilitar %1$s, hay que seguir un proceso sencillo de 2 pasos.\n\nEn la siguiente pantalla, marca la casilla de verificación junto a TypeSmart\n</string>
+    <string name="install_wizard_enable_ime_dialog_press_back">y, luego, presiona Atrás para continuar.\n</string>
+    <string name="install_wizard_enable_ime_toast_reminder">¡No te olvides de presionar ATRÁS cuando termines!</string>
+    <string name="install_wizard_enable_ime_toast_reminder2">¡Buen trabajo! Ahora presiona Atrás para continuar con la instalación.</string>
+    <string name="install_wizard_default_ime_dialog">¡Buen trabajo!\n\nEn la siguiente pantalla, selecciona %1$s como tu teclado predeterminado\n</string>
+    <string name="install_enable_ime_dialog_message">Para habilitar %1$s, hay que seguir un proceso sencillo de 2 pasos.\n\nEn la siguiente pantalla, marca la casilla de verificación para habilitar %1$s.</string>
+    <string name="install_enable_ime_dialog_click_ok">¿Listo?</string>
+    <string name="confirm_enable_ime_description">No se habilitó %1$s. No se puede usar la aplicación si no está habilitada. ¿Deseas volver a intentarlo?</string>
+    <string name="install_info_message_for_dumb">&quot;Esto es solo una imagen de muestra.</string>
+<!-- 		Make default -->
+    <string name="select_ime_label">%1$s está habilitada.</string>
+    <string name="select_ime_label_question">¿Deseas establecerla como tu teclado predeterminado?</string>
+    <string name="select_ime_message">%1$s está habilitada, pero aún no es el teclado predeterminado. Presiona ACEPTAR para continuar...</string>
+    <string name="select_ime_btn_yes">@string/yes</string>
+    <string name="select_ime_btn_no">@string/no</string>
+    <string name="install_default_ime_dialog_title">Establece la aplicación como teclado predeterminado</string>
+    <string name="install_default_ime_dialog_message">En la siguiente pantalla, presiona aquí para habilitar %1$s:</string>
+    <string name="install_default_ime_dialog_click_ok">¿Listo?</string>
+<!-- 		Language Option -->
+    <string name="install_select_language_title">Selecciona un idioma</string>
+    <string name="install_downloading_title">En espera</string>
+    <string name="install_downloading_description">Descargando el diccionario de %1$s...</string>
+    <string name="install_downloading_cancel">@string/cancel</string>
+    <string name="install_downloading_retry_title">Error de descarga</string>
+    <string name="install_downloading_retry_description">Descarga errónea.\n¿Intentarlo otra vez?</string>
+    <string name="install_downloading_retry_yes">@string/yes</string>
+    <string name="install_downloading_retry_no">@string/no</string>
+    <string name="install_select_language_notice_title">Información</string>
+    <string name="install_select_language_notice_description">Puedes descargar tu diccionario más adelante en Configuración.</string>
+    <string name="install_select_language_notice_ok">@string/ok</string>
+<!-- 		Layout -->
+    <string name="install_select_keyboard_title">Selecciona la distribución del teclado</string>
+<!-- 		Currency -->
+    <string name="install_select_currency_title">Selecciona el símbolo de divisa</string>
+    <!--
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+		OTHER ERRORS & WARNINGS
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+    -->
+    <string name="normal_error_title">@string/error</string>
+    <string name="database_error_title">Error en la base de datos</string>
+    <string name="database_error_message">No se puede acceder a tu base de datos. Volver a instalar este paquete ahora.</string>
+    <string name="outofmemory_error_title">@string/normal_error_title</string>
+    <string name="outofmemory_error_message">Memoria insuficiente</string>
+    <string name="dic_updated_alarm_message">Nuevo diccionario disponible. Haz clic aquí.</string>
+    <string name="dic_updated_app_is_needed_upgrade">Nuevo diccionario disponible. Se requiere actualizar la aplicación.</string>
+    <string name="need_to_update_dic">No hay ningún diccionario instalado. Haz clic aquí para descargar uno.</string>
+    <string name="notify_content_text">Hay una nueva versión de tu diccionario de %1$s. Haz clic aquí para descargarlo.</string>
+ <!-- Language -->
+    <string name="recongnizer_not_present">Este dispositivo no tiene entrada de voz.</string>
+    <string name="purchase_not_available_title">No disponible</string>
+    <string name="purchase_not_available_description">No se puede crear un artículo de compra en tu cuenta.</string>
+    <string name="error_report_sent">&quot;Informe de error enviado&quot;</string>
+
+</resources>

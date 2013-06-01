@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/home_scroll_view"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/page_background"
+    android:fillViewport="true"
+    android:padding="10dp" >
+
+	<LinearLayout
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:padding="0dp"
+		android:orientation="vertical">
+
+		<!-- TypeSmart logo -->
+		<ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/title_logo" />
+
+
+		<!-- Enable TK -->
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical"
+			android:id="@+id/homeInstall">
+
+			<TextView
+			    android:id="@+id/textView1"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:gravity="center"
+			    android:padding="10dp"
+			    android:paddingBottom="0dp"
+			    android:paddingLeft="10dp"
+			    android:paddingRight="10dp"
+			    android:paddingTop="0px"
+			    android:text="@string/home_label_install"
+			    android:textSize="@dimen/std_btn_font_size" >
+</TextView>
+			<Button
+				style="@style/btn_std"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:text="@string/home_btn_install"
+				android:id="@+id/btn_install"
+				android:textColor="@color/white" />
+		</LinearLayout>
+		<LinearLayout
+			android:id="@+id/homeEnableTK"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+
+			<TextView
+			    android:id="@+id/homeLabelEnable"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:gravity="center"
+			    android:padding="10dp"
+			    android:paddingBottom="0dp"
+			    android:paddingLeft="10dp"
+			    android:paddingRight="10dp"
+			    android:paddingTop="0px"
+			    android:text="@string/home_label_enable"
+			    android:textSize="@dimen/std_btn_font_size" />
+
+			<Button
+				android:text="@string/home_btn_activate"
+				android:layout_height="wrap_content"
+				android:layout_width="fill_parent"
+				android:gravity="center"
+				android:textColor="@color/white"
+				android:id="@+id/btn_enable"
+				style="@style/btn_std" />
+
+		</LinearLayout>
+
+
+
+		<!-- Choose default keyboard -->
+		<LinearLayout
+			android:id="@+id/homeSelectIME"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+
+			<TextView
+			    android:id="@+id/homeLabelSelectIme"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:gravity="center"
+			    android:padding="10dp"
+			    android:paddingBottom="0dp"
+			    android:paddingLeft="10dp"
+			    android:paddingRight="10dp"
+			    android:paddingTop="0px"
+			    android:text="@string/home_label_select_ime"
+			    android:textSize="@dimen/std_btn_font_size" />
+
+			<Button
+				android:text="@string/home_btn_select_ime"
+				android:id="@+id/btn_set_default"
+				style="@style/btn_std"
+				android:gravity="center"
+				android:textColor="@color/white" />
+		</LinearLayout>
+
+
+
+		<!-- All done! -->
+		<LinearLayout
+			android:id="@+id/homeDone"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+
+			<TextView
+			    android:id="@+id/homeLabelDone"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:gravity="center"
+			    android:padding="10dp"
+			    android:paddingBottom="0dp"
+			    android:paddingLeft="10dp"
+			    android:paddingRight="10dp"
+			    android:paddingTop="0px"
+			    android:text="@string/home_label_done"
+			    android:textSize="@dimen/std_btn_font_size" />
+
+		</LinearLayout>
+
+		<!-- Main buttons -->
+		<LinearLayout
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+
+			<!-- First row -->
+			<LinearLayout
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:weightSum="4"
+				android:orientation="horizontal">
+
+				<!-- Tutorials -->
+
+                <Button
+                    android:id="@+id/btn_tutorials"
+                    style="@style/btn_std"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/home_btn_tutorials"
+                    android:gravity="center"
+                    android:text="@string/home_btn_tutorials"
+                    android:textSize="@dimen/home_btn_font_size" />
+
+				<!-- Settings -->
+
+                <Button
+                    android:id="@+id/btn_settings"
+                    style="@style/btn_std"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/home_btn_settings"
+                    android:gravity="center"
+                    android:text="@string/home_btn_settings"
+                    android:textSize="@dimen/home_btn_font_size" />
+
+				<!-- Help & Support -->
+
+                <Button
+                    android:id="@+id/btn_help_support"
+                    style="@style/btn_std"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/home_btn_help_support"
+                    android:gravity="center"
+                    android:text="@string/home_btn_help_support"
+                    android:textSize="@dimen/home_btn_font_size" />
+                
+ 				<!-- About -->
+
+                <Button
+                    android:id="@+id/btn_about"
+                    style="@style/btn_std"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/home_btn_about"
+                    android:gravity="center"
+                    android:text="@string/home_btn_about"
+                    android:textSize="@dimen/home_btn_font_size" />
+
+			</LinearLayout>
+		</LinearLayout>
+
+	    <!-- Comet logo -->
+    	<include layout="@layout/comet_logo" />
+    	
+
+		<!-- FOR DEVELOPMENT PURPOSES ONLY 
+		<EditText
+		    android:id="@+id/dev_edit"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:textSize="@dimen/heading_font_size" />
+		 -->
+	</LinearLayout>
+</ScrollView>

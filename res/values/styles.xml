@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="Theme.DimBackground" parent="android:Theme.DeviceDefault">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="label_std">
+        <item name="android:textColor">@color/label_text</item>
+        <item name="android:textSize">@dimen/label_text_size</item>
+    </style>
+    
+    <style name="heading_std">
+        <item name="android:textColor">@color/label_text</item>
+        <item name="android:textSize">@dimen/heading_font_size</item>
+    </style>
+    
+    <style name="title_std">
+        <item name="android:textColor">@color/label_text</item>
+        <item name="android:textSize">@dimen/title_font_size</item>
+    </style>
+    
+    <style name="btn_std">
+        <item name="android:textColor">@color/btn_std_text</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:textSize">@dimen/std_btn_font_size</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingBottom">20dp</item>
+        <item name="android:background">@drawable/btn_std</item>
+    </style>
+
+    <style name="btn_installer" parent="btn_std">
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        </style>
+    
+    <style name="btn_main_menu" parent="btn_std">
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">@dimen/main_menu_font_size</item>
+	</style>
+
+    <style name="btn_home" parent="btn_std">
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">@dimen/home_btn_font_size</item>
+	</style>
+	
+    <style name="btn_home_icon" parent="btn_home">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">0</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+	</style>
+	
+    <style name="KeyboardView" parent="android:Widget">
+        <item name="android:background">@drawable/keyboard_background</item>
+        <!-- <item name="keyBackground">@drawable/btn_keyboard_key</item> -->
+        <item name="keyTextSize">22sp</item>
+        <item name="keyTextColor">#BB000000</item>
+        <item name="keyPreviewLayout">@layout/keyboard_key_preview</item>-
+        <item name="keyPreviewOffset">-12dip</item>
+        <item name="keyPreviewHeight">80dip</item>
+        <item name="labelTextSize">14sp</item>
+        <item name="popupLayout">@layout/keyboard_popup_keyboard</item>
+        <item name="verticalCorrection">-10dip</item>
+        <item name="shadowColor">#BB000000</item>
+        <item name="shadowRadius">2.75</item>
+    </style>
+    
+    
+    <style name="PopupKeyboardView" parent="android:Widget">
+        <!-- <item name="keyBackground">@drawable/btn_keyboard_key</item> -->
+        <item name="keyPreviewLayout">@layout/keyboard_key_preview</item>-
+        <item name="keyPreviewOffset">-40dip</item>
+        <item name="keyPreviewHeight">80dip</item>
+        <item name="verticalCorrection">-10dip</item>
+    </style>
+
+</resources>

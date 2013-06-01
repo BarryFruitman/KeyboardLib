@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/keyboard" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btKeyHeightDecrease"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="@string/minus" />
+
+            <SeekBar
+                android:id="@+id/sbKeyboardHeight"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="10dp" />
+
+            <Button
+                android:id="@+id/btKeyHeightIncrease"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="@string/plus" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvKeyboardBottomRow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/key_height_bottom_row" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btKeyHeightBottomRowDecrease"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="@string/minus" />
+
+            <SeekBar
+                android:id="@+id/sbKeyboardHeightBottomRow"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="10dp" />
+
+            <Button
+                android:id="@+id/btKeyHeightBottomRowIncrease"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="@string/plus" />
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/cbFullScreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:checked="true"
+            android:text="@string/fullscreen_keyboard" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btKeyHeightCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/cancel" />
+
+            <Button
+                android:id="@+id/btKeyHeightOk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/ok" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/etDemo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textNoSuggestions"
+            android:visibility="invisible" />
+
+        
+        
+        <!-- No Default IME -->
+
+        <include layout="@layout/no_default_ime" />
+    </LinearLayout>
+
+</ScrollView>

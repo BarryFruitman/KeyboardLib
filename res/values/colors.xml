@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="candidate_normal">#FF000000</color>
+    <color name="candidate_recommended">#FF0059E3</color>
+    <color name="candidate_divider">#ff808080</color>
+    <color name="candidate_message">#ff000000</color>
+    <color name="candidate_back">#ff008800</color>
+    <color name="candidate_background">#ffbbbbbb</color>
+    
+    <color name="default_text">@color/white</color>
+    <color name="label_text">@color/default_text</color>
+    
+    <color name="title_background">#ff000000</color>
+    <color name="title_text">@color/default_text</color>
+    
+    <color name="wallpaper_white_theme_key_label_color">#ff000000</color>
+    <color name="wallpaper_black_theme_key_label_color">#ffffffff</color>
+	
+    <color name="setting_shortcut_description_color">#FF7B8694</color>
+    <color name="setting_shortcut_expand_color">#FF84BEE7</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+</resources>

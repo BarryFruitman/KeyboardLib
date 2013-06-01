@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="title_font_size">24sp</dimen>
+    <dimen name="heading_font_size">18sp</dimen>
+    <dimen name="body_font_size">12sp</dimen>
+    <dimen name="main_menu_font_size">@dimen/body_font_size</dimen>
+    <dimen name="sym_menu_heading_font_size">14sp</dimen>
+    <dimen name="lang_menu_item_font_size">16sp</dimen>
+    <dimen name="home_status_font_size">18sp</dimen>
+    <dimen name="home_btn_font_size">14sp</dimen>
+    <dimen name="std_btn_font_size">18sp</dimen>
+    <dimen name="popup_title_font_size">24sp</dimen>
+    
+    <dimen name="kb_gap_horizontal">3dp</dimen>
+    <dimen name="kb_gap_vertical">3dp</dimen>
+    <dimen name="key_super_label_text_size">13dp</dimen>
+    <dimen name="key_super_label_text_size_ics">11dp</dimen>
+    
+    <dimen name="key_text_size">22sp</dimen>
+    <dimen name="label_text_size">15sp</dimen>
+    
+    <dimen name="min_key_height">40dp</dimen>
+    <dimen name="key_height">53dp</dimen><!-- was 55 -->
+    <dimen name="max_key_height">66dp</dimen><!-- was 65 -->
+    
+    <dimen name="min_key_height_landscape">30dp</dimen>
+    <dimen name="key_height_landscape">48dp</dimen><!-- was 40 -->
+    <dimen name="max_key_height_landscape">66dp</dimen><!-- was 65 -->
+    
+    <dimen name="min_key_padding_height">0dp</dimen>
+    <dimen name="key_padding_height">1dp</dimen>
+    <dimen name="key_padding_height_landscape">1dp</dimen>
+    <dimen name="max_key_padding_height">10dp</dimen>
+    
+    <dimen name="min_keyboard_padding_bottom">0dp</dimen>
+    <dimen name="keyboard_padding_bottom_above">0dp</dimen>
+    <dimen name="keyboard_padding_bottom_below">5dp</dimen>
+    <dimen name="keyboard_padding_bottom_landscape_above">0dp</dimen>
+    <dimen name="keyboard_padding_bottom_landscape_below">5dp</dimen>
+    <dimen name="max_keyboard_padding_bottom">15dp</dimen>
+    
+    <dimen name="candidate_font_height">24sp</dimen>
+    <dimen name="candidate_small_font_height">12sp</dimen>
+    <dimen name="candidate_large_font_height">30sp</dimen>
+    <dimen name="candidate_vertical_padding">9sp</dimen>
+    
+    <dimen name="candidate_padding_top">2dp</dimen>
+    <dimen name="candidate_padding_bottom">2dp</dimen>
+    <dimen name="candidate_padding_left">2dp</dimen>
+    <dimen name="candidate_padding_right">2dp</dimen>
+    <dimen name="candidate_suggestion_padding_left">10dp</dimen>
+    <dimen name="candidate_suggestion_padding_right">10dp</dimen>
+
+    <dimen name="lang_option_padding_left">100dp</dimen>
+    
+    <dimen name="setting_shortcut_item_margin_left">15dp</dimen>
+    <dimen name="setting_shortcut_item_font_size">22sp</dimen>
+
+    <dimen name="welcome_message_1_font_size">18sp</dimen>
+    <dimen name="welcome_message_2_font_size">14sp</dimen>
+</resources>
