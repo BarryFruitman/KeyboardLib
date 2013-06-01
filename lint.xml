@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="ExtraText">
+        <ignore path="res\drawable\btn_std.xml" />
+    </issue>
+    <issue id="InvalidPackage">
+        <ignore path="libs\FlurryAgent.jar" />
+    </issue>
+    <issue id="NewApi">
+        <ignore path="src\com\comet\keyboard\spellcheck\SpellCheckService.java" />
+    </issue>
+    <issue id="Registered">
+        <ignore path="src\com\comet\keyboard\About.java" />
+        <ignore path="src\com\comet\keyboard\announcements\Announcements.java" />
+    </issue>
+    <issue id="StringFormatMatches" severity="ignore">
+        <ignore path="src\com\comet\keyboard\About.java" />
+    </issue>
+</lint>
