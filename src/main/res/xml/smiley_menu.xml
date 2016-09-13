@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Keyboard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:keyWidth="12.5%p"
+    android:keyHeight="@dimen/key_height"
+    android:horizontalGap="0px"
+    android:verticalGap="0px"
+	>
+    <Row android:rowEdgeFlags="top">
+		<Key android:keyLabel="\u30C4" android:keyEdgeFlags="left"/>
+        <Key android:keyLabel="\u263A"/>
+        <Key android:keyLabel="\u270C"/>
+        <Key android:keyLabel="\u2600"/>
+        <Key android:keyLabel="\u260E"/>
+        <Key android:keyLabel="\u2740" android:keyEdgeFlags="right"/>
+    </Row>
+    <Row>
+		<Key android:keyLabel="\u2665" android:keyEdgeFlags="left"/>
+        <Key android:keyLabel="\u2605"/>
+        <Key android:keyLabel="\u266C"/>
+        <Key android:keyLabel="\u2713"/>
+        <Key android:keyLabel="\u2640"/>
+        <Key android:keyLabel="\u2642" android:keyEdgeFlags="right"/>
+    </Row>
+    <Row>
+        <Key android:keyLabel="8-O" android:keyOutputText="8-O " android:keyEdgeFlags="left"/>
+        <Key android:keyLabel="B-)" android:keyOutputText="B-)"/>
+        <Key android:keyLabel=">:)" android:keyOutputText=">:)"/>
+        <Key android:keyLabel=">:O" android:keyOutputText=">:O "/>
+        <Key android:keyLabel=">:/" android:keyOutputText=">:/"/>
+        <Key android:keyLabel=">:(" android:keyOutputText=">:(" android:keyEdgeFlags="right"/>
+    </Row>
+    <Row android:rowEdgeFlags="bottom">
+        <Key android:keyLabel=":-*" android:keyOutputText=":-*" android:keyEdgeFlags="left"/>
+        <Key android:keyLabel=":-P" android:keyOutputText=":-P "/>                
+        <Key android:keyLabel=":D" android:keyOutputText=":D "/>
+        <Key android:keyLabel=";)" android:keyOutputText=";)"/>
+        <Key android:keyLabel=":(" android:keyOutputText=":("/>
+        <Key android:keyLabel=":)" android:keyOutputText=":)" android:keyEdgeFlags="right"/>
+	</Row>
+</Keyboard>
