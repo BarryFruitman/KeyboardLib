@@ -69,15 +69,7 @@
 				android:layout_height="wrap_content"
 				android:id="@+id/tvThanks"
 				android:textColor="@color/label_text"
-				android:text=""
-				android:layout_marginLeft="15dp"
-				android:textSize="@dimen/heading_font_size" />
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:id="@+id/tvExpiry"
-				android:textColor="@color/label_text"
-				android:text=""
+				android:text="@string/about_special_thanks"
 				android:layout_marginLeft="15dp"
 				android:textSize="@dimen/heading_font_size" />
 			<TextView
@@ -85,7 +77,7 @@
 				android:layout_height="wrap_content"
 				android:id="@+id/tvCopyright"
 				android:textColor="@color/label_text"
-				android:text=""
+				android:text="@string/copyright"
 				android:paddingTop="10dp"
 				android:layout_gravity="center_horizontal"
 				android:textSize="@dimen/body_font_size" />

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="copyright">Urheberrecht 2011–2013 Comet Inc. Alle Rechte vorbehalten</string>
+    <string name="copyright">Urheberrecht 2011–2016 Comet Inc. Alle Rechte vorbehalten</string>
  <!-- "&#8211;" is the hyphen "-" symbol -->
 <!-- 		Generic labels
  -->
@@ -88,7 +88,7 @@
     <string name="about_product_version">Version: %1$s (%2$s)</string>
  <!-- Version number, release number -->
     <string name="about_dic_version">Installierte Wörterbücher:</string>
-    <string name="about_special_thanks">\nDank:\n\tXDA-Developers\n\tcrnkoj\n\tKim St\n\tGermaniac\n\tdjmcnz\n\n\n</string>
+    <string name="about_special_thanks"></string>
 <!-- 		Welcome
  -->
     <string name="welcome_title">@string/home_title</string>
@@ -210,7 +210,7 @@
     <string name="settings_category_follow_us">Folgen Sie uns</string>
     <string name="settings_category_follow_us_summary">Folgen Sie uns in Ihren bevorzugten sozialen Netzwerken</string>
  <!-- Support -->
-    <string name="contact_email_address">support@cometapps.com</string>
+    <string name="contact_email_address">barry@cometapps.com</string>
     <string name="contact_email_subject">%1$s Support</string>
     <string name="contact_email_dlg_title">E-Mail senden...</string>
     <string name="contact_email_sent_ok">Die E-Mail wurde versendet.</string>

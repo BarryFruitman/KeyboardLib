@@ -296,7 +296,7 @@
 	<!-- -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
 	<!--  HUMAN READABLE STRINGS BELOW THIS LINE  -->
 
-	<string name="copyright">Copyright 2011&#8211;2013 Comet Inc. All Rights Reserved</string>				<!-- "&#8211;" is the hyphen "-" symbol -->
+	<string name="copyright">Copyright 2011&#8211;2016 Comet Inc. All Rights Reserved</string>				<!-- "&#8211;" is the hyphen "-" symbol -->
 
 	<!--
 		Generic labels
@@ -381,7 +381,7 @@
 	-->
     <string name="about_title">About %1$s</string>
 	<string name="about_product_version">Version: %1$s (%2$s)</string>	<!-- Version number, release number -->
-    <string name="about_special_thanks">\nSpecial thanks to:\n\tXDA-Developers\n\tcrnkoj\n\tKim St\n\tGermaniac\n\tdjmcnz\n\n\n</string>
+    <string name="about_special_thanks"></string>
 	<string name="about_dic_version">Dictionaries installed: %1$s</string>
 	<string name="about_expires_on">Expires on: %1$s</string>
 		
@@ -498,7 +498,7 @@
     <string name="settings_category_follow_us">Follow us</string>
     <string name="settings_category_follow_us_summary">Follow us on your favorite social networks</string>
 	<!-- Support -->
-    <string name="contact_email_address">support@cometapps.com</string>
+    <string name="contact_email_address">barry@cometapps.com</string>
     <string name="contact_email_subject">%1$s Support</string>
     <string name="contact_email_dlg_title">Send email&#8230;</string>
     <string name="contact_email_sent_ok">The mail has been sent successfully.</string>

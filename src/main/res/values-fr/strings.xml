@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="copyright">Copyright 2011 – 2013 Comet Inc. Tous droits réservés</string>
+    <string name="copyright">Copyright 2011 – 2016 Comet Inc. Tous droits réservés</string>
  <!-- "&#8211;" is the hyphen "-" symbol -->
-<!-- 		Generic labels -->
+<!-- 		Generic labels
+ -->
     <!-- These strings are used everywhere, so use equivalent generic translations. -->
     <string name="yes">Oui</string>
     <string name="no">Non</string>
@@ -27,7 +28,8 @@
     <string name="minus">-</string>
     <string name="keyboard">Clavier</string>
     <string name="volume_mute">Muet</string>
-<!-- 		Key labels -->
+<!-- 		Key labels
+ -->
     <!-- These labels must fit on a key so keep them under 6 characters -->
     <!-- Cursor keypad labels -->
     <string name="cursor_label_cut">Couper</string>
@@ -60,9 +62,11 @@
     <!--
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 		ACTIVITIES
-    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
     -->
-<!-- 		Home -->
+<!-- 		Home
+ -->
     <string name="home_title">@string/ime_name</string>
     <string name="home_label_thank_you">Merci d\&apos;avoir téléchargé %1$s</string>
  <!-- These strings refer to the setup state of the app -->
@@ -78,18 +82,21 @@
     <string name="home_btn_settings">Paramètres</string>
     <string name="home_btn_help_support">Aide &amp; soutien</string>
     <string name="home_btn_about">À propos</string>
-<!-- 		About -->
+<!-- 		About
+ -->
     <string name="about_title">À propos de %1$s</string>
     <string name="about_product_version">Version : %1$s (%2$s)</string>
  <!-- Version number, release number -->
     <string name="about_dic_version">Dictionnaires installés :</string>
-<!-- 		Welcome -->
+<!-- 		Welcome
+ -->
     <string name="welcome_title">@string/home_title</string>
     <string name="welcome_button">Installation</string>
     <!--
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 		KEYBOARD VIEWS
-    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
     -->
     <!-- Main menu -->
     <string name="main_menu_title">@string/ime_name</string>
@@ -182,13 +189,16 @@
     <!--
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 		SETTINGS
-    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
     -->
     <string name="title_settings">Paramètres %1$s</string>
-<!-- 		Upgrade -->
+<!-- 		Upgrade
+ -->
     <string name="settings_title_upgrade">Mise à jour de %1$s</string>
     <string name="settings_upgrade_description">Passer à la version complète de %1$s</string>
-<!-- 		Help & Support -->
+<!-- 		Help & Support
+ -->
     <string name="settings_category_help_support_title">Aide &amp; soutien</string>
     <string name="settings_category_help_support_summary">Tutoriels, FAQ et informations de contact</string>
     <string name="settings_category_help">Aide</string>
@@ -197,7 +207,7 @@
     <string name="settings_category_follow_us">Suivez-nous</string>
     <string name="settings_category_follow_us_summary">Suivez-nous sur vos réseaux sociaux préférés</string>
  <!-- Support -->
-    <string name="contact_email_address">support@cometapps.com</string>
+    <string name="contact_email_address">barry@cometapps.com</string>
     <string name="contact_email_subject">Soutien %1$s</string>
     <string name="contact_email_dlg_title">Envoyer un email...</string>
     <string name="contact_email_sent_ok">L\&apos;email a été envoyé avec succès.</string>
@@ -238,7 +248,8 @@
     <string name="settings_rate_remind_me_later">Me rappeler ultérieurement</string>
     <string name="settings_rate_no_thanks">Non, merci</string>
     <string name="settings_title_about">À propos</string>
-<!-- 		Locale -->
+<!-- 		Locale
+ -->
     <string name="settings_category_locale_title">Langue &amp; options régionales</string>
     <string name="settings_category_locale_summary">Langue symbole, disposition et symbole monétaire</string>
     <string name="settings_title_language">Langue</string>
@@ -271,7 +282,8 @@
     <string name="curr_euro">€ (Euro)</string>
     <string name="curr_pound">£ (Livre)</string>
     <string name="curr_yuan">¥ (Yuan / Yen)</string>
-<!-- 		Personalize -->
+<!-- 		Personalize
+ -->
     <!-- Any-Key action -->
     <string name="settings_program_keys_title">Touches de programme</string>
     <string name="settings_program_keys_summary">Programmer n\&apos;importe quelle touche et la touche d\&apos;exécution pour effectuer votre action favorite</string>
@@ -329,7 +341,8 @@
     <string name="settings_keyboard_bottom_padding_below_label">Dessous</string>
  <!-- Generic -->
     <string name="default_ime_not_ready">Pour afficher vos modifications, définissez %1$s comme clavier par défaut.</string>
-<!-- 		Typing -->
+<!-- 		Typing
+ -->
     <!-- Various typing options -->
     <string name="settings_category_typing_title">Saisie</string>
     <string name="settings_category_typing_summary">Options et comportement de saisie</string>
@@ -350,10 +363,12 @@
     <string name="user_dictionary_remember_via_longpress">En appuyant longuement sur la suggestion.</string>
     <string name="settings_title_user_dictionary_undo_remember">Enregistrer des mots à annuler</string>
     <string name="settings_summary_user_dictionary_undo_remember">Lorsque vous appuyez sur des mots à annuler, ils sont ajoutés au dictionnaire.</string>
-<!-- 		Suggestions -->
+<!-- 		Suggestions
+ -->
     <!--
  Suggestions are the words that appear above the keyboard while typing. Suggestions are either predictions or corrections. 
-    A prediction completes what the user is typing (e.g. "to" -> "today") or corrects a typo (e.g. "tofay" -> "today")
+    A prediction completes what the user is typing (e.g. "to" -> "today") or corrects a typo (e.g. "tofay" -> "today")
+
     -->
     <string name="settings_category_suggestions_title">Suggestions</string>
     <string name="settings_category_suggestions_summary">Prédiction de mot et correction faute de frappe</string>
@@ -375,7 +390,8 @@
     <string name="settings_new_words_ask_first">Demander d\&apos;abord</string>
     <string name="settings_category_behavior_title">Comportement</string>
     <string name="settings_category_behavior_summary"></string>
-<!-- 		Sound & Vibration -->
+<!-- 		Sound & Vibration
+ -->
     <string name="settings_category_feedback_title">Son &amp; vibration</string>
     <string name="settings_category_feedback_summary"></string>
     <string name="settings_title_vibrate_on_key_press">Vibrer lors de pression de touche</string>
@@ -388,7 +404,8 @@
     <string name="vibrate_time_summary">Durée : %d ms</string>
     <string name="vibrate_notime">Aucune vibration</string>
     <string name="volume_val_summary">Volume : %d pour cent</string>
-<!-- 		Swipe actions -->
+<!-- 		Swipe actions
+ -->
     <!-- Swipe gestures (up, down, left and right) can be programmed by the user to do different actions. -->
     <string name="settings_title_swipe_actions">Actions de glissement sur écran</string>
     <string name="settings_summary_swipe_actions">Affecter une action à un mouvement de glissement</string>
@@ -405,7 +422,8 @@
     <string name="swipe_action_do_nothing">Ne rien faire</string>
     <string name="swipe_action_toggle_mode">Changer de mode (ABC/123)</string>
  <!-- Toggles between alpha and number keyboards -->
-<!-- 		Shortcuts -->
+<!-- 		Shortcuts
+ -->
     <!--
  Shortcuts are short words (2-3 letters) that are programmed to type longer words or even whole sentences.
 	For example, I can program "ts" as a shortcut for "TypeSmart". When I type "ts", it is
@@ -427,7 +445,8 @@
  <!-- Delete shortcut confirm dialog -->
     <string name="setting_delete_shortcut_title">Supprimer le raccourci</string>
     <string name="setting_delete_shortcut_description">Êtes-vous sûr de que vouloir supprimer ce raccourci ?</string>
-<!-- 		Advanced -->
+<!-- 		Advanced
+ -->
     <string name="settings_category_advanced_title">Avancé</string>
     <string name="settings_category_advanced_summary">Paramètres avancés et divers</string>
  <!-- How to handle voice input with more than one match -->
@@ -462,18 +481,21 @@
     <!--
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 		SETUP
-    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
     -->
     <string name="settings_category_customize_title">Personnaliser</string>
     <string name="settings_category_customize_summary">Contrôler l\&apos;apparence et le touché de votre clavier</string>
-<!-- 		Installer -->
+<!-- 		Installer
+ -->
     <string name="installer_title">Régler %1$s est aussi facile que 1,2,3 !</string>
     <string name="installer_label_enable">1. Activer %1$s</string>
     <string name="installer_label_set_default">2. Définir comme clavier par défaut</string>
     <string name="installer_label_language">3. Choisissez votre langue</string>
     <string name="installer_label_keyboard">4. Choisissez votre type de clavier</string>
     <string name="installer_label_currency">5. Choisissez votre symbole monétaire</string>
-<!-- 		Enable -->
+<!-- 		Enable
+ -->
     <string name="enable_ime_title">Activer %1$s</string>
     <string name="confirm_enable_ime_title">Information</string>
     <string name="install_wizard_enable_ime_dialog">L\&apos;activation de %1$s est un processus simple en 2 étapes.\n\nSur l\&apos;écran suivant, appuyez sur la case à cocher à côté de TypeSmart\n</string>
@@ -484,7 +506,8 @@
     <string name="install_enable_ime_dialog_click_ok">OK ?</string>
     <string name="confirm_enable_ime_description">Vous n\&apos;avez pas activé %1$s. Vous ne pouvez pas l\&apos;utiliser jusqu\&apos;à son activation. Voulez-vous réessayer ?</string>
     <string name="install_info_message_for_dumb">&quot;C\&apos;est juste une image d\&apos;exemple.</string>
-<!-- 		Make default -->
+<!-- 		Make default
+ -->
     <string name="select_ime_label">%1$s est activé.</string>
     <string name="select_ime_label_question">Voulez-vous le définir comme votre clavier par défaut ?</string>
     <string name="select_ime_message">%1$s est activé, mais il n\&apos;est pas encore votre clavier par défaut. Appuyez sur OK pour continuer...</string>
@@ -493,7 +516,8 @@
     <string name="install_default_ime_dialog_title">Définir comme clavier par défaut</string>
     <string name="install_default_ime_dialog_message">Sur l\&apos;écran suivant, appuyez ici pour activer %1$s :</string>
     <string name="install_default_ime_dialog_click_ok">OK ?</string>
-<!-- 		Language Option -->
+<!-- 		Language Option
+ -->
     <string name="install_select_language_title">Sélectionner une langue</string>
     <string name="install_downloading_title">Veuillez patienter</string>
     <string name="install_downloading_description">Téléchargement du dictionnaire %1$s ...</string>
@@ -505,14 +529,17 @@
     <string name="install_select_language_notice_title">Information</string>
     <string name="install_select_language_notice_description">Vous pouvez ultérieurement télécharger votre dictionnaire dans les paramètres</string>
     <string name="install_select_language_notice_ok">@string/ok</string>
-<!-- 		Layout -->
+<!-- 		Layout
+ -->
     <string name="install_select_keyboard_title">Sélectionnez le type de clavier</string>
-<!-- 		Currency -->
+<!-- 		Currency
+ -->
     <string name="install_select_currency_title">Sélectionnez le symbole monétaire</string>
     <!--
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 		OTHER ERRORS & WARNINGS
-    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+    -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
     -->
     <string name="normal_error_title">@string/error</string>
     <string name="database_error_title">Erreur de base de données</string>

@@ -321,7 +321,7 @@ public class Utils {
 	
 	/**
 	 * Ensure directory existing
-	 * @param activity
+	 * @param context
 	 * @param path
 	 */
 	public static void ensureDir(Context context, String path) {
@@ -794,18 +794,5 @@ public class Utils {
 		}
 
 		errorReport.post();
-	}
-	
-
-	/**
-	 * Use this class instead of Build.VERSION_CODES, which isn't backwards-compatible.
-	 * @author Barry Fruitman
-	 *
-	 */
-	public static class VersionCodes {
-		public static final int GINGERBREAD = 9;
-		public static final int HONEYCOMB = 12;
-		public static final int ICE_CREAM_SANDWICH = 14;
-		public static final int JELLY_BEAN = 16;
 	}
 }

@@ -5,7 +5,6 @@
     android:layout_gravity="center_horizontal|bottom"
     android:clickable="true"
     android:gravity="center_horizontal|bottom"
-    android:onClick="onClickComet"
     android:padding="10dp"
     android:scaleType="fitEnd"
     android:src="@drawable/comet_logo" />

@@ -111,9 +111,7 @@ public class Home extends Activity /* implements Runnable */{
 		}
 
 		findViewById(R.id.btn_about).setOnClickListener(mAboutListener);
-		findViewById(R.id.btn_tutorials).setOnClickListener(mTutorialsListener);
 		findViewById(R.id.btn_settings).setOnClickListener(mSettingsListener);
-		findViewById(R.id.btn_help_support).setOnClickListener(mHelpSupportListener);
 	}
 
 
@@ -190,30 +188,6 @@ public class Home extends Activity /* implements Runnable */{
 	}
 
 	
-	
-	// Make default button click listener
-	private OnClickListener mTutorialsListener = new OnClickListener() {
-		public void onClick(View v) {
-			// Launch TK settings
-			launchTutorials();
-		}
-	};
-
-	
-	
-	private void launchTutorials() {
-		// Launch the knowledge base in a browser
-		Uri uri = Uri
-				.parse("http://support.cometapps.com/forums/20173382-tips-how-to-s"); // TEMPORARILY
-																						// CHANGED
-																						// FROM
-																						// http://support.cometapps.com/forums
-		Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-		startActivity(intent);
-	}
-
-	
-	
 	// Make default button click listener
 	private OnClickListener mSettingsListener = new OnClickListener() {
 		@Override
@@ -224,7 +198,6 @@ public class Home extends Activity /* implements Runnable */{
 	};
 
 	
-	
 	private void launchSettings() {
 		// Launch settings
 		Intent intent = new Intent();
@@ -232,19 +205,6 @@ public class Home extends Activity /* implements Runnable */{
 		startActivity(intent);
 	}
 
-	
-	
-	private OnClickListener mHelpSupportListener = new OnClickListener() {
-		public void onClick(View v) {
-			// Launch the help & support PreferenceScreen
-			Intent intent = new Intent();
-			intent.setAction(getString(R.string.settings_intent));
-			intent.putExtra(Settings.LAUNCH_ACTIVITY_KEY, "help_support");
-			startActivity(intent);
-		}
-	};
-
-	
 	
 	private OnClickListener mAboutListener = new OnClickListener() {
 		public void onClick(View v) {
@@ -255,12 +215,6 @@ public class Home extends Activity /* implements Runnable */{
 			startActivity(intent);
 		}
 	};
-
-	
-	
-	public void onClickComet(View view) {
-		KeyboardService.onClickComet(this);
-	}
 
 	
 	

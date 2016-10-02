@@ -147,23 +147,8 @@
 			<LinearLayout
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:weightSum="4"
+				android:weightSum="2"
 				android:orientation="horizontal">
-
-				<!-- Tutorials -->
-
-                <Button
-                    android:id="@+id/btn_tutorials"
-                    style="@style/btn_std"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1"
-                    android:drawableTop="@drawable/home_btn_tutorials"
-                    android:gravity="center"
-                    android:text="@string/home_btn_tutorials"
-                    android:textSize="@dimen/home_btn_font_size" />
 
 				<!-- Settings -->
 
@@ -181,22 +166,6 @@
                     android:text="@string/home_btn_settings"
                     android:textSize="@dimen/home_btn_font_size" />
 
-				<!-- Help & Support -->
-
-                <Button
-                    android:id="@+id/btn_help_support"
-                    style="@style/btn_std"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1"
-                    android:drawableTop="@drawable/home_btn_help_support"
-                    android:gravity="center"
-                    android:text="@string/home_btn_help_support"
-                    android:textSize="@dimen/home_btn_font_size" />
-                
  				<!-- About -->
 
                 <Button

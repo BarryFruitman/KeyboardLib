@@ -38,9 +38,6 @@ public class About extends Activity {
 		((TextView)findViewById(R.id.tvAboutTitle)).setText(Utils.formatStringWithAppName(this, R.string.about_title));
 		((TextView)findViewById(R.id.tvProductVersion)).setText(getProductVersionInfo());
 		((TextView)findViewById(R.id.tvDicVersion)).setText(getDicVersionInfo());
-		((TextView)findViewById(R.id.tvThanks)).setText(getString(R.string.about_special_thanks));
-		((TextView)findViewById(R.id.tvExpiry)).setText(getExpiryDate());
-		((TextView)findViewById(R.id.tvCopyright)).setText(getString(R.string.copyright));
 	}
 
 
@@ -67,23 +64,5 @@ public class About extends Activity {
 			dicVersions.append("\n\t").append(dic);
 
 		return String.format(getString(R.string.about_dic_version), dicVersions.toString());
-	}
-
-
-
-	/**
-	 * Get expiry date message
-	 */
-	private String getExpiryDate() {
-		return String.format(getString(R.string.about_expires_on), 
-				DateFormat.getDateInstance().format(
-						new Date(
-								KeyboardApp.getApp().getLicenseClient().getExpiryDate())));
-	}
-
-
-
-	public void onClickComet(View view) {
-		KeyboardService.onClickComet(this);
 	}
 }

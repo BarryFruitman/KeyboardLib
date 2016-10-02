@@ -1195,9 +1195,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
 	/**
 	 * Reloads the current theme.
-	 * 
-	 * @param needChangeSpecialKey
-	 *            ???
 	 */
 	private void reloadTheme() {
 		KeyboardThemeManager.getThemeManager().reloadTheme();
@@ -2596,9 +2593,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
 		inputConnection.beginBatchEdit();
 
-		CharSequence selectedText = null;
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD)
-			selectedText = inputConnection.getSelectedText(0);
+		CharSequence selectedText = inputConnection.getSelectedText(0);
 
 		if (selectedText != null && selectedText.length() > 0) {
 			// There is selected text. Delete it and return.
@@ -2668,8 +2663,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
 		int nCharsToDelete = 1;
 		CharSequence selectedText = null;
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD)
-			selectedText = inputConnection.getSelectedText(0);
+		selectedText = inputConnection.getSelectedText(0);
 
 		if (selectedText != null && selectedText.length() > 0) {
 			// There is selected text. Delete it and return.
@@ -2732,20 +2726,17 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 		updateComposing(inputConnection);
 		
 		inputConnection.beginBatchEdit();
-		
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-			// Delete selected text
-			CharSequence selectedText = inputConnection.getSelectedText(0);
-			if (selectedText != null && selectedText.length() > 0) {
-				// There is selected text. Delete it and return.
-				int cursorLocation = getCursorLocation(inputConnection);
-				inputConnection.setSelection(cursorLocation, cursorLocation);
-				inputConnection.finishComposingText();
-				inputConnection.deleteSurroundingText(0, selectedText.length());
-				mComposing.setLength(0);
-			}
-		}
 
+		// Delete selected text
+		CharSequence selectedText = inputConnection.getSelectedText(0);
+		if (selectedText != null && selectedText.length() > 0) {
+			// There is selected text. Delete it and return.
+			int cursorLocation = getCursorLocation(inputConnection);
+			inputConnection.setSelection(cursorLocation, cursorLocation);
+			inputConnection.finishComposingText();
+			inputConnection.deleteSurroundingText(0, selectedText.length());
+			mComposing.setLength(0);
+		}
 
 		if ((!isWordCharacter(code) || code == '\'') && mPredictionOn && mComposing.length() == 0) {
 			// Do not start composing with a non-letter. Just commit.
@@ -2811,10 +2802,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 	private boolean isEditingWord(InputConnection inputConnection, StringBuilder before, StringBuilder after) {
 		boolean result = false;
 
-//		CharSequence selectedText = null;
-//		if (Build.VERSION.SDK_INT >= Utils.VersionCodes.GINGERBREAD)
-//			selectedText = inputConnection.getSelectedText(0);
-
+//		CharSequence selectedText = inputConnection.getSelectedText(0);
 //		if (selectedText != null && selectedText.length() > 0)
 //			result = true;
 //		else {
@@ -2947,7 +2935,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 	 * 
 	 * @param inputConnection	An InputConnection. It is checked for null value.
 	 * @param n					The number of characters to return. The result may be shorter.
-	 * @param flags				May be either 0 or InputConnection.GET_TEXT_WITH_STYLES.
 	 * @return					The text before the cursor, up to n characters, or "" if there is none.
 	 */
 	private CharSequence getTextBeforeCursor(InputConnection inputConnection, int n) {
@@ -2967,7 +2954,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 	 * 
 	 * @param inputConnection	An InputConnection. It is checked for null value.
 	 * @param n					The number of characters to return. The result may be shorter.
-	 * @param flags				May be either 0 or InputConnection.GET_TEXT_WITH_STYLES.
 	 * @return					The text after the cursor, up to n characters, or "" if there is none.
 	 */
 	private CharSequence getTextAfterCursor(InputConnection inputConnection, int n) {
@@ -3069,7 +3055,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 	 * whitespace and punctuation. For example, if the user is typing
 	 * "nice to meet", word1="nice", word2="to" and prefix="meet".
 	 * 
-	 * @param inputConnection	The current InputConnection
 	 * @param word1				A StringBuilder that is filled with the word before word2.
 	 * @param word2				A StringBuilder that is filled with the word before the prefix/cursor.
 	 * @return 					The number of words returned. May be < 2.
@@ -3178,19 +3163,16 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
 		// Delete selected text
 		CharSequence selectedText = null;
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-			selectedText = inputConnection.getSelectedText(0);
+		selectedText = inputConnection.getSelectedText(0);
 
-			if (selectedText != null && selectedText.length() > 0) {
-				// There is selected text. Delete it and return.
-				int cursorLocation = getCursorLocation(inputConnection);
-				inputConnection.setSelection(cursorLocation, cursorLocation);
-				inputConnection.finishComposingText();
-				inputConnection.deleteSurroundingText(0, selectedText.length());
-				mComposing.setLength(0);
-			}
+		if (selectedText != null && selectedText.length() > 0) {
+			// There is selected text. Delete it and return.
+			int cursorLocation = getCursorLocation(inputConnection);
+			inputConnection.setSelection(cursorLocation, cursorLocation);
+			inputConnection.finishComposingText();
+			inputConnection.deleteSurroundingText(0, selectedText.length());
+			mComposing.setLength(0);
 		}
-
 
 		StringBuilder before = new StringBuilder();
 		StringBuilder after = new StringBuilder();

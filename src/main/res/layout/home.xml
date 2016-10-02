@@ -136,73 +136,24 @@
 
         <!-- Main buttons -->
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp" >
+            <!-- Settings -->
 
-            <!-- First row -->
+            <Button
+                android:id="@+id/btn_settings"
+                style="@style/btn_home"
+                android:layout_marginTop="5dp"
+                android:drawableTop="@drawable/home_btn_settings"
+                android:text="@string/home_btn_settings" />
 
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2" >
+            <!-- About -->
 
-                <!-- Tutorials -->
+            <Button
+                android:id="@+id/btn_about"
+                style="@style/btn_home"
+                android:layout_marginTop="5dp"
+                android:drawableTop="@drawable/home_btn_about"
+                android:text="@string/home_btn_about" />
 
-                <Button
-                    android:id="@+id/btn_tutorials"
-                    style="@style/btn_home"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginRight="5dp"
-                    android:drawableTop="@drawable/home_btn_tutorials"
-                    android:text="@string/home_btn_tutorials" />
-
-                <!-- Settings -->
-
-                <Button
-                    android:id="@+id/btn_settings"
-                    style="@style/btn_home"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:drawableTop="@drawable/home_btn_settings"
-                    android:text="@string/home_btn_settings" />
-
-            </LinearLayout>
-
-            <!-- Second row -->
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2" >
-
-                <!-- Help & Support -->
-
-                <Button
-                    android:id="@+id/btn_help_support"
-                    style="@style/btn_home"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:drawableTop="@drawable/home_btn_help_support"
-                    android:text="@string/home_btn_help_support" />
-
-                <!-- About -->
-
-                <Button
-                    android:id="@+id/btn_about"
-                    style="@style/btn_home"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginTop="5dp"
-                    android:drawableTop="@drawable/home_btn_about"
-                    android:text="@string/home_btn_about" />
-
-            </LinearLayout>
-        </LinearLayout>
 
         <!-- FOR DEVELOPMENT PURPOSES ONLY
         <EditText
