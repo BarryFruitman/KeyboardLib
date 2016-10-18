@@ -30,6 +30,7 @@ import android.inputmethodservice.Keyboard.Key;
 import android.os.Handler;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -142,7 +143,7 @@ public class KeyboardView extends View {
     private static final int MSG_REPEAT = 3;
     private static final int MSG_LONGPRESS = 4;
 
-    private static final int DELAY_BEFORE_PREVIEW = 0;
+    private static final int DELAY_BEFORE_PREVIEW = 50;
     private static final int DELAY_AFTER_PREVIEW = 70;
     private static final int DEBOUNCE_TIME = 70;
     
@@ -325,10 +326,11 @@ public class KeyboardView extends View {
         } else {
             mShowPreview = false;
         }
-        
+
+        mPreviewPopup.setClippingEnabled(false);
+        mPreviewPopup.setAnimationStyle(0);
         mPreviewPopup.setTouchable(false);
-        
-        
+
         mPopupParent = this;
         //mPredicting = true;
         
@@ -2272,10 +2274,10 @@ public class KeyboardView extends View {
     			break;
     		}
     }
+
     protected void updatePreview(int keyIndex) {
         int oldKeyIndex = mCurrentKeyIndex;
-        final PopupWindow previewPopup = mPreviewPopup;
-        
+
         mCurrentKeyIndex = keyIndex;
         // Release the old key and press the new key
         final Key[] keys = mKeys;
@@ -2292,7 +2294,7 @@ public class KeyboardView extends View {
         // If key changed or superscript was activated, and preview is on ...
         if ((oldKeyIndex != mCurrentKeyIndex || mLongPress) && mShowPreview) {
             mHandler.removeMessages(MSG_SHOW_PREVIEW);
-            if (previewPopup.isShowing()) {
+            if (mPreviewPopup.isShowing()) {
                 if (keyIndex == NOT_A_KEY) {
                     mHandler.sendMessageDelayed(mHandler
                             .obtainMessage(MSG_REMOVE_PREVIEW), 
@@ -2300,7 +2302,7 @@ public class KeyboardView extends View {
                 }
             }
             if (keyIndex != NOT_A_KEY) {
-                if (previewPopup.isShowing() && mPreviewText.getVisibility() == VISIBLE) {
+                if (mPreviewPopup.isShowing() && mPreviewText.getVisibility() == VISIBLE) {
                     // Show right away, if it's already visible and finger is moving around
                     showPreview(keyIndex);
                 } else {
@@ -2318,7 +2320,6 @@ public class KeyboardView extends View {
         showPreview(mKeys[keyIndex]);
     }
     private void showPreview(final Key key) {
-        final PopupWindow previewPopup = mPreviewPopup;
     	if(key.label == null && key.icon == null)
     		return;
     	if (key.icon != null) {
@@ -2343,7 +2344,7 @@ public class KeyboardView extends View {
                 MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
         int popupWidth = Math.max(mPreviewText.getMeasuredWidth(),
         		key.width + mPreviewText.getPaddingLeft() + mPreviewText.getPaddingRight());
-        final int popupHeight = mPreviewHeight;
+        int popupHeight = key.height + mPreviewText.getPaddingTop() + mPreviewText.getPaddingBottom();
         LayoutParams lp = mPreviewText.getLayoutParams();
         if (lp != null) {
             lp.width = popupWidth;
@@ -2384,49 +2385,16 @@ public class KeyboardView extends View {
 						showPreview(key);
 					}
 				}, 100);
-//        	else 
-//        		mPopupPreviewY += mScreenOffsetCoordinates[1];
         }
 
-/*        if (mPopupPreviewY + mWindowsOffsetCoordinates[1] < 0) {
-            // If the key you're pressing is on the left side of the keyboard, show the popup on
-            // the right, offset by enough to see at least one key to the left/right.
-            if (key.x + key.width <= getWidth() / 2) {
-                mPopupPreviewX += (int) (key.width * 2.5);
-            } else {
-                mPopupPreviewX -= (int) (key.width * 2.5);
-            }
-         
-            mPopupPreviewY += popupHeight;
-        } */
-
-
-        /***********************************
-         * THIS IS AN UGLY DISGUSTING HACK
-         ***********************************/
-        if (previewPopup.isShowing()) {
-        	// avoid of default android window scale animation
-        	boolean isVisible = mPreviewText.getVisibility() == View.VISIBLE;
-        	boolean isNewSize = popupWidth != mPopupPreviewWidthPrev || popupHeight != mPopupPreviewHeightPrev;
-        	Context context = getContext();
-        	ContentResolver contentResolver = context.getContentResolver();
-        	String windowAnimationScale = android.provider.Settings.System.getString(contentResolver, android.provider.Settings.System.WINDOW_ANIMATION_SCALE);
-        	if(windowAnimationScale == null)
-        		windowAnimationScale = "0.0";
-        	boolean isZeroScale = windowAnimationScale.equals("0.0");
-        	boolean isPopupAnimated = isVisible && isNewSize && !isZeroScale;
-
-        	if(isPopupAnimated){
-        		previewPopup.dismiss();
-        	} else {
-	            previewPopup.update(mPopupPreviewX, mPopupPreviewY, popupWidth, popupHeight);
-        	}
-        }
-        
-        if(!previewPopup.isShowing()){
-	        previewPopup.setWidth(popupWidth);
-	        previewPopup.setHeight(popupHeight);
-	        previewPopup.showAtLocation(mPopupParent, Gravity.NO_GRAVITY, mPopupPreviewX, mPopupPreviewY);
+        if(!mPreviewPopup.isShowing()){
+            mPreviewPopup.setWidth(popupWidth);
+            mPreviewPopup.setHeight(popupHeight);
+            mPreviewPopup.showAtLocation(mPopupParent, Gravity.NO_GRAVITY, mPopupPreviewX, mPopupPreviewY);
+            Log.d("PREVIEWPOPUP", "showAtLocation(" + mPreviewPopup.getAnimationStyle() + ")");
+        } else {
+            mPreviewPopup.update(mPopupPreviewX, mPopupPreviewY, -1, -1);
+            Log.d("PREVIEWPOPUP", "update(" + mPopupPreviewY + ")");
         }
         
         mPopupPreviewWidthPrev = popupWidth;

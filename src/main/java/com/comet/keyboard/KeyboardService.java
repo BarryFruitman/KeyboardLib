@@ -222,6 +222,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
 	// DEBUG
 	public static boolean mDebug = false;
+	private boolean mPendingRequest = false;
 //	public static DebugTracer mProfileTracer = new DebugTracer();
 
 	public static KeyboardService getIME() {
@@ -2422,7 +2423,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
 	/**
 	 * Handle any key
-	 * 
+	 *
 	 * @param primaryCode
 	 * @return
 	 */
@@ -2484,7 +2485,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
 	/**
 	 * Toggles the password reveal
-	 * 
+	 *
 	 * @param reveal	Set true to reveal the password, false to hide it.
 	 */
 	protected void updatePassword(boolean reveal) {
@@ -2498,12 +2499,12 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
 	/**
 	 * Gets a list of suggestions based on prefix, to display to the user.
-	 * 
+	 *
 	 * @param prefix	The prefix to match. Equal to the composition.
 	 */
 	protected void updateCandidates(CharSequence prefix) {
 		callTrace("updateCandidates(" + prefix + ")");
-		
+
 		if (mIsPassword) {
 			updatePassword(mShowPassword);
 			return;
@@ -2515,6 +2516,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 		// Find suggestions asynchronously. Suggestor will call
 		// returnCandidates() when done.
 		mSuggestor.findSuggestionsAsync(prefix.toString());
+		mPendingRequest = true;
 	}
 
 	protected void updateCandidates() {
@@ -2523,13 +2525,14 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
 	/**
 	 * Called asynchronously by the Suggestor to update the CandidateView
-	 * 
+	 *
 	 * @param suggestions	The list of suggestions to display.
 	 */
 	protected void returnCandidates(Suggestions suggestions) {
 
+		mPendingRequest = false;
 		mSuggestions = suggestions;
-		
+
 		if(mDebug) {
 			ArrayList<Suggestion> list = suggestions.getSuggestions();
 			String debug = "returnCandidates(): suggestions={";
@@ -2554,23 +2557,22 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 		}
 	}
 
-	
-	
+
+
 	/**
 	 * Saves the suggestions and updates the CandidateView.
-	 * 
+	 *
 	 * @param suggestions	The suggestions.
 	 * @param completions	true if these are completions provided by the app, not the suggestor.
 	 */
 	public void setSuggestions(Suggestions suggestions, boolean completions) {
-		
 		// Make sure CandidateView is visible.
 		if (suggestions != null && suggestions.size() > 0) {
 			setCandidatesViewShown(true);
 		} else if (isExtractViewShown()) {
 			setCandidatesViewShown(true);
 		}
-		
+
 		// Update CandidateView
 		if (mCandidateView != null)
 			mCandidateView.setSuggestions(suggestions, completions);
@@ -2702,7 +2704,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
 	/**
 	 * Called by onKey() when the user presses a character key.
-	 * 
+	 *
 	 * @param code		The character code.
 	 */
 	@SuppressLint("NewApi")
@@ -2724,7 +2726,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 			return;
 
 		updateComposing(inputConnection);
-		
+
 		inputConnection.beginBatchEdit();
 
 		// Delete selected text
@@ -2783,16 +2785,16 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 				updatePassword(mShowPassword);
 			}
 		}
-		
+
 		inputConnection.endBatchEdit();
-		
+
 		updateShiftKeyState();
 	}
 
 	/**
 	 * "Inline editing" is when the user edits the middle of a composing word,
 	 * and the keyboard handles it by stopping composing (and therefore predictions).
-	 * 
+	 *
 	 * @param inputConnection	The current InputConnection.
 	 * @param before			A StringBuilder to store the part of the word in front of the cursor.
 	 * @param after				A StringBuilder to store the part of the word after the cursor.
@@ -2832,7 +2834,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
 	/**
 	 * Returns the word in front of the cursor
-	 * 
+	 *
 	 * @param inputConnection	The current InputConnection
 	 * @return					A word, or empty string if there is no word directly in front of the cursor
 	 */
@@ -2842,10 +2844,10 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
 		StringBuilder wordBeforeCursor = new StringBuilder();
 		CharSequence before = getTextBeforeCursor(inputConnection, MAX_WORD_LENGTH);
-		
+
 		if(before.length() == 0)
 			return wordBeforeCursor;
-		
+
 		int iStartOfWord;
 		for(iStartOfWord = before.length() - 1;
 				iStartOfWord >= 0 && isWordCharacter(before.charAt(iStartOfWord));
@@ -2853,7 +2855,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
 		if(++iStartOfWord < before.length())
 			wordBeforeCursor.append(before.subSequence(iStartOfWord, before.length()));
-		
+
 		if (wordBeforeCursor.length() == 1
 				&& wordBeforeCursor.charAt(0) == '\'')
 			// Don't start a word with '
@@ -2861,7 +2863,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
 		return wordBeforeCursor;
 	}
-	
+
 
 
 	/**
@@ -2896,10 +2898,10 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 		inputConnection.endBatchEdit();
 	}
 
-	
+
 	/**
 	 * Returns the word following the cursor
-	 * 
+	 *
 	 * @param inputConnection	A valid InputConnection
 	 * @return					A word, or empty string if there is no word immediately following the cursor
 	 */
@@ -2921,18 +2923,18 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
 	if(--iEndOfWord < after.length())
 		word.append(after.subSequence(0, iEndOfWord+1));
-	
+
 
 	return word;
 }
 
-	
-	
+
+
 
 	/**
 	 * Safe wrapper for InputConnection.getTextBeforeCursor() that returns ""
 	 * instead of null.
-	 * 
+	 *
 	 * @param inputConnection	An InputConnection. It is checked for null value.
 	 * @param n					The number of characters to return. The result may be shorter.
 	 * @return					The text before the cursor, up to n characters, or "" if there is none.
@@ -2951,7 +2953,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 	/**
 	 * Safe wrapper for InputConnection.getTextAfterCursor() that returns ""
 	 * instead of null.
-	 * 
+	 *
 	 * @param inputConnection	An InputConnection. It is checked for null value.
 	 * @param n					The number of characters to return. The result may be shorter.
 	 * @return					The text after the cursor, up to n characters, or "" if there is none.
@@ -2970,7 +2972,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 	/**
 	 * Returns an index to the cursor location in the edit text. (Why is there
 	 * no framework method for this???)
-	 * 
+	 *
 	 * @param inputConnection	The current InputConnection.
 	 * @return					An index to the cursor location.
 	 */
@@ -2990,13 +2992,13 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 				}
 			}
 		}
-		
+
 		return textBeforeCursor.length();
 	}
 
 	/**
 	 * Move the cursor back one word. Skip any trailing punctuation/whitespace too.
-	 * 
+	 *
 	 * @param inputConnection	The current InputConnection.
 	 */
 	private void cursorBackWord(InputConnection inputConnection) {
@@ -3024,7 +3026,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
 	/**
 	 * Move the cursor forward one word. Skip any preceding punctuation/whitespace too.
-	 * 
+	 *
 	 * @param inputConnection	The current InputConnection.
 	 */
 	private void cursorNextWord(InputConnection inputConnection) {
@@ -3054,7 +3056,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 	 * Returns up to two words in front of the prefix, less leading or trailing
 	 * whitespace and punctuation. For example, if the user is typing
 	 * "nice to meet", word1="nice", word2="to" and prefix="meet".
-	 * 
+	 *
 	 * @param word1				A StringBuilder that is filled with the word before word2.
 	 * @param word2				A StringBuilder that is filled with the word before the prefix/cursor.
 	 * @return 					The number of words returned. May be < 2.
@@ -3084,7 +3086,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 		if (iStartOfPrefix < 0)
 			return 0;
 
-		
+
 		/*
 		 * Get the word in front of the prefix/cursor (i.e. word2)
 		 */
@@ -3112,7 +3114,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 		word2.append(textBeforeCursor.subSequence(iStartOfWord + 1,
 				iEndOfWord + 1));
 
-		
+
 		/*
 		 * Get the word in front of word2 (i.e. word1)
 		 */
@@ -3147,11 +3149,21 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 	 * Called by onKey() when the user presses a word separator key, which is
 	 * any non-word key. Commits the current composition, replacing it with the
 	 * default suggestion if necessary, then commits the character.
-	 * 
+	 *
 	 * @param code	The character code.
 	 */
 	@SuppressLint("NewApi")
 	protected void onWordSeparator(final int code) {
+		if (mPendingRequest) {
+			new Handler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					onWordSeparator(code);
+				}
+			}, 5);
+			return;
+		}
+
 		// Commit whatever is being typed
 		InputConnection inputConnection = getCurrentInputConnection();
 		if (inputConnection == null)
@@ -3186,13 +3198,13 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 			inputConnection.finishComposingText();
 			mComposing.setLength(0);
 			before.append((char) code);
-			
+
 			inputConnection.endBatchEdit();
 
 			return;
 		}
 
-		
+
 		/*
 		 * First, commit the current composition
 		 */
@@ -3236,7 +3248,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 			committedWord = commit.toString();
 
 		if (inputConnection != null) {
-			// Special case: ".com". Replace ". Com" with ".com"
+			// Special case: Replace ". Com" with ".com"
 			if (mSmartSpaces) {
 				CharSequence dotcom = getTextBeforeCursor(inputConnection, 5);
 				if (dotcom.length() == 5
@@ -3499,7 +3511,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
 	@Override
 	public void swipeDown() {
-		Log.d(KeyboardApp.LOG_TAG, "KeyboardService.swipeDown()");
 		if (mSwipeNumberRow) {
 			// Perform the default swipe down action (close num row or keyboard)
 			if (getKeyboardView().getKeyboard() == mAlphaNumKeyboard)
