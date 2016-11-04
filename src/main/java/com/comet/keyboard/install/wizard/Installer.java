@@ -7,7 +7,6 @@
 package com.comet.keyboard.install.wizard;
 
 import com.comet.keyboard.R;
-import com.comet.keyboard.analytics.MyFlurryAgent;
 import com.comet.keyboard.settings.Settings;
 
 import android.app.Activity;
@@ -27,7 +26,6 @@ public class Installer extends Activity {
 		putVersionPreference();
 
 		// Log event
-		MyFlurryAgent.startSession(this);
 		logInstallStep("start");
 
 		// Launch first step
@@ -49,7 +47,6 @@ public class Installer extends Activity {
 
 
 	public static void logInstallStep(String step) {
-		MyFlurryAgent.logEvent("setup_wizard_" + step);
 	}
 
 }

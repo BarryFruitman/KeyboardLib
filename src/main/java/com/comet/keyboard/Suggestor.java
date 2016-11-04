@@ -617,7 +617,6 @@ public final class Suggestor {
 			}
 
 			clone.mSuggestions = new BoundedPriorityQueue<Suggestion>(new SuggestionComparator(getComposing()), MAX_SUGGESTIONS);
-//			clone.mSuggestions = new HashSet<Suggestion>();
 			final Iterator<Suggestion> iterator = mSuggestions.iterator();
 			while(iterator.hasNext())
 				clone.add((Suggestion) iterator.next().clone());

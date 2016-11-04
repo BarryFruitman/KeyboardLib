@@ -2,11 +2,11 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.2"
+    buildToolsVersion "24.0.3"
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 23
+        targetSdkVersion 24
     }
 
     buildTypes {
@@ -21,9 +21,6 @@ android {
 
 dependencies {
     compile 'com.android.support:support-compat:24.2.1'
-    compile 'com.flurry.android:analytics:6.3.1'
     compile files('libs/google_translate.jar')
-    compile files('libs/libGoogleAnalyticsV2.jar')
-    compile files('libs/nmdp_speech_kit.jar')
     compile files('libs/voiceimeutils.jar')
 }

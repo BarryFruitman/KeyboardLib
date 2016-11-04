@@ -11,7 +11,6 @@ import junit.framework.Assert;
 import com.comet.keyboard.KeyboardService;
 import com.comet.keyboard.R;
 import com.comet.keyboard.Home;
-import com.comet.keyboard.analytics.MyFlurryAgent;
 import com.comet.keyboard.settings.Settings;
 import com.comet.keyboard.util.Utils;
 
@@ -73,7 +72,6 @@ public class Installer extends Activity implements OnClickListener {
 		setContentView(R.layout.installer3);
 		((TextView) findViewById(R.id.installer_title)).setText(Utils.formatStringWithAppName(this, R.string.installer_title));
 
-		MyFlurryAgent.startSession(this);
 		logInstallStep("start");
 		
 		// Initialize module
@@ -86,12 +84,6 @@ public class Installer extends Activity implements OnClickListener {
 
 		// Update screen to first
 		onUpdateUI();
-	}
-	
-	
-	protected void onDestroy() {
-		MyFlurryAgent.endSession(this);
-		super.onDestroy();
 	}
 	
 	
@@ -585,6 +577,6 @@ public class Installer extends Activity implements OnClickListener {
 
 
 	private void logInstallStep(String step) {
-		MyFlurryAgent.logEvent("setup3a_" + step);
+//		MyFlurryAgent.logEvent("setup3a_" + step);
 	}
 }

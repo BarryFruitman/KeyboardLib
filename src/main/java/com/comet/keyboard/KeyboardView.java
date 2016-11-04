@@ -9,9 +9,7 @@ import com.comet.keyboard.theme.KeyboardTheme;
 import com.comet.keyboard.theme.KeyboardThemeManager;
 import com.comet.keyboard.util.ErrorReport;
 import com.comet.keyboard.util.Utils;
-import com.comet.keyboard.voice.dragon.DragonVoiceView;
 
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -143,7 +141,7 @@ public class KeyboardView extends View {
     private static final int MSG_REPEAT = 3;
     private static final int MSG_LONGPRESS = 4;
 
-    private static final int DELAY_BEFORE_PREVIEW = 50;
+    private static final int DELAY_BEFORE_PREVIEW = 100;
     private static final int DELAY_AFTER_PREVIEW = 70;
     private static final int DEBOUNCE_TIME = 70;
     
@@ -243,8 +241,6 @@ public class KeyboardView extends View {
 	private PopupWindow mTranslatorWindow;
 	TranslatorView mTranslatorView;
 	
-	private PopupWindow mDragonVoiceWindow;
-	private DragonVoiceView mDragonVoiceView;
 	private FrameLayout mMainMenuView;
 	private PopupWindow mMainMenuWindow;
 	private PopupWindow mLastPopupWindow;
@@ -377,8 +373,6 @@ public class KeyboardView extends View {
 		mSymQuickMenuWindow.setBackgroundDrawable(null);
 		mTranslatorWindow = new PopupWindow(context);
 		mTranslatorWindow.setBackgroundDrawable(null);
-		mDragonVoiceWindow = new PopupWindow(context);
-		mDragonVoiceWindow.setBackgroundDrawable(null);
 		mMainMenuWindow = new PopupWindow(context);
 		mMainMenuWindow.setBackgroundDrawable(null);
 	}
@@ -828,28 +822,7 @@ public class KeyboardView extends View {
 	}
 
 
-
-	protected void openDragonVoice() {
-		if(isPopupShowing())
-			dismissAllPopupWindows();
-
-		if(mDragonVoiceView == null) {
-			// Inflate the voice input view
-			LayoutInflater layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			mDragonVoiceView = (DragonVoiceView) layoutInflater.inflate(R.layout.voice_dialog, null);
-			mDragonVoiceWindow.setContentView(mDragonVoiceView);
-		}
-
-		mDragonVoiceWindow.setWidth(getWidth());
-		mDragonVoiceWindow.setHeight(getTotalHeight());
-		showPopupWindow(mDragonVoiceWindow, this, Gravity.BOTTOM, 0, 0);
-
-		mDragonVoiceView.startVoiceInput();
-	}
-
-
-
-	/**
+    /**
 	 * Creates and displays the popup keyboard. Called by onLongPress() when the
 	 * user long-presses a key with more than one alternate character.
 	 * 
@@ -1113,7 +1086,6 @@ public class KeyboardView extends View {
 	 */
 	protected boolean isPopupShowing() {
 		return mPopupKeyboardWindow.isShowing()
-				|| mDragonVoiceWindow.isShowing()
 				|| mSymMenuWindow.isShowing()
 				|| mSymQuickMenuWindow.isShowing()
 				|| mTranslatorWindow.isShowing()
@@ -1134,9 +1106,6 @@ public class KeyboardView extends View {
 		if (mMainMenuWindow.isShowing())
 			return mMainMenuWindow;
 
-		if (mDragonVoiceWindow.isShowing())
-			return mDragonVoiceWindow;
-
 		return null;
 	}
 
@@ -1156,8 +1125,6 @@ public class KeyboardView extends View {
 			mSymQuickMenuWindow.dismiss();
 		if (mTranslatorWindow.isShowing())
 			mTranslatorWindow.dismiss();
-		if (mDragonVoiceWindow.isShowing())
-			mDragonVoiceWindow.dismiss();
 		if (mMainMenuWindow.isShowing())
 			mMainMenuWindow.dismiss();
 

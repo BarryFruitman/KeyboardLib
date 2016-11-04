@@ -13,7 +13,6 @@ import com.comet.keyboard.KeyboardService;
 import com.comet.keyboard.R;
 import com.comet.keyboard.Home;
 import com.comet.keyboard.TranslatorView;
-import com.comet.keyboard.analytics.MyFlurryAgent;
 import com.comet.keyboard.layouts.KeyboardLayout;
 import com.comet.keyboard.settings.LanguageProfileManager;
 import com.comet.keyboard.settings.Settings;
@@ -96,14 +95,9 @@ public class Installer extends Activity implements OnClickListener {
 		// Update screen to first
 		onUpdateUI();
 
-		MyFlurryAgent.startSession(this);
 		logInstallStep("start");
 	}
 	
-	protected void onDestroy() {
-		MyFlurryAgent.endSession(this);
-		super.onDestroy();
-	}
 	/**
 	 * Initialize all variable and object data
 	 */
@@ -740,6 +734,6 @@ public class Installer extends Activity implements OnClickListener {
 
 	private void logInstallStep(String step) {
 //		MyFlurryAgent.logParamEvent("install_step", "step", step);
-		MyFlurryAgent.logEvent("setup_" + step);
+//		MyFlurryAgent.logEvent("setup_" + step);
 	}
 }
