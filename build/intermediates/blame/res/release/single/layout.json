@@ -1,0 +1,178 @@
+[
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\settings_edit_shortcut.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\settings_edit_shortcut.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\default_ime.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\default_ime.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\voice_input.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\voice_input.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\settings_swipe_sensitivity.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\settings_swipe_sensitivity.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\language.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\language.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\arrow_keypad_layout.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\arrow_keypad_layout.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\comet_logo.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\comet_logo.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\theme_selector.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\theme_selector.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\settings_keyboard_padding_bottom.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\settings_keyboard_padding_bottom.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\sym_menu_layout.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\sym_menu_layout.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\settings_long_press_duration.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\settings_long_press_duration.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\installer3.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\installer3.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\installer.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\installer.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\settings_key_height.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\settings_key_height.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\settings_vibrate.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\settings_vibrate.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\home.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\home.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\settings_suggestion_height.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\settings_suggestion_height.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\setting_shortcut_item.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\setting_shortcut_item.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\popup_keyboard_layout.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\popup_keyboard_layout.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\coupon.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\coupon.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\keyboard_key_preview.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\keyboard_key_preview.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\popup_keyboard_view.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\popup_keyboard_view.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\zendesk.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\zendesk.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\announcement.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\announcement.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\voice_dialog.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\voice_dialog.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\main_menu.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\main_menu.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\language_item.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\language_item.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\settings_key_padding_height.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\settings_key_padding_height.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\customize.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\customize.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\select_ime.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\select_ime.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\welcome.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\welcome.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\enable_ime.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\enable_ime.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\settings_wallpaper_photo.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\settings_wallpaper_photo.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\no_default_ime.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\no_default_ime.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\keyboard_layout.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\keyboard_layout.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\about.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\about.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\keyboard_popup_keyboard.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\keyboard_popup_keyboard.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\settings_volume.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\settings_volume.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\currency_options.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\currency_options.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\keyboard_options.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\keyboard_options.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\translator.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\translator.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\keyboard_view.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\keyboard_view.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\inapp_purchase.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\inapp_purchase.xml"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\release\\layout\\setting_shortcut.xml",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\layout\\setting_shortcut.xml"
+    }
+]

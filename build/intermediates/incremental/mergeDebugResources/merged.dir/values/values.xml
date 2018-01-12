@@ -1,0 +1,1007 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="announcement_ids">
+        <item>announcement_undo_menu</item>
+        </string-array>
+    <string-array name="announcement_messages">
+        <item>@string/announcement_message_undo_menu</item>
+        </string-array>
+    <string-array name="currency_names">
+        <item>@string/curr_dollar</item>
+        <item>@string/curr_euro</item>
+        <item>@string/curr_pound</item>
+        <item>@string/curr_yuan</item>
+    </string-array>
+    <string-array name="currency_symbols">
+        <item>@string/curr_symbol_dollar</item>
+        <item>@string/curr_symbol_euro</item>
+        <item>@string/curr_symbol_pound</item>
+        <item>@string/curr_symbol_yuan</item>
+    </string-array>
+    <string-array name="default_keyboard_for_language_ids">
+        <item>@string/kb_id_qwerty_en</item>
+        <item>@string/kb_id_qwerty_sp</item>
+        <item>@string/kb_id_azerty_fr</item>
+        <item>@string/kb_id_qwertz_de</item>
+    </string-array>
+    <string-array name="default_keyboard_for_language_names">
+        <item>@string/lang_code_english</item>
+        <item>@string/lang_code_spanish</item>
+        <item>@string/lang_code_french</item>
+        <item>@string/lang_code_german</item>
+    </string-array>
+    <string-array name="keyboard_ids">
+        <item>@string/kb_id_qwerty_en</item>
+        <item>@string/kb_id_qwerty_intl</item>
+        <item>@string/kb_id_qwerty_sp</item>
+        <item>@string/kb_id_qwertz_de</item>
+        <item>@string/kb_id_azerty_fr</item>
+        <item>@string/kb_id_t9</item>
+    </string-array>
+    <string-array name="keyboard_names">
+        <item>@string/kb_qwerty_en</item>
+        <item>@string/kb_qwerty_intl</item>
+        <item>@string/kb_qwerty_sp</item>
+        <item>@string/kb_qwertz_de</item>
+        <item>@string/kb_azerty_fr</item>
+        <item>@string/kb_t9</item>
+    </string-array>
+    <string-array name="language_codes">
+        <item>@string/lang_code_english</item>
+        <item>@string/lang_code_spanish</item>
+        <item>@string/lang_code_german</item>
+        <item>@string/lang_code_french</item>
+        <item>@string/lang_code_hungarian</item>
+        <item>@string/lang_code_other</item>
+    </string-array>
+    <string-array name="language_names">
+        <item>@string/lang_english</item>
+        <item>@string/lang_spanish</item>
+        <item>@string/lang_german</item>
+        <item>@string/lang_french</item>
+        <item>@string/lang_hungarian</item>
+        <item>@string/lang_other</item>
+    </string-array>
+    <string-array name="settings_any_key_action_names">
+        <item>@string/any_key_action_smiley_menu</item>
+        <item>@string/any_key_action_voice_input</item>
+        <item>@string/any_key_action_arrow_keypad</item>
+        <item>@string/any_key_action_translator</item>
+        <item>@string/any_key_action_locale</item>
+        <item>@string/any_key_action_settings</item>
+    </string-array>
+    <string-array name="settings_any_key_action_values">
+        <item>@string/any_key_action_id_smiley_menu</item>
+        <item>@string/any_key_action_id_voice_input</item>
+        <item>@string/any_key_action_id_arrow_keypad</item>
+        <item>@string/any_key_action_id_translator</item>
+        <item>@string/any_key_action_id_locale</item>
+        <item>@string/any_key_action_id_settings</item>
+    </string-array>
+    <string-array name="settings_locale_button_behavior_names">
+        <item>@string/settings_locale_button_next_locale</item>
+        <item>@string/settings_locale_button_open_menu</item>
+    </string-array>
+    <string-array name="settings_locale_button_behavior_values">
+        <item>@string/settings_locale_button_id_next_locale</item>
+        <item>@string/settings_locale_button_id_open_menu</item>
+    </string-array>
+    <string-array name="settings_new_words_names">
+        <item>@string/settings_new_words_ask_first</item>
+        <item>@string/settings_new_words_always_add</item>
+        <item>@string/settings_new_words_never_add</item>
+    </string-array>
+    <string-array name="settings_new_words_values">
+        <item>@string/settings_new_words_id_ask_first</item>
+        <item>@string/settings_new_words_id_always_add</item>
+        <item>@string/settings_new_words_id_never_add</item>
+    </string-array>
+    <string-array name="settings_swipe_action_names">
+        <item>@string/any_key_action_voice_input</item>
+        <item>@string/any_key_action_arrow_keypad</item>
+        <item>@string/any_key_action_translator</item>
+        <item>@string/any_key_action_locale</item>
+        <item>@string/swipe_action_delete_word</item>
+        <item>@string/swipe_action_num_row</item>
+        <item>@string/swipe_action_toggle_mode</item>        
+        <item>@string/swipe_action_do_nothing</item>
+    </string-array>
+    <string-array name="settings_swipe_action_values">
+        <item>@string/any_key_action_id_voice_input</item>
+        <item>@string/any_key_action_id_arrow_keypad</item>
+        <item>@string/any_key_action_id_translator</item>
+        <item>@string/any_key_action_id_locale</item>
+        <item>@string/swipe_action_id_delete_word</item>
+        <item>@string/swipe_action_id_num_row</item>
+        <item>@string/swipe_action_id_toggle_mode</item>
+        <item>@string/swipe_action_id_do_nothing</item>
+    </string-array>
+    <string-array name="theme_ids">
+        <item>@string/theme_id_eastereggs1</item>
+        <item>@string/theme_id_eastereggs2</item>
+        <item>@string/theme_id_passovermatzoh</item>
+        <item>@string/theme_id_typesmart</item>
+        <item>@string/theme_id_typesmartblack</item>
+        <item>@string/theme_id_clean</item>
+        <item>@string/theme_id_cleandark</item>
+        <item>@string/theme_id_ics</item>
+        <item>@string/theme_id_ice</item>
+        <item>@string/theme_id_light</item>
+        <item>@string/theme_id_dark</item>
+        <item>@string/theme_id_golden</item>
+        <item>@string/theme_id_redwave</item>
+        <item>@string/theme_id_blueocean</item>
+        <item>@string/theme_id_leafypond</item>
+        <item>@string/theme_id_pinkflower</item>
+        <item>@string/theme_id_sunshine</item>
+        <item>@string/theme_id_giftwrapped</item>
+        <item>@string/theme_id_daisy</item>
+        <item>@string/theme_id_butterfly</item>
+        <item>@string/theme_id_clouds</item>
+        <item>@string/theme_id_swimmingpool</item>
+        <item>@string/theme_id_creamsofa</item>
+        <item>@string/theme_id_grapesoda</item>
+        <item>@string/theme_id_bluesatin</item>
+        <item>@string/theme_id_blackwall</item>
+        <item>@string/theme_id_bluemoon</item>
+        <item>@string/theme_id_bluehaze</item>
+        <item>@string/theme_id_fire</item>
+        <item>@string/theme_id_desertcamo</item>
+        <item>@string/theme_id_aliensky</item>
+    </string-array>
+    <string-array name="theme_names">
+        <item>@string/theme_name_eastereggs1</item>
+        <item>@string/theme_name_eastereggs2</item>
+        <item>@string/theme_name_passovermatzoh</item>
+        <item>@string/theme_name_typesmart</item>
+        <item>@string/theme_name_typesmartblack</item>
+        <item>@string/theme_name_clean</item>
+        <item>@string/theme_name_cleandark</item>
+        <item>@string/theme_name_ics</item>
+        <item>@string/theme_name_ice</item>
+        <item>@string/theme_name_light</item>
+        <item>@string/theme_name_dark</item>
+        <item>@string/theme_name_golden</item>
+        <item>@string/theme_name_redwave</item>
+        <item>@string/theme_name_blueocean</item>
+        <item>@string/theme_name_leafypond</item>
+        <item>@string/theme_name_pinkflower</item>
+        <item>@string/theme_name_sunshine</item>
+        <item>@string/theme_name_giftwrapped</item>
+        <item>@string/theme_name_daisy</item>
+        <item>@string/theme_name_butterfly</item>
+        <item>@string/theme_name_clouds</item>
+        <item>@string/theme_name_swimmingpool</item>
+        <item>@string/theme_name_creamsofa</item>
+        <item>@string/theme_name_grapesoda</item>
+        <item>@string/theme_name_bluesatin</item>
+        <item>@string/theme_name_blackwall</item>
+        <item>@string/theme_name_bluemoon</item>
+        <item>@string/theme_name_bluehaze</item>
+        <item>@string/theme_name_fire</item>
+        <item>@string/theme_name_desertcamo</item>
+        <item>@string/theme_name_aliensky</item>
+    </string-array>
+    <color name="black">#FF000000</color>
+    <color name="candidate_back">#ff008800</color>
+    <color name="candidate_background">#ffbbbbbb</color>
+    <color name="candidate_divider">#ff808080</color>
+    <color name="candidate_message">#ff000000</color>
+    <color name="candidate_normal">#FF000000</color>
+    <color name="candidate_recommended">#FF0059E3</color>
+    <color name="default_text">@color/white</color>
+    <color name="label_text">@color/default_text</color>
+    <color name="setting_shortcut_description_color">#FF7B8694</color>
+    <color name="setting_shortcut_expand_color">#FF84BEE7</color>
+    <color name="title_background">#ff000000</color>
+    <color name="title_text">@color/default_text</color>
+    <color name="transparent">#00000000</color>
+    <color name="wallpaper_black_theme_key_label_color">#ffffffff</color>
+    <color name="wallpaper_white_theme_key_label_color">#ff000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <declare-styleable name="KeyboardView"><attr format="reference" name="keyboardViewStyle"/><attr format="reference" name="keyBackground"/><attr format="dimension" name="keyTextSize"/><attr format="dimension" name="labelTextSize"/><attr format="color" name="keyTextColor"/><attr format="reference" name="keyPreviewLayout"/><attr format="dimension" name="keyPreviewOffset"/><attr format="dimension" name="keyPreviewHeight"/><attr format="dimension" name="verticalCorrection"/><attr format="reference" name="popupLayout"/><attr format="color" name="shadowColor"/><attr format="float" name="shadowRadius"/></declare-styleable>
+    <declare-styleable name="KeyboardViewPreviewState"><attr format="boolean" name="state_long_pressable"/></declare-styleable>
+    <dimen name="body_font_size">12sp</dimen>
+    <dimen name="candidate_font_height">24sp</dimen>
+    <dimen name="candidate_large_font_height">30sp</dimen>
+    <dimen name="candidate_padding_bottom">2dp</dimen>
+    <dimen name="candidate_padding_left">2dp</dimen>
+    <dimen name="candidate_padding_right">2dp</dimen>
+    <dimen name="candidate_padding_top">2dp</dimen>
+    <dimen name="candidate_small_font_height">12sp</dimen>
+    <dimen name="candidate_suggestion_padding_left">10dp</dimen>
+    <dimen name="candidate_suggestion_padding_right">10dp</dimen>
+    <dimen name="candidate_vertical_padding">9sp</dimen>
+    <dimen name="heading_font_size">18sp</dimen>
+    <dimen name="home_btn_font_size">14sp</dimen>
+    <dimen name="home_status_font_size">18sp</dimen>
+    <dimen name="kb_gap_horizontal">3dp</dimen>
+    <dimen name="kb_gap_vertical">3dp</dimen>
+    <dimen name="key_height">60dp</dimen>
+    <dimen name="key_height_landscape">48dp</dimen>
+    <dimen name="key_padding_height">1dp</dimen>
+    <dimen name="key_padding_height_landscape">1dp</dimen>
+    <dimen name="key_super_label_text_size">13dp</dimen>
+    <dimen name="key_super_label_text_size_ics">11dp</dimen>
+    <dimen name="key_text_size">22sp</dimen>
+    <dimen name="keyboard_padding_bottom_above">0dp</dimen>
+    <dimen name="keyboard_padding_bottom_below">5dp</dimen>
+    <dimen name="keyboard_padding_bottom_landscape_above">0dp</dimen>
+    <dimen name="keyboard_padding_bottom_landscape_below">5dp</dimen>
+    <dimen name="label_text_size">15sp</dimen>
+    <dimen name="lang_menu_item_font_size">16sp</dimen>
+    <dimen name="lang_option_padding_left">100dp</dimen>
+    <dimen name="main_menu_font_size">@dimen/body_font_size</dimen>
+    <dimen name="max_key_height">80dp</dimen>
+    <dimen name="max_key_height_landscape">66dp</dimen>
+    <dimen name="max_key_padding_height">10dp</dimen>
+    <dimen name="max_keyboard_padding_bottom">15dp</dimen>
+    <dimen name="min_key_height">40dp</dimen>
+    <dimen name="min_key_height_landscape">30dp</dimen>
+    <dimen name="min_key_padding_height">0dp</dimen>
+    <dimen name="min_keyboard_padding_bottom">0dp</dimen>
+    <dimen name="popup_title_font_size">24sp</dimen>
+    <dimen name="setting_shortcut_item_font_size">22sp</dimen>
+    <dimen name="setting_shortcut_item_margin_left">15dp</dimen>
+    <dimen name="std_btn_font_size">18sp</dimen>
+    <dimen name="sym_menu_heading_font_size">14sp</dimen>
+    <dimen name="title_font_size">24sp</dimen>
+    <dimen name="welcome_message_1_font_size">18sp</dimen>
+    <dimen name="welcome_message_2_font_size">14sp</dimen>
+    <item name="closeButton" type="id"/>
+    <item name="keyboardView" type="id"/>
+    <integer name="free_translations_credits">10</integer>
+    <integer name="gap_before_last_row">0</integer>
+    <integer name="key_background_alpha">255</integer>
+    <integer name="keycode_action">-4</integer>
+    <integer name="keycode_any_key">-100</integer>
+    <integer name="keycode_arrow_back">-120</integer>
+    <integer name="keycode_arrow_down">-110</integer>
+    <integer name="keycode_arrow_end">-112</integer>
+    <integer name="keycode_arrow_home">-111</integer>
+    <integer name="keycode_arrow_left">-107</integer>
+    <integer name="keycode_arrow_next">-121</integer>
+    <integer name="keycode_arrow_right">-108</integer>
+    <integer name="keycode_arrow_up">-109</integer>
+    <integer name="keycode_arrows">-102</integer>
+    <integer name="keycode_copy">-116</integer>
+    <integer name="keycode_cut">-115</integer>
+    <integer name="keycode_del_forward">-122</integer>
+    <integer name="keycode_delete">-5</integer>
+    <integer name="keycode_locale">-113</integer>
+    <integer name="keycode_mode">-2</integer>
+    <integer name="keycode_paste">-117</integer>
+    <integer name="keycode_select">-118</integer>
+    <integer name="keycode_select_all">-119</integer>
+    <integer name="keycode_settings">-105</integer>
+    <integer name="keycode_shift">-1</integer>
+    <integer name="keycode_smiley">-101</integer>
+    <integer name="keycode_space">32</integer>
+    <integer name="keycode_sym_menu">-114</integer>
+    <integer name="keycode_translate">-104</integer>
+    <integer name="keycode_url">-106</integer>
+    <integer name="keycode_voice">-103</integer>
+    <string name="about_dic_version">Dictionaries installed: %1$s</string>
+    <string name="about_expires_on">Expires on: %1$s</string>
+    <string name="about_product_version">Version: %1$s (%2$s)</string>
+    <string name="about_special_thanks"/>
+    <string name="about_title">About %1$s</string>
+    <string name="amazon_appstore_url">http://www.amazon.com/gp/mas/dl/android?p=com.comet.TypeSmart/ref=mas_pm_TypeSmart_2.0_Keyboard_FREE</string>
+    <string name="amazon_rating_url">@string/amazon_appstore_url</string>
+    <string name="analytics_account">UA–27611306–1</string>
+    <string name="announcement_message_undo_menu">It\'s now easier to undo auto-corrects with the Undo Menu. When a word is auto-corrected, it will be underlined in light gray. Press the word to open a menu containing the original word, plus more suggestions.</string>
+    <string name="announcement_title">New Features in this Update</string>
+    <string name="any_key_action_arrow_keypad">Cursor controls</string>
+    <string name="any_key_action_id_arrow_keypad">arrow_keypad</string>
+    <string name="any_key_action_id_default">@string/any_key_action_id_arrow_keypad</string>
+    <string name="any_key_action_id_locale">locale</string>
+    <string name="any_key_action_id_settings">settings</string>
+    <string name="any_key_action_id_smiley_menu">smiley_menu</string>
+    <string name="any_key_action_id_translator">translator</string>
+    <string name="any_key_action_id_url">url</string>
+    <string name="any_key_action_id_voice_input">voice_input</string>
+    <string name="any_key_action_locale">Language</string>
+    <string name="any_key_action_settings">Settings</string>
+    <string name="any_key_action_smiley_menu">Smiley menu</string>
+    <string name="any_key_action_translator">Translator</string>
+    <string name="any_key_action_voice_input">Voice input</string>
+    <string name="any_key_long_action_id_default">@string/any_key_action_id_voice_input</string>
+    <string name="arrow_keypad_title">Cursor Controls</string>
+    <string name="auto_chars">Copyright © 2011 Comet Inc. All Rights Reserved	</string>
+    <string name="auto_return_chars">\u0020</string>
+    <string name="back">Back</string>
+    <string name="business">Comet Apps</string>
+    <string name="cancel">Cancel</string>
+    <string name="candidate_add_custom_word_entry">Remember this word</string>
+    <string name="candidate_always_add_custom_word_entry">Always remember</string>
+    <string name="candidate_auto_add_dic_title">@string/candidate_add_custom_word_entry</string>
+    <string name="candidate_check_password">Check Password</string>
+    <string name="candidate_del_custom_word_entry">Forget this word</string>
+    <string name="candidate_dont_add_custom_word_entry">Not this time</string>
+    <string name="candidate_never_add_custom_word_entry">Never remember</string>
+    <string name="candidate_popup_menu_new_word_title">New Word</string>
+    <string name="candidate_popup_menu_title">Edit Dictionary</string>
+    <string name="clear">Clear</string>
+    <string name="close">Close</string>
+    <string name="confirm_enable_ime_description">You did not enable %1$s. You cannot use it until it is enabled. Do you want to try again?</string>
+    <string name="confirm_enable_ime_title">Information</string>
+    <string name="cont">Continue</string>
+    <string name="contact_email_address">barry@cometapps.com</string>
+    <string name="contact_email_dlg_title">Send email…</string>
+    <string name="contact_email_sent_fail">Currently unable to send your message.</string>
+    <string name="contact_email_sent_ok">The mail has been sent successfully.</string>
+    <string name="contact_email_subject">%1$s Support</string>
+    <string name="contacts_permission_dialog_message">To see contact suggestions, TypeSmart needs access to your contacts.</string>
+    <string name="contacts_permission_dialog_title">Unable to Access Contacts</string>
+    <string name="copyright">Copyright 2011–2016 Comet Inc. All Rights Reserved</string>
+    <string name="country_belgium">BE</string>
+    <string name="country_canada">CA</string>
+    <string name="coupon_applied">Thank you. Remaining days : %1$d days</string>
+    <string name="curr_dollar">$ (Dollar)</string>
+    <string name="curr_euro">€ (Euro)</string>
+    <string name="curr_pound">£ (Pound)</string>
+    <string name="curr_symbol_default">@string/curr_symbol_dollar</string>
+    <string name="curr_symbol_dollar">$</string>
+    <string name="curr_symbol_euro">€</string>
+    <string name="curr_symbol_pound">£</string>
+    <string name="curr_symbol_yuan">¥</string>
+    <string name="curr_yuan">¥ (Yuan / Yen)</string>
+    <string name="currency_keys">$€£¥¢¤</string>
+    <string name="cursor_label_abc">ABC</string>
+    <string name="cursor_label_copy">Copy</string>
+    <string name="cursor_label_cut">Cut</string>
+    <string name="cursor_label_del">Del</string>
+    <string name="cursor_label_end">End</string>
+    <string name="cursor_label_home">Home</string>
+    <string name="cursor_label_paste">Paste</string>
+    <string name="cursor_label_select">Select</string>
+    <string name="cursor_label_select_all">Select All</string>
+    <string name="cursor_label_tab">Tab</string>
+    <string name="database_error_message">Can\'t access your database. Please reinstall this package now.</string>
+    <string name="database_error_title">Database Error</string>
+    <string name="default_ime_not_ready">To preview your changes, make %1$s the default keyboard.</string>
+    <string name="default_theme_id">@string/theme_id_typesmart</string>
+    <string name="default_theme_name">@string/theme_name_typesmart</string>
+    <string name="delete">Delete</string>
+    <string name="dic_app_version_code">dic_app_version_code</string>
+    <string name="dic_checked_time">dic_checked_time</string>
+    <string name="dic_updated_alarm_message">New dictionary available. Click here.</string>
+    <string name="dic_updated_app_is_needed_upgrade">New dictionary available. It requires app update.</string>
+    <string name="dic_updated_time">dic_updated_time</string>
+    <string name="dictionary_loading_message">Loading dictionary...</string>
+    <string name="dictionary_nothing_to_download">There is no dictionary to download</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="done">Done</string>
+    <string name="enable_ime_title">Enable %1$s</string>
+    <string name="error">Error</string>
+    <string name="error_coupon_code">That coupon code is invalid.</string>
+    <string name="error_message_cant_be_deleted">This word cannot be deleted</string>
+    <string name="error_report_sent">"Error report sent"</string>
+    <string name="exit">Exit</string>
+    <string name="flurry_key">PTPHP2GGNTH2PPCY24HG</string>
+    <string name="fullscreen_keyboard">Use full screen keyboard</string>
+    <string name="google_play_url">http://market.android.com/details?id=com.comet.android.TypeSmart</string>
+    <string name="google_rating_url">@string/google_play_url</string>
+    <string name="google_translate_failed">Google could not translate the text</string>
+    <string name="home_btn_about">About</string>
+    <string name="home_btn_activate">Enable %1$s</string>
+    <string name="home_btn_help_support">Help &amp; support</string>
+    <string name="home_btn_install">Complete setup</string>
+    <string name="home_btn_select_ime">Set to default</string>
+    <string name="home_btn_settings">Settings</string>
+    <string name="home_btn_tutorials">Tutorials</string>
+    <string name="home_label_done">%1$s is ready to use</string>
+    <string name="home_label_enable">%1$s is not enabled</string>
+    <string name="home_label_install">Setup is not complete</string>
+    <string name="home_label_select_ime">%1$s is not the default keyboard</string>
+    <string name="home_label_thank_you">Thank you for downloading %1$s</string>
+    <string name="home_title">@string/ime_name</string>
+    <string name="ime_name">Comet Keyboard</string>
+    <string name="ime_packagename">com.comet.keyboard</string>
+    <string name="ime_servicename">com.comet.keyboard/.KeyboardService</string>
+    <string name="ime_short_name">Comet</string>
+    <string name="install_base_url">https://sites.google.com/a/fruitman.me/typesmart/</string>
+    <string name="install_default_ime_dialog_click_ok">OK?</string>
+    <string name="install_default_ime_dialog_message">On the next screen, select %1$s as your default keyboard\n</string>
+    <string name="install_default_ime_dialog_title">Set as default keyboard</string>
+    <string name="install_dic_list_url">https://sites.google.com/a/fruitman.me/typesmart/dictionaries.xml</string>
+    <string name="install_downloading_cancel">@string/cancel</string>
+    <string name="install_downloading_description">Downloading %1$s dictionary…</string>
+    <string name="install_downloading_retry_description">Download failed.\nTry again?</string>
+    <string name="install_downloading_retry_no">@string/no</string>
+    <string name="install_downloading_retry_title">Download Error</string>
+    <string name="install_downloading_retry_yes">@string/yes</string>
+    <string name="install_downloading_title">Please wait</string>
+    <string name="install_enable_ime_dialog_click_ok">OK?</string>
+    <string name="install_enable_ime_dialog_message">On the next screen, click the check box to enable %1$s.</string>
+    <string name="install_info_message_for_dumb">"This is just a sample image.</string>
+    <string name="install_select_currency_title">Select Currency Symbol</string>
+    <string name="install_select_keyboard_title">Select Keyboard Layout</string>
+    <string name="install_select_language_notice_description">You can download your dictionary later in Settings</string>
+    <string name="install_select_language_notice_ok">@string/ok</string>
+    <string name="install_select_language_notice_title">Information</string>
+    <string name="install_select_language_title">Select Language</string>
+    <string name="install_wizard_default_ime_dialog">Good job!\n\nOn the next screen, select %1$s as your default keyboard\n</string>
+    <string name="install_wizard_enable_ime_dialog">On the next screen, press the check box next to %1$s</string>
+    <string name="install_wizard_enable_ime_dialog_press_back">, then press Back to continue.\n</string>
+    <string name="install_wizard_enable_ime_toast_reminder">Don\'t forget to press BACK after!</string>
+    <string name="install_wizard_enable_ime_toast_reminder2">Good job! Now press Back to continue setup.</string>
+    <string name="installer_action">com.comet.keyboard.intent.action.INSTALL</string>
+    <string name="installer_label_currency">5. Choose your currency symbol</string>
+    <string name="installer_label_enable">1. Enable %1$s</string>
+    <string name="installer_label_keyboard">4. Choose your keyboard layout</string>
+    <string name="installer_label_language">3. Choose your language</string>
+    <string name="installer_label_set_default">2. Set as default keyboard</string>
+    <string name="installer_title">Setting up %1$s is as easy as 1,2,3!</string>
+    <string name="kb_azerty_fr">AZERTY (French)</string>
+    <string name="kb_id_azerty_be">azerty_be</string>
+    <string name="kb_id_azerty_fr">azerty_fr</string>
+    <string name="kb_id_default">@string/kb_id_qwerty_en</string>
+    <string name="kb_id_qwerty_en">qwerty_en</string>
+    <string name="kb_id_qwerty_intl">qwerty_intl</string>
+    <string name="kb_id_qwerty_sl">qwerty_sl</string>
+    <string name="kb_id_qwerty_sp">qwerty_sp</string>
+    <string name="kb_id_qwerty_sv">qwerty_sv</string>
+    <string name="kb_id_qwertz_de">qwertz_de</string>
+    <string name="kb_id_qwertz_sl">qwertz_sl</string>
+    <string name="kb_id_t9">t9</string>
+    <string name="kb_qwerty_en">QWERTY (English)</string>
+    <string name="kb_qwerty_intl">QWERTY (International)</string>
+    <string name="kb_qwerty_sp">QWERTY (Spanish)</string>
+    <string name="kb_qwertz_de">QWERTZ (German)</string>
+    <string name="kb_t9">T9</string>
+    <string name="key_height_bottom_row">Bottom Row: %1$s</string>
+    <string name="key_label_done">Done</string>
+    <string name="key_label_go">Go</string>
+    <string name="key_label_next">Next</string>
+    <string name="key_label_prev">Prev</string>
+    <string name="key_label_save">Save</string>
+    <string name="key_label_send">Send</string>
+    <string name="key_label_sym">{SYM}</string>
+    <string name="keyboard">Keyboard</string>
+    <string name="lang_code_default">@string/lang_code_english</string>
+    <string name="lang_code_english">en</string>
+    <string name="lang_code_french">fr</string>
+    <string name="lang_code_german">de</string>
+    <string name="lang_code_hungarian">hu</string>
+    <string name="lang_code_other">xx</string>
+    <string name="lang_code_spanish">es</string>
+    <string name="lang_english">English</string>
+    <string name="lang_french">French</string>
+    <string name="lang_german">German</string>
+    <string name="lang_hungarian">Hungarian</string>
+    <string name="lang_other">Other</string>
+    <string name="lang_spanish">Spanish</string>
+    <string name="latin_extended_charset">\u0068\u0074\u0074\u0070\u003a\u002f\u002f\u0063\u006f\u006d\u0065\u0074\u0061\u0070\u0070\u0073\u002e\u0063\u006f\u006d\u002f\u0074\u0079\u0070\u0065\u0073\u006d\u0061\u0072\u0074\u002f\u006c\u0069\u0063\u0065\u006e\u0073\u0065\u002f\u0072\u0065\u0067\u0069\u0073\u0074\u0065\u0072\u002e\u0070\u0068\u0070</string>
+    <string name="long_press_duration_summary">Duration: %d ms</string>
+    <string name="main_menu_label_about">About</string>
+    <string name="main_menu_label_arrow_keypad">Cursor</string>
+    <string name="main_menu_label_help">Help</string>
+    <string name="main_menu_label_locale">Language</string>
+    <string name="main_menu_label_settings">Settings</string>
+    <string name="main_menu_label_share">Share</string>
+    <string name="main_menu_label_translator">Translator</string>
+    <string name="main_menu_label_voice_input">Voice</string>
+    <string name="main_menu_title">@string/ime_name</string>
+    <string name="minus">-</string>
+    <string name="msg_word_forgotten">is forgotten</string>
+    <string name="msg_word_remembered">\"%s\" is remembered</string>
+    <string name="need_to_update_dic">No dictionary installed. Click here to download one.</string>
+    <string name="new_word_dialog_no">Not this time</string>
+    <string name="new_word_dialog_question">Remember this word?</string>
+    <string name="new_word_dialog_remember">Don\'t ask again</string>
+    <string name="new_word_dialog_title">New Word</string>
+    <string name="new_word_dialog_yes">Remember this word</string>
+    <string name="no">No</string>
+    <string name="normal_error_title">@string/error</string>
+    <string name="notify_content_text">A new version of your %1$s dictionary is available. Click here to download.</string>
+    <string name="notify_content_title">@string/ime_name</string>
+    <string name="notify_ticker_name">@string/ime_name</string>
+    <string name="ok">OK</string>
+    <string name="outofmemory_error_message">Not enough memory</string>
+    <string name="outofmemory_error_title">@string/normal_error_title</string>
+    <string name="personal_info_can_be_send_to_server">Please do not type personal information while debug logging is enabled. It will be visible to support personnel.</string>
+    <string name="plus">+</string>
+    <string name="popup_menu_closest_match_title">Voice matches</string>
+    <string name="prefs_is_dic_updated">is_dic_updated</string>
+    <string name="product">unknown</string>
+    <string name="product_type">unknown</string>
+    <string name="purchase_no_translation_credits_left">You have no translation credits left</string>
+    <string name="purchase_not_available_description">Can\'t make purchase item on your account</string>
+    <string name="purchase_not_available_title">Not Available</string>
+    <string name="purchase_trans_buy_more"><u><b>Buy More</b></u></string>
+    <string name="purchase_trans_point_description"><b>%1$s translations left - </b></string>
+    <string name="recongnizer_not_present">Voice input is not available on this device.</string>
+    <string name="retry">Retry</string>
+    <string name="return_key_long_action_id_default">@string/any_key_action_id_smiley_menu</string>
+    <string name="save">Save</string>
+    <string name="select_ime_btn_no">@string/no</string>
+    <string name="select_ime_btn_yes">@string/yes</string>
+    <string name="select_ime_label">%1$s is enabled.</string>
+    <string name="select_ime_label_question">Would you like to make it your default keyboard?</string>
+    <string name="select_ime_message">%1$s is enabled, but it is not yet the default keyboard. Press OK to continue...</string>
+    <string name="selected_locale_confirm_message">%1$s profile selected</string>
+    <string name="selected_locale_no_profiles">No locale profiles defined</string>
+    <string name="setting_delete_shortcut_description">Are you sure you want to delete this shortcut?</string>
+    <string name="setting_delete_shortcut_title">Delete shortcut</string>
+    <string name="setting_shortcut_add">Add a new shortcut</string>
+    <string name="setting_shortcut_conflict_message">Another shortcut already uses the same keystrokes.</string>
+    <string name="setting_shortcut_description">Your shortcuts</string>
+    <string name="setting_shortcut_expandto">Shortcut: </string>
+    <string name="setting_shortcut_keystrokes">Phrase: </string>
+    <string name="setting_shortcut_notexist_message">@string/error</string>
+    <string name="settings_activity">com.comet.keyboard.settings.Settings</string>
+    <string name="settings_candidate_height_title">@string/settings_title_candidate_height</string>
+    <string name="settings_category_advanced_summary">Advanced and miscellaneous settings</string>
+    <string name="settings_category_advanced_title">Advanced</string>
+    <string name="settings_category_behavior_summary"/>
+    <string name="settings_category_behavior_title">Behavior</string>
+    <string name="settings_category_contact">Contact Us</string>
+    <string name="settings_category_coupon">Coupon</string>
+    <string name="settings_category_customize_summary">Control the look and feel of your keyboard</string>
+    <string name="settings_category_customize_title">Personalize</string>
+    <string name="settings_category_debug">Debug</string>
+    <string name="settings_category_feedback_summary"/>
+    <string name="settings_category_feedback_title">Sound &amp; vibration</string>
+    <string name="settings_category_follow_us">Follow us</string>
+    <string name="settings_category_follow_us_summary">Follow us on your favorite social networks</string>
+    <string name="settings_category_help">Help</string>
+    <string name="settings_category_help_support_summary">Tutorials, FAQ and contact information</string>
+    <string name="settings_category_help_support_title">Help &amp; support</string>
+    <string name="settings_category_locale_summary">Language, layout and currency symbol</string>
+    <string name="settings_category_locale_title">Language &amp; locale</string>
+    <string name="settings_category_more">More</string>
+    <string name="settings_category_speech_input">Voice input</string>
+    <string name="settings_category_suggestions_summary">Word prediction and typo correction</string>
+    <string name="settings_category_suggestions_title">Suggestions</string>
+    <string name="settings_category_support">Support</string>
+    <string name="settings_category_typing_summary">Typing options and behavior</string>
+    <string name="settings_category_typing_title">Typing</string>
+    <string name="settings_debug_submit_url">https://docs.google.com/spreadsheet/formResponse?formkey=dG40TzJKMjBlbXNqRU9DcmNtNEgzYUE6MQ&amp;ifq</string>
+    <string name="settings_delete_shortcut">Delete shortcut</string>
+    <string name="settings_follow_facebook">Facebook</string>
+    <string name="settings_follow_facebook_url">http://m.facebook.com/TypeSmart</string>
+    <string name="settings_follow_google_plus">Google+</string>
+    <string name="settings_follow_google_plus_url">https://plus.google.com/u/0/115652997572099363687/posts</string>
+    <string name="settings_follow_twitter">Twitter</string>
+    <string name="settings_follow_twitter_url">http://mobile.twitter.com/TypeSmart</string>
+    <string name="settings_follow_typesmart_blog">TypeSmart blog</string>
+    <string name="settings_follow_typesmart_blog_url">http://www.cometapps.com/category/TypeSmart</string>
+    <string name="settings_follow_youtube">YouTube</string>
+    <string name="settings_follow_youtube_url">http://www.youtube.com/user/CometApps</string>
+    <string name="settings_intent">com.comet.keyboard.intent.action.SETTINGS</string>
+    <string name="settings_keyboard_bottom_padding_above_label">Above</string>
+    <string name="settings_keyboard_bottom_padding_below_label">Below</string>
+    <string name="settings_keyboard_bottom_padding_height_title">Bottom row padding</string>
+    <string name="settings_language_notice">No completions or corrections will be provided.</string>
+    <string name="settings_locale_button_id_next_locale">next_locale</string>
+    <string name="settings_locale_button_id_open_menu">open_locale_menu</string>
+    <string name="settings_locale_button_next_locale">Switch to next language</string>
+    <string name="settings_locale_button_open_menu">Open language menu</string>
+    <string name="settings_locale_button_summary">Decide what happens when you press the language key</string>
+    <string name="settings_locale_button_title">Language selection</string>
+    <string name="settings_new_words_always_add">Always add</string>
+    <string name="settings_new_words_ask_first">Ask first</string>
+    <string name="settings_new_words_id_always_add">always</string>
+    <string name="settings_new_words_id_ask_first">ask</string>
+    <string name="settings_new_words_id_default">@string/settings_new_words_id_ask_first</string>
+    <string name="settings_new_words_id_never_add">never</string>
+    <string name="settings_new_words_never_add">Never add</string>
+    <string name="settings_new_words_title">Add new words</string>
+    <string name="settings_program_keys_summary">Program the Any Key and return key to perform your favorite action</string>
+    <string name="settings_program_keys_title">Program keys</string>
+    <string name="settings_rate_app">Rate %1$s</string>
+    <string name="settings_rate_description">If you enjoy using %1$s, please take a moment to rate it. Thanks for your support!</string>
+    <string name="settings_rate_no_thanks">No, thanks</string>
+    <string name="settings_rate_remind_me_later">Remind me later</string>
+    <string name="settings_save_shortcut">Save shortcut</string>
+    <string name="settings_summary_auto_caps">Automatically capitalize the first word in sentences.</string>
+    <string name="settings_summary_auto_select">Select the default suggestion by typing a space or punctuation.</string>
+    <string name="settings_summary_candidate_height">Make the suggestions bigger or smaller</string>
+    <string name="settings_summary_closest_match">If more than one voice match is returned, automatically select the closest one.</string>
+    <string name="settings_summary_community">Join our community and give feedback on %1$s</string>
+    <string name="settings_summary_debug_mode">Log all events for support.</string>
+    <string name="settings_summary_double_space">Double-tapping the space bar adds a period and space.</string>
+    <string name="settings_summary_enter_coupon">If you have a coupon code, enter it here.</string>
+    <string name="settings_summary_include_contacts">Include matches with names in your contact list.</string>
+    <string name="settings_summary_include_corrections">Include corrections to possible typos in the suggestion list, and automatically correct obvious typos.</string>
+    <string name="settings_summary_key_bottom_padding_height">Adjust the padding around the bottom row</string>
+    <string name="settings_summary_key_height">Make the keyboard taller or shorter</string>
+    <string name="settings_summary_lib_wallpaper">Choose from a library of wallpaper images</string>
+    <string name="settings_summary_long_press_symbols">Enter symbols by long-pressing keys</string>
+    <string name="settings_summary_photo_wallpaper">Apply a custom background image</string>
+    <string name="settings_summary_predict_nextword">Display next word predictions based on your typing history.</string>
+    <string name="settings_summary_remove_wallpaper">Restore default theme background</string>
+    <string name="settings_summary_shortcut">Type words and phrases with just a few keystrokes</string>
+    <string name="settings_summary_show_suggestions">Show a list of words that predict what you are typing.</string>
+    <string name="settings_summary_smart_spaces">Automatically add a space after selecting a suggestion, after commas, and at the end of sentences.</string>
+    <string name="settings_summary_submit_logs">Submit the debug log to support.</string>
+    <string name="settings_summary_suggestions_always_show">If checked, the suggestion bar is always visible. If unchecked, it is displayed when necessary, and hidden when possible.</string>
+    <string name="settings_summary_swipe_actions">Assign an action to a swipe gesture</string>
+    <string name="settings_summary_swipe_num_row">Swipe up/down to toggle the number row</string>
+    <string name="settings_summary_swipe_sensitivity">Make the keyboard more or less sensitive to swipes</string>
+    <string name="settings_summary_theme">Over 30 themes to choose from</string>
+    <string name="settings_summary_user_dictionary_press_words_remember">@string/user_dictionary_remember_via_longpress</string>
+    <string name="settings_summary_user_dictionary_undo_remember">Undo words are added to the dictionary when you press them.</string>
+    <string name="settings_summary_vibrate_on_typo_correction">Long vibrate on typo correction</string>
+    <string name="settings_summary_wallpaper">Apply a background image</string>
+    <string name="settings_survey_description">Help improve %1$s by completing a short customer feedback survey</string>
+    <string name="settings_title_about">About</string>
+    <string name="settings_title_any_key_action">Any Key action</string>
+    <string name="settings_title_any_key_long_action">Any Key long-press action</string>
+    <string name="settings_title_auto_caps">Auto-capitalization</string>
+    <string name="settings_title_auto_select">Auto-select default</string>
+    <string name="settings_title_candidate_height">Suggestions font size</string>
+    <string name="settings_title_closest_match">Choose closest match</string>
+    <string name="settings_title_community">%1$s community</string>
+    <string name="settings_title_currency">Currency symbol</string>
+    <string name="settings_title_debug_mode">Debug logging</string>
+    <string name="settings_title_double_space">Double-space for period</string>
+    <string name="settings_title_email_support">Email support</string>
+    <string name="settings_title_enter_coupon_code">Enter coupon code</string>
+    <string name="settings_title_include_contacts">Include contacts</string>
+    <string name="settings_title_include_corrections">Typo correction</string>
+    <string name="settings_title_key_bottom_padding_height">Bottom row padding</string>
+    <string name="settings_title_key_height">Keyboard height</string>
+    <string name="settings_title_keyboard">Keyboard layout</string>
+    <string name="settings_title_landscape_key_height">Landscape height</string>
+    <string name="settings_title_language">Language</string>
+    <string name="settings_title_lib_wallpaper">Wallpaper library</string>
+    <string name="settings_title_long_press_duration">Long-press duration</string>
+    <string name="settings_title_long_press_symbols">Long-press for symbols</string>
+    <string name="settings_title_my_ticket">My open tickets</string>
+    <string name="settings_title_open_ticket">Open a support ticket</string>
+    <string name="settings_title_photo_wallpaper">Photo wallpaper</string>
+    <string name="settings_title_portrait_key_height">Portrait height</string>
+    <string name="settings_title_predict_nextword">Predict next word</string>
+    <string name="settings_title_rate">Rate this app</string>
+    <string name="settings_title_remove_wallpaper">Remove wallpaper</string>
+    <string name="settings_title_return_key_long_action">Return key long-press action</string>
+    <string name="settings_title_shortcut">Shortcuts</string>
+    <string name="settings_title_show_key_preview_popups">Show key preview popups</string>
+    <string name="settings_title_show_suggestions">Show suggestions</string>
+    <string name="settings_title_smart_spaces">Smart Spaces</string>
+    <string name="settings_title_sound">Sound on key press</string>
+    <string name="settings_title_sound_key_click">Key click volume</string>
+    <string name="settings_title_submit_logs">Submit debug log</string>
+    <string name="settings_title_suggestions_always_show">Always show suggestions</string>
+    <string name="settings_title_swipe_actions">Swipe actions</string>
+    <string name="settings_title_swipe_down_action">Swipe down</string>
+    <string name="settings_title_swipe_left_action">Swipe left</string>
+    <string name="settings_title_swipe_num_row">Swipe number row</string>
+    <string name="settings_title_swipe_right_action">Swipe right</string>
+    <string name="settings_title_swipe_sensitivity">Swipe sensitivity</string>
+    <string name="settings_title_swipe_up_action">Swipe up</string>
+    <string name="settings_title_take_our_survey">Take our survey</string>
+    <string name="settings_title_theme">Theme</string>
+    <string name="settings_title_themes">Themes</string>
+    <string name="settings_title_tutorials">Tutorials</string>
+    <string name="settings_title_upgrade">Upgrade %1$s</string>
+    <string name="settings_title_user_dictionary_press_words_remember">Remember new words</string>
+    <string name="settings_title_user_dictionary_undo_remember">Remember undo words</string>
+    <string name="settings_title_vibrate_on_key_press">Vibrate on key press</string>
+    <string name="settings_title_vibrate_on_typo_correction">Typo correction</string>
+    <string name="settings_title_wallpaper">Wallpaper</string>
+    <string name="settings_upgrade_description">Upgrade to the full version of %1$s</string>
+    <string name="settings_vibrate_default">10</string>
+    <string name="settings_wallpaper_btn_save">Save wallpaper</string>
+    <string name="settings_wallpaper_error_file_not_found">Photo file not found</string>
+    <string name="settings_wallpaper_label_transparency">Transparency:</string>
+    <string name="settings_wallpaper_load_error">Cannot load that photo. Please try another.</string>
+    <string name="settings_wallpaper_not_ready">%1$s must be your default keyboard before you can apply wallpaper. Set it to default now?</string>
+    <string name="settings_wallpaper_photo_label_fit_exactly">Fit exactly</string>
+    <string name="settings_wallpaper_save_error">An error occurred while copying the photo. Please try again.</string>
+    <string name="settings_wallpaper_saving">Saving wallpaper…</string>
+    <string name="settings_wallpaper_title">Set as default keyboard</string>
+    <string name="share_to_sns_description">I\'m using %1$s for Android and I recommend it. Click here: %2$s</string>
+    <string name="share_to_sns_title">Try %1$s for Android</string>
+    <string name="shared_user_label">CometUser</string>
+    <string name="smart_space_preceders">,.?!)}]:;</string>
+    <string name="submit">Submit</string>
+    <string name="submit_logs_fail_msg">Sending log file failed.</string>
+    <string name="submit_logs_loader">Loading...</string>
+    <string name="submit_logs_no_file">The log is empty. Please collect data and try again.</string>
+    <string name="submit_logs_success_msg">The log file was successfully sent. Debug logging has been disabled.</string>
+    <string name="submit_logs_url">http://test.test.test</string>
+    <string name="support_btn_email">Email support</string>
+    <string name="support_btn_ticket">Open a support ticket</string>
+    <string name="support_btn_website">Go to support website</string>
+    <string name="support_title">Contact Support</string>
+    <string name="support_zendesk_description">Details:</string>
+    <string name="support_zendesk_email">E-mail:</string>
+    <string name="support_zendesk_missing_field">Please fill out all fields</string>
+    <string name="support_zendesk_powered_by">Powered by</string>
+    <string name="support_zendesk_subject">Subject:</string>
+    <string name="support_zendesk_submit_failed">Your request couldn\'t be submitted, please try again</string>
+    <string name="support_zendesk_submitted">Your request has successfully been submitted</string>
+    <string name="support_zendesk_title">How may we help you\?</string>
+    <string name="swipe_action_delete_word">Delete word</string>
+    <string name="swipe_action_do_nothing">Do nothing</string>
+    <string name="swipe_action_id_delete_word">delete_word</string>
+    <string name="swipe_action_id_do_nothing">do_nothing</string>
+    <string name="swipe_action_id_num_row">num_row</string>
+    <string name="swipe_action_id_toggle_mode">toggle_keyboard_mode</string>
+    <string name="swipe_action_num_row">Toggle number row</string>
+    <string name="swipe_action_toggle_mode">Change mode (ABC/123)</string>
+    <string name="sym_menu_btn_more">More symbols…</string>
+    <string name="sym_menu_label_arrows">Arrows</string>
+    <string name="sym_menu_label_business">Business</string>
+    <string name="sym_menu_label_currency">Currency</string>
+    <string name="sym_menu_label_dingbats">Dingbats</string>
+    <string name="sym_menu_label_extended">Extended</string>
+    <string name="sym_menu_label_fractions">Fractions</string>
+    <string name="sym_menu_label_latin_extended">Latin Extended</string>
+    <string name="sym_menu_label_math">Math</string>
+    <string name="sym_menu_label_misc">Miscellaneous</string>
+    <string name="sym_menu_label_smileys">Smileys</string>
+    <string name="sym_menu_label_standard">Standard</string>
+    <string name="sym_menu_title">Symbols Menu</string>
+    <string name="symbols_arrows">\u2190\u2191\u2192\u2193\u2194\u2195\u2196\u2197\u2198\u2199</string>
+    <string name="symbols_business">\u2122\u00A9\u00AE</string>
+    <string name="symbols_currency">$€£¥¢₱₨₤¤</string>
+    <string name="symbols_dingbats">\u2665\u2660\u2663\u2666\u2605\u266A\u266C\u2713\u2640\u2642</string>
+    <string name="symbols_extended">|\u00A6\u00B0\u00B6\u00A7\u2020\u2021\u00A1\u00BF\u2116</string>
+    <string name="symbols_fractions">\u215b\u00bc\u215c\u00bd\u215d\u00be\u215e\u2153\u2154</string>
+    <string name="symbols_latin_extended">áàâãäåæçéèêëíìîïñóòôõöœøßúùûüýÿ</string>
+    <string name="symbols_misc"/>
+    <string name="test">Test</string>
+    <string name="theme_id_aliensky">aliensky</string>
+    <string name="theme_id_black">black</string>
+    <string name="theme_id_blackwall">blackwall</string>
+    <string name="theme_id_bluehaze">bluehaze</string>
+    <string name="theme_id_bluemoon">bluemoon</string>
+    <string name="theme_id_blueocean">blueocean</string>
+    <string name="theme_id_bluesatin">bluesatin</string>
+    <string name="theme_id_butterfly">butterfly</string>
+    <string name="theme_id_clean">clean</string>
+    <string name="theme_id_cleandark">cleandark</string>
+    <string name="theme_id_clouds">clouds</string>
+    <string name="theme_id_creamsofa">creamsofa</string>
+    <string name="theme_id_daisy">daisy</string>
+    <string name="theme_id_dark">dark</string>
+    <string name="theme_id_desertcamo">desertcamo</string>
+    <string name="theme_id_eastereggs1">eastereggs1</string>
+    <string name="theme_id_eastereggs2">eastereggs2</string>
+    <string name="theme_id_fire">fire</string>
+    <string name="theme_id_giftwrapped">giftwrapped</string>
+    <string name="theme_id_golden">golden</string>
+    <string name="theme_id_grapesoda">grapesofa</string>
+    <string name="theme_id_ice">ice</string>
+    <string name="theme_id_ics">ics</string>
+    <string name="theme_id_leafypond">leafypond</string>
+    <string name="theme_id_light">light</string>
+    <string name="theme_id_passovermatzoh">passovermatzoh</string>
+    <string name="theme_id_pinkflower">pinkflower</string>
+    <string name="theme_id_redwave">redwave</string>
+    <string name="theme_id_sunshine">sunshine</string>
+    <string name="theme_id_swimmingpool">swimmingpool</string>
+    <string name="theme_id_typesmart">typesmart</string>
+    <string name="theme_id_typesmartblack">typesmartblack</string>
+    <string name="theme_id_white">white</string>
+    <string name="theme_name_aliensky">Alien Sky</string>
+    <string name="theme_name_black">Black</string>
+    <string name="theme_name_blackwall">Black Wall</string>
+    <string name="theme_name_bluehaze">Blue Haze</string>
+    <string name="theme_name_bluemoon">Blue Moon</string>
+    <string name="theme_name_blueocean">Blue Ocean</string>
+    <string name="theme_name_bluesatin">Blue Satin</string>
+    <string name="theme_name_butterfly">Butterfly</string>
+    <string name="theme_name_clean">Clean</string>
+    <string name="theme_name_cleandark">Clean Dark</string>
+    <string name="theme_name_clouds">Clouds</string>
+    <string name="theme_name_creamsofa">Cream Sofa</string>
+    <string name="theme_name_daisy">Daisy</string>
+    <string name="theme_name_dark">Dark Gray</string>
+    <string name="theme_name_desertcamo">Desert Camo</string>
+    <string name="theme_name_eastereggs1">Easter Eggs</string>
+    <string name="theme_name_eastereggs2">Easter Eggs 2</string>
+    <string name="theme_name_fire">Fire</string>
+    <string name="theme_name_giftwrapped">Gift Wrapped</string>
+    <string name="theme_name_golden">Solid Gold</string>
+    <string name="theme_name_grapesoda">Grape Soda</string>
+    <string name="theme_name_ice">Ice</string>
+    <string name="theme_name_ics">ICS</string>
+    <string name="theme_name_leafypond">Leafy Pond</string>
+    <string name="theme_name_light">Light Gray</string>
+    <string name="theme_name_passovermatzoh">Passover Matzoh</string>
+    <string name="theme_name_pinkflower">Pink Flower</string>
+    <string name="theme_name_redwave">Red Alert</string>
+    <string name="theme_name_sunshine">Sunshine</string>
+    <string name="theme_name_swimmingpool">Swimming Pool</string>
+    <string name="theme_name_typesmart">TypeSmart</string>
+    <string name="theme_name_typesmartblack">TypeSmart Black</string>
+    <string name="theme_name_white">White</string>
+    <string name="theme_none_photo">No theme (photo wallpaper in use).</string>
+    <string name="themes_path">themes/</string>
+    <string name="themes_xml_path">themes/keyboard_themes.xml</string>
+    <string name="title_settings">%1$s Settings</string>
+    <string name="title_settings_edit_shortcut">Edit shortcut</string>
+    <string name="translator_btn_translate">Translate</string>
+    <string name="translator_btn_translate_clipboard">Translate Clipboard</string>
+    <string name="translator_empty_clipboard">Clipboard is empty. Cut or copy some text first.</string>
+    <string name="translator_label_google">Powered by Google</string>
+    <string name="translator_label_target_language">Target language</string>
+    <string name="translator_label_translating">Translating…</string>
+    <string name="translator_label_your_language">Your language</string>
+    <string name="translator_nothing_to_translate">Nothing to translate</string>
+    <string name="translator_same_languages">Selected languages are the same</string>
+    <string name="translator_title">Translator</string>
+    <string name="translator_too_long">Unable to translation messages longer than 100 characters.</string>
+    <string name="unknown">Unknown</string>
+    <string name="upgrade_product_type">upgrade</string>
+    <string name="upgrade_sku"/>
+    <string name="user_dictionary_remember_via_longpress">By long-pressing the suggestion.</string>
+    <string name="user_dictionary_remember_via_press">By pressing the suggestion.</string>
+    <string name="version">1.0</string>
+    <string name="vibrate_notime">No vibrate</string>
+    <string name="vibrate_time_summary">Duration: %d ms</string>
+    <string name="voice_input_title">Voice Input</string>
+    <string name="volume_mute">Mute</string>
+    <string name="volume_val_summary">Volume: %d percent</string>
+    <string name="waiting">Waiting...</string>
+    <string name="wallpaper_filename">wallpaper.png</string>
+    <string name="wallpaper_permission_dialog_message">To set custom wallpaper, TypeSmart needs access to your photos.</string>
+    <string name="wallpaper_permission_dialog_title">Unable to Access Photos</string>
+    <string name="warning">Warning</string>
+    <string name="welcome_button">Setup</string>
+    <string name="welcome_message"/>
+    <string name="welcome_title">@string/home_title</string>
+    <string name="word_separators">\u0020.,;:!?-\u00bf\u00a1()[]*&amp;@{}/&lt;>_+=|\u0022</string>
+    <string name="xml_dictionaries_property_min_version_code">minVersionCode</string>
+    <string name="xml_dictionary_entry_filename">file</string>
+    <string name="xml_dictionary_property_lang">lang</string>
+    <string name="xml_dictionary_property_version">version</string>
+    <string name="xml_entry_dictionaries">dictionaries</string>
+    <string name="xml_entry_dictionary">dictionary</string>
+    <string name="xml_file_property_name">name</string>
+    <string name="xml_file_property_size">size</string>
+    <string name="xml_theme">theme</string>
+    <string name="xml_theme_property_background">key_background</string>
+    <string name="xml_theme_property_candidate_background">candidate_background</string>
+    <string name="xml_theme_property_candidate_background_color">candidate_background_color</string>
+    <string name="xml_theme_property_candidate_divider_color">candidate_divider_color</string>
+    <string name="xml_theme_property_candidate_message_color">candidate_message_color</string>
+    <string name="xml_theme_property_candidate_normal_color">candidate_normal_color</string>
+    <string name="xml_theme_property_candidate_recommended_color">candidate_recommended_color</string>
+    <string name="xml_theme_property_candidate_undo_color">candidate_undo_color</string>
+    <string name="xml_theme_property_fn_background">key_fn_background</string>
+    <string name="xml_theme_property_fn_pressed_background">key_fn_pressed_background</string>
+    <string name="xml_theme_property_fn_ss_background">key_fn_ss_background</string>
+    <string name="xml_theme_property_fn_ss_pressed_background">key_fn_ss_pressed_background</string>
+    <string name="xml_theme_property_kb_any">key_kb_any</string>
+    <string name="xml_theme_property_key_background_alpha">key_background_alpha</string>
+    <string name="xml_theme_property_key_pressed_alpha">key_pressed_alpha</string>
+    <string name="xml_theme_property_key_super_horiz_offset">key_super_horiz_offset</string>
+    <string name="xml_theme_property_keyboard_background">keyboard_background</string>
+    <string name="xml_theme_property_keyboard_background_color">keyboard_background_color</string>
+    <string name="xml_theme_property_name">name</string>
+    <string name="xml_theme_property_popup_background">key_popup_background</string>
+    <string name="xml_theme_property_popup_pressed_background">key_popup_pressed_background</string>
+    <string name="xml_theme_property_pressed_background">key_pressed_background</string>
+    <string name="xml_theme_property_ss_background">key_ss_background</string>
+    <string name="xml_theme_property_ss_pressed_background">key_ss_pressed_background</string>
+    <string name="xml_theme_property_super_text_color">key_super_text_color</string>
+    <string name="xml_theme_property_sym_kb_arrow_back">key_sym_kb_arrow_back</string>
+    <string name="xml_theme_property_sym_kb_arrow_down">key_sym_kb_arrow_down</string>
+    <string name="xml_theme_property_sym_kb_arrow_left">key_sym_kb_arrow_left</string>
+    <string name="xml_theme_property_sym_kb_arrow_next">key_sym_kb_arrow_next</string>
+    <string name="xml_theme_property_sym_kb_arrow_right">key_sym_kb_arrow_right</string>
+    <string name="xml_theme_property_sym_kb_arrow_up">key_sym_kb_arrow_up</string>
+    <string name="xml_theme_property_sym_kb_arrows">key_sym_kb_arrows</string>
+    <string name="xml_theme_property_sym_kb_delete">key_sym_kb_delete</string>
+    <string name="xml_theme_property_sym_kb_locale">key_sym_kb_locale</string>
+    <string name="xml_theme_property_sym_kb_mic">key_sym_kb_mic</string>
+    <string name="xml_theme_property_sym_kb_popup_arrows">key_sym_popup_arrows</string>
+    <string name="xml_theme_property_sym_kb_popup_locale">key_sym_popup_locale</string>
+    <string name="xml_theme_property_sym_kb_popup_mic">key_sym_popup_mic</string>
+    <string name="xml_theme_property_sym_kb_popup_return">key_sym_popup_return</string>
+    <string name="xml_theme_property_sym_kb_popup_search">key_sym_popup_search</string>
+    <string name="xml_theme_property_sym_kb_popup_settings">key_sym_popup_settings</string>
+    <string name="xml_theme_property_sym_kb_popup_shift">key_sym_popup_shift</string>
+    <string name="xml_theme_property_sym_kb_popup_shift_locked">key_sym_popup_shift_locked</string>
+    <string name="xml_theme_property_sym_kb_popup_smiley">key_sym_popup_smiley</string>
+    <string name="xml_theme_property_sym_kb_popup_translate">key_sym_popup_translate</string>
+    <string name="xml_theme_property_sym_kb_return">key_sym_kb_return</string>
+    <string name="xml_theme_property_sym_kb_search">key_sym_kb_search</string>
+    <string name="xml_theme_property_sym_kb_settings">key_sym_kb_settings</string>
+    <string name="xml_theme_property_sym_kb_shift_locked">key_sym_kb_shift_locked</string>
+    <string name="xml_theme_property_sym_kb_shift_off">key_sym_kb_shift_off</string>
+    <string name="xml_theme_property_sym_kb_shift_on">key_sym_kb_shift_on</string>
+    <string name="xml_theme_property_sym_kb_smiley">key_sym_kb_smiley</string>
+    <string name="xml_theme_property_sym_kb_space">key_sym_kb_space</string>
+    <string name="xml_theme_property_sym_kb_translate">key_sym_kb_translate</string>
+    <string name="xml_theme_property_text_color">key_text_color</string>
+    <string name="yes">Yes</string>
+    <string name="zendesk_knowledge_base_url">http://support.cometapps.com/forums</string>
+    <string name="zendesk_requests_url">http://support.cometapps.com/requests</string>
+    <style name="KeyboardView" parent="android:Widget">
+        <item name="android:background">@drawable/keyboard_background</item>
+        
+        <item name="keyTextSize">22sp</item>
+        <item name="keyTextColor">#BB000000</item>
+        <item name="keyPreviewLayout">@layout/keyboard_key_preview</item>-
+        <item name="keyPreviewOffset">-12dip</item>
+        <item name="keyPreviewHeight">80dip</item>
+        <item name="labelTextSize">14sp</item>
+        <item name="popupLayout">@layout/keyboard_popup_keyboard</item>
+        <item name="verticalCorrection">-10dip</item>
+        <item name="shadowColor">#BB000000</item>
+        <item name="shadowRadius">2.75</item>
+    </style>
+    <style name="PopupKeyboardView" parent="android:Widget">
+        
+        <item name="keyPreviewLayout">@layout/keyboard_key_preview</item>-
+        <item name="keyPreviewOffset">-40dip</item>
+        <item name="keyPreviewHeight">80dip</item>
+        <item name="verticalCorrection">-10dip</item>
+    </style>
+    <style name="Theme.DimBackground" parent="android:Theme.DeviceDefault">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+    <style name="btn_home" parent="btn_std">
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">@dimen/home_btn_font_size</item>
+	</style>
+    <style name="btn_home_icon" parent="btn_home">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_weight">0</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+	</style>
+    <style name="btn_installer" parent="btn_std">
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        </style>
+    <style name="btn_main_menu" parent="btn_std">
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">@dimen/main_menu_font_size</item>
+	</style>
+    <style name="btn_std">
+        <item name="android:textColor">@color/btn_std_text</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:textSize">@dimen/std_btn_font_size</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+        <item name="android:paddingTop">20dp</item>
+        <item name="android:paddingBottom">20dp</item>
+        <item name="android:background">@drawable/btn_std</item>
+    </style>
+    <style name="heading_std">
+        <item name="android:textColor">@color/label_text</item>
+        <item name="android:textSize">@dimen/heading_font_size</item>
+    </style>
+    <style name="label_std">
+        <item name="android:textColor">@color/label_text</item>
+        <item name="android:textSize">@dimen/label_text_size</item>
+    </style>
+    <style name="title_std">
+        <item name="android:textColor">@color/label_text</item>
+        <item name="android:textSize">@dimen/title_font_size</item>
+    </style>
+</resources>

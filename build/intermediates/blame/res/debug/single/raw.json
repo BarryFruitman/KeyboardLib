@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\debug\\raw\\key_click_default.wav",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\raw\\key_click_default.wav"
+    },
+    {
+        "merged": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\build\\intermediates\\res\\merged\\debug\\raw\\voice_prompt.wav",
+        "source": "C:\\Users\\Barry\\StudioProjects\\TypeSmart\\keyboardLib\\src\\main\\res\\raw\\voice_prompt.wav"
+    }
+]

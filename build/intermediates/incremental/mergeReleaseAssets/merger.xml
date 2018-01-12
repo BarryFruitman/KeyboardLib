@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/barry/Studio Projects/TypeSmart/keyboardLib/src/main/assets"><file name="themes/keyboard_themes.xml" path="/Users/barry/Studio Projects/TypeSmart/keyboardLib/src/main/assets/themes/keyboard_themes.xml"/></source><source path="/Users/barry/Studio Projects/TypeSmart/keyboardLib/build/generated/assets/shaders/release"/></dataSet><dataSet config="release"><source path="/Users/barry/Studio Projects/TypeSmart/keyboardLib/src/release/assets"/></dataSet></merger>

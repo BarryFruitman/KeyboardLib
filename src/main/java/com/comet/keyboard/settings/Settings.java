@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011-2012 Comet Inc.
+ * Copyright (C) 2011-2018 Comet Inc.
  * All Rights Reserved
  */
 
