@@ -3,7 +3,7 @@
  * Copyright (C) 2011-2018 Comet Inc.
  * All Rights Reserved
  */
-`
+
 package com.comet.keyboard.settings;
 
 import android.app.Activity;
