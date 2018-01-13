@@ -1,7 +1,0 @@
-<spell-checker xmlns:android="http://schemas.android.com/apk/res/android"
-        android:label="@string/ime_name"
-        android:settingsActivity="com.comet.keyboard.settings.Settings">
-    <subtype
-            android:label="@string/lang_english"
-            android:subtypeLocale="en" />
-</spell-checker>
