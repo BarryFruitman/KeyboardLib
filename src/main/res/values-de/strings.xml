@@ -122,7 +122,7 @@
  <!-- More punctuation -->
     <string name="sym_menu_label_currency">Währung</string>
  <!-- Currency symbols: $, € ... etc. -->
-    <string name="sym_menu_label_smileys">Smileys</string>
+    <string name="sym_menu_label_emojis">Emojis</string>
  <!-- :) :( ... etc. -->
     <string name="sym_menu_label_dingbats">Dingbats</string>
  <!-- Fun characters such as heart, music notes ... etc. -->
@@ -294,7 +294,7 @@
     <string name="settings_title_any_key_long_action">Aktion beim langen Drücken einer beliebigen Taste</string>
     <string name="settings_title_return_key_long_action">Aktion beim langen Drücken der Eingabetaste</string>
  <!-- Any key actions -->
-    <string name="any_key_action_smiley_menu">Smiley-Menü</string>
+    <string name="any_key_action_emoji_menu">Emoji-Menü</string>
     <string name="any_key_action_voice_input">Spracheingabe</string>
     <string name="any_key_action_arrow_keypad">Cursor-Steuerung</string>
     <string name="any_key_action_translator">Übersetzer</string>

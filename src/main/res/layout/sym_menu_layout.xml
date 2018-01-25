@@ -81,9 +81,9 @@
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content" />
 				
-			<!-- Smileys -->
+			<!-- Emojis -->
 			<TextView
-				android:text="@string/sym_menu_label_smileys"
+				android:text="@string/sym_menu_label_emojis"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:textSize="@dimen/sym_menu_heading_font_size"
@@ -91,7 +91,7 @@
 				android:background="#888888" />
 			<com.comet.keyboard.PopupKeyboardView
 			    style="@style/PopupKeyboardView"
-				android:id="@+id/sym_menu_smileys"
+				android:id="@+id/sym_menu_emojis"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content" />
 				

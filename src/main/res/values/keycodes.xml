@@ -6,7 +6,7 @@
 	<integer name="keycode_delete">-5</integer>
 
 	<integer name="keycode_any_key">-100</integer>
-	<integer name="keycode_smiley">-101</integer>
+	<integer name="keycode_emoji">-101</integer>
 	<integer name="keycode_arrows">-102</integer>
 	<integer name="keycode_voice">-103</integer>
 	<integer name="keycode_translate">-104</integer>

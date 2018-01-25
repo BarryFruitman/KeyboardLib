@@ -119,7 +119,7 @@
  <!-- More punctuation -->
     <string name="sym_menu_label_currency">Devise</string>
  <!-- Currency symbols: $, € ... etc. -->
-    <string name="sym_menu_label_smileys">Smileys</string>
+    <string name="sym_menu_label_emojis">Emojis</string>
  <!-- :) :( ... etc. -->
     <string name="sym_menu_label_dingbats">Dingbats</string>
  <!-- Fun characters such as heart, music notes ... etc. -->
@@ -291,7 +291,7 @@
     <string name="settings_title_any_key_long_action">Action de pression prolongée sur n\&apos;importe quelle touche</string>
     <string name="settings_title_return_key_long_action">Action de pression prolongée sur la touche d\&apos;exécution</string>
  <!-- Any key actions -->
-    <string name="any_key_action_smiley_menu">Menu Smiley</string>
+    <string name="any_key_action_emoji_menu">Menu Emoji</string>
     <string name="any_key_action_voice_input">Entrée vocale</string>
     <string name="any_key_action_arrow_keypad">Touches fléchées</string>
     <string name="any_key_action_translator">Traducteur</string>

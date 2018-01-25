@@ -142,7 +142,7 @@
     <string name="theme_id_eastereggs2">eastereggs2</string>
     
     <!-- Any Key action ids -->
-    <string name="any_key_action_id_smiley_menu">smiley_menu</string>
+    <string name="any_key_action_id_emoji_menu">emoji_menu</string>
     <string name="any_key_action_id_voice_input">voice_input</string>
     <string name="any_key_action_id_arrow_keypad">arrow_keypad</string>
     <string name="any_key_action_id_translator">translator</string>
@@ -160,7 +160,7 @@
     <string name="settings_vibrate_default">10</string>
     <string name="any_key_action_id_default">@string/any_key_action_id_arrow_keypad</string>
     <string name="any_key_long_action_id_default">@string/any_key_action_id_voice_input</string>
-    <string name="return_key_long_action_id_default">@string/any_key_action_id_smiley_menu</string>
+    <string name="return_key_long_action_id_default">@string/any_key_action_id_emoji_menu</string>
     <string name="wallpaper_filename">wallpaper.png</string>
     <string name="settings_intent">com.comet.keyboard.intent.action.SETTINGS</string>
         
@@ -261,11 +261,11 @@
 	<string name="xml_theme_property_sym_kb_space">key_sym_kb_space</string>
 	<string name="xml_theme_property_sym_kb_translate">key_sym_kb_translate</string>
 	<string name="xml_theme_property_sym_kb_locale">key_sym_kb_locale</string>
-	<string name="xml_theme_property_sym_kb_smiley">key_sym_kb_smiley</string>
+	<string name="xml_theme_property_sym_kb_emoji">key_sym_kb_emoji</string>
 	
 	<string name="xml_theme_property_sym_kb_popup_shift_locked">key_sym_popup_shift_locked</string>
 	<string name="xml_theme_property_sym_kb_popup_shift">key_sym_popup_shift</string>
-	<string name="xml_theme_property_sym_kb_popup_smiley">key_sym_popup_smiley</string>
+	<string name="xml_theme_property_sym_kb_popup_emoji">key_sym_popup_emoji</string>
 	<string name="xml_theme_property_sym_kb_popup_arrows">key_sym_popup_arrows</string>
 	<string name="xml_theme_property_sym_kb_popup_mic">key_sym_popup_mic</string>
 	<string name="xml_theme_property_sym_kb_popup_translate">key_sym_popup_translate</string>
@@ -417,7 +417,7 @@
     <string name="sym_menu_label_standard">Standard</string>					<!-- Basic punctuation like !%$^$ -->
     <string name="sym_menu_label_extended">Extended</string>					<!-- More punctuation -->
     <string name="sym_menu_label_currency">Currency</string>					<!-- Currency symbols: $, € ... etc. -->
-    <string name="sym_menu_label_smileys">Smileys</string>						<!-- :) :( ... etc. -->
+    <string name="sym_menu_label_emojis">Emojis</string>						<!-- :) :( ... etc. -->
     <string name="sym_menu_label_dingbats">Dingbats</string>					<!-- Fun characters such as heart, music notes ... etc. -->
     <string name="sym_menu_label_business">Business</string>					<!-- Business symbols like (C) and TM -->
     <string name="sym_menu_label_arrows">Arrows</string>						<!-- Arrow symbols -->
@@ -591,7 +591,7 @@
     <string name="settings_title_any_key_long_action">Any Key long-press action</string>
     <string name="settings_title_return_key_long_action">Return key long-press action</string>
     <!-- Any key actions -->
-    <string name="any_key_action_smiley_menu">Smiley menu</string>
+    <string name="any_key_action_emoji_menu">Emoji menu</string>
     <string name="any_key_action_voice_input">Voice input</string>
     <string name="any_key_action_arrow_keypad">Cursor controls</string>
     <string name="any_key_action_translator">Translator</string>

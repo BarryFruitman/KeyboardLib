@@ -92,7 +92,7 @@ public class KeyboardTheme {
 	private String mKeySymSpace;
 	private String mKeySymTranslate;
 	private String mKeySymLocale;
-	private String mKeySymSmiley;
+	private String mKeySymEmoji;
 	
 	private String mCandidateBG;
 	private int mCandidateBGColor;
@@ -114,8 +114,8 @@ public class KeyboardTheme {
 	public static final int KEY_SYM_ARROW_BACK = KEY_SYM_ARROW_DOWN + 1;
 	public static final int KEY_SYM_ARROW_NEXT = KEY_SYM_ARROW_BACK + 1;
 	public static final int KEY_SYM_ARROWS = KEY_SYM_ARROW_NEXT + 1;
-	public static final int KEY_SYM_SMILEY = KEY_SYM_ARROWS + 1;
-	public static final int KEY_SYM_DELETE = KEY_SYM_SMILEY + 1;
+	public static final int KEY_SYM_EMOJI = KEY_SYM_ARROWS + 1;
+	public static final int KEY_SYM_DELETE = KEY_SYM_EMOJI + 1;
 	public static final int KEY_SYM_MIC = KEY_SYM_DELETE + 1;
 	public static final int KEY_SYM_SEARCH = KEY_SYM_MIC + 1;
 	public static final int KEY_SYM_SETTINGS = KEY_SYM_SEARCH + 1;
@@ -136,12 +136,12 @@ public class KeyboardTheme {
 	public static final int KEY_SYM_SUPER_SPACE = KEY_SYM_SUPER_SETTINGS + 1;
 	public static final int KEY_SYM_SUPER_TRANSLATE = KEY_SYM_SUPER_SPACE + 1;
 	public static final int KEY_SYM_SUPER_LOCALE = KEY_SYM_SUPER_TRANSLATE + 1;
-	public static final int KEY_SYM_SUPER_SMILEY = KEY_SYM_SUPER_LOCALE + 1;
+	public static final int KEY_SYM_SUPER_EMOJI = KEY_SYM_SUPER_LOCALE + 1;
 	
-	public static final int KEY_SYM_POPUP_SHIFT_LOCKED = KEY_SYM_SUPER_SMILEY + 1;
+	public static final int KEY_SYM_POPUP_SHIFT_LOCKED = KEY_SYM_SUPER_EMOJI + 1;
 	public static final int KEY_SYM_POPUP_SHIFT = KEY_SYM_POPUP_SHIFT_LOCKED + 1;
-	public static final int KEY_SYM_POPUP_SMILEY = KEY_SYM_POPUP_SHIFT + 1;
-	public static final int KEY_SYM_POPUP_ARROWS = KEY_SYM_POPUP_SMILEY + 1;
+	public static final int KEY_SYM_POPUP_EMOJI = KEY_SYM_POPUP_SHIFT + 1;
+	public static final int KEY_SYM_POPUP_ARROWS = KEY_SYM_POPUP_EMOJI + 1;
 	public static final int KEY_SYM_POPUP_MIC = KEY_SYM_POPUP_ARROWS + 1;
 	public static final int KEY_SYM_POPUP_TRANSLATE = KEY_SYM_POPUP_MIC + 1;
 	public static final int KEY_SYM_POPUP_LOCALE = KEY_SYM_POPUP_TRANSLATE + 1;
@@ -174,13 +174,13 @@ public class KeyboardTheme {
 	private Drawable mKeySymSuperTranslateDrawable;
 	private Drawable mKeySymLocaleDrawable;
 	private Drawable mKeySymSuperLocaleDrawable;
-	private Drawable mKeySymSmileyDrawable;
-	private Drawable mKeySymSuperSmileyDrawable;
+	private Drawable mKeySymEmojiDrawable;
+	private Drawable mKeySymSuperEmojiDrawable;
 	private Drawable mKeyAnyDrawable;
 	
 	private Drawable mKeySymPopupShiftLockedDrawable;
 	private Drawable mKeySymPopupShiftDrawable;
-	private Drawable mKeySymPopupSmileyDrawable;
+	private Drawable mKeySymPopupEmojiDrawable;
 	private Drawable mKeySymPopupArrowsDrawable;
 	private Drawable mKeySymPopupMicDrawable;
 	private Drawable mKeySymPopupTranslateDrawable;
@@ -201,7 +201,7 @@ public class KeyboardTheme {
 
 	private String mKeySymPopupShiftLocked;
 
-	private String mKeySymPopupSmiley;
+	private String mKeySymPopupEmoji;
 
 	private String mKeySymPopupArrows;
 
@@ -427,8 +427,8 @@ public class KeyboardTheme {
 			mKeySymLocale = basePath + propMap.getNamedItem(
 					res.getString(R.string.xml_theme_property_sym_kb_locale))
 					.getNodeValue();
-			mKeySymSmiley = basePath + propMap.getNamedItem(
-					res.getString(R.string.xml_theme_property_sym_kb_smiley))
+			mKeySymEmoji = basePath + propMap.getNamedItem(
+					res.getString(R.string.xml_theme_property_sym_kb_emoji))
 					.getNodeValue();
 
 			mKeySymPopupShiftLocked = propMap.getNamedItem(
@@ -437,8 +437,8 @@ public class KeyboardTheme {
 			mKeySymPopupShift =  propMap.getNamedItem(
 					res.getString(R.string.xml_theme_property_sym_kb_popup_shift))
 					.getNodeValue();
-			mKeySymPopupSmiley = propMap.getNamedItem(
-					res.getString(R.string.xml_theme_property_sym_kb_popup_smiley))
+			mKeySymPopupEmoji = propMap.getNamedItem(
+					res.getString(R.string.xml_theme_property_sym_kb_popup_emoji))
 					.getNodeValue();
 			mKeySymPopupArrows = propMap.getNamedItem(
 					res.getString(R.string.xml_theme_property_sym_kb_popup_arrows))
@@ -566,12 +566,12 @@ public class KeyboardTheme {
 			mKeySymSuperTranslateDrawable = Utils.getBitmapDrawable(mContext, mKeySymTranslate, getThemeName().equals("ICS") ? icsFnSuperColor : mKeySuperFGColor);
 			mKeySymLocaleDrawable = Utils.getBitmapDrawable(mContext, mKeySymLocale, mKeyFGColor);
 			mKeySymSuperLocaleDrawable = Utils.getBitmapDrawable(mContext, mKeySymLocale, getThemeName().equals("ICS") ? icsFnSuperColor : mKeySuperFGColor);
-			mKeySymSmileyDrawable = Utils.getBitmapDrawable(mContext, mKeySymSmiley, mKeyFGColor);
-			mKeySymSuperSmileyDrawable = Utils.getBitmapDrawable(mContext, mKeySymSmiley, getThemeName().equals("ICS") ? icsFnSuperColor : mKeySuperFGColor);
+			mKeySymEmojiDrawable = Utils.getBitmapDrawable(mContext, mKeySymEmoji, mKeyFGColor);
+			mKeySymSuperEmojiDrawable = Utils.getBitmapDrawable(mContext, mKeySymEmoji, getThemeName().equals("ICS") ? icsFnSuperColor : mKeySuperFGColor);
 
 			mKeySymPopupShiftLockedDrawable = Utils.getBitmapDrawable(mContext, mKeySymPopupShiftLocked);
 			mKeySymPopupShiftDrawable = Utils.getBitmapDrawable(mContext, mKeySymPopupShift);
-			mKeySymPopupSmileyDrawable = Utils.getBitmapDrawable(mContext, mKeySymPopupSmiley);
+			mKeySymPopupEmojiDrawable = Utils.getBitmapDrawable(mContext, mKeySymPopupEmoji);
 			mKeySymPopupArrowsDrawable = Utils.getBitmapDrawable(mContext, mKeySymPopupArrows);
 			mKeySymPopupMicDrawable = Utils.getBitmapDrawable(mContext, mKeySymPopupMic);
 			mKeySymPopupTranslateDrawable = Utils.getBitmapDrawable(mContext, mKeySymPopupTranslate);
@@ -621,11 +621,11 @@ public class KeyboardTheme {
 		Assert.assertNotNull(mKeySymSuperTranslateDrawable);
 		Assert.assertNotNull(mKeySymLocaleDrawable);
 		Assert.assertNotNull(mKeySymSuperLocaleDrawable);
-		Assert.assertNotNull(mKeySymSmileyDrawable);
-		Assert.assertNotNull(mKeySymSuperSmileyDrawable);
+		Assert.assertNotNull(mKeySymEmojiDrawable);
+		Assert.assertNotNull(mKeySymSuperEmojiDrawable);
 		Assert.assertNotNull(mKeySymPopupShiftLockedDrawable);
 		Assert.assertNotNull(mKeySymPopupShiftDrawable);
-		Assert.assertNotNull(mKeySymPopupSmileyDrawable);
+		Assert.assertNotNull(mKeySymPopupEmojiDrawable);
 		Assert.assertNotNull(mKeySymPopupArrowsDrawable);
 		Assert.assertNotNull(mKeySymPopupMicDrawable);
 		Assert.assertNotNull(mKeySymPopupTranslateDrawable);
@@ -774,11 +774,11 @@ public class KeyboardTheme {
     case KEY_SYM_SUPER_LOCALE:
       drawable = mKeySymSuperLocaleDrawable;
       break;			
-		case KEY_SYM_SMILEY:
-			drawable = mKeySymSmileyDrawable;
+		case KEY_SYM_EMOJI:
+			drawable = mKeySymEmojiDrawable;
 			break;
-    case KEY_SYM_SUPER_SMILEY:
-      drawable = mKeySymSuperSmileyDrawable;
+    case KEY_SYM_SUPER_EMOJI:
+      drawable = mKeySymSuperEmojiDrawable;
       break;
 		case KEY_ANY:
 			drawable = mKeyAnyDrawable;
@@ -807,8 +807,8 @@ public class KeyboardTheme {
 		case KEY_SYM_POPUP_SHIFT:
 			drawable = mKeySymPopupShiftDrawable;
 			break;
-		case KEY_SYM_POPUP_SMILEY:
-			drawable = mKeySymPopupSmileyDrawable;
+		case KEY_SYM_POPUP_EMOJI:
+			drawable = mKeySymPopupEmojiDrawable;
 			break;
 		case KEY_SYM_POPUP_ARROWS:
 			drawable = mKeySymPopupArrowsDrawable;

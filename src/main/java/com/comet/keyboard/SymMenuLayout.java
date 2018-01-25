@@ -20,7 +20,7 @@ public class SymMenuLayout extends LinearLayout {
 
 	private PopupKeyboardView mKbViewStandard;
 
-	private PopupKeyboardView mKbViewSmileys;
+	private PopupKeyboardView mKbViewEmojis;
 
 	private PopupKeyboardView mKbViewDingbats;
 
@@ -53,12 +53,12 @@ public class SymMenuLayout extends LinearLayout {
 		mKbViewStandard.setPopupParent(parentKeyboard);
 		mKbViewStandard.setOnKeyboardActionListener(onKeyboardActionListener);
 
-		mKbViewSmileys = (PopupKeyboardView) findViewById(R.id.sym_menu_smileys);
-		PopupKeyboard kbSmileys = new PopupKeyboard(getContext(),
-				R.xml.smiley_keys);
-		mKbViewSmileys.setKeyboard(kbSmileys);
-		mKbViewSmileys.setPopupParent(parentKeyboard);
-		mKbViewSmileys.setOnKeyboardActionListener(onKeyboardActionListener);
+		mKbViewEmojis = (PopupKeyboardView) findViewById(R.id.sym_menu_emojis);
+		PopupKeyboard kbEmojis = new PopupKeyboard(getContext(),
+				R.xml.emoji_keys);
+		mKbViewEmojis.setKeyboard(kbEmojis);
+		mKbViewEmojis.setPopupParent(parentKeyboard);
+		mKbViewEmojis.setOnKeyboardActionListener(onKeyboardActionListener);
 
 		mKbViewDingbats = (PopupKeyboardView) findViewById(R.id.sym_menu_dingbats);
 		PopupKeyboard kbDingbats = new PopupKeyboard(getContext(),

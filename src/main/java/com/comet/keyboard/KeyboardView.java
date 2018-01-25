@@ -853,15 +853,15 @@ public class KeyboardView extends View {
 	 */
 
 	/**
-	 * Opens the smiley one-touch menu above the smiley key.
+	 * Opens the emoji one-touch menu above the emoji key.
 	 */
-	protected void openSmileyKeyboard() {
+	protected void openEmojiKeyboard() {
 		if(isPopupShowing())
 			dismissAllPopupWindows();
 
 		// Create a new keyboard
-		PopupKeyboard keyboard = new PopupKeyboard(getContext(), R.xml.smiley_menu);
-		mPopupKeyboardRect = assemblePopupKeyboard(R.layout.popup_keyboard_layout, keyboard, getKeyboard().getSmileyKey());
+		PopupKeyboard keyboard = new PopupKeyboard(getContext(), R.xml.emoji_menu);
+		mPopupKeyboardRect = assemblePopupKeyboard(R.layout.popup_keyboard_layout, keyboard, getKeyboard().getEmojiKey());
 		mPopupKeyboardView.setOneTouch(true);
 		showPopupWindow(mPopupKeyboardWindow, this, Gravity.NO_GRAVITY, mPopupKeyboardRect.left, mPopupKeyboardRect.top);
 	}
@@ -1157,8 +1157,8 @@ public class KeyboardView extends View {
 	protected int getFnKeyCode(String state) {
 		int primaryCode = 0;
 		if (state.equals(getContext().getString(
-				R.string.any_key_action_id_smiley_menu))) {
-			primaryCode = BaseKeyboard.KEYCODE_SMILEY;
+				R.string.any_key_action_id_emoji_menu))) {
+			primaryCode = BaseKeyboard.KEYCODE_EMOJI;
 		} else if (state.equals(getContext().getString(
 				R.string.any_key_action_id_arrow_keypad))) {
 			primaryCode = BaseKeyboard.KEYCODE_ARROWS;
@@ -1343,11 +1343,11 @@ public class KeyboardView extends View {
 		KeyboardTheme theme = KeyboardThemeManager.getCurrentTheme(); 
 
 		if (state.equals(getContext().getString(
-				R.string.any_key_action_id_smiley_menu))) {
-			// Smiley
+				R.string.any_key_action_id_emoji_menu))) {
+			// Emoji
 			icon = theme.getDrawable(superEnabled
-					? KeyboardTheme.KEY_SYM_SUPER_SMILEY
-					: KeyboardTheme.KEY_SYM_SMILEY);
+					? KeyboardTheme.KEY_SYM_SUPER_EMOJI
+					: KeyboardTheme.KEY_SYM_EMOJI);
 		} else if (state.equals(getContext().getString(
 				R.string.any_key_action_id_arrow_keypad))) {
 			// Arrow keypad
@@ -1969,8 +1969,8 @@ public class KeyboardView extends View {
 					KeyboardTheme.KEY_SYM_TRANSLATE);
 			_updateKeyIcon(key, R.integer.keycode_locale,
 					KeyboardTheme.KEY_SYM_LOCALE);
-			_updateKeyIcon(key, R.integer.keycode_smiley,
-					KeyboardTheme.KEY_SYM_SMILEY);
+			_updateKeyIcon(key, R.integer.keycode_emoji,
+					KeyboardTheme.KEY_SYM_EMOJI);
 		}
 		
 
@@ -1990,10 +1990,10 @@ public class KeyboardView extends View {
 
 		// Override default label/icon for customizable Any Key
 		if (mAnyKeyAction.equals(getContext().getString(
-				R.string.any_key_action_id_smiley_menu))) {
+				R.string.any_key_action_id_emoji_menu))) {
 			key.icon = getAnyKeyIcon(mAnyKeyAction, false);
-			key.iconPreview = kbTheme.getDrawable(KeyboardTheme.KEY_SYM_POPUP_SMILEY);
-			key.codes[0] = BaseKeyboard.KEYCODE_SMILEY;
+			key.iconPreview = kbTheme.getDrawable(KeyboardTheme.KEY_SYM_POPUP_EMOJI);
+			key.codes[0] = BaseKeyboard.KEYCODE_EMOJI;
 		} else if (mAnyKeyAction.equals(getContext().getString(
 				R.string.any_key_action_id_arrow_keypad))) {
 			// Arrow keypad
@@ -3021,8 +3021,8 @@ public class KeyboardView extends View {
 			return;
 
 		if (popupLayoutID == R.id.popupKeyboardLayout) {
-			if (popupKeyboardID == R.xml.smiley_menu)
-				openSmileyKeyboard();
+			if (popupKeyboardID == R.xml.emoji_menu)
+				openEmojiKeyboard();
 			else if (popupKeyboardID == R.xml.url_menu)
 				openUrlKeyboard();
 		} else if (popupLayoutID == R.id.sym_menu_layout)

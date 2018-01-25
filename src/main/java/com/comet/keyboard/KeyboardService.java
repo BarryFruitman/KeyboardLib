@@ -880,19 +880,19 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
     }
 
     /**
-     * Callback for the smiley key.
+     * Callback for the emoji key.
      */
-    protected void onSmileyKey() {
-        writeDebug("KeyboardService.onSmileyKey()");
-        openSmileyMenu();
+    protected void onEmojiKey() {
+        writeDebug("KeyboardService.onEmojiKey()");
+        openEmojiMenu();
     }
 
     /**
-     * Opens the smiley menu.
+     * Opens the emoji menu.
      */
-    protected void openSmileyMenu() {
-        writeDebug("KeyboardService.openSmileyMenu()");
-        mKeyboardView.openSmileyKeyboard();
+    protected void openEmojiMenu() {
+        writeDebug("KeyboardService.openEmojiMenu()");
+        mKeyboardView.openEmojiKeyboard();
     }
 
     /**
@@ -2195,7 +2195,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             case BaseKeyboard.KEYCODE_SETTINGS:
             case BaseKeyboard.KEYCODE_MODE_CHANGE:
             case BaseKeyboard.KEYCODE_SYM_MENU:
-            case BaseKeyboard.KEYCODE_SMILEY:
+            case BaseKeyboard.KEYCODE_EMOJI:
             case BaseKeyboard.KEYCODE_ARROWS:
             case BaseKeyboard.KEYCODE_VOICE:
             case BaseKeyboard.KEYCODE_TRANSLATE:
@@ -2346,9 +2346,9 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      */
     private boolean onFnKey(final int primaryCode) {
         switch (primaryCode) {
-            case BaseKeyboard.KEYCODE_SMILEY:
-                // Handle smiley key
-                onSmileyKey();
+            case BaseKeyboard.KEYCODE_EMOJI:
+                // Handle emoji key
+                onEmojiKey();
                 return true;
             case BaseKeyboard.KEYCODE_ARROWS:
                 // Handle arrow keypad key

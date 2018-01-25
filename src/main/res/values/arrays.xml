@@ -136,7 +136,7 @@
 
     <!-- Any Key actions -->
     <string-array name="settings_any_key_action_names">
-        <item>@string/any_key_action_smiley_menu</item>
+        <item>@string/any_key_action_emoji_menu</item>
         <item>@string/any_key_action_voice_input</item>
         <item>@string/any_key_action_arrow_keypad</item>
         <item>@string/any_key_action_translator</item>
@@ -144,7 +144,7 @@
         <item>@string/any_key_action_settings</item>
     </string-array>
     <string-array name="settings_any_key_action_values">
-        <item>@string/any_key_action_id_smiley_menu</item>
+        <item>@string/any_key_action_id_emoji_menu</item>
         <item>@string/any_key_action_id_voice_input</item>
         <item>@string/any_key_action_id_arrow_keypad</item>
         <item>@string/any_key_action_id_translator</item>

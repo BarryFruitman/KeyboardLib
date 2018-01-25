@@ -34,7 +34,7 @@ public class BaseKeyboard extends Keyboard {
 
 	protected Context mContext;
 	protected Key mActionKey;
-	protected Key mSmileyKey;
+	protected Key mEmojiKey;
 	protected Key mArrowsKey;
 	protected Key mVoiceKey;
 	protected Key mTranslateKey;
@@ -48,7 +48,7 @@ public class BaseKeyboard extends Keyboard {
 	static public final int KEYCODE_ACTION = KEYCODE_DONE;
 	static public final int KEYCODE_DELETE = -5;
 	static public final int KEYCODE_ANY_KEY = -100;
-	static public final int KEYCODE_SMILEY = -101;
+	static public final int KEYCODE_EMOJI = -101;
 	static public final int KEYCODE_ARROWS = -102;
 	static public final int KEYCODE_VOICE = -103;
 	static public final int KEYCODE_TRANSLATE = -104;
@@ -360,8 +360,8 @@ public class BaseKeyboard extends Keyboard {
 
 		if (primaryCode == KEYCODE_ACTION)
 			mActionKey = key;
-		else if (primaryCode == KEYCODE_SMILEY)
-			mSmileyKey = key;
+		else if (primaryCode == KEYCODE_EMOJI)
+			mEmojiKey = key;
 		else if (primaryCode == KEYCODE_ARROWS)
 			mArrowsKey = key;
 		else if (primaryCode == KEYCODE_VOICE)
@@ -512,8 +512,8 @@ public class BaseKeyboard extends Keyboard {
 		return mAnyKey;
 	}
 
-	public Key getSmileyKey() {
-		return mSmileyKey;
+	public Key getEmojiKey() {
+		return mEmojiKey;
 	}
 
 	public Key getArrowsKey() {
@@ -614,8 +614,8 @@ public class BaseKeyboard extends Keyboard {
 			case KEYCODE_LOCALE:
 				icon = currentTheme.getDrawable(KeyboardTheme.KEY_SYM_LOCALE);
 				break;
-			case KEYCODE_SMILEY:
-				icon = currentTheme.getDrawable(KeyboardTheme.KEY_SYM_SMILEY);
+			case KEYCODE_EMOJI:
+				icon = currentTheme.getDrawable(KeyboardTheme.KEY_SYM_EMOJI);
 				break;
 			}
 		}
@@ -634,9 +634,9 @@ public class BaseKeyboard extends Keyboard {
 
 			KeyboardTheme theme = KeyboardThemeManager.getCurrentTheme(); 
 
-			if (state.equals(context.getString(R.string.any_key_action_id_smiley_menu))) {
-				// Smiley
-				icon = theme.getDrawable(superEnabled ? KeyboardTheme.KEY_SYM_SUPER_SMILEY : KeyboardTheme.KEY_SYM_SMILEY);
+			if (state.equals(context.getString(R.string.any_key_action_id_emoji_menu))) {
+				// Emoji
+				icon = theme.getDrawable(superEnabled ? KeyboardTheme.KEY_SYM_SUPER_EMOJI : KeyboardTheme.KEY_SYM_EMOJI);
 			} else if (state.equals(context.getString(R.string.any_key_action_id_arrow_keypad))) {
 				// Arrow keypad
 				icon = theme.getDrawable(superEnabled ? KeyboardTheme.KEY_SYM_SUPER_ARROWS : KeyboardTheme.KEY_SYM_ARROWS);

@@ -120,7 +120,7 @@
  <!-- More punctuation -->
     <string name="sym_menu_label_currency">Divisa</string>
  <!-- Currency symbols: $, € ... etc. -->
-    <string name="sym_menu_label_smileys">Emoticonos</string>
+    <string name="sym_menu_label_emojis">Emoticonos</string>
  <!-- :) :( ... etc. -->
     <string name="sym_menu_label_dingbats">Viñetas</string>
  <!-- Fun characters such as heart, music notes ... etc. -->
@@ -292,7 +292,7 @@
     <string name="settings_title_any_key_long_action">Acción de la tecla multifunción al pulsarla de forma prolongada</string>
     <string name="settings_title_return_key_long_action">Acción de la tecla de retorno al pulsarla de forma prolongada</string>
  <!-- Any key actions -->
-    <string name="any_key_action_smiley_menu">Menú de emoticonos</string>
+    <string name="any_key_action_emoji_menu">Menú de emoticonos</string>
     <string name="any_key_action_voice_input">Entrada de voz</string>
     <string name="any_key_action_arrow_keypad">Controles del cursor</string>
     <string name="any_key_action_translator">Traductor</string>
