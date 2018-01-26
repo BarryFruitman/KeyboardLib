@@ -272,18 +272,18 @@ public final class LanguageDictionary extends TrieDictionary {
 	}
 
 
-		/**
-		 * Returns true if the word can appear in suggestions.
-		 * @param word	The word to check.
-		 * @return
-		 */
-		private boolean isRemembered(String word) {
-			if(getCount(word) >= MIN_COUNT) {
-				return true;
-			}
-
-			return false;
+	/**
+	 * Returns true if the word can appear in suggestions.
+	 * @param word	The word to check.
+	 * @return
+	 */
+	private boolean isRemembered(String word) {
+		if(getCount(word) >= MIN_COUNT) {
+			return true;
 		}
+
+		return false;
+	}
 
 
 	private class LanguageDictionaryDB extends DictionaryDB {
