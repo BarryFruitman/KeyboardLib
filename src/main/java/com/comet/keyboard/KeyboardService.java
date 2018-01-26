@@ -62,7 +62,7 @@ import android.widget.Toast;
 import com.comet.keyboard.Suggestor.Suggestion;
 import com.comet.keyboard.Suggestor.Suggestions;
 import com.comet.keyboard.dictionary.DictionaryUtils;
-import com.comet.keyboard.dictionary.UserDB;
+//import com.comet.keyboard.dictionary.UserDB;
 import com.comet.keyboard.dictionary.updater.DictionaryDownloader;
 import com.comet.keyboard.dictionary.updater.DictionaryItem;
 import com.comet.keyboard.install.Installer;
@@ -3639,7 +3639,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             boolean isTypo = !committedWord.toString().toLowerCase().startsWith(orgWord.toLowerCase());
             // Long vibrate for typo correction
             if (mVibrateOnTypoCorrection && isTypo) {
-
                 Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vibrator.vibrate(VIBRATE_LENGTH_ON_TYPO_CORRECTION);
 
@@ -4038,7 +4037,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         super.onDestroy();
         callTrace("onDestroy()");
 
-        UserDB.close();
+//        UserDB.close();
 
         mIME = null;
     }
