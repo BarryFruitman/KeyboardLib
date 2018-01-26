@@ -124,9 +124,9 @@ public class LookAheadDictionary extends TrieDictionary {
 		}
 
 		// Insert into trie
-		super.learn(words[0], 1);
-		super.learn(words[0] + " " + words[1], 1);
-		count = super.learn(trigram, count);
+//		super.learn(words[0], 1);
+//		super.learn(words[0] + " " + words[1], 1);
+		count = super.learn(trigram, 1);
 
 		// Write to db
 		mLookAheadDB.addTriGramToLookAhead(words[0], words[1], words[2], count);
