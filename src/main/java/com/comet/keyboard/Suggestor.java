@@ -15,7 +15,6 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -24,7 +23,6 @@ import java.util.Set;
 import junit.framework.Assert;
 
 import com.comet.keyboard.dictionary.BoundedPriorityQueue;
-import com.comet.keyboard.dictionary.CacheDictionary;
 import com.comet.keyboard.dictionary.Dictionary;
 import com.comet.keyboard.dictionary.KeyCollator;
 import com.comet.keyboard.dictionary.LearningDictionary;
@@ -259,7 +257,7 @@ public final class Suggestor {
 		if(mDicLanguage == null || !mLanguage.equals(sharedPrefs.getString("language", "en"))) {
 			mLanguage = Language.createLanguage(sharedPrefs.getString("language", "en"));
 			mCollator = new KeyCollator(mLanguage, KeyboardLayout.getCurrentLayout());
-			mDicLanguage = new CacheDictionary(new LanguageDictionary(KeyboardService.getIME(), mCollator));
+			mDicLanguage = new LanguageDictionary(KeyboardService.getIME(), mCollator);
 			mDicLookAhead = new LookAheadDictionary(KeyboardService.getIME(), mCollator);
 		}
 	}
@@ -270,7 +268,7 @@ public final class Suggestor {
 		SharedPreferences sharedPrefs = KeyboardApp.getApp().getSharedPreferences(Settings.SETTINGS_FILE, Context.MODE_PRIVATE);
 		mLanguage = Language.createLanguage(sharedPrefs.getString("language", "en"));
 		mCollator = new KeyCollator(mLanguage, KeyboardLayout.getCurrentLayout());
-		mDicLanguage = new CacheDictionary(new LanguageDictionary(KeyboardService.getIME(), mCollator));
+		mDicLanguage = new LanguageDictionary(KeyboardService.getIME(), mCollator);
 		mDicLookAhead = new LookAheadDictionary(KeyboardService.getIME(), mCollator);
 	}
 
