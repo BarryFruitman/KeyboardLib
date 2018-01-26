@@ -19,6 +19,7 @@ import junit.framework.Assert;
 
 public final class LanguageDictionary extends TrieDictionary {
 
+	private static final int COUNT_INCREMENT = 1;
 	private static TrieDictionary mLoading = null;
 	private LanguageDictionaryDB mLanguageDB;
 	private int mCountSum = 0;
@@ -238,7 +239,7 @@ public final class LanguageDictionary extends TrieDictionary {
 	 * @param word		The word to learn
 	 */
 	public boolean learn(String word) {
-		learn(word, 1);
+		learn(word, COUNT_INCREMENT);
 
 		return true;
 	}
@@ -374,7 +375,7 @@ public final class LanguageDictionary extends TrieDictionary {
 			final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 			try {
 				db.delete(LEXICON_TABLE_NAME, LEXICON_FIELD_WORD + "=?",
-						new String[] {language,word});
+						new String[] { word } );
 			} catch (SQLiteException e) {
 				Log.e(KeyboardApp.LOG_TAG, e.getMessage(), e);
 				db.close();
