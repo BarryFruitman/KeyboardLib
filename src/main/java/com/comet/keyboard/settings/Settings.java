@@ -216,10 +216,6 @@ public class Settings extends PreferenceActivity {
 //            p.setOnPreferenceChangeListener(preferenceChangeListener);
             p.setOnPreferenceClickListener(preferenceClickListener);
         }
-        p = findPreference("user_dictionary_undo_words_remember");
-        if (p != null)
-            p.setOnPreferenceChangeListener(preferenceChangeListener);
-
         p = findPreference("shortcut");
         if (p != null)
             p.setOnPreferenceClickListener(shortcutClickListener);

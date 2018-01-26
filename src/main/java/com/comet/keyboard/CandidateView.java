@@ -39,7 +39,6 @@ public class CandidateView extends View implements OnLongClickListener {
 
 	private KeyboardService mIME;
     private Suggestions mSuggestions;
-    public String mUndoWord;
     public String mOrgWord;
     public String mDisplayMessage;
     
@@ -268,9 +267,6 @@ public class CandidateView extends View implements OnLongClickListener {
             	mSelectionHighlight.draw(canvas);
             	canvas.translate(-x, 0);
                 mSelectedIndex = i;
-                if (mUndoWord != null && !mUndoWord.equals(""))
-                	mSelectedIndex++;
-
                 mLastSelectedSuggestion = suggestion;
             }
 
@@ -381,17 +377,6 @@ public class CandidateView extends View implements OnLongClickListener {
     	invalidate();
     }
     
-    public void clearUndoWord() {
-    	updateUndoWord(null, null);
-    }
-
-    public void updateUndoWord(CharSequence orgWord, CharSequence undoWord) {
-    	mOrgWord = orgWord == null ? null : orgWord.toString();
-    	mUndoWord = undoWord == null ? null : undoWord.toString();
-
-    	mIME.mLastKeyboardState.saveUndoWord(mOrgWord, mUndoWord);
-    }
-
     @Override
     public boolean onTouchEvent(MotionEvent me) {
     	super.onTouchEvent(me);
@@ -439,12 +424,7 @@ public class CandidateView extends View implements OnLongClickListener {
     		}
     		if (!mScrolled && mSelectedIndex >= 0) {
     			int selIndex = mSelectedIndex;
-    			if (mUndoWord != null && !mUndoWord.equals(""))
-    				selIndex -= 1;
-    			if (selIndex < 0)
-    				mIME.touchUndoWord(mOrgWord, mUndoWord);
-    			else
-    				mIME.touchCandidate(selIndex);
+                mIME.touchCandidate(selIndex);
     		}
         	mSelectedIndex = NO_DEFAULT;
             removeHighlight();
@@ -454,12 +434,6 @@ public class CandidateView extends View implements OnLongClickListener {
         return true;
     }
     
-    public boolean isSelectedUndoWord() {
-    	if (mUndoWord != null && mSelectedIndex == 0)
-    		return true;
-
-    	return false;
-    }
 
     public boolean onLongClick (View v) {
     	if (mScrolled)
@@ -471,9 +445,6 @@ public class CandidateView extends View implements OnLongClickListener {
     	if (mSelectedIndex == NO_DEFAULT)
     		return true;
     	
-    	if (isSelectedUndoWord()) {
-    		return true;
-    	}
     	mIsLongClicked = true;
 
 		// Delete a word from a dictionary

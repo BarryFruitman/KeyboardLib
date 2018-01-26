@@ -195,11 +195,6 @@
             android:title="@string/settings_title_long_press_symbols" />
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="user_dictionary_undo_words_remember"
-            android:summary="@string/settings_summary_user_dictionary_undo_remember"
-            android:title="@string/settings_title_user_dictionary_undo_remember" />
-        <CheckBoxPreference
-            android:defaultValue="true"
             android:key="preview_popup"
             android:title="@string/settings_title_show_key_preview_popups" />
     </PreferenceScreen>
@@ -236,7 +231,10 @@
             android:defaultValue="true"
             android:key="suggestions_always_show"
             android:title="@string/settings_title_suggestions_always_show" 
-            android:summary="@string/settings_summary_suggestions_always_show" />        
+            android:summary="@string/settings_summary_suggestions_always_show" />        
+
+
+
         -->
     </PreferenceScreen>
 

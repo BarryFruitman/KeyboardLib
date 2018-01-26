@@ -22,7 +22,6 @@ import junit.framework.Assert;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,9 +39,7 @@ import android.os.Message;
 import android.os.Vibrator;
 import android.text.InputType;
 import android.text.SpannableString;
-import android.text.TextPaint;
 import android.text.method.MetaKeyKeyListener;
-import android.text.style.ForegroundColorSpan;
 import android.text.style.SuggestionSpan;
 import android.util.Log;
 import android.util.SparseIntArray;
@@ -177,7 +174,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
     protected boolean mAutoSelect;
     protected boolean mAutoCaps;
     protected int mVibrateLength;
-    protected boolean mDictionaryUndoWordsRemember;
     protected boolean mVibrateOnTypoCorrection;
     protected boolean mSoundKey;
     protected boolean mPredictNextWord;
@@ -236,10 +232,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
     public String getLanguage() {
         return mLanguage;
-    }
-
-    public boolean isDictionaryUndoWordsRemember() {
-        return mDictionaryUndoWordsRemember;
     }
 
     public boolean isPredictNextWord() {
@@ -1186,9 +1178,8 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             if (inputConnection != null)
                 inputConnection.finishComposingText();
 
-            // Clear suggestions and undo word
+            // Clear suggestions
             mLastKeyboardState.resetSuggestions();
-            mCandidateView.clearUndoWord();
         }
 
         updateCandidateFontSize();
@@ -1349,8 +1340,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             if (mPredictionOn && !mCompletionOn) {
                 mCandidateView.setSuggestions(mLastKeyboardState.suggestions,
                         mLastKeyboardState.completions);
-                mCandidateView.updateUndoWord(mLastKeyboardState.orgWord,
-                        mLastKeyboardState.undoWord);
             }
 
             getKeyboardView().setCapsLock(mLastKeyboardState.mCapsLock);
@@ -1561,9 +1550,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         // enable/diable long press symbols
         setSuperLabelEnabled(sharedPrefs.getBoolean("long_press_symbols", true));
 
-        // Undo words are added to the dictionary
-        mDictionaryUndoWordsRemember = sharedPrefs.getBoolean("user_dictionary_undo_words_remember", true);
-
         updateCurrencyKeys();
 
         mPrefsChanged = false;
@@ -1633,13 +1619,13 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
     }
 
 
-    protected void onUndo(String undo, String orig, String spanHash) {
+    protected void onSuggestionMenuItemClick(String _orig, String word) {
         InputConnection inputConnection = getCurrentInputConnection();
         if (inputConnection != null)
             inputConnection.finishComposingText();
         mComposing.setLength(0);
         clearCandidates();
-        rememberWord(orig);
+        rememberWord(word);
     }
 
 
@@ -2266,10 +2252,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         // Reset timer for double-tap space
         if (primaryCode != (int) ' ')
             mLastSpaceTime = 0;
-
-        // If the user is starting a new word, remove the undo option
-        if (!isWordSeparator(primaryCode))
-            mCandidateView.clearUndoWord();
 
         if (isWordSeparator(primaryCode)) {
             // Handle word separator
@@ -3559,49 +3541,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         updateCandidates();
     }
 
-    /**
-     * Called by CandidateView if the user tapped the undo word.
-     *
-     * @param orgWord  The word that replaced the undo word.
-     * @param undoWord The word the user typed.
-     */
-    public void touchUndoWord(String orgWord, String undoWord) {
-        InputConnection inputConnection = getCurrentInputConnection();
-        if (inputConnection != null && undoWord.length() > 0) {
-            String undoString = undoWord;
-            // Get trailing whitespace & punctuation (if any)
-            int iOrgWord = orgWord.length();
-            CharSequence textBeforeCursor = getTextBeforeCursor(inputConnection, iOrgWord);
-            while (!textBeforeCursor.toString().startsWith(orgWord)) {
-                iOrgWord++;
-                textBeforeCursor = getTextBeforeCursor(inputConnection, iOrgWord);
-
-                if (iOrgWord > 32) // Prevent an infinite loop if orgWord isn't found.
-                    return;
-            }
-
-            String trailing = textBeforeCursor.toString().substring(orgWord.length());
-            undoString += trailing;
-
-            // Remove word before cursor
-            inputConnection.deleteSurroundingText(textBeforeCursor.length(), 0);
-            // Insert undo word
-            inputConnection.commitText(undoString, trailing.length());
-
-            // Reset everything
-            mComposing.setLength(0);
-            updateCandidates();
-            mCandidateView.clearUndoWord();
-
-            // Add to dictionary
-            if (mDictionaryUndoWordsRemember)
-                rememberWord(undoWord);
-
-            if (mSmartSpaces)
-                bAutoSpace = false;
-        }
-    }
-
 
     /**
      * Inserts the default suggestion.
@@ -3623,17 +3562,17 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             committedWord = defaultSuggestion.getWord();
         }
 
-        // If committed word is different from the composing, offer an undo
+        // If committed word is different from the composing, offer more suggestions in menu.
         boolean isDifferent = !DictionaryUtils.removePunc(committedWord.toString()).toLowerCase().startsWith(orgWord.toLowerCase());
         if (committedWord != null && mComposing != null && isDifferent) {
             // Wrap a SpannableString in a SuggestionSpan containing the original word
-            ArrayList<String> undoSuggestions = mSuggestions.getWords();
-            undoSuggestions.add(0, orgWord);
-            String[] undoWords = new String[mSuggestions.size() + 1];
-            SuggestionSpan span = new SuggestionSpan(this, Locale.getDefault(), undoSuggestions.toArray(undoWords), SuggestionSpan.FLAG_EASY_CORRECT, UndoReceiver.class);
-            SpannableString undoSuggestion = new SpannableString(committedWord);
-            undoSuggestion.setSpan(span, 0, committedWord.length(), 0);
-            committedWord = undoSuggestion;
+            ArrayList<String> suggestions = mSuggestions.getWords();
+            suggestions.add(0, orgWord);
+            String[] words = new String[mSuggestions.size() + 1];
+            SuggestionSpan span = new SuggestionSpan(this, Locale.getDefault(), suggestions.toArray(words), SuggestionSpan.FLAG_EASY_CORRECT, SuggestionMenuReceiver.class);
+            SpannableString suggestion = new SpannableString(committedWord);
+            suggestion.setSpan(span, 0, committedWord.length(), 0);
+            committedWord = suggestion;
 
             // If committed word is different from composing, not including punctuation, this is a typo
             boolean isTypo = !committedWord.toString().toLowerCase().startsWith(orgWord.toLowerCase());
@@ -3692,7 +3631,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             committedStr = mComposing.toString();
             commitTyped();
         }
-        mCandidateView.clearUndoWord();
 
         return committedStr;
     }
@@ -3771,7 +3709,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
     }
 
     /**
-     * Saves the last word typed. This is used for undo, and look-ahead word prediction.
+     * Saves the last word typed. This is used for redo, and look-ahead word prediction.
      *
      * @param word The word to save.
      */
@@ -3784,32 +3722,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             mLastWord = sWord.toLowerCase();
         else
             mLastWord = null;
-    }
-
-    public String getLastWord() {
-        return mLastWord;
-    }
-
-    public CharSequence getComposing() {
-        return mComposing;
-    }
-
-    /**
-     * Checks if this is a password field.
-     *
-     * @return true if it is a password field.
-     */
-    public boolean isPassword() {
-        return mIsPassword;
-    }
-
-    /**
-     * Checks if this is an URL field.
-     *
-     * @return true if it is an URL field.
-     */
-    public boolean isURL() {
-        return mURL;
     }
 
     /**
@@ -4223,7 +4135,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         // Candidate View
         protected boolean isCandidateViewShown = false;
         protected String orgWord;
-        protected String undoWord;
         protected Suggestions suggestions;
         protected boolean completions;
 
@@ -4264,9 +4175,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         protected void resetSuggestions() {
             suggestions = null;
             completions = false;
-
             orgWord = null;
-            undoWord = null;
         }
 
         // Save current suggestions
@@ -4274,12 +4183,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
                                        boolean completions) {
             this.suggestions = suggestions;
             this.completions = completions;
-        }
-
-        // Save undo word applied at candidate view
-        protected void saveUndoWord(String orgWord, String undoWord) {
-            this.orgWord = orgWord;
-            this.undoWord = undoWord;
         }
     }
     // End of class

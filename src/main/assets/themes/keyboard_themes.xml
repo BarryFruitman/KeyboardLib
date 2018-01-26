@@ -38,7 +38,6 @@
 		candidate_recommended_color="#ff8a6d4d"
 		candidate_other_color="#ff808080"
 		candidate_alarm_color="#ff000000"
-		candidate_undo_color="#ff008800"
 		/>
 		
 		
@@ -82,7 +81,6 @@
 		candidate_recommended_color="#ff007fff"
 		candidate_other_color="#ff808080"
 		candidate_alarm_color="#ff000000"
-		candidate_undo_color="#ff00aa00"
 		/>
 		
 		
@@ -126,7 +124,6 @@
 		candidate_recommended_color="#ffffffff"
 		candidate_other_color="#ff1e354d"
 		candidate_alarm_color="#ffffffff"
-		candidate_undo_color="#ff88ff88"
 		/>
 		
 		
@@ -170,7 +167,6 @@
 		candidate_recommended_color="#ff0059E3"
 		candidate_other_color="#ff808080"
 		candidate_alarm_color="#ff000000"
-		candidate_undo_color="#ff00aa00"
 		/>
 		
 		
@@ -214,7 +210,6 @@
 		candidate_recommended_color="#ff7033ff"
 		candidate_other_color="#ffffffff"
 		candidate_alarm_color="#ffffffff"
-		candidate_undo_color="#ff00aa00"
 		/>
 		
 		
@@ -258,7 +253,6 @@
 		candidate_recommended_color="#ff80b5ff"
 		candidate_other_color="#ffa0a0a0"
 		candidate_alarm_color="#ff000000"
-		candidate_undo_color="#ff00cc00"
 		/>
 		
 		
@@ -302,7 +296,6 @@
 		candidate_recommended_color="#ff80b5ff"
 		candidate_other_color="#ffa0a0a0"
 		candidate_alarm_color="#ffffffff"
-		candidate_undo_color="#ff00AA00"
 		/>
 		
 		
@@ -346,7 +339,6 @@
 		candidate_recommended_color="#ffffffff"
 		candidate_other_color="#ff8099ff"
 		candidate_alarm_color="#ffffffff"
-		candidate_undo_color="#ff00ff00"
 		/>
 		
 		
@@ -390,7 +382,6 @@
 		candidate_recommended_color="#ff0000ff"
 		candidate_other_color="#ff8293c9"
 		candidate_alarm_color="#ffffffff"
-		candidate_undo_color="#ff00ff00"
 		/>
 		
 		
@@ -434,7 +425,6 @@
 		candidate_recommended_color="#ffffffff"
 		candidate_other_color="#ff7bc423"
 		candidate_alarm_color="#ffffffff"
-		candidate_undo_color="#ff00ff00"
 		/>
 		
 		
@@ -477,7 +467,6 @@
 		candidate_recommended_color="#ff006cd9"
 		candidate_other_color="#ff112255"
 		candidate_alarm_color="#ff000000"
-		candidate_undo_color="#ff008800"
 		/>
 		
 		
@@ -520,7 +509,6 @@
 		candidate_recommended_color="#ff007fff"
 		candidate_other_color="#ff808080"
 		candidate_alarm_color="#ff000000"
-		candidate_undo_color="#ff00aa00"
 		/>
 		
 		
@@ -564,7 +552,6 @@
 		candidate_recommended_color="#ff007fff"
 		candidate_other_color="#ff808080"
 		candidate_alarm_color="#ff000000"
-		candidate_undo_color="#ff00aa00"
 		/>
 		
 		
@@ -608,7 +595,6 @@
 		candidate_recommended_color="#ff80b5ff"
 		candidate_other_color="#ffa0a0a0"
 		candidate_alarm_color="#ffffffff"
-		candidate_undo_color="#ff00AA00"
 		/>
 		
 		
@@ -725,7 +711,6 @@
 		candidate_recommended_color="#ff007fff"
 		candidate_other_color="#ff808080"
 		candidate_alarm_color="#ff000000"
-		candidate_undo_color="#ff00aa00"
 		/>
 
 
@@ -768,7 +753,6 @@
 		candidate_recommended_color="#ff185ca1"
 		candidate_other_color="#ff404040"
 		candidate_alarm_color="#ff000000"
-		candidate_undo_color="#ff791899"
 		/>
 
 
@@ -811,7 +795,6 @@
 		candidate_recommended_color="#ff71b9c1"
 		candidate_other_color="#ffa0a0a0"
 		candidate_alarm_color="#ffffffff"
-		candidate_undo_color="#ff00AA00"
 		/>
 
 
@@ -854,7 +837,6 @@
 		candidate_recommended_color="#ff80b5ff"
 		candidate_other_color="#ffa0a0a0"
 		candidate_alarm_color="#ffffffff"
-		candidate_undo_color="#ff00AA00"
 		/>
 
 

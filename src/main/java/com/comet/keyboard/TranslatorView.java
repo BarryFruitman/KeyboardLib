@@ -45,7 +45,6 @@ public class TranslatorView extends RelativeLayout implements View.OnClickListen
 	private String mLanguageFrom = "";
 	private String mLanguageTo = "";
 	private String mPhrase = "";
-	protected String sUndo = "";
 	protected Vector<String> vLanguages;
 	protected Button btnMenuSelected;
 	private final int TRANSLATE_TEXT = 1;
@@ -77,7 +76,6 @@ public class TranslatorView extends RelativeLayout implements View.OnClickListen
 				// Show the translation in a text edit
 				if(!translator.translation.equals("")) {
 					KeyboardService.getIME().replaceText(translator.translation);
-					sUndo = translator.phrase;
 
 					if(creditsShowing()) {
 						// Decrease purchased item point
@@ -90,7 +88,6 @@ public class TranslatorView extends RelativeLayout implements View.OnClickListen
 				// Show the translation in a text edit
 				if(!translator.translation.equals("")) {
 					KeyboardService.getIME().inputVoiceResult(translator.translation);
-					sUndo = translator.phrase;
 				}
 			} else if(translator.caller == TRANSLATE_CLIPBOARD) {
 				// Show the translation in a popup

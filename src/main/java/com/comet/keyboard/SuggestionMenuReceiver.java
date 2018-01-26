@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.text.style.SuggestionSpan;
 
-public class UndoReceiver extends BroadcastReceiver {
+public class SuggestionMenuReceiver extends BroadcastReceiver {
 
 	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 	@Override
@@ -16,6 +16,6 @@ public class UndoReceiver extends BroadcastReceiver {
 		String after = intent.getExtras().getString(SuggestionSpan.SUGGESTION_SPAN_PICKED_AFTER);
 		String hash = intent.getExtras().getString(SuggestionSpan.SUGGESTION_SPAN_PICKED_HASHCODE);
 
-		KeyboardService.getIME().onUndo(before, after, hash);
+		KeyboardService.getIME().onSuggestionMenuItemClick(before, after);
 	}
 }

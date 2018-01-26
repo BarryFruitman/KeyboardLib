@@ -100,8 +100,7 @@ public class KeyboardTheme {
 	private int mCandidateRecommendedColor;
 	private int mCandidateDividerColor;
 	private int mCandidateMessageColor;
-	private int mCandidateUndoColor;
-	
+
 	// Defines theme's field id
 	public static final int KEY_SYM_RETURN = 0;
 	public static final int KEY_SYM_SHIFT_LOCKED = KEY_SYM_RETURN + 1;
@@ -477,8 +476,6 @@ public class KeyboardTheme {
 					res.getString(R.string.xml_theme_property_candidate_divider_color), mCandidateDividerColor);
 			mCandidateMessageColor = safeParseColor(propMap, 
 					res.getString(R.string.xml_theme_property_candidate_message_color), mCandidateMessageColor);
-			mCandidateUndoColor = safeParseColor(propMap, 
-					res.getString(R.string.xml_theme_property_candidate_undo_color), mCandidateUndoColor);
 		} catch (Exception e) {
 			ErrorReport.reportShortError(e, mContext, "loadKeyboardTheme");
 		}
@@ -888,10 +885,6 @@ public class KeyboardTheme {
 		return mCandidateMessageColor;
 	}
 
-	public int getCandidateUndoColor() {
-		return mCandidateUndoColor;
-	}
-	
 	public String getName() {
 		return mName;
 	}

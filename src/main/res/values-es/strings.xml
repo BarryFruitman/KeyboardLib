@@ -362,8 +362,6 @@
     <string name="settings_title_user_dictionary_press_words_remember">Recordar palabras nuevas</string>
     <string name="user_dictionary_remember_via_press">Al pulsar la sugerencia.</string>
     <string name="user_dictionary_remember_via_longpress">Al pulsar la sugerencia de forma prolongada.</string>
-    <string name="settings_title_user_dictionary_undo_remember">Recordar palabras borradas</string>
-    <string name="settings_summary_user_dictionary_undo_remember">Las palabras borradas se agregan al diccionario al pulsarlas.</string>
 <!-- 		Suggestions
  -->
     <!--

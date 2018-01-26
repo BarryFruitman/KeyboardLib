@@ -364,8 +364,6 @@
     <string name="settings_title_user_dictionary_press_words_remember">Neue Wörter merken</string>
     <string name="user_dictionary_remember_via_press">Durch Drücken des Vorschlags.</string>
     <string name="user_dictionary_remember_via_longpress">Durch langes Drücken des Vorschlags.</string>
-    <string name="settings_title_user_dictionary_undo_remember">Annulierte Wörter merken</string>
-    <string name="settings_summary_user_dictionary_undo_remember">Annulierte Wörter werden durch Anklicken zum Wörterbuch hinzugefügt.</string>
 <!-- 		Suggestions
  -->
     <!--

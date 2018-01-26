@@ -361,8 +361,6 @@
     <string name="settings_title_user_dictionary_press_words_remember">Enregistrer de nouveaux mots</string>
     <string name="user_dictionary_remember_via_press">En appuyant sur la suggestion.</string>
     <string name="user_dictionary_remember_via_longpress">En appuyant longuement sur la suggestion.</string>
-    <string name="settings_title_user_dictionary_undo_remember">Enregistrer des mots à annuler</string>
-    <string name="settings_summary_user_dictionary_undo_remember">Lorsque vous appuyez sur des mots à annuler, ils sont ajoutés au dictionnaire.</string>
 <!-- 		Suggestions
  -->
     <!--
