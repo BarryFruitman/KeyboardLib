@@ -256,7 +256,7 @@ public final class LanguageDictionary extends TrieDictionary {
 		// Write to db
 		mLanguageDB.deleteWordFromLexicon(mCollator.getLanguageCode(), word);
 
-		return true;
+		return !super.contains(word);
 	}
 
 
@@ -378,7 +378,8 @@ public final class LanguageDictionary extends TrieDictionary {
 						new String[] { word } );
 			} catch (SQLiteException e) {
 				Log.e(KeyboardApp.LOG_TAG, e.getMessage(), e);
-				db.close();
+			} finally {
+				mOpenHelper.close();
 			}
 		}
 	}

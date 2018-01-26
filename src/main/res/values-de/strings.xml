@@ -160,8 +160,8 @@
     <string name="new_word_dialog_question">Dieses Wort merken?</string>
     <string name="new_word_dialog_remember">Nicht mehr nachfragen</string>
     <string name="msg_word_remembered">\&quot;%s\&quot; wurde gemerkt</string>
-    <string name="msg_word_forgotten">wurde vergessen</string>
-    <string name="error_message_cant_be_deleted">Dieses Wort kann nicht gelöscht werden</string>
+    <string name="msg_word_forgotten">\&quot;%s\&quot; wurde vergessen</string>
+    <string name="error_message_cant_be_deleted">%s kann nicht gelöscht werden</string>
  <!-- Translator -->
     <string name="translator_title">Übersetzer</string>
     <string name="translator_label_your_language">Ihre Sprache</string>

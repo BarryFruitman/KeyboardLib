@@ -55,7 +55,7 @@ public class CandidateView extends View implements OnLongClickListener {
     private int[] mWordX = new int[Suggestor.Suggestions.MAX_SUGGESTIONS];
 
     // Last selected suggestion
-    private String mLastSelectedSuggestion;
+    private Suggestion mLastSelectedSuggestion;
     
     private static final int X_GAP = 10;
     
@@ -159,7 +159,6 @@ public class CandidateView extends View implements OnLongClickListener {
     /**
      * Construct a CandidateView for showing suggested words for completion.
      * @param context
-     * @param attrs
      */
     public CandidateView(Context context) {
         this(context, null);
@@ -239,26 +238,6 @@ public class CandidateView extends View implements OnLongClickListener {
         	return;
     	}
 
-
-        if (mUndoWord != null && !mUndoWord.equals("")) {
-            // Draw the undo suggestion
-        	String word = "\u2190" + mUndoWord;
-        	float textWidth = paint.measureText(word);
-        	float wordWidth = textWidth + X_GAP * 2;
-
-        	paint.setColor(KeyboardThemeManager.getCurrentTheme().getCandidateUndoColor());
-            paint.setFakeBoldText(true);
-        	canvas.drawText(word, (float)(x + X_GAP), y, paint);
-        	paint.setColor(KeyboardThemeManager.getCurrentTheme().getCandidateDividerColor());
-            canvas.drawLine(x + wordWidth + suggestionPaddingLeft, bgPadding.top, 
-                    x + wordWidth + suggestionPaddingLeft, mHeight + 1, paint);
-            
-            x += (wordWidth + suggestionPaddingLeft + suggestionPaddingRight);
-            
-            mSelectedIndex = 0;
-            mLastSelectedSuggestion = mUndoWord;
-        }
-
         if(mSuggestions == null) return;
         
         // Draw the rest of the suggestions
@@ -291,8 +270,8 @@ public class CandidateView extends View implements OnLongClickListener {
                 mSelectedIndex = i;
                 if (mUndoWord != null && !mUndoWord.equals(""))
                 	mSelectedIndex++;
-                
-                mLastSelectedSuggestion = suggestion.getWord();
+
+                mLastSelectedSuggestion = suggestion;
             }
 
             // Draw the suggestion
@@ -405,22 +384,14 @@ public class CandidateView extends View implements OnLongClickListener {
     public void clearUndoWord() {
     	updateUndoWord(null, null);
     }
-    
+
     public void updateUndoWord(CharSequence orgWord, CharSequence undoWord) {
     	mOrgWord = orgWord == null ? null : orgWord.toString();
     	mUndoWord = undoWord == null ? null : undoWord.toString();
-    	
+
     	mIME.mLastKeyboardState.saveUndoWord(mOrgWord, mUndoWord);
     }
-    
-    public String getCommittedWord() {
-    	return mOrgWord;
-    }
-    
-    public String getUndoWord() {
-    	return mUndoWord;
-    }
-    
+
     @Override
     public boolean onTouchEvent(MotionEvent me) {
     	super.onTouchEvent(me);
@@ -486,13 +457,11 @@ public class CandidateView extends View implements OnLongClickListener {
     public boolean isSelectedUndoWord() {
     	if (mUndoWord != null && mSelectedIndex == 0)
     		return true;
-    	
+
     	return false;
     }
-    
-    public boolean onLongClick (View v) {
-		String word = mLastSelectedSuggestion;
 
+    public boolean onLongClick (View v) {
     	if (mScrolled)
     		return true;
     	
@@ -508,37 +477,22 @@ public class CandidateView extends View implements OnLongClickListener {
     	mIsLongClicked = true;
 
 		// Delete a word from a dictionary
-		if(mIME.getSuggestor().getLanguageDictionary().forget(word)) {
-			String msg = "\"" + word + "\" " + getContext().getResources().getString(R.string.msg_word_forgotten);
+		if(mIME.getSuggestor().forget(mLastSelectedSuggestion)) {
+            String msg = String.format(
+                    getContext().getResources().getString(R.string.msg_word_forgotten),
+                    mLastSelectedSuggestion.getWord());
 			Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
 			
 			mIME.updateCandidates();
-			
-			// TODO: Remove from view
 		} else {
-			String msg =  getContext().getResources().getString(R.string.error_message_cant_be_deleted);
+			String msg = String.format(
+                    getContext().getResources().getString(R.string.error_message_cant_be_deleted),
+                            mLastSelectedSuggestion.getWord());
 			Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
 		}
 
         return true;
     }
-
-
-
-//    /**
-//     * For flick through from keyboard, call this method with the x coordinate of the flick 
-//     * gesture.
-//     * @param x
-//     */
-//    public void takeSuggestionAt(float x) {
-//        mTouchX = (int) x;
-//        // To detect candidate
-//        onDraw(null);
-//        if (mSelectedIndex >= 0) {
-//            mIME.pickSuggestionManually(mSelectedIndex);
-//        }
-//        invalidate();
-//    }
 
     private void removeHighlight() {
         mTouchX = OUT_OF_BOUNDS;

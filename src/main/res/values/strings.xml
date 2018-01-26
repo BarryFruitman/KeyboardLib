@@ -444,9 +444,9 @@
 	<string name="new_word_dialog_no">Not this time</string>
 	<string name="new_word_dialog_question">Remember this word?</string>
 	<string name="new_word_dialog_remember">Don\'t ask again</string>
-	<string name="msg_word_remembered">\"%s\" is remembered</string>
-	<string name="msg_word_forgotten">is forgotten</string>
-	<string name="error_message_cant_be_deleted">This word cannot be deleted</string>
+	<string name="msg_word_remembered">\&quot;%s\&quot; is added</string>
+	<string name="msg_word_forgotten">\&quot;%s\&quot; is removed</string>
+	<string name="error_message_cant_be_deleted">%s cannot be deleted</string>
 	<!--  Translator -->
 	<string name="translator_title">Translator</string>
 	<string name="translator_label_your_language">Your language</string>					<!-- The user's language -->
@@ -662,9 +662,9 @@
     <string name="settings_title_user_dictionary_press_words_remember">Remember new words</string>
     <string name="user_dictionary_remember_via_press">By pressing the suggestion.</string>
     <string name="user_dictionary_remember_via_longpress">By long-pressing the suggestion.</string>    
-    <string name="settings_title_user_dictionary_undo_remember">Remember undo words</string>    
+    <string name="settings_title_user_dictionary_undo_remember">Remember undo words</string>
     <string name="settings_summary_user_dictionary_undo_remember">Undo words are added to the dictionary when you press them.</string>
-    
+
 	
 	<!--
 		Suggestions
@@ -863,7 +863,7 @@
 	 -->
 	<string name="announcement_title">New Features in this Update</string>
 	<string name="announcement_message_undo_menu">It\'s now easier to undo auto-corrects with the Undo Menu. When a word is auto-corrected, it will be underlined in light gray. Press the word to open a menu containing the original word, plus more suggestions.</string>
-	
+
 	
 	<!--
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-

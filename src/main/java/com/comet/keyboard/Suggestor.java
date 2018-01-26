@@ -118,6 +118,16 @@ public final class Suggestor {
 	}
 
 
+	public boolean forget(Suggestion suggestion) {
+		if (suggestion instanceof LanguageDictionary.LanguageSuggestion
+				|| suggestion instanceof PrefixSuggestion) {
+			return mDicLanguage.forget(suggestion.getWord());
+		}
+
+		return false;
+	}
+
+
 	private class ThreadPool {
 		private final Set<Handler> mHandlers;
 		private int mThreadCount = 0;

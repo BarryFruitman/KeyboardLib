@@ -17,10 +17,13 @@ import com.comet.keyboard.KeyboardApp;
 import com.comet.keyboard.KeyboardService;
 import com.comet.keyboard.R;
 import com.comet.keyboard.Suggestor.Suggestion;
+import com.comet.keyboard.Suggestor.SuggestionRequest;
 import com.comet.keyboard.Suggestor.Suggestions;
 import com.comet.keyboard.util.ProfileTracer;
 
 import junit.framework.Assert;
+
+import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
 
 
 public class LookAheadDictionary extends TrieDictionary {
@@ -121,8 +124,8 @@ public class LookAheadDictionary extends TrieDictionary {
 		}
 
 		// Insert into trie
-		super.learn(words[0], count);
-		super.learn(words[0] + " " + words[1], count);
+		super.learn(words[0], 1);
+		super.learn(words[0] + " " + words[1], 1);
 		count = super.learn(trigram, count);
 
 		// Write to db
@@ -289,7 +292,7 @@ public class LookAheadDictionary extends TrieDictionary {
 								LOOKAHEAD_FIELD_WORD3);
 				long result = db.update(LOOKAHEAD_TABLE_NAME, values, whereClause, new String[] { word1, word2, word3 } );
 				if(result == 0) {
-					result = db.insert(LOOKAHEAD_TABLE_NAME, null, values);
+					result = db.insertWithOnConflict(LOOKAHEAD_TABLE_NAME, null, values, CONFLICT_REPLACE);
 					if (result == -1) {
 						return false;
 					}

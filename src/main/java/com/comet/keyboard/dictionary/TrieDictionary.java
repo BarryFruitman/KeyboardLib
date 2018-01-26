@@ -239,7 +239,7 @@ public abstract class TrieDictionary implements LearningDictionary {
 	public boolean forget(String word) {
 		Node node = findEntry(word);
 		
-		if(node == null)
+		if(node == null || node.getCount() == 0)
 			return false;
 		
 		node.removeEntry();

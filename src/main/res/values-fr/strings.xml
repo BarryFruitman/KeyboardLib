@@ -157,8 +157,8 @@
     <string name="new_word_dialog_question">Se rappeler de ce mot ?</string>
     <string name="new_word_dialog_remember">Ne plus demander</string>
     <string name="msg_word_remembered">\&quot;%s\&quot; est inscrit dans la mémoire</string>
-    <string name="msg_word_forgotten">est oublié</string>
-    <string name="error_message_cant_be_deleted">Impossible de supprimer ce mot</string>
+    <string name="msg_word_forgotten">\&quot;%s\&quot; est oublié</string>
+    <string name="error_message_cant_be_deleted">%s ne peut pas être supprimé</string>
  <!-- Translator -->
     <string name="translator_title">Traducteur</string>
     <string name="translator_label_your_language">Votre langue</string>
