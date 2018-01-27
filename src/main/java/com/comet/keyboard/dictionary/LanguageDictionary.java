@@ -19,7 +19,7 @@ import junit.framework.Assert;
 
 public final class LanguageDictionary extends TrieDictionary {
 
-	private static final int COUNT_INCREMENT = 1;
+	private static final int COUNT_INCREMENT = 10;
 	private static TrieDictionary mLoading = null;
 	private LanguageDictionaryDB mLanguageDB;
 	private int mCountSum = 0;
@@ -222,10 +222,10 @@ public final class LanguageDictionary extends TrieDictionary {
 
 
 	@Override
-	public int learn(String word, int count) {
-		count = super.learn(word, count);
+	public int learn(String word, int countIncrement) {
+		final int count = super.learn(word, countIncrement);
 
-		mCountSum += count;
+		mCountSum += countIncrement;
 
 		// Write to db
 		mLanguageDB.addWordToLexicon(word, count);

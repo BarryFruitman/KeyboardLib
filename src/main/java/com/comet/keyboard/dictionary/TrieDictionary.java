@@ -213,27 +213,30 @@ public abstract class TrieDictionary implements LearningDictionary {
 	/**
 	 * Adds a word to the dictionary with desired count, or increments its count by 1
 	 * @param word		The word to learn
-	 * @param count		The default count for new words
+	 * @param countIncrement		The default count for new words
 	 */
-	protected int learn(String word, int count) {
+	protected int learn(String word, int countIncrement) {
 		final String lower = word.toLowerCase();
-		if(contains(lower) && !contains(word))
-			// This word exists in the main dictionary, but in lower case.
+		final int count;
+		if(contains(lower) && !contains(word)) {
+			// This word exists in the main dictionary, but only in lower case.
 			word = lower;
+		}
 
 		final Node node = findEntry(word);
 		if(node != null) {
 			// Update trie entry
-			count = node.getCount() + count;
+			count = node.getCount() + countIncrement;
 			node.setCount(count);
-		} else
+		} else {
 			// Insert into trie
+			count = countIncrement;
 			insert(word, count);
+		}
 
 		return count;
 	}
 
-	
 
 	@Override
 	public boolean forget(String word) {

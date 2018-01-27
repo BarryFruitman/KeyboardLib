@@ -117,16 +117,14 @@ public class LookAheadDictionary extends TrieDictionary {
 
 
 	@Override
-	public int learn(String trigram, int count) {
+	public int learn(String trigram, int countIncrement) {
 		final String words[] = trigram.split(" ");
 		if(words.length != 3) {
 			return 0;
 		}
 
 		// Insert into trie
-//		super.learn(words[0], 1);
-//		super.learn(words[0] + " " + words[1], 1);
-		count = super.learn(trigram, 1);
+		final int count = super.learn(trigram, countIncrement);
 
 		// Write to db
 		mLookAheadDB.addTriGramToLookAhead(words[0], words[1], words[2], count);
