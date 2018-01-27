@@ -141,35 +141,59 @@ public abstract class TrieDictionary implements LearningDictionary {
 		if(iPrefix >= prefix.length()) {
 			// End of prefix. Look for suggestions below this node and add them.
 			prefix.append(Node.copyOfRange(value, iNodeValue, value.length));
-			addSuggestions(node, prefix, suggestions, editDistance);
+			addSuggestions(node, prefix, suggestions, editDistance + value.length - 1);
 			prefix.setLength(prefix.length() - (value.length - iNodeValue));
+
 			return;
 		}
 
 		if(iNodeValue >= value.length) {
 			// End of this node's key. Traverse children.
 			for(Node child : node.getChildren()) {
-				findSuggestionsInTrie(prefix, suggestions, iPrefix, child, 0, editDistance, maxEditDistance);
+				findSuggestionsInTrie(
+						prefix,
+						suggestions,
+						iPrefix,
+						child,
+						0,
+						editDistance,
+						maxEditDistance);
 			}
+
 			return;
 		}
 
 		// Skip non-letter characters
 		if(!Character.isLetter(value[iNodeValue])) {
 			prefix.insert(iPrefix, value[iNodeValue]);
-			findSuggestionsInTrie(prefix, suggestions, iPrefix + 1, node, iNodeValue + 1, editDistance, maxEditDistance);
+			findSuggestionsInTrie(
+					prefix,
+					suggestions,
+					iPrefix + 1,
+					node,
+					iNodeValue + 1,
+					editDistance,
+					maxEditDistance);
 			prefix.deleteCharAt(iPrefix);
+
 			return;
 		}
 
 		final char keyStroke = prefix.charAt(iPrefix);
 
 		// Compare the keystroke to the next character in the trie traversal
-		final int iKeyDistance = mCollator.compareCharToKey(value[iNodeValue], keyStroke);
+		int iKeyDistance = mCollator.compareCharToKey(value[iNodeValue], keyStroke);
 		if(iKeyDistance >= 0 && iKeyDistance + editDistance <= maxEditDistance) {
 			// Matched key. Follow this node, then return.
 			prefix.setCharAt(iPrefix, value[iNodeValue]);
-			findSuggestionsInTrie(prefix, suggestions, iPrefix + 1, node, iNodeValue + 1, iKeyDistance == 0 ? editDistance : editDistance + EditDistance.getSubstitute(), maxEditDistance);
+			findSuggestionsInTrie(
+					prefix,
+					suggestions,
+					iPrefix + 1,
+					node,
+					iNodeValue + 1,
+					iKeyDistance == 0 ? editDistance : editDistance + EditDistance.SUBSTITUTE,
+					maxEditDistance);
 			prefix.setCharAt(iPrefix, keyStroke);
 			if(iKeyDistance == 0) {
 				return;
@@ -178,36 +202,74 @@ public abstract class TrieDictionary implements LearningDictionary {
 
 		// Assume this prefix is missing a keystroke. Insert missing char and follow node.
 		prefix.insert(iPrefix, value[iNodeValue]);
-		findSuggestionsInTrie(prefix, suggestions, iPrefix + 1, node, iNodeValue + 1, editDistance + EditDistance.getDelete(), maxEditDistance);
+		findSuggestionsInTrie(
+				prefix,
+				suggestions,
+				iPrefix + 1,
+				node,
+				iNodeValue + 1,
+				editDistance + EditDistance.DELETE,
+				maxEditDistance);
 		prefix.deleteCharAt(iPrefix);
 
 		// Is this the same key as the last one?
-		if(iPrefix > 1 && prefix.charAt(iPrefix-1) == keyStroke) {
-			// Assume it is a double-tap. Delete it and follow node.
-			final char deleted = prefix.charAt(iPrefix);
-			prefix.deleteCharAt(iPrefix);
-			findSuggestionsInTrie(prefix, suggestions, iPrefix, node, iNodeValue, editDistance + EditDistance.getInsert(), maxEditDistance);
-			prefix.insert(iPrefix, deleted);
+		if(iPrefix > 1) {
+			iKeyDistance = mCollator.compareCharToKey(prefix.charAt(iPrefix - 1), keyStroke);
+			if(iKeyDistance >= 0) {
+				// Assume it is a double-tap. Delete it and follow node.
+				final char deleted = prefix.charAt(iPrefix);
+				prefix.deleteCharAt(iPrefix);
+
+				final Node newNode;
+				final int newINodeValue;
+				if (iNodeValue == 0) {
+					newNode = node.getParent();
+					newINodeValue = node.getValue().length - 1;
+				} else {
+					newNode = node;
+					newINodeValue = iNodeValue - 1;
+				}
+
+				findSuggestionsInTrie(
+						prefix,
+						suggestions,
+						iPrefix - 1,
+						newNode,
+						newINodeValue,
+						editDistance + EditDistance.INSERT,
+						maxEditDistance);
+				prefix.insert(iPrefix, deleted);
+			}
 		}
 	}
 
 
-	public void addSuggestions(final Node node, final StringBuilder prefix, final Suggestions suggestions, final int editDistance) {
+	public void addSuggestions(
+			final Node node,
+			final StringBuilder prefix,
+			final Suggestions suggestions,
+			final int editDistance) {
+
 		// Add this node if it's a leaf
 		if(node.isEntry()) {
 			addSuggestion(suggestions, prefix.toString(), node.getCount(), editDistance);
 		}
 
+
 		// Recursively traverse all children
 		for(Node child : node.getChildren()) {
 			prefix.append(child.getValue());
-			addSuggestions(child, prefix, suggestions, editDistance);
-			prefix.setLength(prefix.length()-child.getValue().length);
+			addSuggestions(child, prefix, suggestions, editDistance + child.getValue().length);
+			prefix.setLength(prefix.length() - child.getValue().length);
 		}
 	}
 
 
-	protected abstract void addSuggestion(Suggestions suggestions, String word, int count, int editDistance);
+	protected abstract void addSuggestion(
+			Suggestions suggestions,
+			String word,
+			int count,
+			int editDistance);
 
 
 	/**

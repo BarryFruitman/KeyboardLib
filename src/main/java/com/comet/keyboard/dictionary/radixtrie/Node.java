@@ -5,10 +5,10 @@ package com.comet.keyboard.dictionary.radixtrie;
  * @author Barry Fruitman
  */
 public class Node {
-	char[] mValue;
-	Node[] mChildren;
-	Node mParent;
-	int mCount;
+	private char[] mValue;
+	private Node[] mChildren;
+	private Node mParent;
+	private int mCount;
 
 
 	private static int mNodeCount = 0;
@@ -44,7 +44,12 @@ public class Node {
 	public char[] getValue() {
 		return mValue;
 	}
-	
+
+
+	public Node getParent() {
+		return mParent;
+	}
+
 	
 	protected Node getChild(char[] c){
 		int i = findChild(c);

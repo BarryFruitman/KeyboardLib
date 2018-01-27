@@ -41,8 +41,7 @@ public abstract class KeyboardLayout {
 
 		return mCurrentLayout.getId();
 	}
-	
-	
+
 	
 	static public KeyboardLayout setCurrentLayout(String keyboardLayoutId) {
 		
@@ -87,12 +86,5 @@ public abstract class KeyboardLayout {
 			return mCurrentLayout;
 		
 		return mCurrentLayout = setCurrentLayout(getCurrentLayoutId());
-	}
-
-
-
-
-	public int getSubstituteEditDistance() {
-		return EditDistance.getDefaultSubstitue();
 	}
 }

@@ -41,12 +41,6 @@ public class T9Layout extends KeyboardLayout {
 	
 	
 	
-	public int getSubstituteEditDistance() {
-		return 0;
-	}
-
-
-	
 	@Override
 	public boolean showSuperLetters() {
 		return false;

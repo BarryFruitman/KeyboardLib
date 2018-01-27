@@ -102,8 +102,11 @@ public final class LanguageDictionary extends TrieDictionary {
 				if(count > 0) {
 					final int count1 = getCount(word1);
 					final int count2 = getCount(word2);
+					if (count1 < 1000 || count2 < 1000) {
+						continue;
+					}
 					// This bi-gram is in the LookAhead dictionary, therefore it is common enough to suggest.
-					addSuggestion(languageSuggestions, word1 + " " + word2, Math.max(count1, count2), EditDistance.getJoined());
+					addSuggestion(languageSuggestions, word1 + " " + word2, Math.max(count1, count2), EditDistance.JOINED);
 				}
 			}
 
@@ -117,8 +120,11 @@ public final class LanguageDictionary extends TrieDictionary {
 					if(count > 0) {
 						final int count1 = getCount(word1);
 						final int count2 = getCount(word2);
+						if (count1 < 1000 || count2 < 1000) {
+							continue;
+						}
 						// This bi-gram is in the LookAhead dictionary, therefore it is common enough to suggest.
-						addSuggestion(languageSuggestions, word1 + " " + word2, Math.max(count1, count2), EditDistance.getJoined());
+						addSuggestion(languageSuggestions, word1 + " " + word2, Math.max(count1, count2), EditDistance.JOINED);
 					}
 				}
 			}
@@ -137,7 +143,6 @@ public final class LanguageDictionary extends TrieDictionary {
 	/**
 	 * Class LanguageSuggestion
 	 * @author Barry
-	 *
 	 */
 	public static class LanguageSuggestion extends Suggestion {
 		private double mFrequency;
@@ -151,15 +156,14 @@ public final class LanguageDictionary extends TrieDictionary {
 			mFrequency = (double) count / (double) countSum;
 			mEditDistance = editDistance;
 		}
-		
-		
+
 		private double computeScore() {
 			// Normalize
-			double score = Math.abs(Math.log10(mFrequency));
+			double score = Math.abs(Math.log(mFrequency));
 
 			// Subtract edit distance
 			score += mEditDistance;
-			
+
 			return score;
 		}
 		
