@@ -337,7 +337,7 @@ public class CandidateView extends View implements OnLongClickListener {
         mSelectedIndex = NO_DEFAULT;
     }
 
-    public boolean setSuggestions(Suggestions suggestions, boolean completions) {
+    public boolean setSuggestions(Suggestions suggestions) {
     	if (mMessageType == MessageType.MESSAGE_STATIC)
     		return false;
     	

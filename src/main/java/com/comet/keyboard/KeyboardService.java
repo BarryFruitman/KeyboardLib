@@ -1341,8 +1341,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             });
 
             if (mPredictionOn && !mCompletionOn) {
-                mCandidateView.setSuggestions(mLastKeyboardState.suggestions,
-                        mLastKeyboardState.completions);
+                mCandidateView.setSuggestions(mLastKeyboardState.suggestions);
             }
 
             getKeyboardView().setCapsLock(mLastKeyboardState.mCapsLock);
@@ -2531,14 +2530,14 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
         // Update CandidateView
         if (mCandidateView != null)
-            mCandidateView.setSuggestions(suggestions, completions);
+            mCandidateView.setSuggestions(suggestions);
 
         // Save suggestions to keyboard state
         mLastKeyboardState.saveSuggestions(suggestions, completions);
     }
 
-
     /**
+
      * Called by onKey() when the user presses delete (i.e. backspace) key.
      * Deletes the character in behind of the cursor.
      */
