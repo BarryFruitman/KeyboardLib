@@ -4,6 +4,17 @@
     android:versionCode="23"
     android:versionName="@string/version" >
 
+    <!-- Normal permissions -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />    					<!-- To download dictionaries, ... etc. -->
+    <uses-permission android:name="android.permission.VIBRATE" />    					<!-- To vibrate on key press -->
+    <uses-permission android:name="android.permission.READ_USER_DICTIONARY" />     		<!-- To offer user dictionary suggestions -->
+    <uses-permission android:name="android.permission.WRITE_USER_DICTIONARY" />    		<!-- To save new custom words -->
+
+    <!-- Dangerous permissions -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />    				<!-- To offer contact suggestions -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> 		<!-- To load photo wallpaper from sd card -->
+
     <application
         android:icon="@drawable/ic_launcher"
         android:label="@string/ime_name" >

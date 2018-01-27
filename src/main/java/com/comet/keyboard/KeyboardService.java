@@ -203,11 +203,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
     // two clicks to count as
     // double-tap
 
-    // Purchase
-    private static final int TRANS_PURCHASE_INCREASE_UNIT = 200;
-
-    // If true, uses Dragon in pre-4.0 devices. Otherwise uses Google voice API.
-    private boolean mUseDragon = false;
 
     // Google Voice Typing. This is the default voice input in 4.0 and higher devices.
     VoiceRecognitionTrigger mVoiceRecognitionTrigger;
@@ -216,27 +211,27 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
     // DEBUG
     public static boolean mDebug = false;
     private boolean mPendingRequest = false;
-//	public static DebugTracer mProfileTracer = new DebugTracer();
+
 
     public static KeyboardService getIME() {
         return mIME;
     }
 
+
     public Handler getVoiceHandler() {
         return mVoiceHandler;
     }
+
 
     public Suggestor getSuggestor() {
         return mSuggestor;
     }
 
+
     public String getLanguage() {
         return mLanguage;
     }
 
-    public boolean isPredictNextWord() {
-        return mPredictNextWord;
-    }
 
     /**
      * Message handler for voice input
@@ -245,11 +240,11 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         @Override
         public void handleMessage(Message result) {
             @SuppressWarnings("unchecked")
-            ArrayList<String> sentences = (ArrayList<String>) result.obj;
+            final ArrayList<String> sentences = (ArrayList<String>) result.obj;
 
             // Check closest match option
             boolean isCheckedClosestMatch = false;
-            SharedPreferences sharedPrefs = getSharedPreferences(Settings.SETTINGS_FILE, Context.MODE_PRIVATE);
+            final SharedPreferences sharedPrefs = getSharedPreferences(Settings.SETTINGS_FILE, Context.MODE_PRIVATE);
             isCheckedClosestMatch = sharedPrefs.getBoolean("speech_input_closest_match", true);
 
             String mVoiceText = "";
@@ -271,15 +266,17 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         }
     };
 
+
     /**
      * Listener for events from the voice results menu
      */
     private OnPopupMenuItemClickListener mWordMenuListener = new OnPopupMenuItemClickListener() {
         @Override
-        public void onPopupMenuItemClicked(int position, String title) {
+        public void onPopupMenuItemClicked(final int position, final String title) {
             inputVoiceResult(title);
         }
     };
+
 
     /**
      * Inputs text from voice input result(s)
@@ -289,15 +286,17 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
     public void inputVoiceResult(String text) {
         text = text.toLowerCase() + " ";
         bAutoSpace = true;
-        if (mVoiceCapsLock)
+        if (mVoiceCapsLock) {
             text = text.toUpperCase();
-        else if (mVoiceIsShifted)
+        } else if (mVoiceIsShifted) {
             text = DictionaryUtils.capFirstChar(text);
+        }
 
         appendText(text);
 
         updateShiftKeyState();
     }
+
 
     /**
      * Main initialization of the input method component. Be sure to call to
@@ -315,7 +314,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         mIME = this;
 
         // Load preferences
-        SharedPreferences sharedPrefs = getSharedPreferences(Settings.SETTINGS_FILE, Context.MODE_PRIVATE);
+        final SharedPreferences sharedPrefs = getSharedPreferences(Settings.SETTINGS_FILE, Context.MODE_PRIVATE);
         mDefaultCurrency = sharedPrefs.getString("currency", getString(R.string.curr_symbol_default));
         mKeyboardLayoutId = KeyboardLayout.getCurrentLayout().getId();
         mDebug = sharedPrefs.getBoolean("debug_mode", false);
@@ -341,7 +340,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
     }
 
 
-    public static SparseIntArray loadSounds(Context ctx, SoundPool soundPool) {
+    public static SparseIntArray loadSounds(final Context ctx, final SoundPool soundPool) {
         SparseIntArray soundMap = new SparseIntArray();
         soundMap.put(SOUND_CLICK, soundPool.load(ctx, R.raw.key_click_default, 1));
         return soundMap;
@@ -356,37 +355,26 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
     public void onInitializeInterface() {
         callTrace("onInitializeInterface()");
 
-        if (mLastKeyboardState == null)
+        if (mLastKeyboardState == null) {
             mLastKeyboardState = new KeyboardState();
+        }
 
         if (mAlphaKeyboard != null) {
             // Configuration changes can happen after the keyboard gets recreated,
             // so we need to be able to re-build the keyboards if the available space has changed.
-            int displayWidth = getMaxWidth();
+            final int displayWidth = getMaxWidth();
             if (displayWidth == mLastDisplayWidth)
                 return;
             mLastDisplayWidth = displayWidth;
         }
     }
 
+
     @Override
     public boolean onEvaluateFullscreenMode() {
         return KeyHeightSetting.isFullScreenMode(this);
     }
 
-    /**
-     * Gets the resource id of the current keyboard.
-     *
-     * @return A resource id.
-     */
-    public int getKeyboardID() {
-        int keyboardResID;
-
-        BaseKeyboard keyboard = mKeyboardView.getKeyboard();
-        keyboardResID = keyboard.getXMLResID();
-
-        return keyboardResID;
-    }
 
     /**
      * Sets the current keyboard by resource id.
@@ -394,7 +382,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @param keyboardResID A resource id.
      * @return The Keyboard object (should be an instance of BaseKeyboard).
      */
-    public Keyboard setKeyboard(int keyboardResID) {
+    public Keyboard setKeyboard(final int keyboardResID) {
         if (keyboardResID == mNumPadKeyboard.getXMLResID()) {
             mKeyboardView.setKeyboard(mNumPadKeyboard);
         } else if (keyboardResID == mArrowPadKeyboard.getXMLResID()) {
@@ -408,6 +396,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
         return mKeyboardView.getKeyboard();
     }
+
 
     /**
      * Create the keyboards used in this view
@@ -450,25 +439,28 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         updateCurrencyKeys();
     }
 
+
     /**
      * Update keyboard view
      */
     public void updateKeyboardView() {
-        if (mKeyboardView == null)
+        if (mKeyboardView == null) {
             return;
+        }
 
         mKeyboardView.setKeyboard(mKeyboardView.getKeyboard());
         mKeyboardView.invalidate();
         mCandidateView.updateView();
     }
 
+
     /**
      * Update key height
      */
     public void updateKeyHeight() {
         // Get current keyboard height
-        KeyHeight keyHeight = KeyHeightSetting.getKeyHeightPreference(this);
-        int[] bottomGap = KeyboardPaddingBottomSetting
+        final KeyHeight keyHeight = KeyHeightSetting.getKeyHeightPreference(this);
+        final int[] bottomGap = KeyboardPaddingBottomSetting
                 .getKeyboardPaddingBottomPreference(this);
 
         if (mAlphaNumKeyboard != null) {
@@ -496,21 +488,23 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         }
     }
 
+
     /**
      * Update keys padding height
      */
     public void updateKeyPaddingHeight() {
         // Get current keyboard height
-        int keyPaddingHeight = KeyPaddingHeightSetting
+        final int keyPaddingHeight = KeyPaddingHeightSetting
                 .getKeyPaddingHeightPreference(this);
 
         // Update all the keyboards.
-        if (mAlphaKeyboard != null)
+        if (mAlphaKeyboard != null) {
             mAlphaKeyboard.setKeyboardPaddingHeight(this, keyPaddingHeight);
-        if (mAlphaNumKeyboard != null)
+        } if (mAlphaNumKeyboard != null) {
             mAlphaNumKeyboard.setKeyboardPaddingHeight(this, keyPaddingHeight);
-        if (mAlphaNumKeyboard != null)
+        } if (mAlphaNumKeyboard != null) {
             mAlphaNumKeyboard.setKeyboardPaddingHeight(this, keyPaddingHeight);
+        }
 
         if (mKeyboardView != null) {
             // set changed flag: hacked from KeyboardView.java
@@ -518,19 +512,18 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         }
     }
 
+
     /**
      * Update bottom padding of keyboard
      */
     public void updateKeyboardBottomPaddingHeight() {
-        int left, right, bottom, top;
-
         if (getKeyboardView() == null)
             return;
 
-        left = getKeyboardView().getPaddingLeft();
-        right = getKeyboardView().getPaddingRight();
-        top = getKeyboardView().getPaddingTop();
-        bottom = getKeyboardView().getPaddingBottom();
+        final int left = getKeyboardView().getPaddingLeft();
+        final int right = getKeyboardView().getPaddingRight();
+        final int top = getKeyboardView().getPaddingTop();
+        final int bottom = getKeyboardView().getPaddingBottom();
 
         getKeyboardView().setPadding(left, right, top, bottom);
         updateKeyHeight();
@@ -541,6 +534,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         }
     }
 
+
     /**
      * Constructs a new BaseKeyboard.
      *
@@ -548,9 +542,10 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @param resId   The keyboard resource id.
      * @return The BaseKeyboard object.
      */
-    protected BaseKeyboard constructMainKB(Context context, int resId) {
+    protected BaseKeyboard constructMainKB(final Context context, final int resId) {
         return new BaseKeyboard(context, resId);
     }
+
 
     /**
      * Called by the framework when your view for creating input needs to be
@@ -567,7 +562,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         createKeyboardLayout();
 
         // HACK. Used to catch and report a mystery exception.
-        ViewParent parent = mKeyboardLayout.getParent();
+        final ViewParent parent = mKeyboardLayout.getParent();
         if (parent != null && parent instanceof ViewGroup) {
             reportError_192(new NullPointerException().fillInStackTrace());
 
@@ -580,6 +575,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         return mKeyboardLayout;
     }
 
+
     /**
      * Temporary method used to report a mystery exception. (Is it still
      * necessary?)
@@ -587,8 +583,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @param e The exception.
      */
     public void reportError_192(Throwable e) {
-
-        ErrorReport errorReport = new ErrorReport(this, e, "192");
+        final ErrorReport errorReport = new ErrorReport(this, e, "192");
 
         try {
             errorReport.putSharedPrefs(Settings.SETTINGS_FILE);
@@ -602,6 +597,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         errorReport.post();
     }
 
+
     /**
      * Called by onCreateInputView() to create the layout views and assign the
      * keyboard view.
@@ -609,10 +605,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @return
      */
     protected View createKeyboardLayout() {
-        // Return the keyboard view if it is already inflated
-        // if(mKeyboardView != null)
-        // return mKeyboardView;
-
         // Inflate the keyboard layout
         mKeyboardLayout = (View) getLayoutInflater().inflate(R.layout.keyboard_layout, null);
 
@@ -640,13 +632,14 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         return mKeyboardView;
     }
 
+
     /**
      * Gets the keyboard view for this service.
      *
      * @return The keyboard view.
      */
     public KeyboardView getKeyboardView() {
-        return (KeyboardView) mKeyboardView;
+        return mKeyboardView;
     }
 
 
@@ -654,7 +647,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * Called when the keyboard size (may have) changed.
      */
     public void onKeyboardSizeChanged() {
-        int w, h, oldW, oldH;
+        final int w, h, oldW, oldH;
 
         w = oldW = getKeyboardView().getWidth();
         h = oldH = getKeyboardView().getWidth();
@@ -674,10 +667,10 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      */
     private OnPopupMenuItemClickListener mLocaleMenuListener = new OnPopupMenuItemClickListener() {
         @Override
-        public void onPopupMenuItemClicked(int position, String title) {
+        public void onPopupMenuItemClicked(final int position, final String title) {
             // Get the language code from the language name (e.g. "en" from
             // "English")
-            String code = LanguageSelector.getCodeFromName(KeyboardService.this, title);
+            final String code = LanguageSelector.getCodeFromName(KeyboardService.this, title);
             // Update the language profile
             LanguageProfileManager.getProfileManager().setCurrentProfile(code);
 
@@ -686,7 +679,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             onStartInputView(safeGetCurrentInputEditorInfo(), true);
 
             // Notify the user
-            String toastMsg = String.format(
+            final String toastMsg = String.format(
                     KeyboardService.this.getResources().getString(R.string.selected_locale_confirm_message), title);
             Toast.makeText(KeyboardService.this, toastMsg, Toast.LENGTH_SHORT).show();
         }
@@ -707,9 +700,9 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      *
      * @param activity The activity that displayed the logo.
      */
-    public static void onClickComet(Activity activity) {
-        Uri uri = Uri.parse("http://m.cometapps.com/");
-        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+    public static void onClickComet(final Activity activity) {
+        final Uri uri = Uri.parse("http://m.cometapps.com/");
+        final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         activity.startActivity(intent);
     }
 
@@ -721,7 +714,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
     public void onClickShare(View v) {
         dismissAllPopupWindows();
 
-        Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
+        final Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND);
         shareIntent.setType("text/plain");
         shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, String
                 .format(getString(R.string.share_to_sns_title),
@@ -730,7 +723,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
                 getString(R.string.share_to_sns_description),
                 getString(R.string.ime_name), KeyboardApp.getApp().getAppStoreUrl()));
 
-        Intent chooserIntent = Intent.createChooser(shareIntent, "Share with");
+        final Intent chooserIntent = Intent.createChooser(shareIntent, "Share with");
         chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(chooserIntent);
     }
@@ -755,21 +748,11 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * Opens the voice input activity.
      */
     private void openVoiceTyping() {
-        if (mVoiceRecognitionTrigger.isInstalled())
+        if (mVoiceRecognitionTrigger.isInstalled()) {
             mVoiceRecognitionTrigger.startVoiceRecognition();
+        }
     }
 
-
-    /**
-     * Kills all activities. This is to prevent other activities from covering
-     * the settings activity when the user opens settings. (Is there a better
-     * way to do this???)
-     */
-    protected void killActivities() {
-        Intent killIntent = new Intent("killMyActivity");
-        killIntent.setType("text/plain");
-        sendBroadcast(killIntent);
-    }
 
     /**
      * Callback for the translator key.
@@ -794,12 +777,14 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         mKeyboardView.openTranslator();
     }
 
+
     /**
      * Callback for the settings key.
      */
     protected void onSettingsKey() {
         launchSettings();
     }
+
 
     /**
      * Callback for the main menu key.
@@ -813,8 +798,9 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * Opens main menu
      */
     protected void openMainMenu() {
-        if (mKeyboardView == null)
+        if (mKeyboardView == null) {
             return;
+        }
 
         mKeyboardView.openMainMenu();
     }
@@ -835,11 +821,12 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         dismissAllPopupWindows();
 
         // Launch settings
-        Intent intent = new Intent();
+        final Intent intent = new Intent();
         intent.setAction(getString(R.string.settings_intent));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
+
 
     /**
      * Callback for the URL key.
@@ -850,12 +837,14 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         openUrlMenu();
     }
 
+
     /**
      * Opens the URL menu.
      */
     private void openUrlMenu() {
         getKeyboardView().openUrlKeyboard();
     }
+
 
     /**
      * Callback for the symbols main menu key.
@@ -864,12 +853,14 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         openSymMenuMenu();
     }
 
+
     /**
      * Opens the symbols main menu.
      */
     protected void openSymMenuMenu() {
         mKeyboardView.openSymMenu();
     }
+
 
     /**
      * Callback for the emoji key.
@@ -879,6 +870,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         openEmojiMenu();
     }
 
+
     /**
      * Opens the emoji menu.
      */
@@ -886,6 +878,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         writeDebug("KeyboardService.openEmojiMenu()");
         mKeyboardView.openEmojiKeyboard();
     }
+
 
     /**
      * Callback for the arrow keypad key.
@@ -907,6 +900,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * Callback for the language key.
      */
     private Toast mRotateToast = null;
+
 
     public void onLocaleKey() {
         dismissAllPopupWindows(true);
@@ -933,14 +927,15 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             onStartInputView(safeGetCurrentInputEditorInfo(), true);
 
             // Notify the user
-            String toastMsg = String.format(
+            final String toastMsg = String.format(
                     KeyboardService.this.getResources().getString(R.string.selected_locale_confirm_message),
                     LanguageSelector.getNameFromCode(this, nextProfile.getLang()));
 
             // Cancel the last toast message. This is in case the user presses
             // the locale button rapidly.
-            if (mRotateToast != null)
+            if (mRotateToast != null) {
                 mRotateToast.cancel();
+            }
             mRotateToast = Toast.makeText(this, toastMsg, Toast.LENGTH_SHORT);
             mRotateToast.show();
         }
@@ -974,9 +969,9 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      */
     public void openLocaleMenu() {
         // Get a list of languages
-        ArrayList<LanguageProfile> profileList = LanguageProfileManager
+        final ArrayList<LanguageProfile> profileList = LanguageProfileManager
                 .getProfileManager().loadProfiles();
-        ArrayList<String> profileStrList = new ArrayList<String>(
+        final ArrayList<String> profileStrList = new ArrayList<String>(
                 profileList.size());
         // Get the current language index
         for (int i = 0; i < profileList.size(); i++) {
@@ -985,7 +980,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         }
 
         // Create a menu
-        PopupMenuView mPopupMenu = new PopupMenuView(
+        final PopupMenuView mPopupMenu = new PopupMenuView(
                 (ViewGroup) KeyboardService.mIME.mKeyboardLayout,
                 profileStrList, R.string.any_key_action_locale,
                 R.drawable.ic_launcher);
@@ -1029,11 +1024,11 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      *
      * @param text The text to commit.
      */
-    protected void commitText(CharSequence text) {
+    protected void commitText(final CharSequence text) {
         setLastWord(text);
         mComposing.setLength(0);
 
-        InputConnection inputConnection = getCurrentInputConnection();
+        final InputConnection inputConnection = getCurrentInputConnection();
         if (inputConnection == null)
             return;
 
@@ -1041,27 +1036,30 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         inputConnection.commitText(text, 1);
     }
 
+
     /**
      * Append new text to the end of the edit view.
      *
      * @param text The text to append.
      */
-    private void appendText(String text) {
-        InputConnection inputConnection = getCurrentInputConnection();
+    private void appendText(final String text) {
+        final InputConnection inputConnection = getCurrentInputConnection();
         if (inputConnection == null)
             return;
 
         inputConnection.commitText(text, 1);
     }
 
+
     /**
      * Hide or display the candidate view.
      *
      * @param show true to display, false to hide.
      */
-    public void setCandidatesViewShown(boolean show) {
+    public void setCandidatesViewShown(final boolean show) {
         setCandidatesViewShown(show, true);
     }
+
 
     /**
      * Hide or display the candidate view.
@@ -1069,7 +1067,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @param show          Set true to display or false to hide.
      * @param rememberState Flag to save state.
      */
-    public void setCandidatesViewShown(boolean show, boolean rememberState) {
+    public void setCandidatesViewShown(boolean show, final boolean rememberState) {
 
         //
         //
@@ -1077,8 +1075,9 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         //
         //
 
-        if (mCandidateView == null)
+        if (mCandidateView == null) {
             return;
+        }
 
         if (mShowSuggestions && show) {
             if (!mCandidateView.isShown()) {
@@ -1090,9 +1089,11 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             onKeyboardSizeChanged();
         }
 
-        if (rememberState)
+        if (rememberState) {
             mLastKeyboardState.isCandidateViewShown = show;
+        }
     }
+
 
     /**
      * Apply a photo wallpaper to the background. Used by WallpaperPhoto for
@@ -1104,40 +1105,48 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      *                  change the aspect ratio. If false, it will be resized in only
      *                  one dimension, and cropped. This preserves the aspect ratio.
      */
-    public void applyWallpaper(Drawable wallpaper, int alpha, boolean fit) {
-        if (mKeyboardView != null)
+    public void applyWallpaper(final Drawable wallpaper, final int alpha, final boolean fit) {
+        if (mKeyboardView != null) {
             mKeyboardView.applyWallpaper(wallpaper, alpha, fit);
+        }
     }
+
 
     /**
      * Reloads the wallpaper. Called by wallpaper setting activity to restore
      * the original wallpaper if user cancels the preview.
      */
     public void reloadWallpaper() {
-        if (mKeyboardView != null)
+        if (mKeyboardView != null) {
             mKeyboardView.reloadWallpaper();
+        }
     }
+
 
     /**
      * Reloads the current theme.
      */
     private void reloadTheme() {
         KeyboardThemeManager.getThemeManager().reloadTheme();
-        if (getKeyboardView() != null)
+        if (getKeyboardView() != null) {
             getKeyboardView().reloadTheme();
+        }
     }
 
+
     @Override
-    public void onStartInput(EditorInfo attribute, boolean restarting) {
+    public void onStartInput(final EditorInfo attribute, final boolean restarting) {
         super.onStartInput(attribute, restarting);
 
-        if (!mInputContents.equals(""))
+        if (!mInputContents.equals("")) {
             // Parse input from previous session
             learnWords();
+        }
 
         // Get starting contents of EditText
         mInputContents = mStartInputContents = getInputContents();
     }
+
 
     /**
      * This is the main point where we do our initialization of the input method
@@ -1146,7 +1155,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * the target of our edits.
      */
     @Override
-    public void onStartInputView(EditorInfo editorInfo, boolean restarting) {
+    public void onStartInputView(EditorInfo editorInfo, final boolean restarting) {
         super.onStartInputView(editorInfo, restarting);
         callTrace("onStartInputView()");
 
@@ -1157,8 +1166,9 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         Welcome.showWelcome(this);
 
         // Escape this package to avoid losing focus
-        if (editorInfo.packageName.equals("com.google.android.voicesearch"))
+        if (editorInfo.packageName.equals("com.google.android.voicesearch")) {
             return;
+        }
 
         // Load user preferences
         loadPrefs();
@@ -1175,8 +1185,9 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
             // Reset composing region
             InputConnection inputConnection = getCurrentInputConnection();
-            if (inputConnection != null)
+            if (inputConnection != null) {
                 inputConnection.finishComposingText();
+            }
 
             // Clear suggestions
             mLastKeyboardState.resetSuggestions();
@@ -1204,7 +1215,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         // in EditorInfo
         editorInfo = editorInfoHack(editorInfo);
 
-        BaseKeyboard keyboard = mAlphaKeyboard;
+        BaseKeyboard keyboard;
         // We are now going to initialize our state based on the type of
         // text being edited.
         switch (editorInfo.inputType & EditorInfo.TYPE_MASK_CLASS) {
@@ -1231,11 +1242,11 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
                 mLearnWords = true;
 
                 // We now look for a few special variations of text that will modify our behavior.
-                int variation = editorInfo.inputType
-                        & EditorInfo.TYPE_MASK_VARIATION;
+                final int variation = editorInfo.inputType & EditorInfo.TYPE_MASK_VARIATION;
                 if (variation == EditorInfo.TYPE_TEXT_VARIATION_PASSWORD
                         || variation == EditorInfo.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                        || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB && variation == EditorInfo.TYPE_TEXT_VARIATION_WEB_PASSWORD)) {
+                        || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
+                            && variation == EditorInfo.TYPE_TEXT_VARIATION_WEB_PASSWORD)) {
                     // Do not display predictions / what the user is typing
                     // when they are entering a password.
                     mPredictionOn = false;
@@ -1243,8 +1254,9 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
                     mIsPassword = true;
                     mSmartSpaces = false;
                     if (editorInfo.fieldId != mLastPasswordId
-                            || getInputContents().length() != mPassword.length())
+                            || getInputContents().length() != mPassword.length()) {
                         mPassword.setLength(0);
+                    }
                     mLastPasswordId = editorInfo.fieldId;
                 }
 
@@ -1272,7 +1284,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
                     mURL = false;
                 }
 
-
                 if ((editorInfo.inputType & EditorInfo.TYPE_TEXT_FLAG_AUTO_COMPLETE) != 0) {
                     // The app has it's own completions to display. If we're in fullscreen mode,
                     // display them instead of our predictions. If not, the app will display
@@ -1281,10 +1292,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
                         mPredictionOn = false;
                 }
 
-//			if ((editorInfo.inputType & EditorInfo.TYPE_TEXT_FLAG_NO_SUGGESTIONS) != 0) {
-//				// Application has specifically requested no suggestions
-//				mPredictionOn = false;
-//			}
                 break;
 
             default:
@@ -1322,21 +1329,17 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
         if (mLastKeyboardState.mChanged || mLastKeyboardState.mNeedToUpdate) {
             // Restore saved state
-            Handler handler = new Handler();
+            final Handler handler = new Handler();
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    // ???
                     mKeyboardView.restorePopupWindow(
                             mLastKeyboardState.popupLayoutID,
                             mLastKeyboardState.popupKeyboardID,
                             mLastKeyboardState.popupKeyboardParm);
                 }
             });
-            // mKeyboardView.showPopupKeyboard(lastConfiguration.popupLayoutID,
-            // lastConfiguration.popupKeyboardID,
-            // lastConfiguration.popupKeyboardParm);
-            // candidate string
+
             if (mPredictionOn && !mCompletionOn) {
                 mCandidateView.setSuggestions(mLastKeyboardState.suggestions,
                         mLastKeyboardState.completions);
@@ -1347,8 +1350,9 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
                     mLastKeyboardState.mCapsLock);
             mLastKeyboardState.mNeedToUpdate = false;
         } else {
-            if (mKeyboardView.getKeyboard() != keyboard)
+            if (mKeyboardView.getKeyboard() != keyboard) {
                 mKeyboardView.setKeyboard(keyboard);
+            }
             updateShiftKeyState(editorInfo, isMultiLine()); // Use auto-caps in
             // multi-line fields
             // even if the app
@@ -1367,9 +1371,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         }
 
         if (!inPreviewMode()) {
-//			Log.v(KeyboardApp.LOG_TAG, "dictionary not exist " + !KeyboardApp.getKeyboardApp().getUpdater().isDictionaryExist(this,
-//					mLanguage) + " lang " + mLanguage +  " ; dictionary needs updates "  + isNeedUpdateDicts());
-
             if (!KeyboardApp.getApp().getUpdater().isDictionaryExist(this, mLanguage) || isNeedUpdateDicts()) {
                 // No dictionary installed. Display a prompt in the candidate view
                 showSuggestionDictionaryUpdate();
@@ -1378,14 +1379,14 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             }
         }
 
-
-        if (mVoiceRecognitionTrigger != null)
+        if (mVoiceRecognitionTrigger != null) {
             mVoiceRecognitionTrigger.onStartInputView();
+        }
     }
+
 
     public void showSuggestionDictionaryUpdate() {
         if (mCandidateView != null) {
-
             mCandidateView.setDisplayMessage(
                     getResources()
                             .getString(R.string.dic_updated_alarm_message),
@@ -1401,18 +1402,20 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             );
 
             mIsAlarmMessageFirstAppeared = true;
-
         }
     }
 
+
     public void showSuggestionDictionaryUpdateOnUi() {
-        if (mCandidateView != null)
+        if (mCandidateView != null) {
             mCandidateView.post(new Runnable() {
-                public void run() {
-                    showSuggestionDictionaryUpdate();
-                }
-            });
+                            public void run() {
+                                showSuggestionDictionaryUpdate();
+                            }
+                        });
+        }
     }
+
 
     public void showSuggestionAppUpdate() {
         if (mCandidateView != null) {
@@ -1422,7 +1425,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
                     CandidateView.MessageType.MESSAGE_STATIC,
                     new OnClickListener() {
                         public void onClick(View v) {
-                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri
+                            final Intent intent = new Intent(Intent.ACTION_VIEW, Uri
                                     .parse("market://details?id=" + KeyboardApp.packageName));
                             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
@@ -1432,6 +1435,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             mIsAlarmMessageFirstAppeared = true;
         }
     }
+
 
     /**
      * Runs showSuggestionAppUpdate() on UI thread
@@ -1445,14 +1449,16 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             });
     }
 
+
     /**
      * Callback for check password prompt. Toggles the password reveal.
      */
     private View.OnClickListener mOnClickPassword = new OnClickListener() {
-        public void onClick(View v) {
+        public void onClick(final View v) {
             updatePassword(!mShowPassword);
         }
     };
+
 
     /**
      * This is called when the user is done editing a field. We can use this to
@@ -1482,8 +1488,9 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         }
     }
 
+
     @Override
-    public void onFinishInputView(boolean finishingInput) {
+    public void onFinishInputView(final boolean finishingInput) {
         super.onFinishInputView(finishingInput);
         callTrace("onFinishInputView()");
 
@@ -1492,6 +1499,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         // hide all context menu
         PopupMenuView.closeAllMenu();
     }
+
 
     /**
      * Load user settings from shared prefs and re-initialize keyboard if
@@ -1555,8 +1563,9 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         mPrefsChanged = false;
     }
 
-    public boolean isDrawSuperLabel(Key key) {
-        int primaryCode = key.codes[0];
+
+    public boolean isDrawSuperLabel(final Key key) {
+        final int primaryCode = key.codes[0];
         if (!isSuperLabelEnabled()
                 && !(isFnKeyPressed(primaryCode)
                 || primaryCode == BaseKeyboard.KEYCODE_MODE
@@ -1568,6 +1577,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         return true;
     }
 
+
     /**
      * Called by Settings when prefs change. Causes a reload on next
      * onStartInput().
@@ -1576,12 +1586,12 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         mPrefsChanged = true;
     }
 
+
     /**
      * Parse input text and save bi-grams (word pairs) to learn look-ahead word
      * prediction.
      */
     private void learnWords() {
-
         if (!mLearnWords)
             return;
 
@@ -1610,19 +1620,21 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      *
      * @param word The word to remember
      */
-    protected void rememberWord(String word) {
-        if (mSuggestor.getLanguageDictionary().remember(word))
+    protected void rememberWord(final String word) {
+        if (mSuggestor.getLanguageDictionary().remember(word)) {
             Toast.makeText(
                     getApplicationContext(),
                     getResources().getString(R.string.msg_word_remembered, word),
                     Toast.LENGTH_SHORT).show();
+        }
     }
 
 
-    protected void onSuggestionMenuItemClick(String _orig, String word) {
-        InputConnection inputConnection = getCurrentInputConnection();
-        if (inputConnection != null)
+    protected void onSuggestionMenuItemClick(final String _orig, final String word) {
+        final InputConnection inputConnection = getCurrentInputConnection();
+        if (inputConnection != null) {
             inputConnection.finishComposingText();
+        }
         mComposing.setLength(0);
         clearCandidates();
         rememberWord(word);
@@ -1636,21 +1648,23 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @return The contents of the edit view.
      */
     protected String getInputContents() {
-        InputConnection inputConnection = getCurrentInputConnection();
-        StringBuilder inputText = new StringBuilder("");
+        final InputConnection inputConnection = getCurrentInputConnection();
+        final StringBuilder inputText = new StringBuilder("");
         if (inputConnection != null) {
-            CharSequence before = getTextBeforeCursor(inputConnection, MAX_INPUT_LENGTH);
-            CharSequence after = getTextAfterCursor(inputConnection, MAX_INPUT_LENGTH);
+            final CharSequence before = getTextBeforeCursor(inputConnection, MAX_INPUT_LENGTH);
+            final CharSequence after = getTextAfterCursor(inputConnection, MAX_INPUT_LENGTH);
             inputText.append(before).append(after);
         }
 
         return inputText.toString();
     }
 
+
     public void showMessage(final String message, final OnClickListener listener) {
         // Using View.post() lets this method be called from a non-UI thread.
-        if (mCandidateView == null)
+        if (mCandidateView == null) {
             return;
+        }
 
         mCandidateView.post(new Runnable() {
             @Override
@@ -1661,10 +1675,12 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         mComposing.setLength(0);
     }
 
+
     public void clearMessage() {
         // Using View.post() lets this method be called from a non-UI thread.
-        if (mCandidateView == null)
+        if (mCandidateView == null) {
             return;
+        }
 
         mCandidateView.post(new Runnable() {
             @Override
@@ -1673,6 +1689,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             }
         });
     }
+
 
     /**
      * Displays a sample suggestion. This is used only by the suggestion height
@@ -1684,32 +1701,35 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         updateCandidateFontSize();
     }
 
+
     /**
      * Update the suggestion font size to user setting.
      */
     public void updateCandidateFontSize() {
-        if (mCandidateView == null)
+        if (mCandidateView == null) {
             return;
+        }
 
         // Get current candidate font size
-        int fontSize = CandidateHeightSetting.getFontSizePreference(this);
+        final int fontSize = CandidateHeightSetting.getFontSizePreference(this);
 
         // set candidate view size
         mCandidateView.setFontHeight(fontSize);
-
         mCandidateView.requestLayout();
     }
 
+
     @Override
-    public void onUpdateSelection(int oldSelStart, int oldSelEnd,
-                                  int newSelStart, int newSelEnd,
+    public void onUpdateSelection(final int oldSelStart, final int oldSelEnd,
+                                  final int newSelStart, final int newSelEnd,
                                   int composingStart, int composingEnd) {
         super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd,
                 composingStart, composingEnd);
 
-        InputConnection inputConnection = getCurrentInputConnection();
-        if (inputConnection == null)
+        final InputConnection inputConnection = getCurrentInputConnection();
+        if (inputConnection == null) {
             return;
+        }
 
         inputConnection.beginBatchEdit();
 
@@ -1733,23 +1753,26 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
         // Update input contents
         mInputContents = getInputContents();
-        if (mInputContents.length() == 0)
+        if (mInputContents.length() == 0) {
             mComposing.setLength(0);
+        }
     }
 
 
     private void updateComposing(InputConnection inputConnection) {
-        if (!mPredictionOn || (mComposing != null && mComposing.length() > 0))
+        if (!mPredictionOn || (mComposing != null && mComposing.length() > 0)) {
             // Predictions unnecessary, or already in progress
             return;
+        }
 
-        if (inputConnection == null)
+        if (inputConnection == null) {
             return;
+        }
 
-        CharSequence before = new StringBuilder(getWordBeforeCursor(inputConnection));
-        CharSequence after = new StringBuilder(getWordAfterCursor(inputConnection));
+        final CharSequence before = new StringBuilder(getWordBeforeCursor(inputConnection));
+        final CharSequence after = new StringBuilder(getWordAfterCursor(inputConnection));
         if (before.length() > 0) {
-            int cursor = getCursorLocation(inputConnection);
+            final int cursor = getCursorLocation(inputConnection);
             if (safeSetComposingRegion(inputConnection,
                     cursor - before.length(), cursor + after.length())) // Only in 2.3.3+ (see below)
                 mComposing = new StringBuilder(before).append(after);
@@ -1757,15 +1780,16 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         updateCandidates();
     }
 
+
     // Backwards-compatible implementation of
     // InputConnection.setComposingRegion()
     private static Method mInputConnection_setComposingRegion = null;
+
 
     static {
         initCompatibility();
     }
 
-    ;
 
     private static void initCompatibility() {
         try {
@@ -1778,9 +1802,15 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         }
     }
 
-    private boolean safeSetComposingRegion(InputConnection inputConnection, int start, int end) {
-        if (isGoogleMailBody())
+
+    private boolean safeSetComposingRegion(
+            final InputConnection inputConnection,
+            final int start,
+            final int end) {
+
+        if (isGoogleMailBody()) {
             return false;
+        }
 
         if (mInputConnection_setComposingRegion != null) {
             try {
@@ -1797,10 +1827,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         return false;
     }
 
-
-    public void buyTranslatorCredits() {
-        // Do nothing by default
-    }
 
     /**
      * This tells us about completions that the editor has determined based on
@@ -1828,13 +1854,11 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * InputConnection. It is only needed when using the PROCESS_HARD_KEYS
      * option.
      */
-    private boolean translateKeyDown(int keyCode, KeyEvent event) {
-        mMetaState = MetaKeyKeyListener.handleKeyDown(mMetaState, keyCode,
-                event);
-        int c = event.getUnicodeChar(MetaKeyKeyListener
-                .getMetaState(mMetaState));
+    private boolean translateKeyDown(final int keyCode, final KeyEvent event) {
+        mMetaState = MetaKeyKeyListener.handleKeyDown(mMetaState, keyCode, event);
+        int c = event.getUnicodeChar(MetaKeyKeyListener.getMetaState(mMetaState));
         mMetaState = MetaKeyKeyListener.adjustMetaAfterKeypress(mMetaState);
-        InputConnection ic = getCurrentInputConnection();
+        final InputConnection ic = getCurrentInputConnection();
         if (c == 0 || ic == null) {
             return false;
         }
@@ -1844,8 +1868,8 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         }
 
         if (mComposing.length() > 0) {
-            char accent = mComposing.charAt(mComposing.length() - 1);
-            int composed = KeyEvent.getDeadChar(accent, c);
+            final char accent = mComposing.charAt(mComposing.length() - 1);
+            final int composed = KeyEvent.getDeadChar(accent, c);
 
             if (composed != 0) {
                 c = composed;
@@ -1858,15 +1882,17 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         return true;
     }
 
+
     /**
      * Use this to monitor key events being delivered to the application. We get
      * first crack at them, and can either resume them or let them continue to
      * the app.
      */
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (!mWindowVisible)
+    public boolean onKeyDown(final int keyCode, final KeyEvent event) {
+        if (!mWindowVisible) {
             return false;
+        }
 
         bAutoSpace = false;
 
@@ -1874,24 +1900,28 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             case KeyEvent.KEYCODE_BACK:
                 // Ignore this event if the translator popup is open (onKeyUp
                 // will close it)
-                TranslatorView translatorView = getKeyboardView().mTranslatorView;
+                final TranslatorView translatorView = getKeyboardView().mTranslatorView;
                 if (translatorView != null) {
                     if (translatorView.findViewById(R.id.text_clipboard)
-                            .getVisibility() != View.GONE)
+                            .getVisibility() != View.GONE) {
                         return true;
+                    }
                     if (translatorView.findViewById(R.id.menu_languages)
-                            .getVisibility() != View.GONE)
+                            .getVisibility() != View.GONE) {
                         return true;
+                    }
                 }
 
                 // Ignore this event if popup windows are showing. It will be
                 // handled in onKeyUp().
-                if (mKeyboardView.isPopupShowing())
+                if (mKeyboardView.isPopupShowing()) {
                     return true;
+                }
 
                 // Ignore this event in certain activities. They will handle it.
-                if (inPreviewMode())
+                if (inPreviewMode()) {
                     return false;
+                }
                 break;
 
             case KeyEvent.KEYCODE_DEL:
@@ -1922,16 +1952,18 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         return super.onKeyDown(keyCode, event);
     }
 
+
     /**
      * Use this to monitor key events being delivered to the application. We get
      * first crack at them, and can either resume them or let them continue to
      * the app.
      */
     @Override
-    public boolean onKeyUp(int keyCode, KeyEvent event) {
-        if (!mWindowVisible)
+    public boolean onKeyUp(final int keyCode, final KeyEvent event) {
+        if (!mWindowVisible) {
             // Don't do anything if the keyboard is not visible.
             return false;
+        }
 
         // If we want to do transformations on text being entered with a hard
         // keyboard, we need to process the up events to update the meta key
@@ -1945,11 +1977,11 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
-                TranslatorView translatorView = getKeyboardView().mTranslatorView;
+                final TranslatorView translatorView = getKeyboardView().mTranslatorView;
                 if (translatorView != null) {
                     // Close translator items (clipboard translation popup, or
                     // language menu)
-                    TextView textClipboard = (TextView) getKeyboardView().mTranslatorView
+                    final TextView textClipboard = (TextView) getKeyboardView().mTranslatorView
                             .findViewById(R.id.text_clipboard);
                     if (textClipboard.getVisibility() != View.GONE) {
                         // Close the clipboard translation
@@ -1957,7 +1989,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
                         return true;
                     }
 
-                    ListView menuLanguages = (ListView) getKeyboardView().mTranslatorView
+                    final ListView menuLanguages = (ListView) getKeyboardView().mTranslatorView
                             .findViewById(R.id.menu_languages);
                     if (menuLanguages.getVisibility() != View.GONE) {
                         // Close a language menu
@@ -1976,6 +2008,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         return super.onKeyUp(keyCode, event);
     }
 
+
     @Override
     public void onWindowHidden() {
         // Composing text is automatically committed, so clear mComposing and
@@ -1989,6 +2022,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         mWindowVisible = false;
     }
 
+
     @Override
     public void onWindowShown() {
         super.onWindowShown();
@@ -1996,13 +2030,14 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         mWindowVisible = true;
     }
 
+
     /**
      * Commit the current composition. Do not replace with a suggestion.
      */
     protected CharSequence commitTyped() {
         setLastWord(mComposing.toString());
 
-        InputConnection inputConnection = getCurrentInputConnection();
+        final InputConnection inputConnection = getCurrentInputConnection();
         if (inputConnection != null && mComposing.length() > 0) {
             inputConnection.commitText(mComposing, 1);
             mComposing.setLength(0);
@@ -2012,6 +2047,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         return mComposing;
     }
 
+
     /**
      * Update the shift key state based on the app preference, or force all-caps
      * if caps==true.
@@ -2019,18 +2055,19 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @param ei   An EditorInfo provided by the app.
      * @param caps Set true to force caps. If false, use EditorInfo.
      */
-    private void updateShiftKeyState(EditorInfo ei, boolean caps) {
+    private void updateShiftKeyState(final EditorInfo ei, boolean caps) {
         if (ei != null && mKeyboardView != null) {
             if (ei != null && ei.inputType != EditorInfo.TYPE_NULL
                     && mAutoCaps == true) {
-                InputConnection inputConnection = getCurrentInputConnection();
-                if (inputConnection == null)
+                final InputConnection inputConnection = getCurrentInputConnection();
+                if (inputConnection == null) {
                     return;
+                }
                 if (caps == false) {
-                    if (isGoogleMailBody(ei))
+                    if (isGoogleMailBody(ei)) {
                         caps = mGoogleMailHackCapsMode;
-                    else {
-                        int capsMode = inputConnection.getCursorCapsMode(ei.inputType);
+                    } else {
+                        final int capsMode = inputConnection.getCursorCapsMode(ei.inputType);
                         caps = capsMode > 0;
                     }
                 }
@@ -2039,9 +2076,11 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         }
     }
 
+
     private void updateShiftKeyState() {
         updateShiftKeyState(safeGetCurrentInputEditorInfo(), false);
     }
+
 
     /**
      * Returns the current EditorInfo, processed by editorInfoHack().
@@ -2055,6 +2094,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         return editorInfo;
     }
 
+
     /**
      * This method hacks the EditorInfo provided by the app. Why? Because Google
      * Mail body field is F***ED.
@@ -2062,31 +2102,35 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @param editorInfo The EditorInfo to hack.
      * @return The hacked EditorInfo.
      */
-    private EditorInfo editorInfoHack(EditorInfo editorInfo) {
+    private EditorInfo editorInfoHack(final EditorInfo editorInfo) {
         // Android Email uses an unknown input class
         if (isGoogleMailBody(editorInfo)) {
-            if ((editorInfo.inputType & EditorInfo.TYPE_MASK_CLASS) == 0xf)
+            if ((editorInfo.inputType & EditorInfo.TYPE_MASK_CLASS) == 0xf) {
                 // Android Email uses an unknown input class. Change it to
                 // standard text.
                 editorInfo.inputType = (editorInfo.inputType & ~EditorInfo.TYPE_MASK_CLASS)
                         | EditorInfo.TYPE_CLASS_TEXT;
-            if ((editorInfo.imeOptions & EditorInfo.IME_MASK_ACTION) == 0xff)
+            }
+            if ((editorInfo.imeOptions & EditorInfo.IME_MASK_ACTION) == 0xff) {
                 // Android Email uses unknown IME options. Change it to none
                 editorInfo.imeOptions = EditorInfo.IME_ACTION_NONE;
+            }
         }
 
         return editorInfo;
     }
 
-    private void googleMailSetCapsModeHack(int code) {
-        if (code == (int) '.' || code == (int) '?' || code == (int) '!')
+
+    private void googleMailSetCapsModeHack(final int code) {
+        if (code == (int) '.' || code == (int) '?' || code == (int) '!') {
             mGoogleMailHackCapsMode = true;
-        else
+        } else {
             mGoogleMailHackCapsMode = false;
+        }
     }
 
 
-    private boolean isGoogleMailBody(EditorInfo editorInfo) {
+    private boolean isGoogleMailBody(final EditorInfo editorInfo) {
         if (editorInfo.packageName.equals("com.android.email")
                 && (editorInfo.inputType & InputType.TYPE_TEXT_FLAG_MULTI_LINE) > 0) {
             // Android Email body doesn't handle auto-caps correctly
@@ -2097,9 +2141,11 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         return false;
     }
 
+
     private boolean isGoogleMailBody() {
         return isGoogleMailBody(getCurrentInputEditorInfo());
     }
+
 
     /**
      * Helper to determine if a given character code belongs in a word. In all
@@ -2110,19 +2156,21 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @param code The character code to check.
      * @return true if code is a word character.
      */
-    private boolean isWordCharacter(int code) {
+    private boolean isWordCharacter(final int code) {
         if (mLanguage.equals("fr")) {
             // FRENCH HACK
-            if (Character.isLetter(code) || Character.isDigit(code)
-                    || code == '-')
+            if (Character.isLetter(code) || Character.isDigit(code) || code == '-') {
                 return true;
-        } else if (Character.isLetter(code) || Character.isDigit(code)
-                || code == '\'') {
-            return true;
+            }
+        } else if (Character.isLetter(code) || Character.isDigit(code) || code == '\'') {
+            {
+                return true;
+            }
         }
 
         return false;
     }
+
 
     /**
      * Returns the list of punctuation that may be followed by a smart space.
@@ -2133,6 +2181,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         return mSmartSpacePreceders;
     }
 
+
     /**
      * This method determines if a character code should be followed by a smart
      * space.
@@ -2140,7 +2189,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @param code The code to check.
      * @return true if code should be followed by a smart space.
      */
-    public boolean isSmartSpacePreceder(int code) {
+    public boolean isSmartSpacePreceder(final int code) {
         return getSmartSpacePreceders().contains(String.valueOf((char) code));
     }
 
@@ -2148,14 +2197,16 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
     /**
      * Helper to send a key down / key up pair to the current editor.
      */
-    private void keyDownUp(int keyEventCode) {
-        InputConnection inputConnection = getCurrentInputConnection();
-        if (inputConnection == null)
+    private void keyDownUp(final int keyEventCode) {
+        final InputConnection inputConnection = getCurrentInputConnection();
+        if (inputConnection == null) {
             return;
+        }
 
         inputConnection.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, keyEventCode));
         inputConnection.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, keyEventCode));
     }
+
 
     /**
      * Helper to send a character to the editor as raw key events.
@@ -2176,7 +2227,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @param primaryCode
      * @return
      */
-    public boolean isFnKeyPressed(int primaryCode) {
+    public boolean isFnKeyPressed(final int primaryCode) {
         switch (primaryCode) {
             case BaseKeyboard.KEYCODE_SETTINGS:
             case BaseKeyboard.KEYCODE_MODE_CHANGE:
@@ -2192,6 +2243,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         return false;
     }
 
+
     /**
      * This method receives and handles all keystrokes.
      *
@@ -2199,22 +2251,20 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @param keyCodes    All possible codes for this keystroke.
      */
     @Override
-    public void onKey(int primaryCode, int[] keyCodes) {
+    public void onKey(final int primaryCode, final int[] keyCodes) {
         writeDebug("KeyboardService.onKey(primaryCode=" + primaryCode + ")");
 
         if (mIME.inPreviewMode()) {
             // Keyboard is in preview mode
-            if (primaryCode == BaseKeyboard.KEYCODE_ACTION)
+            if (primaryCode == BaseKeyboard.KEYCODE_ACTION) {
                 // Hide the keyboard
                 onCancelKey();
+            }
 
             return;
         }
 
         dismissAllPopupWindows();
-
-//		mProfileTracer.reset();
-//		mProfileTracer.log("Round trip: onKey(" + ((char)primaryCode) + "): ENTER");
 
         // Send keystroke audio and vibrate feedback. Only sends one feedback
         // for repeatable keys.
@@ -2240,9 +2290,9 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         // auto-space, delete the space before inserting the punc.
         if (bAutoSpace && mSmartSpaces && isSmartSpacePreceder(primaryCode)) {
             // Delete the auto-space
-            InputConnection inputConnection = getCurrentInputConnection();
+            final InputConnection inputConnection = getCurrentInputConnection();
             if (inputConnection != null) {
-                CharSequence before = getTextBeforeCursor(inputConnection, 1);
+                final CharSequence before = getTextBeforeCursor(inputConnection, 1);
                 if (before.length() == 1 && before.charAt(0) == ' ')
                     inputConnection.deleteSurroundingText(1, 0);
             }
@@ -2316,9 +2366,8 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         } else {
             onFnKey(primaryCode);
         }
-
-//		 mProfileTracer.log("Round trip: onKey(" + ((char) primaryCode) + "): EXIT");
     }
+
 
     /**
      * Handle any key
@@ -2355,25 +2404,29 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
                 onSettingsKey();
                 return true;
         }
+
         return false;
     }
+
 
     /**
      * Called by the framework to insert text into the edit view.
      */
     @Override
-    public void onText(CharSequence text) {
+    public void onText(final CharSequence text) {
         writeDebug("KeyboardService.onText(text=" + text + ")");
 
         setLastWord(text.toString());
 
-        InputConnection inputConnection = getCurrentInputConnection();
-        if (inputConnection == null)
+        final InputConnection inputConnection = getCurrentInputConnection();
+        if (inputConnection == null) {
             return;
+        }
 
         inputConnection.beginBatchEdit();
-        if (mComposing.length() > 0)
+        if (mComposing.length() > 0) {
             commitTyped();
+        }
         inputConnection.commitText(text, 0);
         inputConnection.endBatchEdit();
         updateShiftKeyState();
@@ -2382,26 +2435,29 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         dismissAllPopupWindows();
     }
 
+
     /**
      * Toggles the password reveal
      *
      * @param reveal Set true to reveal the password, false to hide it.
      */
-    protected void updatePassword(boolean reveal) {
+    protected void updatePassword(final boolean reveal) {
         mShowPassword = reveal;
         String message = getString(R.string.candidate_check_password);
-        if (mIsPassword && mShowPassword)
+        if (mIsPassword && mShowPassword) {
             message = mPassword.toString();
+        }
         mCandidateView.setDisplayMessage(message,
                 CandidateView.MessageType.MESSAGE_STATIC, mOnClickPassword);
     }
+
 
     /**
      * Gets a list of suggestions based on prefix, to display to the user.
      *
      * @param prefix The prefix to match. Equal to the composition.
      */
-    protected void updateCandidates(CharSequence prefix) {
+    protected void updateCandidates(final CharSequence prefix) {
         callTrace("updateCandidates(" + prefix + ")");
 
         if (mIsPassword) {
@@ -2409,8 +2465,9 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             return;
         }
 
-        if (mCompletionOn || !mPredictionOn)
+        if (mCompletionOn || !mPredictionOn) {
             return;
+        }
 
         // Find suggestions asynchronously. Suggestor will call
         // returnCandidates() when done.
@@ -2418,32 +2475,33 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         mPendingRequest = true;
     }
 
+
     protected void updateCandidates() {
         updateCandidates(mComposing);
     }
+
 
     /**
      * Called asynchronously by the Suggestor to update the CandidateView
      *
      * @param suggestions The list of suggestions to display.
      */
-    protected void returnCandidates(Suggestions suggestions) {
-
+    protected void returnCandidates(final Suggestions suggestions) {
         mPendingRequest = false;
         mSuggestions = suggestions;
 
         if (mDebug) {
-            ArrayList<Suggestion> list = suggestions.getSuggestions();
-            String debug = "returnCandidates(): suggestions={";
+            final ArrayList<Suggestion> list = suggestions.getSuggestions();
+            final StringBuilder debug = new StringBuilder("returnCandidates(): suggestions={");
             for (int i = 0; i < list.size(); i++)
-                debug += list.get(i) + ",";
-            writeDebug(debug + "}");
+                debug.append(list.get(i)).append(",");
+            writeDebug(debug.append("}"));
         }
 
         // Save the suggestions
         setSuggestions(mSuggestions, true);
-//		mProfileTracer.log("Round trip (" + suggestions.getPrefix() + "): complete");
     }
+
 
     /**
      * Update the list of available candidates from the current composing text.
@@ -2463,7 +2521,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @param suggestions The suggestions.
      * @param completions true if these are completions provided by the app, not the suggestor.
      */
-    public void setSuggestions(Suggestions suggestions, boolean completions) {
+    public void setSuggestions(final Suggestions suggestions, final boolean completions) {
         // Make sure CandidateView is visible.
         if (suggestions != null && suggestions.size() > 0) {
             setCandidatesViewShown(true);
@@ -2486,26 +2544,27 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      */
     @TargetApi(9)
     protected void onDelete() {
-        InputConnection inputConnection = getCurrentInputConnection();
-        if (inputConnection == null)
+        final InputConnection inputConnection = getCurrentInputConnection();
+        if (inputConnection == null) {
             return;
+        }
 
         inputConnection.beginBatchEdit();
 
-        CharSequence selectedText = inputConnection.getSelectedText(0);
+        final CharSequence selectedText = inputConnection.getSelectedText(0);
 
         if (selectedText != null && selectedText.length() > 0) {
             // There is selected text. Delete it and return.
-            int nCharsToDelete = selectedText.length();
-            int cursorLocation = getCursorLocation(inputConnection) + nCharsToDelete;
+            final int nCharsToDelete = selectedText.length();
+            final int cursorLocation = getCursorLocation(inputConnection) + nCharsToDelete;
             inputConnection.setSelection(cursorLocation, cursorLocation);
             inputConnection.finishComposingText();
             inputConnection.deleteSurroundingText(nCharsToDelete, 0);
             mComposing.setLength(0);
         } else {
             // Check if user is inline editing a word.
-            StringBuilder before = new StringBuilder();
-            StringBuilder after = new StringBuilder();
+            final StringBuilder before = new StringBuilder();
+            final StringBuilder after = new StringBuilder();
             if (isEditingWord(inputConnection, before, after)) {
                 // User is inline editing a word. Stop composing and backspace.
                 int cursor = getCursorLocation(inputConnection);
@@ -2513,8 +2572,9 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
                 inputConnection.setSelection(cursor, cursor);
                 inputConnection.deleteSurroundingText(1, 0);
                 mComposing.setLength(0);
-                if (before.length() > 0)
+                if (before.length() > 0) {
                     before.setLength(before.length() - 1);
+                }
             } else {
                 // Process a standard backspace.
                 final int length = mComposing.length();
@@ -2527,11 +2587,12 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
                     mComposing.setLength(0);
                     inputConnection.commitText("", 0);
                 } else if (mIsPassword) {
-                    if (mPassword.length() > 1)
+                    if (mPassword.length() > 1) {
                         mPassword.delete(mPassword.length() - 1,
-                                mPassword.length());
-                    else if (mPassword.length() == 1)
+                                                        mPassword.length());
+                    } else if (mPassword.length() == 1) {
                         mPassword.setLength(0);
+                    }
                     keyDownUp(KeyEvent.KEYCODE_DEL);
                 } else {
                     // Just delete the preceding character
@@ -2548,26 +2609,27 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         updateCandidates();
     }
 
+
     /**
      * Called by onKey() when user presses delete forward key. Deletes the
      * character in front of the cursor.
      */
     @TargetApi(9)
     protected void onDeleteForward() {
-        InputConnection inputConnection = getCurrentInputConnection();
-        if (inputConnection == null)
+        final InputConnection inputConnection = getCurrentInputConnection();
+        if (inputConnection == null) {
             return;
+        }
 
         inputConnection.beginBatchEdit();
 
         int nCharsToDelete = 1;
-        CharSequence selectedText = null;
-        selectedText = inputConnection.getSelectedText(0);
+        final CharSequence selectedText = inputConnection.getSelectedText(0);
 
         if (selectedText != null && selectedText.length() > 0) {
             // There is selected text. Delete it and return.
             nCharsToDelete = selectedText.length();
-            int cursorLocation = getCursorLocation(inputConnection);
+            final int cursorLocation = getCursorLocation(inputConnection);
             inputConnection.setSelection(cursorLocation, cursorLocation);
         }
 
@@ -2583,21 +2645,24 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         updateCandidates();
     }
 
+
     /**
      * Called by onKey() when the user presses the shift key. Updates the
      * keyboard shift state.
      */
     protected void onShiftKey() {
-        if (mKeyboardView == null)
+        if (mKeyboardView == null) {
             return;
+        }
 
         // This key only affects the alpha keyboard
         if (isAlphaKeyboard()) {
             checkToggleCapsLock();
-            boolean bShifted = mKeyboardView.isShifted();
+            final boolean bShifted = mKeyboardView.isShifted();
             mKeyboardView.setShifted(!bShifted, getKeyboardView().getCapsLock());
         }
     }
+
 
     /**
      * Called by onKey() when the user presses a character key.
@@ -2618,16 +2683,17 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             }
         }
 
-        InputConnection inputConnection = getCurrentInputConnection();
-        if (inputConnection == null)
+        final InputConnection inputConnection = getCurrentInputConnection();
+        if (inputConnection == null) {
             return;
+        }
 
         updateComposing(inputConnection);
 
         inputConnection.beginBatchEdit();
 
         // Delete selected text
-        CharSequence selectedText = inputConnection.getSelectedText(0);
+        final CharSequence selectedText = inputConnection.getSelectedText(0);
         if (selectedText != null && selectedText.length() > 0) {
             // There is selected text. Delete it and return.
             int cursorLocation = getCursorLocation(inputConnection);
@@ -2641,11 +2707,11 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             // Do not start composing with a non-letter. Just commit.
             inputConnection.commitText(Character.toString((char) code), 1);
         } else if (isWordCharacter(code) && mPredictionOn) {
-            StringBuilder before = new StringBuilder();
-            StringBuilder after = new StringBuilder();
+            final StringBuilder before = new StringBuilder();
+            final StringBuilder after = new StringBuilder();
             if (isEditingWord(inputConnection, before, after)) {
                 // User is inline editing a word. Stop composing and insert text manually.
-                int cursor = getCursorLocation(inputConnection);
+                final int cursor = getCursorLocation(inputConnection);
                 inputConnection.finishComposingText();
                 inputConnection.setSelection(cursor, cursor);
                 inputConnection.commitText("" + (char) code, 1);
@@ -2656,12 +2722,13 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
                 mComposing.append((char) code);
                 inputConnection.setComposingText(mComposing, 1);
             }
-            if (mDebug)
+            if (mDebug) {
                 writeDebug("onCharacter(code=" + code + "): mComposing=" + mComposing);
+            }
             updateCandidates();
         } else {
             // Prediction is off. Just append the character.
-            String commit = ((char) code) + "";
+            final String commit = ((char) code) + "";
             inputConnection.commitText(commit, 1);
             if (mIsPassword) {
                 // Append to password reveal.
@@ -2675,6 +2742,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         updateShiftKeyState();
     }
 
+
     /**
      * "Inline editing" is when the user edits the middle of a composing word,
      * and the keyboard handles it by stopping composing (and therefore predictions).
@@ -2685,24 +2753,24 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @return Returns true if the user is inline editing a word.
      */
     @TargetApi(9)
-    private boolean isEditingWord(InputConnection inputConnection, StringBuilder before, StringBuilder after) {
-        boolean result = false;
+    private boolean isEditingWord(
+            InputConnection inputConnection,
+            StringBuilder before,
+            StringBuilder after) {
+        final boolean result;
 
-//		CharSequence selectedText = inputConnection.getSelectedText(0);
-//		if (selectedText != null && selectedText.length() > 0)
-//			result = true;
-//		else {
         before.append(getWordBeforeCursor(inputConnection));
         after.append(getWordAfterCursor(inputConnection));
         final String composing = new StringBuilder(before).append(after).toString();
-        if (composing.equals(mComposing.toString()) && after.length() > 0)
+        if (composing.equals(mComposing.toString()) && after.length() > 0) {
             result = true;
-        else
+        } else {
             result = false;
-//		}
+        }
 
         return result;
     }
+
 
     /**
      * Called by onKey() when the user presses the enter key.
@@ -2712,21 +2780,24 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         onText("\r\n");
     }
 
+
     /**
      * Returns the word in front of the cursor
      *
      * @param inputConnection The current InputConnection
      * @return A word, or empty string if there is no word directly in front of the cursor
      */
-    private StringBuilder getWordBeforeCursor(InputConnection inputConnection) {
-        if (inputConnection == null)
+    private StringBuilder getWordBeforeCursor(final InputConnection inputConnection) {
+        if (inputConnection == null) {
             return new StringBuilder("");
+        }
 
-        StringBuilder wordBeforeCursor = new StringBuilder();
-        CharSequence before = getTextBeforeCursor(inputConnection, MAX_WORD_LENGTH);
+        final StringBuilder wordBeforeCursor = new StringBuilder();
+        final CharSequence before = getTextBeforeCursor(inputConnection, MAX_WORD_LENGTH);
 
-        if (before.length() == 0)
+        if (before.length() == 0) {
             return wordBeforeCursor;
+        }
 
         int iStartOfWord;
         for (iStartOfWord = before.length() - 1;
@@ -2734,13 +2805,14 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
              iStartOfWord--)
             ;
 
-        if (++iStartOfWord < before.length())
+        if (++iStartOfWord < before.length()) {
             wordBeforeCursor.append(before.subSequence(iStartOfWord, before.length()));
+        }
 
-        if (wordBeforeCursor.length() == 1
-                && wordBeforeCursor.charAt(0) == '\'')
+        if (wordBeforeCursor.length() == 1 && wordBeforeCursor.charAt(0) == '\'') {
             // Don't start a word with '
             wordBeforeCursor.setLength(0);
+        }
 
         return wordBeforeCursor;
     }
@@ -2751,9 +2823,10 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * cursor.
      */
     private void deleteWordBeforeCursor() {
-        InputConnection inputConnection = getCurrentInputConnection();
-        if (inputConnection == null)
+        final InputConnection inputConnection = getCurrentInputConnection();
+        if (inputConnection == null) {
             return;
+        }
 
         inputConnection.beginBatchEdit();
 
@@ -2767,8 +2840,9 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             }
         }
         // Commit composing first
-        if (mComposing.length() > 0)
+        if (mComposing.length() > 0) {
             commitTyped();
+        }
         // Now, delete the word (if any)
         while ((letterBeforeCursor = getTextBeforeCursor(inputConnection, 1))
                 .length() == 1 && isWordCharacter(letterBeforeCursor.charAt(0))) {
@@ -2785,16 +2859,18 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @param inputConnection A valid InputConnection
      * @return A word, or empty string if there is no word immediately following the cursor
      */
-    private StringBuilder getWordAfterCursor(InputConnection inputConnection) {
-        if (inputConnection == null)
+    private StringBuilder getWordAfterCursor(final InputConnection inputConnection) {
+        if (inputConnection == null) {
             return new StringBuilder("");
+        }
 
         // We are starting an append to a word. Make that word the new composing text.
-        StringBuilder word = new StringBuilder();
-        CharSequence after = getTextAfterCursor(inputConnection, MAX_WORD_LENGTH);
+        final StringBuilder word = new StringBuilder();
+        final CharSequence after = getTextAfterCursor(inputConnection, MAX_WORD_LENGTH);
 
-        if (after.length() == 0)
+        if (after.length() == 0) {
             return word;
+        }
 
         int iEndOfWord;
         for (iEndOfWord = 0;
@@ -2804,7 +2880,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
         if (--iEndOfWord < after.length())
             word.append(after.subSequence(0, iEndOfWord + 1));
-
 
         return word;
     }
@@ -2818,16 +2893,19 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @param n               The number of characters to return. The result may be shorter.
      * @return The text before the cursor, up to n characters, or "" if there is none.
      */
-    private CharSequence getTextBeforeCursor(InputConnection inputConnection, int n) {
-        if (inputConnection == null)
+    private CharSequence getTextBeforeCursor(final InputConnection inputConnection, final int n) {
+        if (inputConnection == null) {
             return "";
+        }
 
         CharSequence before = inputConnection.getTextBeforeCursor(n, 0);
-        if (before == null)
+        if (before == null) {
             return "";
+        }
 
         return before;
     }
+
 
     /**
      * Safe wrapper for InputConnection.getTextAfterCursor() that returns ""
@@ -2848,6 +2926,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         return after;
     }
 
+
     /**
      * Returns an index to the cursor location in the edit text. (Why is there
      * no framework method for this???)
@@ -2855,9 +2934,10 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @param inputConnection The current InputConnection.
      * @return An index to the cursor location.
      */
-    private int getCursorLocation(InputConnection inputConnection) {
-        if (inputConnection == null)
+    private int getCursorLocation(final InputConnection inputConnection) {
+        if (inputConnection == null) {
             return 0;
+        }
 
         CharSequence textBeforeCursor = getTextBeforeCursor(inputConnection, 99);
         if (textBeforeCursor == null)
@@ -2875,12 +2955,13 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         return textBeforeCursor.length();
     }
 
+
     /**
      * Move the cursor back one word. Skip any trailing punctuation/whitespace too.
      *
      * @param inputConnection The current InputConnection.
      */
-    private void cursorBackWord(InputConnection inputConnection) {
+    private void cursorBackWord(final InputConnection inputConnection) {
         inputConnection.beginBatchEdit();
 
         int nChars = 0;
@@ -2897,18 +2978,19 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             nChars++;
         }
 
-        int cursor = getCursorLocation(inputConnection);
+        final int cursor = getCursorLocation(inputConnection);
         inputConnection.setSelection(cursor - nChars, cursor - nChars);
 
         inputConnection.endBatchEdit();
     }
+
 
     /**
      * Move the cursor forward one word. Skip any preceding punctuation/whitespace too.
      *
      * @param inputConnection The current InputConnection.
      */
-    private void cursorNextWord(InputConnection inputConnection) {
+    private void cursorNextWord(final InputConnection inputConnection) {
         inputConnection.beginBatchEdit();
 
         int nChars = 0;
@@ -2925,7 +3007,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             nChars++;
         }
 
-        int cursor = getCursorLocation(inputConnection);
+        final int cursor = getCursorLocation(inputConnection);
         inputConnection.setSelection(cursor + nChars, cursor + nChars);
 
         inputConnection.endBatchEdit();
@@ -2940,10 +3022,11 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @param word2 A StringBuilder that is filled with the word before the prefix/cursor.
      * @return The number of words returned. May be < 2.
      */
-    public int getTwoWordsBeforePrefix(StringBuilder word1, StringBuilder word2) {
-        InputConnection inputConnection = getCurrentInputConnection();
-        if (inputConnection == null)
+    public int getTwoWordsBeforePrefix(final StringBuilder word1, final StringBuilder word2) {
+        final InputConnection inputConnection = getCurrentInputConnection();
+        if (inputConnection == null) {
             return 0;
+        }
 
         // Clear the StringBuilders, just in case.
         word1.setLength(0);
@@ -2952,19 +3035,21 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
 
         // Get the text before the cursor, up to 50 chars.
-        CharSequence textBeforeCursor = getTextBeforeCursor(inputConnection, MAX_WORD_LENGTH);
-        if (textBeforeCursor.length() == 0)
+        final CharSequence textBeforeCursor = getTextBeforeCursor(inputConnection, MAX_WORD_LENGTH);
+        if (textBeforeCursor.length() == 0) {
             return 0;
+        }
 
 
         // Skip the prefix (if any)
         for (iStartOfPrefix = textBeforeCursor.length() - 1; iStartOfPrefix >= 0; iStartOfPrefix--)
-            if (!isWordCharacter(textBeforeCursor.charAt(iStartOfPrefix)))
+            if (!isWordCharacter(textBeforeCursor.charAt(iStartOfPrefix))) {
                 break;
+            }
 
-        if (iStartOfPrefix < 0)
+        if (iStartOfPrefix < 0) {
             return 0;
-
+        }
 
 		/*
 		 * Get the word in front of the prefix/cursor (i.e. word2)
@@ -2972,27 +3057,30 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
         // Skip trailing whitespace & punctuation.
         for (iEndOfWord = iStartOfPrefix; iEndOfWord >= 0; iEndOfWord--) {
-            if (isWordCharacter(textBeforeCursor.charAt(iEndOfWord)))
+            if (isWordCharacter(textBeforeCursor.charAt(iEndOfWord))) {
                 break;
-            else if (isSentenceSeparator(textBeforeCursor.charAt(iEndOfWord)))
+            } else if (isSentenceSeparator(textBeforeCursor.charAt(iEndOfWord))) {
                 return 0;
+            }
         }
 
-        if (iEndOfWord < 0)
+        if (iEndOfWord < 0) {
             return 0;
+        }
 
         // Scan word2
-        for (iStartOfWord = iEndOfWord; iStartOfWord >= 0; iStartOfWord--)
-            if (!isWordCharacter(textBeforeCursor.charAt(iStartOfWord)))
+        for (iStartOfWord = iEndOfWord; iStartOfWord >= 0; iStartOfWord--) {
+            if (!isWordCharacter(textBeforeCursor.charAt(iStartOfWord))) {
                 break;
+            }
+        }
 
-        if (iStartOfWord + 1 < 0)
+        if (iStartOfWord + 1 < 0) {
             return 0;
+        }
 
         // Write word2 to StringBuilder
-        word2.append(textBeforeCursor.subSequence(iStartOfWord + 1,
-                iEndOfWord + 1));
-
+        word2.append(textBeforeCursor.subSequence(iStartOfWord + 1, iEndOfWord + 1));
 
 		/*
 		 * Get the word in front of word2 (i.e. word1)
@@ -3000,26 +3088,30 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
         // Skip trailing whitespace & punctuation.
         for (iEndOfWord = iStartOfWord; iEndOfWord >= 0; iEndOfWord--) {
-            if (isWordCharacter(textBeforeCursor.charAt(iEndOfWord)))
+            if (isWordCharacter(textBeforeCursor.charAt(iEndOfWord))) {
                 break;
-            else if (isSentenceSeparator(textBeforeCursor.charAt(iEndOfWord)))
+            } else if (isSentenceSeparator(textBeforeCursor.charAt(iEndOfWord))) {
                 return 1;
+            }
         }
 
-        if (iEndOfWord < 0)
+        if (iEndOfWord < 0) {
             return 1;
+        }
 
         // Scan word1
-        for (iStartOfWord = iEndOfWord; iStartOfWord >= 0; iStartOfWord--)
-            if (!isWordCharacter(textBeforeCursor.charAt(iStartOfWord)))
+        for (iStartOfWord = iEndOfWord; iStartOfWord >= 0; iStartOfWord--) {
+            if (!isWordCharacter(textBeforeCursor.charAt(iStartOfWord))) {
                 break;
+            }
+        }
 
-        if (iStartOfWord + 1 < 0)
+        if (iStartOfWord + 1 < 0) {
             return 1;
+        }
 
         // Write word1 to StringBuilder
-        word1.append(textBeforeCursor.subSequence(iStartOfWord + 1,
-                iEndOfWord + 1));
+        word1.append(textBeforeCursor.subSequence(iStartOfWord + 1, iEndOfWord + 1));
 
         return 2;
     }
@@ -3044,33 +3136,30 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         }
 
         // Commit whatever is being typed
-        InputConnection inputConnection = getCurrentInputConnection();
-        if (inputConnection == null)
+        final InputConnection inputConnection = getCurrentInputConnection();
+        if (inputConnection == null) {
             return;
+        }
 
         // Start a batch edit to commit the suggestion (if any) and this whitespace character.
         inputConnection.beginBatchEdit();
 
-
         // Delete selected text
-        CharSequence selectedText = null;
-        selectedText = inputConnection.getSelectedText(0);
-
+        final CharSequence selectedText = inputConnection.getSelectedText(0);
         if (selectedText != null && selectedText.length() > 0) {
             // There is selected text. Delete it and return.
-            int cursorLocation = getCursorLocation(inputConnection);
+            final int cursorLocation = getCursorLocation(inputConnection);
             inputConnection.setSelection(cursorLocation, cursorLocation);
             inputConnection.finishComposingText();
             inputConnection.deleteSurroundingText(0, selectedText.length());
             mComposing.setLength(0);
         }
 
-        StringBuilder before = new StringBuilder();
-        StringBuilder after = new StringBuilder();
+        final StringBuilder before = new StringBuilder();
+        final StringBuilder after = new StringBuilder();
         if (isEditingWord(inputConnection, before, after)) {
             // User is inline editing a word. Stop composing and insert text manually.
-
-            int cursor = getCursorLocation(inputConnection);
+            final int cursor = getCursorLocation(inputConnection);
             inputConnection.finishComposingText();
             inputConnection.setSelection(cursor, cursor);
             inputConnection.commitText("" + (char) code, 1);
@@ -3083,22 +3172,25 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             return;
         }
 
-
 		/*
 		 * First, commit the current composition
 		 */
         CharSequence committed = "";
-        if (mPredictionOn)
-            if (mComposing.length() > 0)
-                if (mAutoSelect && (isSmartSpacePreceder(code) || code == (int) ' '))
+        if (mPredictionOn) {
+            if (mComposing.length() > 0) {
+                if (mAutoSelect && (isSmartSpacePreceder(code) || code == (int) ' ')) {
                     // Replace the composing with the default suggestion.
                     committed = pickDefaultCandidate();
-                else
+                } else {
                     committed = commitTyped();
+                }
+            }
+        }
 
         // Set auto-space flag if necessary
-        if (code == (int) ' ' && committed.length() > 0)
+        if (code == (int) ' ' && committed.length() > 0) {
             bAutoSpace = true;
+        }
 
         // Handle password
         if (mIsPassword) {
@@ -3106,9 +3198,10 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             updatePassword(mShowPassword);
         }
 
-        if (code != (int) ' ')
+        if (code != (int) ' ') {
             // Don't start a new bi-gram
             mLastWord = null;
+        }
 
 		/*
 		 * Now, commit the character typed
@@ -3124,9 +3217,8 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         if (inputConnection != null) {
             // Special case: Replace ". Com" with ".com"
             if (mSmartSpaces) {
-                CharSequence dotcom = getTextBeforeCursor(inputConnection, 5);
-                if (dotcom.length() == 5
-                        && (dotcom.equals(". com") || dotcom.equals(". Com"))) {
+                final CharSequence dotcom = getTextBeforeCursor(inputConnection, 5);
+                if (dotcom.length() == 5 && (dotcom.equals(". com") || dotcom.equals(". Com"))) {
                     inputConnection.deleteSurroundingText(5, 0);
                     commit = new StringBuilder(".com").append(commit);
                 }
@@ -3142,6 +3234,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         updateShiftKeyState();
         updateCandidates();
     }
+
 
     /**
      * Commits the composition, replacing it with the default suggestion if
@@ -3169,15 +3262,17 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         return committed;
     }
 
+
     /**
      * Called by onKey() when the user presses a cursor key.
      *
      * @param code The cursor key code.
      */
     private void onArrowKey(int code) {
-        InputConnection inputConnection = getCurrentInputConnection();
-        if (inputConnection == null)
+        final InputConnection inputConnection = getCurrentInputConnection();
+        if (inputConnection == null) {
             return;
+        }
 
         KeyEvent keyEvent = null;
         switch (code) {
@@ -3225,8 +3320,8 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
                 break;
             case BaseKeyboard.KEYCODE_SELECT:
                 // Select the current word.
-                CharSequence before = getWordBeforeCursor(inputConnection);
-                CharSequence after = getWordAfterCursor(inputConnection);
+                final CharSequence before = getWordBeforeCursor(inputConnection);
+                final CharSequence after = getWordAfterCursor(inputConnection);
                 int cursorLocation = 0;
                 if (before.length() > 0 || after.length() > 0) {
                     cursorLocation = getCursorLocation(inputConnection);
@@ -3246,6 +3341,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             inputConnection.sendKeyEvent(keyEvent);
     }
 
+
     /**
      * Called by onKey() when the user presses the cancel key.
      */
@@ -3256,23 +3352,27 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         mKeyboardView.closing();
     }
 
+
     /**
      * Perform the default app action (e.g. send).
      */
     protected void performEditorAction() {
-        EditorInfo ei = safeGetCurrentInputEditorInfo();
-        if (ei == null)
+        final EditorInfo ei = safeGetCurrentInputEditorInfo();
+        if (ei == null) {
             return;
+        }
 
         // Commit the composition first. This will perform a completion or typo-correction if necessary
         commitComposing();
 
         // Get the action code and send it to the app.
-        int editorAction = ei.imeOptions & EditorInfo.IME_MASK_ACTION;
-        InputConnection inputConnection = getCurrentInputConnection();
-        if (inputConnection != null)
+        final int editorAction = ei.imeOptions & EditorInfo.IME_MASK_ACTION;
+        final InputConnection inputConnection = getCurrentInputConnection();
+        if (inputConnection != null) {
             inputConnection.performEditorAction(editorAction);
+        }
     }
+
 
     /**
      * Toggle between alpha and number pad keyboards
@@ -3282,19 +3382,21 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             getKeyboardView().setKeyboard(mNumPadKeyboard);
             getKeyboardView().setShifted(false, false);
         } else {
-            if (mNumRowOn)
+            if (mNumRowOn) {
                 getKeyboardView().setKeyboard(mAlphaNumKeyboard);
-            else
+            } else {
                 getKeyboardView().setKeyboard(mAlphaKeyboard);
+            }
         }
 
         // Update the label on the enter key, depending on what the application
         // says it will do.
-        BaseKeyboard currKeyboard = getKeyboardView().getKeyboard();
+        final BaseKeyboard currKeyboard = getKeyboardView().getKeyboard();
         currKeyboard.setImeOptions(getResources(), safeGetCurrentInputEditorInfo());
 
         getTextForImeAction(0);
     }
+
 
     /**
      * Change keyboard mode to arrow keys
@@ -3303,6 +3405,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         dismissAllPopupWindows();
         getKeyboardView().setKeyboard(mArrowPadKeyboard);
     }
+
 
     /**
      * Methods to open/close the number row
@@ -3318,6 +3421,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         }
     }
 
+
     protected void closeNumRow() {
         // This only applies to the alpha keyboard
         if (getKeyboardView().getKeyboard() == mAlphaNumKeyboard) {
@@ -3329,26 +3433,32 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         }
     }
 
+
     public void dismissAllPopupWindows() {
         dismissAllPopupWindows(false);
     }
 
-    private void dismissAllPopupWindows(boolean rememberLastWindow) {
-        if (getKeyboardView() == null)
+
+    private void dismissAllPopupWindows(final boolean rememberLastWindow) {
+        if (getKeyboardView() == null) {
             return;
+        }
 
         getKeyboardView().dismissAllPopupWindows(rememberLastWindow);
     }
+
 
     /**
      * Toggle the number row in the alpha keyboard.
      */
     protected void toggleNumRow() {
-        if (getKeyboardView().getKeyboard() == mAlphaKeyboard)
+        if (getKeyboardView().getKeyboard() == mAlphaKeyboard) {
             openNumRow();
-        else if (getKeyboardView().getKeyboard() == mAlphaNumKeyboard)
+        } else if (getKeyboardView().getKeyboard() == mAlphaNumKeyboard) {
             closeNumRow();
+        }
     }
+
 
 	/*
 	 * Methods to handle customized swipe action
@@ -3359,44 +3469,40 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      *
      * @param action The action to perform.
      */
-    private void swipe(String action) {
+    private void swipe(final String action) {
         Assert.assertTrue(action != null && !action.equals(""));
 
         if (action.equals(getString(R.string.any_key_action_id_voice_input))) {
             openVoiceTyping();
-        } else if (action
-                .equals(getString(R.string.any_key_action_id_arrow_keypad))) {
+        } else if (action.equals(getString(R.string.any_key_action_id_arrow_keypad))) {
             arrowKeyboardMode();
-        } else if (action
-                .equals(getString(R.string.any_key_action_id_translator))) {
+        } else if (action.equals(getString(R.string.any_key_action_id_translator))) {
             openTranslator();
         } else if (action.equals(getString(R.string.any_key_action_id_locale))) {
             onLocaleKey();
-        } else if (action
-                .equals(getString(R.string.swipe_action_id_delete_word))) {
+        } else if (action.equals(getString(R.string.swipe_action_id_delete_word))) {
             deleteWordBeforeCursor();
         } else if (action.equals(getString(R.string.swipe_action_id_num_row))) {
             toggleNumRow();
-        } else if (action
-                .equals(getString(R.string.swipe_action_id_toggle_mode))) {
+        } else if (action.equals(getString(R.string.swipe_action_id_toggle_mode))) {
             toggleKeyboardMode();
-        } else if (action
-                .equals(getString(R.string.swipe_action_id_do_nothing))) {
         }
     }
+
 
     @Override
     public void swipeDown() {
         if (mSwipeNumberRow) {
             // Perform the default swipe down action (close num row or keyboard)
-            if (getKeyboardView().getKeyboard() == mAlphaNumKeyboard)
+            if (getKeyboardView().getKeyboard() == mAlphaNumKeyboard) {
                 closeNumRow();
-            else if (getKeyboardView().getKeyboard() == mAlphaKeyboard)
+            } else if (getKeyboardView().getKeyboard() == mAlphaKeyboard) {
                 onCancelKey();
+            }
         } else {
             // Perform custom user action
             String action;
-            SharedPreferences sharedPrefs = getSharedPreferences(
+            final SharedPreferences sharedPrefs = getSharedPreferences(
                     Settings.SETTINGS_FILE, Context.MODE_PRIVATE);
             action = sharedPrefs.getString("swipe_down_action",
                     getString(R.string.any_key_action_id_arrow_keypad));
@@ -3404,44 +3510,49 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         }
     }
 
+
     @Override
     public void swipeUp() {
         if (mSwipeNumberRow) {
             // Perform the default swipe up action (open num row)
-            if (getKeyboardView().getKeyboard() == mAlphaKeyboard)
+            if (getKeyboardView().getKeyboard() == mAlphaKeyboard) {
                 openNumRow();
+            }
         } else {
             // Perform custom user action
-            SharedPreferences sharedPrefs = getSharedPreferences(
+            final SharedPreferences sharedPrefs = getSharedPreferences(
                     Settings.SETTINGS_FILE, Context.MODE_PRIVATE);
-            String action = sharedPrefs.getString("swipe_up_action",
+            final String action = sharedPrefs.getString("swipe_up_action",
                     getString(R.string.any_key_action_id_arrow_keypad));
 
             swipe(action);
         }
     }
 
+
     @Override
     public void swipeRight() {
         // Perform custom user action
-        SharedPreferences sharedPrefs = getSharedPreferences(
+        final SharedPreferences sharedPrefs = getSharedPreferences(
                 Settings.SETTINGS_FILE, Context.MODE_PRIVATE);
-        String action = sharedPrefs.getString("swipe_right_action",
+        final String action = sharedPrefs.getString("swipe_right_action",
                 getString(R.string.any_key_action_id_arrow_keypad));
 
         swipe(action);
     }
+
 
     @Override
     public void swipeLeft() {
         // Perform custom user action
-        SharedPreferences sharedPrefs = getSharedPreferences(
+        final SharedPreferences sharedPrefs = getSharedPreferences(
                 Settings.SETTINGS_FILE, Context.MODE_PRIVATE);
-        String action = sharedPrefs.getString("swipe_left_action",
+        final String action = sharedPrefs.getString("swipe_left_action",
                 getString(R.string.any_key_action_id_arrow_keypad));
 
         swipe(action);
     }
+
 
     /**
      * Check if we are using the alpha keyboard
@@ -3453,12 +3564,13 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
                 .getKeyboard() == mAlphaNumKeyboard);
     }
 
+
     /**
      * Checks if the user double-tapped the caps key
      */
     private void checkToggleCapsLock() {
         // Switch from caps to caps-lock on double-tap
-        long now = System.currentTimeMillis();
+        final long now = System.currentTimeMillis();
         if (now - mLastShiftTime < DOUBLE_CLICK_TIME) {
             getKeyboardView().setCapsLock(true);
             mLastShiftTime = 0;
@@ -3468,20 +3580,23 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         }
     }
 
+
     /**
      * Checks if the user double-tapped the space key
      */
     private boolean checkDoubleSpace() {
-        if (mDoubleSpace == false)
+        if (mDoubleSpace == false) {
             return false;
+        }
 
         // Insert a period-space on double-tap space bar
-        long now = System.currentTimeMillis();
+        final long now = System.currentTimeMillis();
         if (now - mLastSpaceTime < DOUBLE_CLICK_TIME) {
             // Delete the extra space preceding
-            InputConnection inputConnection = getCurrentInputConnection();
-            if (inputConnection != null)
+            final InputConnection inputConnection = getCurrentInputConnection();
+            if (inputConnection != null) {
                 inputConnection.deleteSurroundingText(1, 0);
+            }
             mLastSpaceTime = 0;
             return true;
         }
@@ -3495,7 +3610,8 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         return code > 0 && !isWordCharacter(code);
     }
 
-    public boolean isSentenceSeparator(int code) {
+
+    public boolean isSentenceSeparator(final int code) {
         return code == (int) '\n' || isSmartSpacePreceder(code);
     }
 
@@ -3506,11 +3622,10 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @param index The index of the suggestion.
      */
     public void touchCandidate(int index) {
-//		mProfileTracer.reset();
-
-        InputConnection inputConnection = getCurrentInputConnection();
-        if (inputConnection == null)
+        final InputConnection inputConnection = getCurrentInputConnection();
+        if (inputConnection == null) {
             return;
+        }
         inputConnection.beginBatchEdit();
 
         // Complete the selection
@@ -3518,14 +3633,14 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
         // Remember word
         if (index == 0) {
-            Suggestion suggestion = mSuggestions.getSuggestion(index);
+            final Suggestion suggestion = mSuggestions.getSuggestion(index);
             rememberWord(suggestion.getWord());
         }
 
         if (mSmartSpaces) {
             // Append a space after completion
             if (inputConnection != null) {
-                CharSequence after = getTextAfterCursor(inputConnection, 1);
+                final CharSequence after = getTextAfterCursor(inputConnection, 1);
                 if (after.length() == 0 || after.charAt(0) != ' ')
                     inputConnection.commitText(" ", 1);
                 else
@@ -3549,16 +3664,17 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      */
     @SuppressLint("NewApi")
     protected CharSequence pickDefaultCandidate() {
-        if (mSuggestions == null)
+        if (mSuggestions == null) {
             return mComposing;
+        }
 
-        String orgWord = mComposing.toString();
+        final String orgWord = mComposing.toString();
         CharSequence committedWord;
-        if (!orgWord.equals(mSuggestions.getComposing()))
+        if (!orgWord.equals(mSuggestions.getComposing())) {
             committedWord = orgWord;
-        else {
+        } else {
             // Insert the default suggestion
-            Suggestion defaultSuggestion = mSuggestions.getDefaultSuggestion();
+            final Suggestion defaultSuggestion = mSuggestions.getDefaultSuggestion();
             committedWord = defaultSuggestion.getWord();
         }
 
@@ -3566,21 +3682,20 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         boolean isDifferent = !DictionaryUtils.removePunc(committedWord.toString()).toLowerCase().startsWith(orgWord.toLowerCase());
         if (committedWord != null && mComposing != null && isDifferent) {
             // Wrap a SpannableString in a SuggestionSpan containing the original word
-            ArrayList<String> suggestions = mSuggestions.getWords();
+            final ArrayList<String> suggestions = mSuggestions.getWords();
             suggestions.add(0, orgWord);
-            String[] words = new String[mSuggestions.size() + 1];
-            SuggestionSpan span = new SuggestionSpan(this, Locale.getDefault(), suggestions.toArray(words), SuggestionSpan.FLAG_EASY_CORRECT, SuggestionMenuReceiver.class);
-            SpannableString suggestion = new SpannableString(committedWord);
+            final String[] words = new String[mSuggestions.size() + 1];
+            final SuggestionSpan span = new SuggestionSpan(this, Locale.getDefault(), suggestions.toArray(words), SuggestionSpan.FLAG_EASY_CORRECT, SuggestionMenuReceiver.class);
+            final SpannableString suggestion = new SpannableString(committedWord);
             suggestion.setSpan(span, 0, committedWord.length(), 0);
             committedWord = suggestion;
 
             // If committed word is different from composing, not including punctuation, this is a typo
-            boolean isTypo = !committedWord.toString().toLowerCase().startsWith(orgWord.toLowerCase());
+            final boolean isTypo = !committedWord.toString().toLowerCase().startsWith(orgWord.toLowerCase());
             // Long vibrate for typo correction
             if (mVibrateOnTypoCorrection && isTypo) {
-                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+                final Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
                 vibrator.vibrate(VIBRATE_LENGTH_ON_TYPO_CORRECTION);
-
                 mIsVibrated = true;
             }
         }
@@ -3597,8 +3712,8 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @param index The index of the suggestion to insert.
      * @return The word inserted.
      */
-    private CharSequence pickSuggestionManually(int index) {
-        String committedStr = null;
+    private CharSequence pickSuggestionManually(final int index) {
+        final String committedStr;
 
         if (mCompletionOn && mCompletions != null && index >= 0
                 && index < mCompletions.length) {
@@ -3630,10 +3745,13 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         } else if (mComposing.length() > 0) {
             committedStr = mComposing.toString();
             commitTyped();
+        } else {
+            committedStr = null;
         }
 
         return committedStr;
     }
+
 
     /**
      * Returns true if we should append a smart space after we append newChar to
@@ -3643,33 +3761,40 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @param newChar         The character to check.
      * @return true if a space should be appended after newChar.
      */
-    private boolean shouldAppendSmartSpace(InputConnection inputConnection, char newChar) {
-        if (!mSmartSpaces)
+    private boolean shouldAppendSmartSpace(final InputConnection inputConnection, final char newChar) {
+        if (!mSmartSpaces) {
             return false;
+        }
 
-        if (inputConnection == null)
+        if (inputConnection == null) {
             return false;
+        }
 
-        CharSequence textBeforeCursor = getTextBeforeCursor(inputConnection, 3);
-        if (textBeforeCursor.length() < 1)
+        final CharSequence textBeforeCursor = getTextBeforeCursor(inputConnection, 3);
+        if (textBeforeCursor.length() < 1) {
             return false;
+        }
 
-        char endChar = textBeforeCursor.charAt(textBeforeCursor.length() - 1);
-        if ((newChar == '.' || newChar == ':') && Character.isDigit(endChar))
+        final char endChar = textBeforeCursor.charAt(textBeforeCursor.length() - 1);
+        if ((newChar == '.' || newChar == ':') && Character.isDigit(endChar)) {
             // User is typing a floating point number, IP address or time
             return false;
+        }
 
         // Don't append after www.
         if (textBeforeCursor != null && textBeforeCursor.length() == 3
                 && textBeforeCursor.toString().toLowerCase().equals("www")
-                && newChar == '.')
+                && newChar == '.') {
             return false;
+        }
 
-        if (isSmartSpacePreceder(newChar) && isWordCharacter(endChar))
+        if (isSmartSpacePreceder(newChar) && isWordCharacter(endChar)) {
             return true;
+        }
 
         return false;
     }
+
 
     /**
      * Append a smart space to the composition, if necessary.
@@ -3679,8 +3804,8 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @param newChar         The character following the composition.
      * @return composing + optional smart space.
      */
-    private StringBuilder appendSmartSpace(InputConnection inputConnection,
-                                           StringBuilder composition, char newChar) {
+    private StringBuilder appendSmartSpace(final InputConnection inputConnection,
+                                           final StringBuilder composition, final char newChar) {
         if (!shouldAppendSmartSpace(inputConnection, newChar))
             return composition;
 
@@ -3690,13 +3815,15 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         return composition;
     }
 
+
     /**
      * Creates a regex pattern matcher for words and saves it in mWordMatcher.
      */
     private void createWordMatcher() {
-        Pattern wordPattern = Pattern.compile(WORD_REGEX);
+        final Pattern wordPattern = Pattern.compile(WORD_REGEX);
         mWordMatcher = wordPattern.matcher("");
     }
+
 
     /**
      * Check if a word is a "word". That is, if it is composed entirely of word character.
@@ -3704,25 +3831,29 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @param word The word to check.
      * @return true if it is a word.
      */
-    private boolean isWord(String word) {
+    private boolean isWord(final String word) {
         return mWordMatcher.reset(word.toLowerCase()).matches();
     }
+
 
     /**
      * Saves the last word typed. This is used for redo, and look-ahead word prediction.
      *
      * @param word The word to save.
      */
-    public void setLastWord(CharSequence word) {
-        if (!mPredictionOn)
+    public void setLastWord(final CharSequence word) {
+        if (!mPredictionOn) {
             return;
+        }
 
-        String sWord = word.toString();
-        if (isWord(sWord))
+        final String sWord = word.toString();
+        if (isWord(sWord)) {
             mLastWord = sWord.toLowerCase();
-        else
+        } else {
             mLastWord = null;
+        }
     }
+
 
     /**
      * Returns true if the keyboard is in preview mode. In preview mode,
@@ -3735,17 +3866,21 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         return mInPreviewMode;
     }
 
-    public void setPreviewMode(boolean enabled) {
+
+    public void setPreviewMode(final boolean enabled) {
         mInPreviewMode = enabled;
     }
 
-    public void setSuperLabelEnabled(boolean enabled) {
+
+    public void setSuperLabelEnabled(final boolean enabled) {
         mSuperLabelEnabled = enabled;
     }
+
 
     public boolean isSuperLabelEnabled() {
         return mSuperLabelEnabled;
     }
+
 
     /**
      * Checks if this is multi-line input.
@@ -3753,25 +3888,29 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @return True if it is a multi-line input.
      */
     private boolean isMultiLine() {
-        EditorInfo editorInfo = safeGetCurrentInputEditorInfo();
+        final EditorInfo editorInfo = safeGetCurrentInputEditorInfo();
         return (editorInfo.inputType & InputType.TYPE_TEXT_FLAG_MULTI_LINE) > 0;
     }
+
 
     /**
      * Called by the framework when a key is pressed. Similar to onKey(), but
      * only called once for repeatable keys.
      */
     @Override
-    public void onPress(int code) {
+    public void onPress(final int code) {
         // Keep track of multi keypresses to avoid vibration on multipress
-        if (isRepeatable(code))
+        if (isRepeatable(code)) {
             mFirstRepeatablePress = true;
+        }
     }
 
+
     @Override
-    public void onRelease(int primaryCode) {
+    public void onRelease(final int primaryCode) {
         // Do nothing.
     }
+
 
     /**
      * Checks if this is a repeatable key.
@@ -3779,7 +3918,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @param code The key code to check.
      * @return true if it is a repeatable key.
      */
-    private boolean isRepeatable(int code) {
+    private boolean isRepeatable(final int code) {
         // TODO: Can we use android:isRepeatable instead?
         if (code == Keyboard.KEYCODE_DELETE || code == 32
                 || code == BaseKeyboard.KEYCODE_ARROW_BACK
@@ -3788,11 +3927,13 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
                 || code == BaseKeyboard.KEYCODE_ARROW_DOWN
                 || code == BaseKeyboard.KEYCODE_ARROW_LEFT
                 || code == BaseKeyboard.KEYCODE_ARROW_RIGHT
-                || code == BaseKeyboard.KEYCODE_DEL_FORWARD)
+                || code == BaseKeyboard.KEYCODE_DEL_FORWARD) {
             return true;
+        }
 
         return false;
     }
+
 
     /**
      * Gets the height of the CandidateView.
@@ -3809,6 +3950,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         return height;
     }
 
+
     /**
      * Updates the currency keys on all keyboards with the user's currency
      * symbol.
@@ -3819,15 +3961,17 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         updateCurrencyKeys(mNumPadKeyboard);
     }
 
+
     /**
      * Updates the currency keys on a keyboard with the user's currency symbol.
      *
      * @param keyboard The keyboard to update.
      */
-    protected void updateCurrencyKeys(Keyboard keyboard) {
-        Key key = ((BaseKeyboard) keyboard).mCurrencyKey;
-        if (key == null)
+    protected void updateCurrencyKeys(final Keyboard keyboard) {
+        final Key key = ((BaseKeyboard) keyboard).mCurrencyKey;
+        if (key == null) {
             return;
+        }
 
         if (keyboard == mNumPadKeyboard) {
             // This is the numpad keyboard. Update currency key label and popup
@@ -3837,58 +3981,49 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             key.popupCharacters = getString(R.string.currency_keys).replace(mDefaultCurrency.toString(), "");
 
             BaseKeyboard.checkForNulls("updateCurrencyKeys()", key);
-        } else
+        } else {
             // This is a regular keyboard. Update currency key long-press symbol
             key.popupCharacters = mDefaultCurrency;
+        }
     }
 
-    /**
-     * Launch a dictionary update.
-     *
-     * @param isFirstTime ???
-     */
-    public void launchDictionaryUpdate(boolean isFirstTime) {
-        Intent intent = new Intent(this, DictionaryDownloader.class);
-        Bundle bundle = new Bundle();
-        bundle.putBoolean(Settings.IN_SETTINGS, !isFirstTime);
-        intent.putExtra(Settings.BUNDLE_KEY, bundle);
-        startActivity(intent);
-    }
 
     public void launchDictionariesUpdate() {
-        ArrayList<DictionaryItem> t = new ArrayList<DictionaryItem>();
+        final ArrayList<DictionaryItem> t = new ArrayList<DictionaryItem>();
 
         DatabaseHelper.safeGetDatabaseHelper(this).getDictionariesForUpdate(this, t);
 
-        String[] list = new String[t.size()];
+        final String[] list = new String[t.size()];
         for (int i = 0; i < t.size(); i++) {
-            DictionaryItem item = t.get(i);
+            final DictionaryItem item = t.get(i);
             list[i] = item.lang;
         }
 
         launchDictionariesUpdate(list);
     }
 
+
     /**
      * Launches all dictionaries updates
      */
-    public void launchDictionariesUpdate(String[] list) {
-
-        Intent intent = new Intent(this, DictionaryDownloader.class);
-        Bundle bundle = new Bundle();
+    public void launchDictionariesUpdate(final String[] list) {
+        final Intent intent = new Intent(this, DictionaryDownloader.class);
+        final Bundle bundle = new Bundle();
         bundle.putStringArray(DictionaryDownloader.LANG_LIST, list);
         intent.putExtra(Settings.BUNDLE_KEY, bundle);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         DictionaryDownloader.setOnResultListener(new OnResultListener() {
             public void onSuccess() {
+                String currLangPrefix =
+                        LanguageSelector.getLanguagePreference(KeyboardService.this);
 
-                String currLangPrefix = LanguageSelector.getLanguagePreference(KeyboardService.this);
-
-                DictionaryItem dicItem = KeyboardApp.getApp().getUpdater().getDictionaryItem(currLangPrefix);
+                DictionaryItem dicItem =
+                        KeyboardApp.getApp().getUpdater().getDictionaryItem(currLangPrefix);
                 if (dicItem != null && !dicItem.isNeedUpdate) {
                     // Set install step to final
-                    Installer.setCurrStep(KeyboardService.this,
+                    Installer.setCurrStep(
+                            KeyboardService.this,
                             InstallStep.INSTALL_FINISHED);
                 }
 
@@ -3909,21 +4044,20 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         });
 
         startActivity(intent);
-
     }
+
 
     /**
      * Send keystroke audio and haptic feedback.
      *
      * @param code The code of the keystroke.
      */
-    public void keyFeedback(int code) {
+    public void keyFeedback(final int code) {
         if (mVibrateLength > 0) {
             Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
             vibrator.vibrate(mVibrateLength);
         }
         if (mSoundVolume > 0) {
-
             if (code == 32) {
                 // Spacebar
                 mSoundPool.play(mSoundsMap.get(SOUND_CLICK), mSoundVolume,
@@ -3936,23 +4070,25 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         }
     }
 
+
     @Override
-    public void onConfigurationChanged(Configuration config) {
+    public void onConfigurationChanged(final Configuration config) {
         super.onConfigurationChanged(config);
         callTrace("onConfigurationChanged()");
-        if (mLastKeyboardState != null)
+        if (mLastKeyboardState != null) {
             mLastKeyboardState.saveKeyboardState();
+        }
     }
+
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         callTrace("onDestroy()");
 
-//        UserDB.close();
-
         mIME = null;
     }
+
 
     @Override
     public void onLowMemory() {
@@ -3960,34 +4096,35 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         callTrace("onLowMemory()");
     }
 
+
     public String toString() {
         return toString("KeyboardService");
     }
 
-    public void setSoundVolume(float val) {
+
+    public void setSoundVolume(final float val) {
         mSoundVolume = val;
     }
 
-    public float getSoundVolume() {
-        return mSoundVolume;
-    }
 
     public boolean isNeedUpgradeApp() {
         return mNeedUpgradeApp;
     }
 
-    public void setNeedUpgradeApp(boolean mIsNeedUpgradeApp) {
+
+    public void setNeedUpgradeApp(final boolean mIsNeedUpgradeApp) {
         this.mNeedUpgradeApp = mIsNeedUpgradeApp;
     }
+
 
     public boolean isNeedUpdateDicts() {
         return mNeedUpdateDicts;
     }
 
-    public void setNeedUpdateDicts(boolean mIsNeedUpdateDicts) {
-        this.mNeedUpdateDicts = mIsNeedUpdateDicts;
-    }
 
+    public void setNeedUpdateDicts(final boolean isNeedUpdateDicts) {
+        this.mNeedUpdateDicts = isNeedUpdateDicts;
+    }
 
 
 	/*
@@ -3998,7 +4135,8 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         return mCallTrace;
     }
 
-    private void callTrace(String call) {
+
+    private void callTrace(final String call) {
         if (mCallTrace.size() > 250) {
             mCallTrace.clear();
             mCallTrace.add("...truncated");
@@ -4008,24 +4146,27 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         writeDebug("KeyboardService." + call);
     }
 
+
     @SuppressLint("SimpleDateFormat")
-    public static void writeDebug(CharSequence message) {
+    public static void writeDebug(final CharSequence message) {
         if (mDebug && getIME() != null) {
             Log.v(KeyboardApp.LOG_TAG, message.toString());
 
             try {
                 // Prepare message
-                String now = (new SimpleDateFormat("dd-MMM-yyyy kk:mm:ss.SSS")).format(new Date());
-                String entry = now + ": " + message + "\n";
+                final String now =
+                        (new SimpleDateFormat("dd-MMM-yyyy kk:mm:ss.SSS")).format(new Date());
+                final String entry = now + ": " + message + "\n";
 
                 // Open log file
-                OutputStreamWriter logWriter = new OutputStreamWriter(getIME().openFileOutput("debug.log", MODE_APPEND));
+                final OutputStreamWriter logWriter =
+                        new OutputStreamWriter(getIME().openFileOutput("debug.log", MODE_APPEND));
 
                 // Write message to log file and close
                 logWriter.write(entry, 0, entry.length());
                 logWriter.flush();
                 logWriter.close();
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 Log.e(KeyboardApp.LOG_TAG, e.getMessage());
             }
         }
@@ -4041,16 +4182,18 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         return mInputViewCreated;
     }
 
+
     public void writeInputDebug() {
         writeDebug("====================================================================================================================================================");
         writeDebug(mInputContents);
         writeDebug("---------------------------------------------------------");
     }
 
-    public String toString(String prefix) {
-        StringBuilder buffer = new StringBuilder();
+
+    public String toString(final String prefix) {
+        final StringBuilder buffer = new StringBuilder();
         buffer.append(getClass().getName());
-        String subPrefix = prefix + "\t";
+        final String subPrefix = prefix + "\t";
         Utils.appendLine(buffer, prefix, "{");
 
         // Add important fields
@@ -4087,9 +4230,9 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         Utils.appendLine(buffer, subPrefix, "mDefaultCurrency" + " = " + mDefaultCurrency);
 
         // Add KeyboardView
-        if (mKeyboardView != null)
+        if (mKeyboardView != null) {
             Utils.appendLine(buffer, subPrefix, "mKeyboardView = " + mKeyboardView.toString(subPrefix));
-
+        }
         if (mAlphaKeyboard != null) {
             Utils.appendLine(buffer, subPrefix, "mAlphaKeyboard = ");
             Utils.append(buffer, subPrefix,
@@ -4113,6 +4256,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         return buffer.toString();
     }
 
+
     /**
      * KeyboardState stores the current keyboard state in case it needs to be
      * re-initialized.
@@ -4120,7 +4264,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @author Barry Fruitman
      */
     class KeyboardState {
-
         // Keyboard
         protected int keyboardResID = -1;
         protected boolean bShifted = false;
@@ -4143,15 +4286,17 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
         // TODO: Add portrait and landscape num row state
         protected KeyboardState() {
-            if (mKeyboardView == null)
+            if (mKeyboardView == null) {
                 return;
+            }
 
             saveKeyboardState();
         }
 
         protected void saveKeyboardState() {
-            if (mKeyboardView == null)
+            if (mKeyboardView == null) {
                 return;
+            }
 
             // Keyboard State
             if (mKeyboardView != null) {

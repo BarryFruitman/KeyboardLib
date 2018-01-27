@@ -261,9 +261,6 @@ public class TranslatorView extends RelativeLayout implements View.OnClickListen
 
 
 	private void onClickTranslate()	{
-		if (!checkTranslateAvailiability(true))
-			return;
-
 		InputConnection inputConnection = KeyboardService.getIME().getCurrentInputConnection();
 		if(inputConnection == null)
 			return;
@@ -281,9 +278,6 @@ public class TranslatorView extends RelativeLayout implements View.OnClickListen
 
 	@SuppressWarnings("unused")
 	private void onClickTranslateSelected()	{
-		if (!checkTranslateAvailiability(true))
-			return;
-
 		// Commit any outstanding typing
 		KeyboardService.getIME().commitTyped();
 
@@ -316,9 +310,6 @@ public class TranslatorView extends RelativeLayout implements View.OnClickListen
 
 
 	private void onClickTranslateClipboard() {
-		if (!checkTranslateAvailiability(true))
-			return;
-
 		// Get text from clipboard
 		ClipboardManager clipboardMgr = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
 		CharSequence text = clipboardMgr.getText();
@@ -340,10 +331,6 @@ public class TranslatorView extends RelativeLayout implements View.OnClickListen
 		translate(languageFrom, languageTo, phrase, TRANSLATE_CLIPBOARD);
 	}
 
-
-	private void onClickBuyMore() {
-		KeyboardService.getIME().buyTranslatorCredits();
-	}
 
 	private void onClickCloseClipboard() {
 		TextView textClipboard = (TextView) findViewById(R.id.text_clipboard);
@@ -370,26 +357,6 @@ public class TranslatorView extends RelativeLayout implements View.OnClickListen
 
 		// Launch a translator thread
 		new Thread(new Translator(languageFrom, languageTo, phrase, caller, mHandler)).start();
-	}
-
-
-
-	/**
-	 * Is there purchase item more for the translating?
-	 * @return
-	 */
-	private boolean checkTranslateAvailiability(boolean showMessage) {
-//		if(KeyboardApp.getKeyboardApp().mAppStore != AppStore.Google)
-//			return true;
-
-		int point = getCredits();
-
-		if (point == 0) {
-			KeyboardService.getIME().buyTranslatorCredits();
-			return false;
-		}
-
-		return true;
 	}
 
 
