@@ -140,8 +140,9 @@ public abstract class TrieDictionary implements LearningDictionary {
 
 		if(iPrefix >= prefix.length()) {
 			// End of prefix. Look for suggestions below this node and add them.
+			final int trailingEditDistance = node.getWord().length() - prefix.length();
 			prefix.append(Node.copyOfRange(value, iNodeValue, value.length));
-			addSuggestions(node, prefix, suggestions, editDistance + value.length - 1);
+			addSuggestions(node, prefix, suggestions, editDistance + trailingEditDistance);
 			prefix.setLength(prefix.length() - (value.length - iNodeValue));
 
 			return;
