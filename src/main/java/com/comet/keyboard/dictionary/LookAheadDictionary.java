@@ -61,7 +61,7 @@ public class LookAheadDictionary extends TrieDictionary {
 		
 		tracer.log("LookAheadDictionary.loadLexicon()...");
 
-		mLookAheadDB.loadDictionaryFromDB(this, -1);
+//		mLookAheadDB.loadDictionaryFromDB(this, -1);
 
 		tracer.log("LookAheadDictionary.loadLexicon(): ...done populating");
 	}
@@ -69,18 +69,20 @@ public class LookAheadDictionary extends TrieDictionary {
 
 	@Override
 	public Suggestions getSuggestions(Suggestions suggestions) {
-		StringBuilder word1 = new StringBuilder();
-		StringBuilder word2 = new StringBuilder();
-		KeyboardService.getIME().getTwoWordsBeforePrefix(word1, word2);
+		return suggestions;
 
-		word1 = new StringBuilder(word1.toString().toLowerCase());
-		word2 = new StringBuilder(word2.toString().toLowerCase());
-
-		/*
-		 * 1. Get static suggestions
-		 * 2. Merge user suggestions
-		 */
-		return getSuggestions(word1, word2, suggestions);
+//		StringBuilder word1 = new StringBuilder();
+//		StringBuilder word2 = new StringBuilder();
+//		KeyboardService.getIME().getTwoWordsBeforePrefix(word1, word2);
+//
+//		word1 = new StringBuilder(word1.toString().toLowerCase());
+//		word2 = new StringBuilder(word2.toString().toLowerCase());
+//
+//		/*
+//		 * 1. Get static suggestions
+//		 * 2. Merge user suggestions
+//		 */
+//		return getSuggestions(word1, word2, suggestions);
 	}
 
 
@@ -118,18 +120,20 @@ public class LookAheadDictionary extends TrieDictionary {
 
 	@Override
 	public int learn(String trigram, int countIncrement) {
-		final String words[] = trigram.split(" ");
-		if(words.length != 3) {
-			return 0;
-		}
+		return 0;
 
-		// Insert into trie
-		final int count = super.learn(trigram, countIncrement);
-
-		// Write to db
-		mLookAheadDB.addTriGramToLookAhead(words[0], words[1], words[2], count);
-
-		return count;
+//		final String words[] = trigram.split(" ");
+//		if(words.length != 3) {
+//			return 0;
+//		}
+//
+//		// Insert into trie
+//		final int count = super.learn(trigram, countIncrement);
+//
+//		// Write to db
+//		mLookAheadDB.addTriGramToLookAhead(words[0], words[1], words[2], count);
+//
+//		return count;
 	}
 
 

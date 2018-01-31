@@ -195,9 +195,6 @@ public abstract class TrieDictionary implements LearningDictionary {
 					iKeyDistance == 0 ? editDistance : editDistance + EditDistance.SUBSTITUTE,
 					maxEditDistance);
 			prefix.setCharAt(iPrefix, keyStroke);
-			if(iKeyDistance == 0) {
-				return;
-			}
 		}
 
 		// Assume this prefix is missing a keystroke. Insert missing char and follow node.
@@ -212,32 +209,23 @@ public abstract class TrieDictionary implements LearningDictionary {
 				maxEditDistance);
 		prefix.deleteCharAt(iPrefix);
 
-		// Is this the same key as the last one?
-		if(iPrefix > 1) {
-			iKeyDistance = mCollator.compareCharToKey(prefix.charAt(iPrefix - 1), keyStroke);
+		// Is this key adjacent the next keystroke?
+		if(iPrefix < prefix.length() - 1) {
+			iKeyDistance = mCollator.compareCharToKey(prefix.charAt(iPrefix +1), keyStroke);
 			if(iKeyDistance >= 0) {
 				// Assume it is a double-tap. Delete it and follow node.
 				final char deleted = prefix.charAt(iPrefix);
 				prefix.deleteCharAt(iPrefix);
 
-				final Node newNode;
-				final int newINodeValue;
-				if (iNodeValue == 0) {
-					newNode = node.getParent();
-					newINodeValue = node.getValue().length - 1;
-				} else {
-					newNode = node;
-					newINodeValue = iNodeValue - 1;
-				}
-
 				findSuggestionsInTrie(
 						prefix,
 						suggestions,
-						iPrefix - 1,
-						newNode,
-						newINodeValue,
+						iPrefix,
+						node,
+						iNodeValue	,
 						editDistance + EditDistance.INSERT,
 						maxEditDistance);
+
 				prefix.insert(iPrefix, deleted);
 			}
 		}
