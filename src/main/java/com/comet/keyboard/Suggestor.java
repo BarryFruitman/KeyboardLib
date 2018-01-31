@@ -367,6 +367,7 @@ public final class Suggestor {
 	 *
 	 */
 	public class Suggestions implements Cloneable, Iterable<Suggestion> {
+		private static final double MIN_SCORE_FOR_DEFAULT = 10f;
 		private final SuggestionRequest mRequest;
 		private int mDefault = 0;
 		private BoundedPriorityQueue<Suggestion> mSuggestions;
@@ -480,8 +481,9 @@ public final class Suggestor {
 
 
 		public Suggestion getDefaultSuggestion() {
-			if(mSuggestions.size() < mDefault)
+			if(mDefault < 0 || mSuggestions.size() < mDefault) {
 				return null;
+			}
 
 			Iterator<Suggestion> iterator = mSuggestions.iterator();
 			Suggestion result = null;
@@ -548,6 +550,10 @@ public final class Suggestor {
 						&& !mDicLanguage.contains(getComposing().toLowerCase()))
 					// Don't make it the default
 					mDefault++;
+			}
+
+			if(getDefaultSuggestion().getScore() > MIN_SCORE_FOR_DEFAULT) {
+				mDefault = -1;
 			}
 		}
 

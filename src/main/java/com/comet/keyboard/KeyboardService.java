@@ -3674,7 +3674,11 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         } else {
             // Insert the default suggestion
             final Suggestion defaultSuggestion = mSuggestions.getDefaultSuggestion();
-            committedWord = defaultSuggestion.getWord();
+            if (defaultSuggestion == null) {
+                committedWord = orgWord;
+            } else {
+                committedWord = defaultSuggestion.getWord();
+            }
         }
 
         // If committed word is different from the composing, offer more suggestions in menu.
