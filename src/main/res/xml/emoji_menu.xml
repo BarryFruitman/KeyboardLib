@@ -14,7 +14,7 @@
         <Key android:keyOutputText="❤️" android:keyLabel="❤️" android:keyEdgeFlags="right" />
     </Row>
     <Row>
-        <Key android:keyOutputText="😠" android:keyLabel="😠" android:keyEdgeFlags="left" />
+        <Key android:keyOutputText="😡" android:keyLabel="😡" android:keyEdgeFlags="left" />
         <Key android:keyOutputText="😯" android:keyLabel="😯" />
         <Key android:keyOutputText="🙄" android:keyLabel="🙄" />
         <Key android:keyOutputText="😕" android:keyLabel="😕" />
