@@ -28,7 +28,7 @@ public abstract class KeyboardLayout {
 	}
 
 	public boolean isAdjacentTo(char key1, char key2) {
-		return getAdjacentKeys(key1).indexOf(key2) >= 0;
+		return getSurroundingKeys(key1).indexOf(key2) >= 0;
 	}
 
 	
