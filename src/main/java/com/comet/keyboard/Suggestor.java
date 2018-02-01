@@ -367,7 +367,7 @@ public final class Suggestor {
 	 *
 	 */
 	public class Suggestions implements Cloneable, Iterable<Suggestion> {
-		private static final double MIN_SCORE_FOR_DEFAULT = 12f;
+		private static final double MIN_SCORE_FOR_DEFAULT = 13f;
 		private final SuggestionRequest mRequest;
 		private int mDefault = 0;
 		private BoundedPriorityQueue<Suggestion> mSuggestions;
