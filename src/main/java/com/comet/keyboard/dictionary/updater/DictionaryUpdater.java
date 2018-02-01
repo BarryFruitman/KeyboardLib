@@ -219,7 +219,7 @@ public class DictionaryUpdater {
 	/**
 	 * Parse diction info from xml string
 	 * 
-	 * @param xml
+	 * @param
 	 * @return
 	 */
 	boolean parseDicInfo(ArrayList<DictionaryItem> dicList, URL url) {
@@ -403,7 +403,7 @@ public class DictionaryUpdater {
 	 * Specified dictionary exist or not
 	 * 
 	 * @param context
-	 * @param item
+	 * @param langID
 	 * @return
 	 */
 	public boolean isDictionaryExist(Context context, String langID) {
@@ -436,8 +436,9 @@ public class DictionaryUpdater {
 				return false;
 			}
 
-			if (file.length() != fileItem.size){
-				Log.v(KeyboardApp.LOG_TAG, "file.length() != fileItem.size");
+			if (file.length() < fileItem.size){
+				// File can be bigger but not smaller.
+				Log.v(KeyboardApp.LOG_TAG, "file.length() < fileItem.size");
 				return false;
 			}
 		}
@@ -481,7 +482,6 @@ public class DictionaryUpdater {
 	/**
 	 *  It returns true if there is a new dictionary available, otherwise false
 	 *  
-	 * @param context
 	 * @return
 	 */
 	public boolean isNeedUpdate() {

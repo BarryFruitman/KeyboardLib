@@ -228,15 +228,29 @@ public final class Suggestor {
 		if(input.length() <= 0)
 			return;
 
-		// Split into words and save to database
-		String words[] = input.split("[^a-zA-Z0-9']+");
-		for(int iWord = 0; iWord < words.length; iWord++)
-			mDicLanguage.learn(words[iWord]);
+		String sentences[] = input.split("[.?!'\\n]");
+		for(int iSentence = 0; iSentence < sentences.length; iSentence++) {
+			String sentence = sentences[iSentence].trim();
+			if(sentence.length() == 0) {
+				continue;
+			}
+			if(KeyboardService.getIME().mAutoCaps) {
+				// De-capitalize the first letter.
+				StringBuilder sbGroup = new StringBuilder(sentence);
+				sbGroup.replace(0, 1, String.valueOf(Character.toLowerCase(sentence.charAt(0))));
+				sentence = sbGroup.toString();
+			}
+
+			final String words[] = sentence.split("[^a-zA-Z0-9']");
+			for(int iWord = 0; iWord < words.length; iWord++) {
+				mDicLanguage.learn(words[iWord]);
+			}
+		}
 
 		// Split into sentences, then split into trigrams.
-		String sentences[] = input.split("[.!?:;\\n]+");
+		sentences = input.split("[.!?:;\\n]+");
 		for(int iSentence = 0; iSentence < sentences.length; iSentence++) {
-			words = sentences[iSentence].split("[^a-zA-Z0-9'-]+");
+			String words[] = sentences[iSentence].split("[^a-zA-Z0-9'-]+");
 			for(int iWord = 0; iWord < words.length-2; iWord++) {
 				String word1 = words[iWord];
 				String word2 = words[iWord+1];

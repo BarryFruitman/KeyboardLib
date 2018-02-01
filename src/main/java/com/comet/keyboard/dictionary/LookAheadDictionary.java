@@ -163,6 +163,17 @@ public class LookAheadDictionary extends TrieDictionary {
 		return false;
 	}
 
+	@Override
+	void addToDB(final String _word, final int _count) {
+		// Do nothing.
+	}
+
+
+	@Override
+	void deleteFromDB(final String _word) {
+		// Do nothing.
+	}
+
 
 	private class LookAheadSuggestions extends Suggestions {
 		private final int mDepth;

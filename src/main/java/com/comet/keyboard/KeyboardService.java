@@ -3630,8 +3630,8 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         // Complete the selection
         pickSuggestionManually(index);
 
-        // Remember word
-        if (index == 0) {
+        // Remember word if it's the first suggestion but not the default.
+        if (index == 0 && mSuggestions.getDefault() != 0) {
             final Suggestion suggestion = mSuggestions.getSuggestion(index);
             rememberWord(suggestion.getWord());
         }

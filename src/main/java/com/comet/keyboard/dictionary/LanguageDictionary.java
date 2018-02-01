@@ -19,11 +19,9 @@ import junit.framework.Assert;
 
 public final class LanguageDictionary extends TrieDictionary {
 
-	private static final int COUNT_INCREMENT = 10;
 	private static TrieDictionary mLoading = null;
 	private LanguageDictionaryDB mLanguageDB;
-	private int mCountSum = 0;
-	private final int MIN_COUNT = 2; // Count threshold for suggestions
+	private int countSum;
 
 
 	public LanguageDictionary(Context context, KeyCollator collator) {
@@ -61,23 +59,23 @@ public final class LanguageDictionary extends TrieDictionary {
 		mLanguageDB = new LanguageDictionaryDB(mContext, mCollator.getLanguageCode());
 
 		// Pre-load first 5,000 records for quick response.
-		mCountSum = mLanguageDB.loadDictionaryFromDB(this, 5000);
+		setCountSum(mLanguageDB.loadDictionaryFromDB(this, 5000));
 
 		// Clear the cache of any suggestions that were cached during pre-loading
-		if(ime != null && ime.isInputViewCreated() && !ime.isNeedUpdateDicts()) {
+		if (ime != null && ime.isInputViewCreated() && !ime.isNeedUpdateDicts()) {
 			KeyboardService.getIME().clearMessage();
 		}
 
 		Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
 
 		// Now load all records.
-		mCountSum = mLanguageDB.loadDictionaryFromDB(this, -1);
+		setCountSum(mLanguageDB.loadDictionaryFromDB(this, -1));
 	}
 
 
 	@Override
 	public Suggestions getSuggestions(Suggestions suggestions) {
-		if(mCountSum <= 0) {
+		if(getCountSum() <= 0) {
 			return suggestions;
 		}
 
@@ -136,7 +134,7 @@ public final class LanguageDictionary extends TrieDictionary {
 
 	@Override
 	protected void addSuggestion(Suggestions suggestions, String word, int count, int editDistance) {
-		suggestions.add(new LanguageSuggestion(word, count, mCountSum, editDistance));
+		suggestions.add(new LanguageSuggestion(word, count, getCountSum(), editDistance));
 	}
 
 
@@ -206,87 +204,16 @@ public final class LanguageDictionary extends TrieDictionary {
 
 
 	@Override
-	public boolean contains(String word) {
-		if(super.contains(word)) {
-			return true;
-		}
-		
-		return false;
-	}
-
-
-	@Override
-	public boolean matches(String word) {
-		if(super.matches(word)) {
-			return true;
-		}
-
-		return false;
-	}
-
-
-	@Override
-	public int learn(String word, int countIncrement) {
-		final int count = super.learn(word, countIncrement);
-
-		mCountSum += countIncrement;
-
+	final void addToDB(String word, int count) {
 		// Write to db
 		mLanguageDB.addWordToLexicon(word, count);
-
-		return count;
 	}
 
 
-	/**
-	 * Adds a word to the dictionary with count = 1, or increments its count by 1
-	 * @param word		The word to learn
-	 */
-	public boolean learn(String word) {
-		learn(word, COUNT_INCREMENT);
-
-		return true;
-	}
-
-
-	/**
-	 * Remove this word from the dictionary.
-	 * @param word		The word to forget.
-	 */
 	@Override
-	public boolean forget(String word) {
-		super.forget(word);
-
+	final void deleteFromDB(String word) {
 		// Write to db
-		mLanguageDB.deleteWordFromLexicon(mCollator.getLanguageCode(), word);
-
-		return !super.contains(word);
-	}
-
-
-	@Override
-	public boolean remember(String word) {
-		if(isRemembered(word)) {
-			return false;
-		}
-
-		learn(word, MIN_COUNT);
-
-		return true;
-	}
-
-
-	/**
-	 * Returns true if the word can appear in suggestions.
-	 * @param word	The word to check.
-	 * @return
-	 */
-	private boolean isRemembered(String word) {
-		if(getCount(word) >= MIN_COUNT) {
-			return true;
-		}
-
-		return false;
+		mLanguageDB.deleteWordFromLexicon(word);
 	}
 
 
@@ -375,7 +302,7 @@ public final class LanguageDictionary extends TrieDictionary {
 		}
 
 
-		public void deleteWordFromLexicon(String language, String word) {
+		public void deleteWordFromLexicon(String word) {
 			final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 			try {
 				db.delete(LEXICON_TABLE_NAME, LEXICON_FIELD_WORD + "=?",

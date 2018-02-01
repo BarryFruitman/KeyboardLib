@@ -445,7 +445,7 @@
 	<string name="new_word_dialog_remember">Don\'t ask again</string>
 	<string name="msg_word_remembered">\&quot;%s\&quot; is added</string>
 	<string name="msg_word_forgotten">\&quot;%s\&quot; is removed</string>
-	<string name="error_message_cant_be_deleted">%s cannot be deleted</string>
+	<string name="error_message_cant_be_deleted">\"%s\" cannot be removed</string>
 	<!--  Translator -->
 	<string name="translator_title">Translator</string>
 	<string name="translator_label_your_language">Your language</string>					<!-- The user's language -->

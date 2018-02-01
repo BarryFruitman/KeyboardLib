@@ -11,10 +11,14 @@ import com.comet.keyboard.dictionary.radixtrie.RadixTrie;
 
 public abstract class TrieDictionary implements LearningDictionary {
 
+	private static final int MAX_DELETABLE_COUNT = 100;
+	private static final int COUNT_INCREMENT = 10;
+	protected final int MIN_COUNT = 2; // Count threshold for suggestions
 	protected final KeyCollator mCollator;
 	protected final Context mContext;
 	private final RadixTrie mTrie = new RadixTrie();
 	private boolean mCancelled = false;
+	private int mCountSum;
 
 
 	public TrieDictionary(final Context context, final KeyCollator collator) {
@@ -66,29 +70,34 @@ public abstract class TrieDictionary implements LearningDictionary {
 
 	@Override
 	public boolean contains(final String word) {
-		final Node node = mTrie.findNode(word, mCollator);
-		
-		return node != null 
+		return contains(word, mCollator);
+	}
+
+
+	private boolean contains(final String word, final RadixTrie.CharComparator charComparator) {
+		final Node node = mTrie.findNode(word, charComparator);
+
+		return node != null
 				&& node.isEntry()
 				&& node.getWord().length() == word.length();
 	}
 
 
 	public int getCount(final String word) {
-		Node node = findEntry(word);
-		if(node == null) {
+		return getCount(word, mCollator);
+	}
+
+
+	public int getCount(final String word, final RadixTrie.CharComparator charComparator) {
+		Node node = mTrie.findNode(word, charComparator);
+		if(node == null || !node.isEntry() || node.getWord().length() != word.length()) {
 			return -1;
 		}
-		
+
 		return node.getCount();
 	}
 
 	
-	private Node findEntry(final String word) {
-		return mTrie.findNode(word, mCollator);
-	}
-
-
 	@Override
 	public Suggestions getSuggestions(final Suggestions suggestions) {
 		return findSuggestionsInTrie(suggestions, mTrie.getRoot(), 1);
@@ -267,14 +276,8 @@ public abstract class TrieDictionary implements LearningDictionary {
 	 * @param countIncrement		The default count for new words
 	 */
 	protected int learn(String word, int countIncrement) {
-		final String lower = word.toLowerCase();
 		final int count;
-		if(contains(lower) && !contains(word)) {
-			// This word exists in the main dictionary, but only in lower case.
-			word = lower;
-		}
-
-		final Node node = findEntry(word);
+		final Node node = mTrie.findNode(word, mExactCharComparator);
 		if(node != null) {
 			// Update trie entry
 			count = node.getCount() + countIncrement;
@@ -285,23 +288,95 @@ public abstract class TrieDictionary implements LearningDictionary {
 			insert(word, count);
 		}
 
+		mCountSum += countIncrement;
+
+		// Write to db
+		addToDB(word, count);
+
 		return count;
+	}
+
+
+	public final RadixTrie.CharComparator mExactCharComparator = new RadixTrie.CharComparator() {
+		@Override
+		public int compareChars(char c1, char c2) {
+			return c1 - c2;
+		}
+	};
+
+
+	/**
+	 * Adds a word to the dictionary with count = 1, or increments its count by 1
+	 * @param word		The word to learn
+	 */
+	public boolean learn(String word) {
+		learn(word, COUNT_INCREMENT);
+
+		return true;
 	}
 
 
 	@Override
 	public boolean forget(String word) {
-		Node node = findEntry(word);
-		
-		if(node == null || node.getCount() == 0)
+		Node node = mTrie.findNode(word, mExactCharComparator);
+
+		if(node == null || node.getCount() == 0 || node.getCount() > MAX_DELETABLE_COUNT) {
 			return false;
-		
+		}
+
 		node.removeEntry();
-		
+		deleteFromDB(word);
+
+		return !contains(word, mExactCharComparator);
+	}
+
+
+	@Override
+	public boolean remember(String word) {
+		if(isRemembered(word)) {
+			return false;
+		}
+
+		learn(word, MIN_COUNT);
+
 		return true;
 	}
 
-	
+
+	abstract void addToDB(String word, int count);
+
+
+	abstract void deleteFromDB(String word);
+
+
+	/**
+	 * Returns true if the word can appear in suggestions.
+	 * @param word	The word to check.
+	 * @return
+	 */
+
+
+	private boolean isRemembered(String word) {
+		Node node = mTrie.findNode(word, mExactCharComparator);
+
+		if(getCount(word, mExactCharComparator) >= MIN_COUNT) {
+			return true;
+		}
+
+		return false;
+	}
+
+
+	final protected void setCountSum(int countSum) {
+		mCountSum = countSum;
+	}
+
+
+	final protected int getCountSum() {
+		return mCountSum;
+	}
+
+
 	private static class DictionaryCancelledException extends RuntimeException {
 		private static final long serialVersionUID = -141336718087069436L;
 	}
