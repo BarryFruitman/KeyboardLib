@@ -61,7 +61,7 @@ public class LookAheadDictionary extends TrieDictionary {
 		
 		tracer.log("LookAheadDictionary.loadLexicon()...");
 
-//		mLookAheadDB.loadDictionaryFromDB(this, -1);
+		mLookAheadDB.loadDictionaryFromDB(this, -1);
 
 		tracer.log("LookAheadDictionary.loadLexicon(): ...done populating");
 	}
@@ -69,20 +69,19 @@ public class LookAheadDictionary extends TrieDictionary {
 
 	@Override
 	public Suggestions getSuggestions(Suggestions suggestions) {
-		return suggestions;
+		StringBuilder word1 = new StringBuilder();
+		StringBuilder word2 = new StringBuilder();
+		// TODO: extracting words from KeyboardService is hacky. Pass them in somehow?
+		KeyboardService.getIME().getTwoWordsBeforePrefix(word1, word2);
 
-//		StringBuilder word1 = new StringBuilder();
-//		StringBuilder word2 = new StringBuilder();
-//		KeyboardService.getIME().getTwoWordsBeforePrefix(word1, word2);
-//
-//		word1 = new StringBuilder(word1.toString().toLowerCase());
-//		word2 = new StringBuilder(word2.toString().toLowerCase());
-//
-//		/*
-//		 * 1. Get static suggestions
-//		 * 2. Merge user suggestions
-//		 */
-//		return getSuggestions(word1, word2, suggestions);
+		word1 = new StringBuilder(word1.toString().toLowerCase());
+		word2 = new StringBuilder(word2.toString().toLowerCase());
+
+		/*
+		 * 1. Get static suggestions
+		 * 2. Merge user suggestions
+		 */
+		return getSuggestions(word1, word2, suggestions);
 	}
 
 
@@ -113,36 +112,29 @@ public class LookAheadDictionary extends TrieDictionary {
 
 	@Override
 	protected void addSuggestion(Suggestions suggestions, String word, int count, int editDistance) {
+		// TODO: THIS CAST IS HACKY
 		final double frequency = (double) count / (double) ((LookAheadSuggestions) suggestions).mCountSum;
 		suggestions.add(new LookAheadSuggestion(word, frequency, editDistance, ((LookAheadSuggestions) suggestions).mDepth));
 	}
 
 
-	@Override
-	public int learn(String trigram, int countIncrement) {
-		return 0;
-
-//		final String words[] = trigram.split(" ");
-//		if(words.length != 3) {
-//			return 0;
-//		}
-//
-//		// Insert into trie
-//		final int count = super.learn(trigram, countIncrement);
-//
-//		// Write to db
-//		mLookAheadDB.addTriGramToLookAhead(words[0], words[1], words[2], count);
-//
-//		return count;
-	}
-
-
 	/**
 	 * Adds a word to the dictionary with count = 1, or increments its count by 1
-	 * @param word		The word to learn
+	 * @param trigram		The trigram to learn
 	 */
-	public boolean learn(String word) {
-		learn(word, 1);
+	@Override
+	final public boolean learn(String trigram) {
+		final String words[] = trigram.split(" ");
+		if(words.length != 3) {
+			return false;
+		}
+
+		super.learn(trigram, COUNT_INCREMENT);
+
+		final String bigram = new StringBuilder(words[0]).append(' ').append(words[1]).toString();
+		super.learn(bigram, COUNT_INCREMENT * 2);
+
+		super.learn(words[0], COUNT_INCREMENT * 3);
 
 		return true;
 	}
@@ -153,24 +145,26 @@ public class LookAheadDictionary extends TrieDictionary {
 	 * @param word		The word to forget.
 	 */
 	@Override
-	public boolean forget(String word) {
+	final public boolean forget(String word) {
 		return false;
 	}
 
 
 	@Override
-	public boolean remember(String word) {
+	final public boolean remember(String word) {
 		return false;
 	}
 
+
 	@Override
-	void addToDB(final String _word, final int _count) {
-		// Do nothing.
+	final void addToDB(final String trigram, final int count) {
+		// Write to db
+		mLookAheadDB.addTriGramToLookAhead(trigram, count);
 	}
 
 
 	@Override
-	void deleteFromDB(final String _word) {
+	final void deleteFromDB(final String _word) {
 		// Do nothing.
 	}
 
@@ -277,13 +271,22 @@ public class LookAheadDictionary extends TrieDictionary {
 
 		// User look-ahead table
 		private static final String LOOKAHEAD_TABLE_NAME = "trigrams";
-		private static final String LOOKAHEAD_FIELD_LANG = "lang";
 		private static final String LOOKAHEAD_FIELD_WORD1 = "word1";
 		private static final String LOOKAHEAD_FIELD_WORD2 = "word2";
 		private static final String LOOKAHEAD_FIELD_WORD3 = "word3";
 		private static final String LOOKAHEAD_FIELD_COUNT = "count";
 
-		public boolean addTriGramToLookAhead(String word1, String word2, String word3, int count) {
+		public boolean addTriGramToLookAhead(String trigram, int count) {
+			final String word1, word2, word3;
+			final String words[] = trigram.split(" ");
+			if(words.length != 3) {
+				return false;
+			} else {
+				word1 = words[0];
+				word2 = words[1];
+				word3 = words[2];
+			}
+
 			Assert.assertTrue(word1 != null);
 			Assert.assertTrue(word2 != null);
 			Assert.assertTrue(word3 != null);

@@ -12,7 +12,7 @@ import com.comet.keyboard.dictionary.radixtrie.RadixTrie;
 public abstract class TrieDictionary implements LearningDictionary {
 
 	private static final int MAX_DELETABLE_COUNT = 100;
-	private static final int COUNT_INCREMENT = 10;
+	protected static final int COUNT_INCREMENT = 10;
 	protected final int MIN_COUNT = 2; // Count threshold for suggestions
 	protected final KeyCollator mCollator;
 	protected final Context mContext;
@@ -38,7 +38,7 @@ public abstract class TrieDictionary implements LearningDictionary {
 		});
 		thread.start();
 	}
-	
+
 
 	void insert(final String word, final int count) {
 		mTrie.insert(word, count);
@@ -104,6 +104,7 @@ public abstract class TrieDictionary implements LearningDictionary {
 	}
 
 
+	// TODO: THIS METHOD IS HACKY AND IS ONLY USED BY LookAheadDictionary
 	protected Suggestions getSuggestionsWithPrefix(Suggestions suggestions, final String prefix) {
 		final Node node = mTrie.findNode(prefix, mCollator);
 		if(node != null) {
@@ -242,7 +243,7 @@ public abstract class TrieDictionary implements LearningDictionary {
 	}
 
 
-	public void addSuggestions(
+	private void addSuggestions(
 			final Node node,
 			final StringBuilder prefix,
 			final Suggestions suggestions,
@@ -278,7 +279,9 @@ public abstract class TrieDictionary implements LearningDictionary {
 	protected int learn(String word, int countIncrement) {
 		final int count;
 		final Node node = mTrie.findNode(word, mExactCharComparator);
-		if(node != null) {
+		if(node != null
+				&& node.isEntry()
+				&& node.getWord().equals(word)) {
 			// Update trie entry
 			count = node.getCount() + countIncrement;
 			node.setCount(count);

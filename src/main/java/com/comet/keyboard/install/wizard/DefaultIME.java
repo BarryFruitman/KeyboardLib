@@ -99,10 +99,10 @@ public class DefaultIME extends Activity {
 	 */
 	private void showTryAgainDialog() {
 		AlertDialog.Builder builder;
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-			builder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK);
-		else
-			builder = new AlertDialog.Builder(this);
+//		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+//			builder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK);
+//		else
+		builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.warning);
 		builder.setMessage(getString(R.string.confirm_enable_ime_description, getString(R.string.ime_short_name)));
 		AlertDialog dialog = builder.create();

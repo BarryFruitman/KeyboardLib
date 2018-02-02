@@ -223,17 +223,17 @@ public final class Suggestor {
 
 
 	protected void learnSuggestions(String input) {
-
 		// Check length
 		if(input.length() <= 0)
 			return;
 
-		String sentences[] = input.split("[.?!'\\n]");
+		String sentences[] = input.split("[.?!\\n]");
 		for(int iSentence = 0; iSentence < sentences.length; iSentence++) {
 			String sentence = sentences[iSentence].trim();
 			if(sentence.length() == 0) {
 				continue;
 			}
+
 			if(KeyboardService.getIME().mAutoCaps) {
 				// De-capitalize the first letter.
 				StringBuilder sbGroup = new StringBuilder(sentence);
@@ -241,24 +241,21 @@ public final class Suggestor {
 				sentence = sbGroup.toString();
 			}
 
-			final String words[] = sentence.split("[^a-zA-Z0-9']");
+			final String words[] = sentence.split("[^a-zA-Z0-9'-]");
 			for(int iWord = 0; iWord < words.length; iWord++) {
+				// Save to language dictionary
 				mDicLanguage.learn(words[iWord]);
-			}
-		}
 
-		// Split into sentences, then split into trigrams.
-		sentences = input.split("[.!?:;\\n]+");
-		for(int iSentence = 0; iSentence < sentences.length; iSentence++) {
-			String words[] = sentences[iSentence].split("[^a-zA-Z0-9'-]+");
-			for(int iWord = 0; iWord < words.length-2; iWord++) {
-				String word1 = words[iWord];
-				String word2 = words[iWord+1];
-				String word3 = words[iWord+2];
-				if (!word1.matches(".*[a-zA-Z'-].*") || !word2.matches(".*[a-zA-Z'-].*") || !word3.matches(".*[a-zA-Z'-].*"))
-					// word1 and word2 don't contain any letters
-					continue;
-				mDicLookAhead.learn(new StringBuilder(word1).append(" ").append(word2).append(" ").append(word3).toString());
+				// Save to lookahead dictionary
+				if (iWord < words.length - 2) {
+					String word1 = words[iWord];
+					String word2 = words[iWord + 1];
+					String word3 = words[iWord + 2];
+					if (!word1.matches(".*[a-zA-Z'-].*") || !word2.matches(".*[a-zA-Z'-].*") || !word3.matches(".*[a-zA-Z'-].*"))
+						// word1 and word2 don't contain any letters
+						continue;
+					mDicLookAhead.learn(new StringBuilder(word1).append(" ").append(word2).append(" ").append(word3).toString());
+				}
 			}
 		}
 	}
