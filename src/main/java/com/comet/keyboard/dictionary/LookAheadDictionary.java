@@ -202,7 +202,7 @@ public class LookAheadDictionary extends TrieDictionary {
 			final double frequency = mFrequency;
 
 			// Normalize
-			double score = Math.abs(Math.log10(frequency));
+			double score = Math.abs(Math.log(frequency));
 
 			// Subtract edit distance
 			score += mEditDistance;
