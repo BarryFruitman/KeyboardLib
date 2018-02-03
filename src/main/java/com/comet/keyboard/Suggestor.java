@@ -43,6 +43,7 @@ import com.comet.keyboard.settings.Settings;
  * Suggestor is used by the IME to produce a list of suggestions based on what the user is typing.
  * The primary method is findSuggestions(). It pulls results from the various dictionaries, ranks,
  * sorts and removes duplicates, then returns a list of suggestions to the IME.
+ *
  * @author Barry Fruitman
  *
  */
@@ -54,7 +55,6 @@ public final class Suggestor {
 	private final Dictionary mDicShortcuts;
 	private final Dictionary mDicNumber;
 	private static Suggestor mInstance = null;
-
 	private SuggestionRequest mPendingRequest = null;
 	private final ThreadPool mThreadPool;
 	private boolean mPredictNextWord;
@@ -71,12 +71,12 @@ public final class Suggestor {
 
 
 	public static Suggestor getSuggestor() {
-		if(mInstance == null)
+		if(mInstance == null) {
 			mInstance = new Suggestor(KeyboardApp.getApp());
+		}
 
 		return mInstance;
 	}
-
 
 
 	private Handler mHandler = new Handler() {
@@ -90,10 +90,10 @@ public final class Suggestor {
 	};
 
 
-
-	private synchronized void newPendingRequest(SuggestionRequest request) {
-		if(mPendingRequest != null)
+	private synchronized void newPendingRequest(final SuggestionRequest request) {
+		if(mPendingRequest != null) {
 			mPendingRequest.setExpired();
+		}
 
 		mPendingRequest = request;
 	}
@@ -106,8 +106,9 @@ public final class Suggestor {
 			public void run() {
 				try {
 					Suggestions suggestions = findSuggestions(request);
-					if(!suggestions.isExpired())
+					if(!suggestions.isExpired()) {
 						mHandler.sendMessageAtFrontOfQueue(Message.obtain(mHandler, 0, suggestions));
+					}
 				} catch (SuggestionsExpiredException see) {
 					Log.v(KeyboardApp.LOG_TAG, "Suggestions(" + composing + ") expired");
 				} catch (Exception e) {
@@ -118,7 +119,7 @@ public final class Suggestor {
 	}
 
 
-	public boolean forget(Suggestion suggestion) {
+	public boolean forget(final Suggestion suggestion) {
 		if (suggestion instanceof LanguageDictionary.LanguageSuggestion
 				|| suggestion instanceof PrefixSuggestion) {
 			return mDicLanguage.forget(suggestion.getWord());
@@ -132,12 +133,15 @@ public final class Suggestor {
 		private final Set<Handler> mHandlers;
 		private int mThreadCount = 0;
 
+
 		public ThreadPool() {
 			mHandlers = new HashSet<Handler>();
 		}
 
+
 		public void run(final Runnable runnable) {
 			final Handler handler;
+
 			synchronized (mHandlers) {
 				final Iterator<Handler> iterator = mHandlers.iterator();
 				if (iterator.hasNext()) {
@@ -163,21 +167,22 @@ public final class Suggestor {
 	}
 
 
-	public Suggestions findSuggestions(String composing) {
+	public Suggestions findSuggestions(final String composing) {
 		return findSuggestions(new SuggestionRequest(composing));
 	}
 
 
-	public Suggestions findSuggestions(SuggestionRequest request) {
-		Suggestions suggestions = new Suggestions(request);
+	public Suggestions findSuggestions(final SuggestionRequest request) {
+		final Suggestions suggestions = new Suggestions(request);
 
 		// Terminate previous thread
 		newPendingRequest(request);
 
 		// Get look-ahead suggestions
 		Suggestions lookAheadSuggestions = new Suggestions(request);
-		if (mPredictNextWord)
+		if (mPredictNextWord) {
 			lookAheadSuggestions = mDicLookAhead.getSuggestions(lookAheadSuggestions);
+		}
 
 		if(request.getComposing().length() == 0) {
 			// There is no composing to match. Just return the look-ahead matches.
@@ -189,18 +194,19 @@ public final class Suggestor {
 		}
 
 		// Get numeric suggestions
-		Suggestions numberSuggestions = mDicNumber.getSuggestions(new Suggestions(request));
+		final Suggestions numberSuggestions = mDicNumber.getSuggestions(new Suggestions(request));
 
 		// Add shortcut suggestions
-		Suggestions shortcutsSuggestions = mDicShortcuts.getSuggestions(new Suggestions(request));
+		final Suggestions shortcutsSuggestions = mDicShortcuts.getSuggestions(new Suggestions(request));
 
 		// Get contact suggestions
 		Suggestions contactsSuggestions = new Suggestions(request);
-		if(mIncludeContacts)
+		if(mIncludeContacts) {
 			contactsSuggestions = mDicContacts.getSuggestions(contactsSuggestions);
+		}
 
 		// Get suggestions from language dictionary
-		Suggestions languageSuggestions = mDicLanguage.getSuggestions(new Suggestions(request));
+		final Suggestions languageSuggestions = mDicLanguage.getSuggestions(new Suggestions(request));
 
 		suggestions.addAll(languageSuggestions);
 		suggestions.addAll(lookAheadSuggestions);
@@ -221,13 +227,13 @@ public final class Suggestor {
 	}
 
 
-
-	protected void learnSuggestions(String input) {
+	protected void learnSuggestions(final String input) {
 		// Check length
-		if(input.length() <= 0)
+		if(input.length() <= 0) {
 			return;
+		}
 
-		String sentences[] = input.split("[.?!\\n]");
+		final String sentences[] = input.split("[.?!\\n]");
 		for(int iSentence = 0; iSentence < sentences.length; iSentence++) {
 			String sentence = sentences[iSentence].trim();
 			if(sentence.length() == 0) {
@@ -236,7 +242,7 @@ public final class Suggestor {
 
 			if(KeyboardService.getIME().mAutoCaps) {
 				// De-capitalize the first letter.
-				StringBuilder sbGroup = new StringBuilder(sentence);
+				final StringBuilder sbGroup = new StringBuilder(sentence);
 				sbGroup.replace(0, 1, String.valueOf(Character.toLowerCase(sentence.charAt(0))));
 				sentence = sbGroup.toString();
 			}
@@ -251,9 +257,10 @@ public final class Suggestor {
 					String word1 = words[iWord];
 					String word2 = words[iWord + 1];
 					String word3 = words[iWord + 2];
-					if (!word1.matches(".*[a-zA-Z'-].*") || !word2.matches(".*[a-zA-Z'-].*") || !word3.matches(".*[a-zA-Z'-].*"))
+					if (!word1.matches(".*[a-zA-Z'-].*") || !word2.matches(".*[a-zA-Z'-].*") || !word3.matches(".*[a-zA-Z'-].*")) {
 						// word1 and word2 don't contain any letters
 						continue;
+					}
 					mDicLookAhead.learn(new StringBuilder(word1).append(" ").append(word2).append(" ").append(word3).toString());
 				}
 			}
@@ -261,9 +268,8 @@ public final class Suggestor {
 	}
 
 
-
 	protected void loadPreferences() {
-		SharedPreferences sharedPrefs = KeyboardApp.getApp().getSharedPreferences(Settings.SETTINGS_FILE, Context.MODE_PRIVATE);
+		final SharedPreferences sharedPrefs = KeyboardApp.getApp().getSharedPreferences(Settings.SETTINGS_FILE, Context.MODE_PRIVATE);
 		mIncludeContacts = sharedPrefs.getBoolean("include_contacts", false);
 		mPredictNextWord = sharedPrefs.getBoolean("nextword", true);
 
@@ -276,9 +282,8 @@ public final class Suggestor {
 	}
 
 
-
 	public void reloadLanguageDictionary() {
-		SharedPreferences sharedPrefs = KeyboardApp.getApp().getSharedPreferences(Settings.SETTINGS_FILE, Context.MODE_PRIVATE);
+		final SharedPreferences sharedPrefs = KeyboardApp.getApp().getSharedPreferences(Settings.SETTINGS_FILE, Context.MODE_PRIVATE);
 		mLanguage = Language.createLanguage(sharedPrefs.getString("language", "en"));
 		mCollator = new KeyCollator(mLanguage, KeyboardLayout.getCurrentLayout());
 		mDicLanguage = new CacheDictionary(new LanguageDictionary(KeyboardService.getIME(), mCollator));
@@ -286,17 +291,14 @@ public final class Suggestor {
 	}
 
 
-
 	public LearningDictionary getLanguageDictionary() {
 		return mDicLanguage;
 	}
 
 
-
 	public LearningDictionary getLookAheadDictionary() {
 		return mDicLookAhead;
 	}
-
 
 
 	/**
@@ -307,37 +309,45 @@ public final class Suggestor {
 	public static abstract class Suggestion implements Cloneable {
 		protected int mOrder;
 		protected String mWord;
-		protected int mEditDistance;
+
+
 		protected Suggestion(final String word, final int order) {
 			mWord = word;
 			mOrder = order;
 		}
+
+
 		public String getWord() {
 			return mWord;
 		}
+
+
 		protected void setWord(final String word) {
 			mWord = word;
 		}
+
+
 		public int getOrder() {
 			return mOrder;
 		}
+
+
 		public double getScore() {
 			return 0;
 		}
-		public int getEditDistance() {
-			return mEditDistance;
-		}
+
+
 		protected int compareTo(final Suggestion another, final String prefix) {
 			return another.getOrder() - getOrder();
 		}
-		// Returns true if this suggestion can be remembered to the user dictionary. (Most types cannot be.)
-		public boolean canRemember() { return false; }
+
 
 		public void matchCase(final String composing) {
 			setWord(DictionaryUtils.matchCase(composing, getWord(),
 					KeyboardService.getIME().getKeyboardView().isShifted(),
 					KeyboardService.getIME().getKeyboardView().getCapsLock()));
 		}
+
 
 		@Override
 		public boolean equals(Object object) {
@@ -351,6 +361,7 @@ public final class Suggestor {
 
 			return false;
 		}
+
 
 		@Override
 		public Object clone()  {
@@ -419,8 +430,8 @@ public final class Suggestor {
 
 
 		public ArrayList<String> getWords() {
-			Iterator<Suggestion> iterator = mSuggestions.iterator();
-			ArrayList<String> words = new ArrayList<String>();
+			final Iterator<Suggestion> iterator = mSuggestions.iterator();
+			final ArrayList<String> words = new ArrayList<String>();
 			while(iterator.hasNext()) {
 				Suggestion suggestion = iterator.next();
 				words.add(suggestion.getWord());
@@ -430,41 +441,31 @@ public final class Suggestor {
 		}
 
 
-		public Suggestion getSuggestion(final String word) {
-			Iterator<Suggestion> iterator = mSuggestions.iterator();
-			while(iterator.hasNext()) {
-				Suggestion suggestion = iterator.next();
-				if (word.equals(suggestion.getWord())) {
-					return suggestion;
-				}
-			}
-
-			return null;
-		}
-
-
 		public void add(final Suggestion suggestion) {
-			if(mRequest.isExpired())
+			if(mRequest.isExpired()) {
 				// Too late
 				throw new SuggestionsExpiredException();
+			}
 
 			mSuggestions.offer(suggestion);
 		}
 
 
 		public void addAll(final Suggestions suggestions) {
-			if(mRequest.isExpired())
+			if(mRequest.isExpired()) {
 				// Too late
 				throw new SuggestionsExpiredException();
+			}
 
 			mSuggestions.offerAll(suggestions.mSuggestions);
 		}
 
 
 		public void addAll(final Collection<Suggestion> suggestions) {
-			if(mRequest.isExpired())
+			if(mRequest.isExpired()) {
 				// Too late
 				throw new SuggestionsExpiredException();
+			}
 
 			mSuggestions.offerAll(suggestions);
 		}
@@ -480,11 +481,12 @@ public final class Suggestor {
 		}
 
 
-		public Suggestion getSuggestion(int i) {
+		public Suggestion getSuggestion(final int i) {
 			int iSuggestion = 0;
 			for(Suggestion suggestion : mSuggestions) {
-				if(iSuggestion++ == i)
+				if(iSuggestion++ == i) {
 					return suggestion;
+				}
 			}
 
 			return null;
@@ -501,8 +503,9 @@ public final class Suggestor {
 			int i = 0;
 			while(iterator.hasNext()) {
 				result = iterator.next();
-				if(i++ == mDefault)
+				if(i++ == mDefault) {
 					break;
+				}
 			}
 
 			return result;
@@ -523,8 +526,8 @@ public final class Suggestor {
 			boolean hasShortcut = false;
 			boolean hasPerfect = false;
 			final String composing = getComposing();
-			Iterator<Suggestion> iterator = mSuggestions.iterator();
-			ArrayList<Suggestion> prefixes = new ArrayList<Suggestion>();
+			final Iterator<Suggestion> iterator = mSuggestions.iterator();
+			final ArrayList<Suggestion> prefixes = new ArrayList<Suggestion>();
 
 			while(iterator.hasNext()) {
 				Suggestion suggestion = iterator.next();
@@ -544,8 +547,9 @@ public final class Suggestor {
 
 			if(prefixes.size() > 0) {
 				addAll(prefixes);
-				if(hasShortcut)
+				if(hasShortcut) {
 					mDefault = prefixes.size();
+				}
 				if(!hasPerfect) {
 					// Add the prefix as the perfect (non-default) match
 					PrefixSuggestion prefixSuggestion = new PrefixSuggestion(composing);
@@ -554,16 +558,16 @@ public final class Suggestor {
 				}
 			} else {
 				// Add the prefix as the first match
-				PrefixSuggestion prefixSuggestion = new PrefixSuggestion(composing);
+				final PrefixSuggestion prefixSuggestion = new PrefixSuggestion(composing);
 				add(prefixSuggestion);
 
 				if(!mDicLanguage.contains(getComposing())
-						&& !mDicLanguage.contains(getComposing().toLowerCase()))
+						&& !mDicLanguage.contains(getComposing().toLowerCase())) {
 					// Don't make it the default
 					mDefault++;
+				}
 			}
 
-			final Suggestion defaultSuggestion = getDefaultSuggestion();
 			if(getDefaultSuggestion().getScore() > MIN_SCORE_FOR_DEFAULT) {
 				mDefault = -1;
 			}
@@ -571,8 +575,8 @@ public final class Suggestor {
 
 
 		private void removeDuplicates() {
-			Iterator<Suggestion> iterator = mSuggestions.iterator();
-			ArrayList<String> words = new ArrayList<String>();
+			final Iterator<Suggestion> iterator = mSuggestions.iterator();
+			final ArrayList<String> words = new ArrayList<String>();
 			int iSuggestion = -1;
 			while(iterator.hasNext()) {
 				iSuggestion++;
@@ -582,25 +586,28 @@ public final class Suggestor {
 					continue;
 				} else {
 					iterator.remove();
-					if(iSuggestion < mDefault)
+					if(iSuggestion < mDefault) {
 						mDefault--;
-					else if(iSuggestion == mDefault)
+					} else if(iSuggestion == mDefault) {
 						// Deleting the default???
 						// Don't do it
 						continue;
+					}
 				}
 			}
 		}
 
 
-
 		public void matchCase() {
 			matchCase(getComposing());
 		}
-		public void matchCase(String match) {
+
+
+		public void matchCase(final String match) {
 			final Iterator<Suggestion> iterator = mSuggestions.iterator();
-			while(iterator.hasNext())
+			while(iterator.hasNext()) {
 				iterator.next().matchCase(match);
+			}
 		}
 
 
@@ -608,27 +615,14 @@ public final class Suggestor {
 			int iWord = 0;
 			Iterator<Suggestion> iterator = mSuggestions.iterator();
 			while(iterator.hasNext()) {
-				if(iterator.next().getWord().equalsIgnoreCase(word))
+				if(iterator.next().getWord().equalsIgnoreCase(word)) {
 					return iWord;
+				}
 				iWord++;
 			}
 
 			return -1;
 		}
-
-
-
-		public Suggestion find(final String word) {
-			Iterator<Suggestion> iterator = mSuggestions.iterator();
-			while(iterator.hasNext()) {
-				Suggestion suggestion = iterator.next();
-				if(DictionaryUtils.equalsIgnorePunc(suggestion.getWord(), word))
-					return suggestion;
-			}
-
-			return null;
-		}
-
 
 
 		/**
@@ -646,12 +640,12 @@ public final class Suggestor {
 
 			clone.mSuggestions = new BoundedPriorityQueue<Suggestion>(new SuggestionComparator(getComposing()), MAX_SUGGESTIONS);
 			final Iterator<Suggestion> iterator = mSuggestions.iterator();
-			while(iterator.hasNext())
+			while(iterator.hasNext()) {
 				clone.add((Suggestion) iterator.next().clone());
+			}
 
 			return clone;
 		}
-
 
 
 		@Override
@@ -660,20 +654,19 @@ public final class Suggestor {
 			Iterator<Suggestion> iterator = mSuggestions.iterator();
 			while(iterator.hasNext()) {
 				string += iterator.next();
-				if(iterator.hasNext())
+				if(iterator.hasNext()) {
 					string += " , ";
+				}
 			}
 
 			return string + " ]";
 		}
 
 
-
 		@Override
 		public Iterator<Suggestion> iterator() {
 			return mSuggestions.iterator();
 		}
-
 
 
 		/**
@@ -686,6 +679,7 @@ public final class Suggestor {
 		private final class SuggestionComparator implements Comparator<Suggestion> {
 			protected String mComposing;
 
+
 			public SuggestionComparator(final String composing) {
 				mComposing = composing;
 			}
@@ -693,8 +687,9 @@ public final class Suggestor {
 
 			@Override
 			public int compare(final Suggestion lhs, final Suggestion rhs) {
-				if(!lhs.getClass().equals(rhs.getClass()))
+				if(!lhs.getClass().equals(rhs.getClass())) {
 					return lhs.getOrder() - rhs.getOrder();
+				}
 
 				return lhs.compareTo(rhs, mComposing);
 			}
@@ -703,22 +698,25 @@ public final class Suggestor {
 	}
 
 
-
 	public final class SuggestionRequest {
 		private boolean mExpired = false;
 		private final String mComposing;
+
 
 		private SuggestionRequest(String composing) {
 			mComposing = composing;
 		}
 
+
 		private boolean isExpired() {
 			return mExpired;
 		}
 
+
 		private synchronized void setExpired() {
 			mExpired = true;
 		}
+
 
 		public String getComposing() {
 			return mComposing;
@@ -726,58 +724,59 @@ public final class Suggestor {
 	}
 
 
-
-
-	public boolean containsIgnoreCase(String word) {
-		if(mDicLanguage.contains(word))
+	public boolean containsIgnoreCase(final String word) {
+		if(mDicLanguage.contains(word)) {
 			return true;
+		}
 
 		// Check user dictionary
-		if(mDicNumber.contains(word))
+		if(mDicNumber.contains(word)) {
 			return true;
+		}
 
 		// Check contacts dictionary
-		if(mIncludeContacts && mDicContacts.contains(word))
+		if(mIncludeContacts && mDicContacts.contains(word)) {
 			return true;
-
+		}
 
 		return false;
 	}
-
 
 
 	public static class PrefixSuggestion extends Suggestion {
 		private final double mScore;
 		private final static int ORDER = 0;
 
+
 		public PrefixSuggestion(final String word) {
 			super(word, ORDER);
 			mScore = 0;
 		}
 
-		public PrefixSuggestion(Suggestion suggestion) {
+
+		public PrefixSuggestion(final Suggestion suggestion) {
 			super(suggestion.getWord(), 0);
 			mScore = suggestion.getScore();
 		}
 
+
 		@Override
 		protected int compareTo(final Suggestion suggestion, final String prefix) {
-			if(!(suggestion instanceof PrefixSuggestion))
+			if(!(suggestion instanceof PrefixSuggestion)) {
 				return super.compareTo(suggestion, prefix);
+			}
 			PrefixSuggestion another = (PrefixSuggestion) suggestion;
 
 			return mScore == another.mScore ? 0 : (mScore < another.mScore ? -1 : 1);
 		}
 
-		// Prefix suggestions can be remembered to the user dictionary 
+
+		// Prefix suggestions can be remembered to the user dictionary
 		public boolean canRemember() { return true; }
 	}
 
 
-
 	public static class SuggestionsExpiredException extends RuntimeException {
-
 		private static final long serialVersionUID = -241038711087099668L;
-
 	}
 }
