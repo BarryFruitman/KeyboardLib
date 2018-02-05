@@ -113,8 +113,7 @@ public class LookAheadDictionary extends TrieDictionary {
 	@Override
 	protected void addSuggestion(Suggestions suggestions, String word, int count, int editDistance) {
 		// TODO: THIS CAST IS HACKY
-		final double frequency = (double) count / (double) ((LookAheadSuggestions) suggestions).mCountSum;
-		suggestions.add(new LookAheadSuggestion(word, frequency, editDistance, ((LookAheadSuggestions) suggestions).mDepth));
+		suggestions.add(new LookAheadSuggestion(word, count, getCountSum(), editDistance, ((LookAheadSuggestions) suggestions).mDepth));
 	}
 
 
@@ -183,26 +182,25 @@ public class LookAheadDictionary extends TrieDictionary {
 
 
 	private class LookAheadSuggestion extends Suggestion {
+		private final int mCount;
 		private final double mFrequency;
 		private final int mEditDistance;
 		private double mScore = 0;
 		private final int mDepth;
 
-		public LookAheadSuggestion(String word, double frequency, int editDistance, int depth) {
+		public LookAheadSuggestion(String word, int count, int countSum, int editDistance, int depth) {
 			super(word, 4);
-			
-			mFrequency = frequency;
+
+			mCount = count;
 			mEditDistance = editDistance;
+			mFrequency = (double) count / (double) countSum;
 			mDepth = depth;
 		}
 
 
 		private double computeScore() {
-			// Compute frequency
-			final double frequency = mFrequency;
-
 			// Normalize
-			double score = Math.abs(Math.log(frequency));
+			double score = Math.abs(Math.log(mFrequency));
 
 			// Subtract edit distance
 			score += mEditDistance;
@@ -213,7 +211,6 @@ public class LookAheadDictionary extends TrieDictionary {
 
 		@Override
 		public double getScore() {
-		
 			if(mScore == 0)
 				mScore = computeScore();
 			
