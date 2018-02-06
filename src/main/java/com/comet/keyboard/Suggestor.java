@@ -61,6 +61,7 @@ public final class Suggestor {
 	private boolean mPredictNextWord;
 	private boolean mIncludeContacts;
 	private Language mLanguage;
+	private Context mContext;
 
 
 	private Suggestor(final Context context) {
@@ -68,6 +69,7 @@ public final class Suggestor {
 		mDicShortcuts = new ShortcutsDictionary(context);
 		mDicNumber = new NumberDictionary();
 		mThreadPool = new ThreadPool();
+		mContext = context;
 	}
 
 
@@ -84,7 +86,9 @@ public final class Suggestor {
 		@Override
 		public void handleMessage(final Message result) {
 			Suggestions suggestions = (Suggestions) result.obj;
-			if(!suggestions.isExpired() && KeyboardService.getIME() != null) {
+			if(!suggestions.isExpired()
+					&& suggestions.getRequest() != null
+					&& suggestions.getRequest().getListener() != null) {
 				suggestions.getRequest().getListener().onSuggestionsReady(suggestions);
 			}
 		}
@@ -288,8 +292,8 @@ public final class Suggestor {
 		if(mDicLanguage == null || !mLanguage.equals(sharedPrefs.getString("language", "en"))) {
 			mLanguage = Language.createLanguage(sharedPrefs.getString("language", "en"));
 			mCollator = new KeyCollator(mLanguage, KeyboardLayout.getCurrentLayout());
-			mDicLanguage = new LanguageDictionary(KeyboardService.getIME(), mCollator);
-			mDicLookAhead = new LookAheadDictionary(KeyboardService.getIME(), mCollator);
+			mDicLanguage = new LanguageDictionary(mContext, mCollator);
+			mDicLookAhead = new LookAheadDictionary(mContext, mCollator);
 		}
 	}
 
@@ -298,8 +302,8 @@ public final class Suggestor {
 		final SharedPreferences sharedPrefs = KeyboardApp.getApp().getSharedPreferences(Settings.SETTINGS_FILE, Context.MODE_PRIVATE);
 		mLanguage = Language.createLanguage(sharedPrefs.getString("language", "en"));
 		mCollator = new KeyCollator(mLanguage, KeyboardLayout.getCurrentLayout());
-		mDicLanguage = new CacheDictionary(new LanguageDictionary(KeyboardService.getIME(), mCollator));
-		mDicLookAhead = new LookAheadDictionary(KeyboardService.getIME(), mCollator);
+		mDicLanguage = new CacheDictionary(new LanguageDictionary(mContext, mCollator));
+		mDicLookAhead = new LookAheadDictionary(mContext, mCollator);
 	}
 
 
@@ -377,15 +381,16 @@ public final class Suggestor {
 
 		@Override
 		public Object clone()  {
-			Suggestion s = null;
 			try {
-				s = (Suggestion) super.clone();
+				final Suggestion s = (Suggestion) super.clone();
+				s.mWord = new String(mWord);
+				return s;
 			} catch (CloneNotSupportedException e) {
 				// Should never reach here since this class implements Clonable and its parent is Object.
 				Assert.assertTrue("The class '" + this.getClass().getName() + "' is not clonable.", true); // Just in case.
 			}
-			s.mWord = new String(mWord);
-			return s;
+
+			return null;
 		}
 
 		@Override
