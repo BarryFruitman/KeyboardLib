@@ -40,12 +40,6 @@ public final class CacheDictionary implements LearningDictionary {
 
 
 	@Override
-	public boolean matches(String word) {
-		return mDicCached.matches(word);
-	}
-
-
-	@Override
 	public boolean learn(String word) {
 		return mDicCached.learn(word);
 	}

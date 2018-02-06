@@ -66,14 +66,6 @@ public class ShortcutsDictionary implements Dictionary {
 
 
 
-	@Override
-	public boolean matches(String word) {
-		// TODO: Unimplemented
-		return false;
-	}
-
-
-
 	public static class ShortcutSuggestion extends Suggestion {
 
 		public ShortcutSuggestion(String phrase) {

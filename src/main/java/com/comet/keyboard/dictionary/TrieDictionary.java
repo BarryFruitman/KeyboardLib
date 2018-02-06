@@ -63,12 +63,6 @@ public abstract class TrieDictionary implements LearningDictionary {
 
 
 	@Override
-	public boolean matches(final String word) {
-		return mTrie.findNode(word, mCollator) != null;
-	}
-
-
-	@Override
 	public boolean contains(final String word) {
 		return contains(word, mCollator);
 	}
@@ -84,12 +78,7 @@ public abstract class TrieDictionary implements LearningDictionary {
 
 
 	public int getCount(final String word) {
-		return getCount(word, mCollator);
-	}
-
-
-	public int getCount(final String word, final RadixTrie.CharComparator charComparator) {
-		Node node = mTrie.findNode(word, charComparator);
+		Node node = mTrie.findNode(word, mExactCharComparator);
 		if(node == null || !node.isEntry() || node.getWord().length() != word.length()) {
 			return -1;
 		}
@@ -359,9 +348,7 @@ public abstract class TrieDictionary implements LearningDictionary {
 
 
 	private boolean isRemembered(String word) {
-		Node node = mTrie.findNode(word, mExactCharComparator);
-
-		if(getCount(word, mExactCharComparator) >= MIN_COUNT) {
+		if(getCount(word) >= MIN_COUNT) {
 			return true;
 		}
 

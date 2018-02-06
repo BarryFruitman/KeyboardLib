@@ -77,11 +77,4 @@ public class ContactsDictionary implements Dictionary {
 	public boolean contains(String word) {
 		return false;
 	}
-
-
-
-	@Override
-	public boolean matches(String word) {
-		return false;
-	}
 }

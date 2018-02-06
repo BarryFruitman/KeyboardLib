@@ -98,10 +98,4 @@ public class NumberDictionary implements Dictionary {
 
 		return false;
 	}
-
-
-	@Override
-	public boolean matches(String word) {
-		return false;
-	}
 }
