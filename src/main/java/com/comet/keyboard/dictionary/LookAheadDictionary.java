@@ -96,16 +96,18 @@ public class LookAheadDictionary extends TrieDictionary {
 			suggestions.addAll(lookAheadSuggestions2);
 		}
 
-		// Depth = 1
-		if(word2.length() > 0) {
-			String prefix = word2.toString();
-			final int countSum = getCount(prefix);
-			prefix += " ";
-			final LookAheadSuggestions lookAheadSuggestions1 = new LookAheadSuggestions(suggestions, prefix, countSum, 1);
-			super.getSuggestionsWithPrefix(lookAheadSuggestions1, prefix);
-			suggestions.addAll(lookAheadSuggestions1);
+		if(suggestions.getRequest().getComposing().equals("")) {
+			// Depth = 1
+			if (word2.length() > 0) {
+				String prefix = word2.toString();
+				final int countSum = getCount(prefix);
+				prefix += " ";
+				final LookAheadSuggestions lookAheadSuggestions1 = new LookAheadSuggestions(suggestions, prefix, countSum, 1);
+				super.getSuggestionsWithPrefix(lookAheadSuggestions1, prefix);
+				suggestions.addAll(lookAheadSuggestions1);
+			}
 		}
-		
+
 		return suggestions;
 	}
 
