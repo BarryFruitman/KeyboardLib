@@ -2470,7 +2470,12 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
         // Find suggestions asynchronously. Suggestor will call
         // returnCandidates() when done.
-        mSuggestor.findSuggestionsAsync(prefix.toString());
+        mSuggestor.findSuggestionsAsync(prefix.toString(), new Suggestor.SuggestionsListener() {
+            @Override
+            public void onSuggestionsReady(final Suggestions suggestions) {
+                returnCandidates(suggestions);
+            }
+        });
         mPendingRequest = true;
     }
 
@@ -2485,7 +2490,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      *
      * @param suggestions The list of suggestions to display.
      */
-    protected void returnCandidates(final Suggestions suggestions) {
+    private void returnCandidates(final Suggestions suggestions) {
         mPendingRequest = false;
         mSuggestions = suggestions;
 

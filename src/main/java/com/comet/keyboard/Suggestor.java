@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -84,7 +85,7 @@ public final class Suggestor {
 		public void handleMessage(final Message result) {
 			Suggestions suggestions = (Suggestions) result.obj;
 			if(!suggestions.isExpired() && KeyboardService.getIME() != null) {
-				KeyboardService.getIME().returnCandidates(suggestions);
+				suggestions.getRequest().getListener().onSuggestionsReady(suggestions);
 			}
 		}
 	};
@@ -99,8 +100,8 @@ public final class Suggestor {
 	}
 
 
-	protected void findSuggestionsAsync(final String composing) {
-		final SuggestionRequest request = new SuggestionRequest(composing);
+	protected void findSuggestionsAsync(final String composing, final SuggestionsListener listener) {
+		final SuggestionRequest request = new SuggestionRequest(composing, listener);
 
 		mThreadPool.run(new Runnable() {
 			public void run() {
@@ -116,6 +117,11 @@ public final class Suggestor {
 				}
 			}
 		});
+	}
+
+
+	public interface SuggestionsListener {
+		void onSuggestionsReady(Suggestions suggestions);
 	}
 
 
@@ -567,8 +573,7 @@ public final class Suggestor {
 				final PrefixSuggestion prefixSuggestion = new PrefixSuggestion(composing);
 				add(prefixSuggestion);
 
-				if(!mDicLanguage.contains(getComposing())
-						&& !mDicLanguage.contains(getComposing().toLowerCase())) {
+				if(!mDicLanguage.contains(getComposing())) {
 					// Don't make it the default
 					mDefault++;
 				}
@@ -707,25 +712,38 @@ public final class Suggestor {
 	public final class SuggestionRequest {
 		private boolean mExpired = false;
 		private final String mComposing;
+		private final SuggestionsListener mListener;
 
 
 		private SuggestionRequest(String composing) {
 			mComposing = composing;
+			mListener = null;
 		}
 
 
-		private boolean isExpired() {
+		private SuggestionRequest(String composing, @NonNull SuggestionsListener listener) {
+			mComposing = composing;
+			mListener = listener;
+		}
+
+
+		final private boolean isExpired() {
 			return mExpired;
 		}
 
 
-		private synchronized void setExpired() {
+		final private synchronized void setExpired() {
 			mExpired = true;
 		}
 
 
-		public String getComposing() {
+		final public String getComposing() {
 			return mComposing;
+		}
+
+
+		final public SuggestionsListener getListener() {
+			return mListener;
 		}
 	}
 
