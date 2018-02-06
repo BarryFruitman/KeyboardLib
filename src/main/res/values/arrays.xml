@@ -203,4 +203,29 @@
     <string-array name="announcement_messages">
         <item>@string/announcement_message_undo_menu</item>
         </string-array>
+
+    <!--Numbers-->
+    <string-array name="number_words">
+        <item>@string/zero</item>
+        <item>@string/one</item>
+        <item>@string/two</item>
+        <item>@string/three</item>
+        <item>@string/four</item>
+        <item>@string/five</item>
+        <item>@string/six</item>
+        <item>@string/seven</item>
+        <item>@string/eight</item>
+        <item>@string/nine</item>
+        <item>@string/ten</item>
+        <item>@string/eleven</item>
+        <item>@string/twelve</item>
+        <item>@string/thirteen</item>
+        <item>@string/fourteen</item>
+        <item>@string/fifteen</item>
+        <item>@string/sixteen</item>
+        <item>@string/seventeen</item>
+        <item>@string/eighteen</item>
+        <item>@string/nineteen</item>
+        <item>@string/twenty</item>
+    </string-array>
 </resources>

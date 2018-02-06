@@ -861,8 +861,32 @@
 	<string name="announcement_title">New Features in this Update</string>
 	<string name="announcement_message_undo_menu">It\'s now easier to undo auto-corrects with the Undo Menu. When a word is auto-corrected, it will be underlined in light gray. Press the word to open a menu containing the original word, plus more suggestions.</string>
 
-	
-	<!--
+
+
+    <string name="zero">zero</string>
+    <string name="one">one</string>
+    <string name="two">two</string>
+    <string name="three">three</string>
+    <string name="four">four</string>
+    <string name="five">five</string>
+    <string name="six">six</string>
+    <string name="seven">seven</string>
+    <string name="eight">eight</string>
+    <string name="nine">nine</string>
+    <string name="ten">ten</string>
+    <string name="eleven">eleven</string>
+    <string name="twelve">twelve</string>
+    <string name="thirteen">thirteen</string>
+    <string name="fourteen">fourteen</string>
+    <string name="fifteen">fifteen</string>
+    <string name="sixteen">sixteen</string>
+    <string name="seventeen">seventeen</string>
+    <string name="eighteen">eighteen</string>
+    <string name="nineteen">nineteen</string>
+    <string name="twenty">twenty</string>
+
+
+    <!--
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 		OTHER ERRORS & WARNINGS
     -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -886,4 +910,5 @@
 
     <string name="contacts_permission_dialog_message">To see contact suggestions, TypeSmart needs access to your contacts.</string>
     <string name="contacts_permission_dialog_title">Unable to Access Contacts</string>
+    <string name="five">five</string>
 </resources>

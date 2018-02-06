@@ -2,20 +2,22 @@ package com.comet.keyboard.dictionary;
 
 import java.util.regex.Pattern;
 
+import com.comet.keyboard.KeyboardService;
+import com.comet.keyboard.R;
 import com.comet.keyboard.Suggestor.Suggestion;
 import com.comet.keyboard.Suggestor.Suggestions;
 
 public class NumberDictionary implements Dictionary {
 
-	private final Pattern mNumberPattern, mTeenPattern;
-	private final String NUMBER_REGEX = "[\\d,]+";
+	private final Pattern mNumberPattern;
+	private final Pattern mTeenPattern;
+	private final String NUMBER_REGEX = "[\\d]+";
 	private final String TEEN_REGEX = "[\\d]*1[\\d]";
 
 	public NumberDictionary() {
 		mNumberPattern = Pattern.compile(NUMBER_REGEX);
 		mTeenPattern = Pattern.compile(TEEN_REGEX);
 	}
-
 
 
 	@Override
@@ -25,6 +27,13 @@ public class NumberDictionary implements Dictionary {
 			return suggestions;
 
 		suggestions.add(new NumberSuggestion(prefix.toString(), NumberSuggestion.NumberType.NORMAL));
+
+		final int value = Integer.parseInt(prefix);
+		if(value >= 0 && value <=20) {
+			// Add word
+			String[] words = KeyboardService.getIME().getResources().getStringArray(R.array.number_words);
+			suggestions.add(new NumberSuggestion(words[value], NumberSuggestion.NumberType.WORD));
+		}
 
 		// Add commaed number
 		StringBuilder commaed = new StringBuilder();
@@ -58,13 +67,13 @@ public class NumberDictionary implements Dictionary {
 	}
 
 
-
 	public static class NumberSuggestion extends Suggestion {
 		
 		enum NumberType {
 			NORMAL,
-			ORDINAL,
-			COMMAED
+			WORD,
+			COMMAED,
+			ORDINAL
 		}
 		private final NumberType mType;
 		
@@ -76,21 +85,10 @@ public class NumberDictionary implements Dictionary {
 		@Override
 		protected int compareTo(Suggestion suggestion, String prefix) {
 			NumberSuggestion numSuggestion = (NumberSuggestion) suggestion;
-			
-			if(mType == NumberType.NORMAL)
-				return -1;
-			else if(numSuggestion.mType == NumberType.NORMAL)
-				return 1;
 
-			if(mType == NumberType.COMMAED)
-				return -1;
-			else if(numSuggestion.mType == NumberType.COMMAED)
-				return 1;
-			
-			return 0;
+			return mType.compareTo(numSuggestion.mType);
 		}
 	}
-
 
 
 	@Override
@@ -100,7 +98,6 @@ public class NumberDictionary implements Dictionary {
 
 		return false;
 	}
-
 
 
 	@Override

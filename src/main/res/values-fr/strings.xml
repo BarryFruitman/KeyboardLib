@@ -553,5 +553,26 @@
     <string name="purchase_not_available_title">Non disponible</string>
     <string name="purchase_not_available_description">Impossible d\&apos;acheter l\&apos;article sur votre compte</string>
     <string name="error_report_sent">« Rapport d\&apos;erreur envoyé »</string>
+    <string name="zero">zéro</string>
+    <string name="one">un</string>
+    <string name="two">deux</string>
+    <string name="three">trois</string>
+    <string name="four">quatre</string>
+    <string name="five">cinq</string>
+    <string name="six">six</string>
+    <string name="seven">septe</string>
+    <string name="eight">huit</string>
+    <string name="nine">neuf</string>
+    <string name="ten">dix</string>
+    <string name="eleven">onze</string>
+    <string name="twelve">douze</string>
+    <string name="thirteen">treize</string>
+    <string name="fourteen">quatorze</string>
+    <string name="fifteen">quinze</string>
+    <string name="sixteen">seize</string>
+    <string name="seventeen">dix-sept</string>
+    <string name="eighteen">dix-huite</string>
+    <string name="nineteen">dix-neuf</string>
+    <string name="twenty">vingt</string>
 
 </resources>

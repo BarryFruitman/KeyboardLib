@@ -557,5 +557,26 @@
     <string name="purchase_not_available_title">Nicht verfügbar</string>
     <string name="purchase_not_available_description">Der Kauf kann nicht über Ihr Konto abgewickelt werden</string>
     <string name="error_report_sent">&quot;Fehlermeldung gesendet&quot;</string>
+    <string name="twenty">zwanzig</string>
+    <string name="zero">null</string>
+    <string name="one">ein</string>
+    <string name="two">zwei</string>
+    <string name="three">drei</string>
+    <string name="four">vier</string>
+    <string name="five">fünf</string>
+    <string name="six">sechs</string>
+    <string name="seven">sieben</string>
+    <string name="eight">acht</string>
+    <string name="nine">neun</string>
+    <string name="ten">zehn</string>
+    <string name="eleven">elf</string>
+    <string name="twelve">zwölf</string>
+    <string name="thirteen">dreizehn</string>
+    <string name="fourteen">vierzehn</string>
+    <string name="fifteen">fünfzehn</string>
+    <string name="sixteen">sechszehn</string>
+    <string name="seventeen">siebzehn</string>
+    <string name="eighteen">achtzehn</string>
+    <string name="nineteen">neunzehn</string>
 
 </resources>
