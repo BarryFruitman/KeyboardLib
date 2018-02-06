@@ -113,7 +113,7 @@ public class LookAheadDictionary extends TrieDictionary {
 
 
 	@Override
-	protected void addSuggestion(Suggestions suggestions, String word, int count, int editDistance) {
+	protected void addSuggestion(Suggestions suggestions, String word, int count, double editDistance) {
 		// TODO: THIS CAST IS HACKY
 		suggestions.add(new LookAheadSuggestion(word, count, getCountSum(), editDistance, ((LookAheadSuggestions) suggestions).mDepth));
 	}
@@ -186,17 +186,18 @@ public class LookAheadDictionary extends TrieDictionary {
 	public static class LookAheadSuggestion extends Suggestion {
 		private final int mCount;
 		private final double mFrequency;
-		private final int mEditDistance;
-		private double mScore = 0;
+		private final double mEditDistance;
+		private final double mScore;
 		private final int mDepth;
 
-		public LookAheadSuggestion(String word, int count, int countSum, int editDistance, int depth) {
+		public LookAheadSuggestion(String word, int count, int countSum, double editDistance, int depth) {
 			super(word, 4);
 
 			mCount = count;
 			mEditDistance = editDistance;
 			mFrequency = (double) count / (double) countSum;
 			mDepth = depth;
+			mScore = computeScore();
 		}
 
 
@@ -213,9 +214,6 @@ public class LookAheadDictionary extends TrieDictionary {
 
 		@Override
 		public double getScore() {
-			if(mScore == 0)
-				mScore = computeScore();
-			
 			return mScore;
 		}
 

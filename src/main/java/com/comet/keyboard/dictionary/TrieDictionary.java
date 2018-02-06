@@ -124,8 +124,8 @@ public abstract class TrieDictionary implements LearningDictionary {
 			final int iPrefix,
 			final Node node,
 			final int iNodeValue,
-			final int editDistance,
-			final int maxEditDistance) {
+			final double editDistance,
+			final double maxEditDistance) {
 
 		if(editDistance > maxEditDistance) {
 			return;
@@ -139,7 +139,7 @@ public abstract class TrieDictionary implements LearningDictionary {
 
 		if(iPrefix >= prefix.length()) {
 			// End of prefix. Look for suggestions below this node and add them.
-			final int trailingEditDistance = node.getWord().length() - prefix.length();
+			final double trailingEditDistance = node.getWord().length() - prefix.length();
 			prefix.append(Node.copyOfRange(value, iNodeValue, value.length));
 			addSuggestions(node, prefix, suggestions, editDistance + trailingEditDistance);
 			prefix.setLength(prefix.length() - (value.length - iNodeValue));
@@ -236,7 +236,7 @@ public abstract class TrieDictionary implements LearningDictionary {
 			final Node node,
 			final StringBuilder prefix,
 			final Suggestions suggestions,
-			final int editDistance) {
+			final double editDistance) {
 
 		// Add this node if it's a leaf
 		if(node.isEntry()) {
@@ -257,7 +257,7 @@ public abstract class TrieDictionary implements LearningDictionary {
 			Suggestions suggestions,
 			String word,
 			int count,
-			int editDistance);
+			double editDistance);
 
 
 	/**

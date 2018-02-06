@@ -133,7 +133,7 @@ public final class LanguageDictionary extends TrieDictionary {
 
 
 	@Override
-	protected void addSuggestion(Suggestions suggestions, String word, int count, int editDistance) {
+	protected void addSuggestion(Suggestions suggestions, String word, int count, double editDistance) {
 		suggestions.add(new LanguageSuggestion(word, count, getCountSum(), editDistance));
 	}
 
@@ -143,16 +143,17 @@ public final class LanguageDictionary extends TrieDictionary {
 	 * @author Barry
 	 */
 	public static class LanguageSuggestion extends Suggestion {
-		private double mFrequency;
-		private int mEditDistance;
-		private int mCount;
-		private double mScore = 0;
+		private final double mFrequency;
+		private final double mEditDistance;
+		private final int mCount;
+		private final double mScore;
 
-		public LanguageSuggestion(String word, int count, int countSum, int editDistance) {
+		public LanguageSuggestion(String word, int count, int countSum, double editDistance) {
 			super(word, 6);
 			mCount = count;
 			mFrequency = (double) count / (double) countSum;
 			mEditDistance = editDistance;
+			mScore = computeScore();
 		}
 
 		private double computeScore() {
@@ -168,10 +169,6 @@ public final class LanguageDictionary extends TrieDictionary {
 		
 		@Override
 		public double getScore() {
-			if(mScore == 0) {
-				mScore = computeScore();
-			}
-			
 			return mScore;
 		}
 		
