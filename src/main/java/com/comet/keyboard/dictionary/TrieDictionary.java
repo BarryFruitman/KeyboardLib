@@ -104,7 +104,7 @@ public abstract class TrieDictionary implements LearningDictionary {
 	}
 
 
-	// TODO: THIS METHOD IS HACKY AND IS ONLY USED BY LookAheadDictionary
+	// TODO: THIS METHOD IS HACKY
 	protected Suggestions getSuggestionsWithPrefix(Suggestions suggestions, final String prefix) {
 		final Node node = mTrie.findNode(prefix, mCollator);
 		if(node != null) {
@@ -280,8 +280,7 @@ public abstract class TrieDictionary implements LearningDictionary {
 		final int count;
 		final Node node = mTrie.findNode(word, mExactCharComparator);
 		if(node != null
-				&& node.isEntry()
-				&& node.getWord().equals(word)) {
+				&& node.isEntry() && node.getWord().equals(word)) {
 			// Update trie entry
 			count = node.getCount() + countIncrement;
 			node.setCount(count);

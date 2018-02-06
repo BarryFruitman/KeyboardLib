@@ -183,7 +183,7 @@ public class LookAheadDictionary extends TrieDictionary {
 	}
 
 
-	private class LookAheadSuggestion extends Suggestion {
+	public static class LookAheadSuggestion extends Suggestion {
 		private final int mCount;
 		private final double mFrequency;
 		private final int mEditDistance;

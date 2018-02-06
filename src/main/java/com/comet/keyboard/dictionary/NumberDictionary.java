@@ -68,7 +68,7 @@ public class NumberDictionary implements Dictionary {
 
 
 	public static class NumberSuggestion extends Suggestion {
-		
+
 		enum NumberType {
 			NORMAL,
 			WORD,

@@ -63,6 +63,8 @@ public final class Suggestor {
 	private Language mLanguage;
 	private Context mContext;
 
+	private static final double MIN_SCORE_FOR_DEFAULT = 13f;
+
 
 	private Suggestor(final Context context) {
 		mDicContacts = new ContactsDictionary(context);
@@ -189,7 +191,8 @@ public final class Suggestor {
 		newPendingRequest(request);
 
 		// Get look-ahead suggestions
-		Suggestions lookAheadSuggestions = new Suggestions(request);
+		Suggestions lookAheadSuggestions =
+				new Suggestions(request);
 		if (mPredictNextWord) {
 			lookAheadSuggestions = mDicLookAhead.getSuggestions(lookAheadSuggestions);
 		}
@@ -199,24 +202,28 @@ public final class Suggestor {
 			suggestions.addAll(lookAheadSuggestions);
 			suggestions.matchCase();
 			suggestions.noDefault();
-			suggestions.removeDuplicates();
+			removeDuplicates(suggestions);
 			return suggestions;
 		}
 
 		// Get numeric suggestions
-		final Suggestions numberSuggestions = mDicNumber.getSuggestions(new Suggestions(request));
+		final Suggestions numberSuggestions =
+				mDicNumber.getSuggestions(new Suggestions(request));
 
 		// Add shortcut suggestions
-		final Suggestions shortcutsSuggestions = mDicShortcuts.getSuggestions(new Suggestions(request));
+		final Suggestions shortcutsSuggestions =
+				mDicShortcuts.getSuggestions(new Suggestions(request));
 
 		// Get contact suggestions
-		Suggestions contactsSuggestions = new Suggestions(request);
+		Suggestions contactsSuggestions =
+				new Suggestions(request);
 		if(mIncludeContacts) {
 			contactsSuggestions = mDicContacts.getSuggestions(contactsSuggestions);
 		}
 
 		// Get suggestions from language dictionary
-		final Suggestions languageSuggestions = mDicLanguage.getSuggestions(new Suggestions(request));
+		final Suggestions languageSuggestions =
+				mDicLanguage.getSuggestions(new Suggestions(request));
 
 		suggestions.addAll(languageSuggestions);
 		suggestions.addAll(lookAheadSuggestions);
@@ -228,12 +235,87 @@ public final class Suggestor {
 		suggestions.matchCase();
 
 		// Make sure composing is one of the suggestions.
-		suggestions.addComposingSuggestion();
+		addComposingSuggestion(suggestions);
 
 		// Remove duplicates
-		suggestions.removeDuplicates();
+		removeDuplicates(suggestions);
 
 		return suggestions;
+	}
+
+
+	private void addComposingSuggestion(Suggestions suggestions) {
+		boolean hasShortcut = false;
+		boolean hasPerfect = false;
+		final String composing = suggestions.getComposing();
+		final Iterator<Suggestion> iterator = suggestions.mSuggestions.iterator();
+		final Suggestions prefixes = new Suggestions(suggestions.getRequest());
+
+		while(iterator.hasNext()) {
+			Suggestion suggestion = iterator.next();
+			if(mCollator.compareWords(composing, suggestion.getWord())) {
+				// Move this exact match to the top of the list with the prefix suggestions.
+				PrefixSuggestion prefixSuggestion = new PrefixSuggestion(suggestion);
+				iterator.remove();
+				prefixes.add(prefixSuggestion);
+				if(suggestion.getWord().equals(composing))
+					// This suggestion is a perfect match with the composing
+					hasPerfect = true;
+			} else if(suggestion instanceof ShortcutSuggestion) {
+				// This suggestion is a shortcut
+				hasShortcut = true;
+			}
+		}
+
+		if(prefixes.size() > 0) {
+			suggestions.addAll(prefixes);
+			if(hasShortcut) {
+				suggestions.mDefault = prefixes.size();
+			}
+			if(!hasPerfect) {
+				// Add the prefix as the perfect (non-default) match
+				PrefixSuggestion prefixSuggestion = new PrefixSuggestion(composing);
+				suggestions.add(prefixSuggestion);
+				suggestions.mDefault++;
+			}
+		} else {
+			// Add the prefix as the first match
+			final PrefixSuggestion prefixSuggestion = new PrefixSuggestion(composing);
+			suggestions.add(prefixSuggestion);
+
+			if(!mDicLanguage.contains(suggestions.getComposing())) {
+				// Don't make it the default
+				suggestions.mDefault++;
+			}
+		}
+
+		if(suggestions.getDefaultSuggestion().getScore() > MIN_SCORE_FOR_DEFAULT) {
+			suggestions.mDefault = -1;
+		}
+	}
+
+
+	private void removeDuplicates(Suggestions suggestions) {
+		final Iterator<Suggestion> iterator = suggestions.mSuggestions.iterator();
+		final ArrayList<String> words = new ArrayList<String>();
+		int iSuggestion = -1;
+		while(iterator.hasNext()) {
+			iSuggestion++;
+			Suggestion suggestion = iterator.next();
+			if(!words.contains(suggestion.getWord())) {
+				words.add(suggestion.getWord());
+				continue;
+			} else {
+				iterator.remove();
+				if(iSuggestion < suggestions.mDefault) {
+					suggestions.mDefault--;
+				} else if(iSuggestion == suggestions.mDefault) {
+					// Deleting the default???
+					// Don't do it
+					continue;
+				}
+			}
+		}
 	}
 
 
@@ -406,7 +488,6 @@ public final class Suggestor {
 	 *
 	 */
 	public class Suggestions implements Cloneable, Iterable<Suggestion> {
-		private static final double MIN_SCORE_FOR_DEFAULT = 13f;
 		private final SuggestionRequest mRequest;
 		private int mDefault = 0;
 		private BoundedPriorityQueue<Suggestion> mSuggestions;
@@ -415,19 +496,19 @@ public final class Suggestor {
 
 		public Suggestions(final SuggestionRequest request) {
 			mRequest = request;
-			mSuggestions = new BoundedPriorityQueue<Suggestion>(new SuggestionComparator(getComposing()), MAX_SUGGESTIONS);
+			mSuggestions = new BoundedPriorityQueue<>(new SuggestionComparator(getComposing()), MAX_SUGGESTIONS);
 		}
 
 
 		public Suggestions(final Suggestions suggestions) {
 			mRequest = suggestions.getRequest();
-			mSuggestions = new BoundedPriorityQueue<Suggestion>(new SuggestionComparator(getComposing()), MAX_SUGGESTIONS);
+			mSuggestions = new BoundedPriorityQueue<>(new SuggestionComparator(getComposing()), MAX_SUGGESTIONS);
 		}
 
 
 		public Suggestions(final String composing, SuggestionComparator comparator, final SuggestionRequest request) {
 			mRequest = request;
-			mSuggestions = new BoundedPriorityQueue<Suggestion>(comparator, MAX_SUGGESTIONS);
+			mSuggestions = new BoundedPriorityQueue<>(comparator, MAX_SUGGESTIONS);
 		}
 
 
@@ -537,83 +618,6 @@ public final class Suggestor {
 		public synchronized boolean isExpired() {
 			return mRequest.isExpired();
 		}
-
-
-		private void addComposingSuggestion() {
-			boolean hasShortcut = false;
-			boolean hasPerfect = false;
-			final String composing = getComposing();
-			final Iterator<Suggestion> iterator = mSuggestions.iterator();
-			final ArrayList<Suggestion> prefixes = new ArrayList<Suggestion>();
-
-			while(iterator.hasNext()) {
-				Suggestion suggestion = iterator.next();
-				if(mCollator.compareWords(composing, suggestion.getWord())) {
-					// Move this exact match to the top of the list with the prefix suggestions.
-					PrefixSuggestion prefixSuggestion = new PrefixSuggestion(suggestion);
-					iterator.remove();
-					prefixes.add(prefixSuggestion);
-					if(suggestion.getWord().equals(composing))
-						// This suggestion is a perfect match with the composing
-						hasPerfect = true;
-				} else if(suggestion instanceof ShortcutSuggestion) {
-					// This suggestion is a shortcut
-					hasShortcut = true;
-				}
-			}
-
-			if(prefixes.size() > 0) {
-				addAll(prefixes);
-				if(hasShortcut) {
-					mDefault = prefixes.size();
-				}
-				if(!hasPerfect) {
-					// Add the prefix as the perfect (non-default) match
-					PrefixSuggestion prefixSuggestion = new PrefixSuggestion(composing);
-					add(prefixSuggestion);
-					mDefault++;
-				}
-			} else {
-				// Add the prefix as the first match
-				final PrefixSuggestion prefixSuggestion = new PrefixSuggestion(composing);
-				add(prefixSuggestion);
-
-				if(!mDicLanguage.contains(getComposing())) {
-					// Don't make it the default
-					mDefault++;
-				}
-			}
-
-			if(getDefaultSuggestion().getScore() > MIN_SCORE_FOR_DEFAULT) {
-				mDefault = -1;
-			}
-		}
-
-
-		private void removeDuplicates() {
-			final Iterator<Suggestion> iterator = mSuggestions.iterator();
-			final ArrayList<String> words = new ArrayList<String>();
-			int iSuggestion = -1;
-			while(iterator.hasNext()) {
-				iSuggestion++;
-				Suggestion suggestion = iterator.next();
-				if(!words.contains(suggestion.getWord())) {
-					words.add(suggestion.getWord());
-					continue;
-				} else {
-					iterator.remove();
-					if(iSuggestion < mDefault) {
-						mDefault--;
-					} else if(iSuggestion == mDefault) {
-						// Deleting the default???
-						// Don't do it
-						continue;
-					}
-				}
-			}
-		}
-
-
 		public void matchCase() {
 			matchCase(getComposing());
 		}
@@ -798,10 +802,6 @@ public final class Suggestor {
 
 			return mScore == another.mScore ? 0 : (mScore < another.mScore ? -1 : 1);
 		}
-
-
-		// Prefix suggestions can be remembered to the user dictionary
-		public boolean canRemember() { return true; }
 	}
 
 
