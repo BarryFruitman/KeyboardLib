@@ -910,5 +910,4 @@
 
     <string name="contacts_permission_dialog_message">To see contact suggestions, TypeSmart needs access to your contacts.</string>
     <string name="contacts_permission_dialog_title">Unable to Access Contacts</string>
-    <string name="five">five</string>
 </resources>
