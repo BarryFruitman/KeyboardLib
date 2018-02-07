@@ -64,12 +64,7 @@ public abstract class TrieDictionary implements LearningDictionary {
 
 	@Override
 	public boolean contains(final String word) {
-		return contains(word, mCollator);
-	}
-
-
-	private boolean contains(final String word, final RadixTrie.CharComparator charComparator) {
-		final Node node = mTrie.findNode(word, charComparator);
+		final Node node = mTrie.findNode(word, mExactCharComparator);
 
 		return node != null
 				&& node.isEntry()
@@ -318,7 +313,7 @@ public abstract class TrieDictionary implements LearningDictionary {
 		node.removeEntry();
 		deleteFromDB(word);
 
-		return !contains(word, mExactCharComparator);
+		return !contains(word);
 	}
 
 
