@@ -4,8 +4,8 @@ import java.util.regex.Pattern;
 
 import com.comet.keyboard.KeyboardService;
 import com.comet.keyboard.R;
-import com.comet.keyboard.Suggestor.Suggestion;
-import com.comet.keyboard.Suggestor.Suggestions;
+import com.comet.keyboard.dictionary.suggestions.Suggestion;
+import com.comet.keyboard.dictionary.suggestions.Suggestions;
 
 public class NumberDictionary implements Dictionary {
 

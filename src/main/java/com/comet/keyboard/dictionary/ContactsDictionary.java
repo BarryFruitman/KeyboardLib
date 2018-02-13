@@ -6,8 +6,8 @@
 
 package com.comet.keyboard.dictionary;
 
-import com.comet.keyboard.Suggestor.Suggestion;
-import com.comet.keyboard.Suggestor.Suggestions;
+import com.comet.keyboard.dictionary.suggestions.Suggestion;
+import com.comet.keyboard.dictionary.suggestions.Suggestions;
 
 import android.content.ContentResolver;
 import android.content.Context;

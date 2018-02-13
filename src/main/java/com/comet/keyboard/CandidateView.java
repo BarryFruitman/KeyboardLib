@@ -20,8 +20,9 @@ import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.widget.Toast;
 
-import com.comet.keyboard.Suggestor.Suggestion;
-import com.comet.keyboard.Suggestor.Suggestions;
+import com.comet.keyboard.dictionary.suggestions.Suggestor;
+import com.comet.keyboard.dictionary.suggestions.Suggestion;
+import com.comet.keyboard.dictionary.suggestions.Suggestions;
 import com.comet.keyboard.settings.CandidateHeightSetting;
 import com.comet.keyboard.theme.KeyboardTheme;
 import com.comet.keyboard.theme.KeyboardThemeManager;
@@ -50,8 +51,8 @@ public class CandidateView extends View implements OnLongClickListener {
 
     private static final int SCROLL_PIXELS = 20;
     
-    private int[] mWordWidth = new int[Suggestor.Suggestions.MAX_SUGGESTIONS];
-    private int[] mWordX = new int[Suggestor.Suggestions.MAX_SUGGESTIONS];
+    private int[] mWordWidth = new int[Suggestions.MAX_SUGGESTIONS];
+    private int[] mWordX = new int[Suggestions.MAX_SUGGESTIONS];
 
     // Last selected suggestion
     private Suggestion mLastSelectedSuggestion;
@@ -241,7 +242,7 @@ public class CandidateView extends View implements OnLongClickListener {
         
         // Draw the rest of the suggestions
         Object[] aSuggestions = mSuggestions.getSuggestions().toArray();
-        final int count = Math.min(mSuggestions.size(), Suggestor.Suggestions.MAX_SUGGESTIONS); 
+        final int count = Math.min(mSuggestions.size(), Suggestions.MAX_SUGGESTIONS);
         for (int i = 0; i < count; i++) {
             Suggestion suggestion = (Suggestion) aSuggestions[i];
             

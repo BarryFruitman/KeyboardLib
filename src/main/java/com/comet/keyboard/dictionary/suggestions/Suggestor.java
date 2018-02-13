@@ -4,7 +4,7 @@
  * All Rights Reserved
  */
 
-package com.comet.keyboard;
+package com.comet.keyboard.dictionary.suggestions;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,16 +15,14 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
 import junit.framework.Assert;
 
-import com.comet.keyboard.dictionary.BoundedPriorityQueue;
+import com.comet.keyboard.KeyboardApp;
+import com.comet.keyboard.KeyboardService;
 import com.comet.keyboard.dictionary.CacheDictionary;
 import com.comet.keyboard.dictionary.Dictionary;
 import com.comet.keyboard.dictionary.KeyCollator;
@@ -106,7 +104,7 @@ public final class Suggestor {
 	}
 
 
-	protected void findSuggestionsAsync(final String composing, final SuggestionsListener listener) {
+	public void findSuggestionsAsync(final String composing, final SuggestionsListener listener) {
 		final SuggestionRequest request = new SuggestionRequest(composing, listener);
 
 		mThreadPool.run(new Runnable() {
@@ -248,7 +246,7 @@ public final class Suggestor {
 		boolean hasShortcut = false;
 		boolean hasPerfect = false;
 		final String composing = suggestions.getComposing();
-		final Iterator<Suggestion> iterator = suggestions.mSuggestions.iterator();
+		final Iterator<Suggestion> iterator = suggestions.iterator();
 		final Suggestions prefixes = new Suggestions(suggestions.getRequest());
 
 		while(iterator.hasNext()) {
@@ -297,7 +295,7 @@ public final class Suggestor {
 
 
 	private void removeDuplicates(Suggestions suggestions) {
-		final Iterator<Suggestion> iterator = suggestions.mSuggestions.iterator();
+		final Iterator<Suggestion> iterator = suggestions.iterator();
 		final ArrayList<String> words = new ArrayList<String>();
 		int iSuggestion = -1;
 		while(iterator.hasNext()) {
@@ -320,7 +318,7 @@ public final class Suggestor {
 	}
 
 
-	protected void learnSuggestions(final String input) {
+	public void learnSuggestions(final String input) {
 
 		mThreadPool.run(new Runnable() {
 			@Override
@@ -337,7 +335,7 @@ public final class Suggestor {
 						continue;
 					}
 
-					if(KeyboardService.getIME().mAutoCaps) {
+					if(KeyboardService.getIME().getIsAutoCaps()) {
 						// De-capitalize the first letter.
 						final StringBuilder sbGroup = new StringBuilder(sentence);
 						sbGroup.replace(0, 1, String.valueOf(Character.toLowerCase(sentence.charAt(0))));
@@ -367,7 +365,7 @@ public final class Suggestor {
 	}
 
 
-	protected void loadPreferences() {
+	public void loadPreferences() {
 		final SharedPreferences sharedPrefs = KeyboardApp.getApp().getSharedPreferences(Settings.SETTINGS_FILE, Context.MODE_PRIVATE);
 		mIncludeContacts = sharedPrefs.getBoolean("include_contacts", false);
 		mPredictNextWord = sharedPrefs.getBoolean("nextword", true);
@@ -397,358 +395,6 @@ public final class Suggestor {
 
 	public LearningDictionary getLookAheadDictionary() {
 		return mDicLookAhead;
-	}
-
-
-	/**
-	 * Abstract parent class for all suggestion types.
-	 * @author Barry Fruitman
-	 *
-	 */
-	public static abstract class Suggestion implements Cloneable {
-		protected int mOrder;
-		protected String mWord;
-
-
-		protected Suggestion(final String word, final int order) {
-			mWord = word;
-			mOrder = order;
-		}
-
-
-		public String getWord() {
-			return mWord;
-		}
-
-
-		protected void setWord(final String word) {
-			mWord = word;
-		}
-
-
-		public int getOrder() {
-			return mOrder;
-		}
-
-
-		public double getScore() {
-			return 0;
-		}
-
-
-		protected int compareTo(final Suggestion another, final String prefix) {
-			return another.getOrder() - getOrder();
-		}
-
-
-		public void matchCase(final String composing) {
-			setWord(DictionaryUtils.matchCase(composing, getWord(),
-					KeyboardService.getIME().getKeyboardView().isShifted(),
-					KeyboardService.getIME().getKeyboardView().getCapsLock()));
-		}
-
-
-		@Override
-		public boolean equals(Object object) {
-			if(object instanceof Suggestion) {
-				return ((Suggestion) object).getWord().equals(mWord);
-			}
-
-			if(object instanceof String) {
-				return ((String) object).equals(mWord);
-			}
-
-			return false;
-		}
-
-
-		@Override
-		public Object clone()  {
-			try {
-				final Suggestion s = (Suggestion) super.clone();
-				s.mWord = new String(mWord);
-				return s;
-			} catch (CloneNotSupportedException e) {
-				// Should never reach here since this class implements Clonable and its parent is Object.
-				Assert.assertTrue("The class '" + this.getClass().getName() + "' is not clonable.", true); // Just in case.
-			}
-
-			return null;
-		}
-
-		@Override
-		public String toString() {
-			return this.getClass().getSimpleName() + "(" + getWord() + ")";
-		}
-	}
-
-
-	/**
-	 * Suggestions is a set of suggestions returned by the various dictionaries
-	 * @author Barry Fruitman
-	 *
-	 */
-	public class Suggestions implements Cloneable, Iterable<Suggestion> {
-		private final SuggestionRequest mRequest;
-		private int mDefault = 0;
-		private BoundedPriorityQueue<Suggestion> mSuggestions;
-		public static final int MAX_SUGGESTIONS = 12;
-
-
-		public Suggestions(final SuggestionRequest request) {
-			mRequest = request;
-			mSuggestions = new BoundedPriorityQueue<>(new SuggestionComparator(getComposing()), MAX_SUGGESTIONS);
-		}
-
-
-		public Suggestions(final Suggestions suggestions) {
-			mRequest = suggestions.getRequest();
-			mSuggestions = new BoundedPriorityQueue<>(new SuggestionComparator(getComposing()), MAX_SUGGESTIONS);
-		}
-
-
-		public String getComposing() {
-			return mRequest.getComposing();
-		}
-
-
-		public SuggestionRequest getRequest() {
-			return mRequest;
-		}
-
-
-		public ArrayList<Suggestion> getSuggestions() {
-			return new ArrayList<Suggestion>(mSuggestions);
-		}
-
-
-		public ArrayList<String> getWords() {
-			final Iterator<Suggestion> iterator = mSuggestions.iterator();
-			final ArrayList<String> words = new ArrayList<String>();
-			while(iterator.hasNext()) {
-				Suggestion suggestion = iterator.next();
-				words.add(suggestion.getWord());
-			}
-
-			return words;
-		}
-
-
-		public void add(final Suggestion suggestion) {
-			if(mRequest.isExpired()) {
-				// Too late
-				throw new SuggestionsExpiredException();
-			}
-
-			mSuggestions.offer(suggestion);
-		}
-
-
-		public void addAll(final Suggestions suggestions) {
-			if(mRequest.isExpired()) {
-				// Too late
-				throw new SuggestionsExpiredException();
-			}
-
-			mSuggestions.offerAll(suggestions.mSuggestions);
-		}
-
-
-		public void addAll(final Collection<Suggestion> suggestions) {
-			if(mRequest.isExpired()) {
-				// Too late
-				throw new SuggestionsExpiredException();
-			}
-
-			mSuggestions.offerAll(suggestions);
-		}
-
-
-		public int size() {
-			return mSuggestions.size();
-		}
-
-
-		public int getDefault() {
-			return mDefault;
-		}
-
-
-		public Suggestion getSuggestion(final int i) {
-			int iSuggestion = 0;
-			for(Suggestion suggestion : mSuggestions) {
-				if(iSuggestion++ == i) {
-					return suggestion;
-				}
-			}
-
-			return null;
-		}
-
-
-		public Suggestion getDefaultSuggestion() {
-			if(mDefault < 0 || mSuggestions.size() < mDefault) {
-				return null;
-			}
-
-			Iterator<Suggestion> iterator = mSuggestions.iterator();
-			Suggestion result = null;
-			int i = 0;
-			while(iterator.hasNext()) {
-				result = iterator.next();
-				if(i++ == mDefault) {
-					break;
-				}
-			}
-
-			return result;
-		}
-
-
-		public void noDefault() {
-			mDefault = -1;
-		}
-
-
-		public synchronized boolean isExpired() {
-			return mRequest.isExpired();
-		}
-		public void matchCase() {
-			matchCase(getComposing());
-		}
-
-
-		public void matchCase(final String match) {
-			final Iterator<Suggestion> iterator = mSuggestions.iterator();
-			while(iterator.hasNext()) {
-				iterator.next().matchCase(match);
-			}
-		}
-
-
-		public int findIndex(final String word) {
-			int iWord = 0;
-			Iterator<Suggestion> iterator = mSuggestions.iterator();
-			while(iterator.hasNext()) {
-				if(iterator.next().getWord().equalsIgnoreCase(word)) {
-					return iWord;
-				}
-				iWord++;
-			}
-
-			return -1;
-		}
-
-
-		/**
-		 * Returns a deep-copy clone.
-		 */
-		@Override
-		public Object clone()  {
-			Suggestions clone = null;
-			try {
-				clone = (Suggestions) super.clone();
-			} catch (CloneNotSupportedException e) {
-				// Should never reach here since this class implements Clonable and its parent is Object.
-				Assert.assertTrue("The class '" + this.getClass().getName() + "' is not clonable.", true); // Just in case.
-			}
-
-			clone.mSuggestions = new BoundedPriorityQueue<Suggestion>(new SuggestionComparator(getComposing()), MAX_SUGGESTIONS);
-			final Iterator<Suggestion> iterator = mSuggestions.iterator();
-			while(iterator.hasNext()) {
-				clone.add((Suggestion) iterator.next().clone());
-			}
-
-			return clone;
-		}
-
-
-		@Override
-		public String toString() {
-			String string = "[" + mSuggestions.size() + ": ";
-			Iterator<Suggestion> iterator = mSuggestions.iterator();
-			while(iterator.hasNext()) {
-				string += iterator.next();
-				if(iterator.hasNext()) {
-					string += " , ";
-				}
-			}
-
-			return string + " ]";
-		}
-
-
-		@Override
-		public Iterator<Suggestion> iterator() {
-			return mSuggestions.iterator();
-		}
-
-
-		/**
-		 * Used by the TreeMap to compare any two instances of Suggestion. If they are the same sub-class,
-		 * they are ordered by ORDER. If not, they are compared by the sub-class.
-		 *
-		 * @author Barry Fruitman
-		 *
-		 */
-		private final class SuggestionComparator implements Comparator<Suggestion> {
-			protected String mComposing;
-
-
-			public SuggestionComparator(final String composing) {
-				mComposing = composing;
-			}
-
-
-			@Override
-			public int compare(final Suggestion lhs, final Suggestion rhs) {
-				if(!lhs.getClass().equals(rhs.getClass())) {
-					return lhs.getOrder() - rhs.getOrder();
-				}
-
-				return lhs.compareTo(rhs, mComposing);
-			}
-		}
-
-	}
-
-
-	public final class SuggestionRequest {
-		private boolean mExpired = false;
-		private final String mComposing;
-		private final SuggestionsListener mListener;
-
-
-		private SuggestionRequest(String composing) {
-			mComposing = composing;
-			mListener = null;
-		}
-
-
-		private SuggestionRequest(String composing, @NonNull SuggestionsListener listener) {
-			mComposing = composing;
-			mListener = listener;
-		}
-
-
-		final private boolean isExpired() {
-			return mExpired;
-		}
-
-
-		final private synchronized void setExpired() {
-			mExpired = true;
-		}
-
-
-		final public String getComposing() {
-			return mComposing;
-		}
-
-
-		final public SuggestionsListener getListener() {
-			return mListener;
-		}
 	}
 
 

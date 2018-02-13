@@ -16,9 +16,8 @@ import android.util.Log;
 import com.comet.keyboard.KeyboardApp;
 import com.comet.keyboard.KeyboardService;
 import com.comet.keyboard.R;
-import com.comet.keyboard.Suggestor.Suggestion;
-import com.comet.keyboard.Suggestor.SuggestionRequest;
-import com.comet.keyboard.Suggestor.Suggestions;
+import com.comet.keyboard.dictionary.suggestions.Suggestion;
+import com.comet.keyboard.dictionary.suggestions.Suggestions;
 import com.comet.keyboard.util.ProfileTracer;
 
 import junit.framework.Assert;
@@ -61,7 +60,7 @@ public class LookAheadDictionary extends TrieDictionary {
 		
 		tracer.log("LookAheadDictionary.loadLexicon()...");
 
-		mLookAheadDB.loadDictionaryFromDB(this, -1);
+//		mLookAheadDB.loadDictionaryFromDB(this, -1);
 
 		tracer.log("LookAheadDictionary.loadLexicon(): ...done populating");
 	}
@@ -69,19 +68,21 @@ public class LookAheadDictionary extends TrieDictionary {
 
 	@Override
 	public Suggestions getSuggestions(Suggestions suggestions) {
-		StringBuilder word1 = new StringBuilder();
-		StringBuilder word2 = new StringBuilder();
-		// TODO: extracting words from KeyboardService is hacky. Pass them in somehow?
-		KeyboardService.getIME().getTwoWordsBeforePrefix(word1, word2);
+//		StringBuilder word1 = new StringBuilder();
+//		StringBuilder word2 = new StringBuilder();
+//		// TODO: extracting words from KeyboardService is hacky. Pass them in somehow?
+//		KeyboardService.getIME().getTwoWordsBeforePrefix(word1, word2);
+//
+//		word1 = new StringBuilder(word1.toString().toLowerCase());
+//		word2 = new StringBuilder(word2.toString().toLowerCase());
+//
+//		/*
+//		 * 1. Get static suggestions
+//		 * 2. Merge user suggestions
+//		 */
+//		return getSuggestions(word1, word2, suggestions);
 
-		word1 = new StringBuilder(word1.toString().toLowerCase());
-		word2 = new StringBuilder(word2.toString().toLowerCase());
-
-		/*
-		 * 1. Get static suggestions
-		 * 2. Merge user suggestions
-		 */
-		return getSuggestions(word1, word2, suggestions);
+		return suggestions;
 	}
 
 
@@ -175,7 +176,7 @@ public class LookAheadDictionary extends TrieDictionary {
 		private final int mCountSum;
 
 		public LookAheadSuggestions(Suggestions suggestions, String prefix, int countSum, int depth) {
-			KeyboardService.getIME().getSuggestor().super(suggestions);
+			super(suggestions);
 			
 			mCountSum = countSum;
 			mDepth = depth;

@@ -56,10 +56,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.comet.keyboard.Suggestor.Suggestion;
-import com.comet.keyboard.Suggestor.Suggestions;
+import com.comet.keyboard.dictionary.suggestions.Suggestions;
+import com.comet.keyboard.dictionary.suggestions.Suggestor;
+import com.comet.keyboard.dictionary.suggestions.Suggestion;
 import com.comet.keyboard.dictionary.DictionaryUtils;
-//import com.comet.keyboard.dictionary.UserDB;
 import com.comet.keyboard.dictionary.updater.DictionaryDownloader;
 import com.comet.keyboard.dictionary.updater.DictionaryItem;
 import com.comet.keyboard.install.Installer;
@@ -135,7 +135,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
     protected StringBuilder mComposing = new StringBuilder();
     protected StringBuilder mPassword = new StringBuilder();
     private int mLastPasswordId = -1;
-    protected StringBuilder mLastPassword = new StringBuilder();
 
     // Keyboard states
     protected boolean mPredictionOn;
@@ -3956,6 +3955,11 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         }
 
         return height;
+    }
+
+
+    public boolean getIsAutoCaps() {
+        return mAutoCaps;
     }
 
 
