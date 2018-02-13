@@ -1,4 +1,4 @@
-package com.comet.keyboard.dictionary.suggestions;
+package com.comet.keyboard.suggestions;
 
 /**
  * Created by barry on 2/13/18.

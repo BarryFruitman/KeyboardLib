@@ -10,8 +10,8 @@ import android.util.Log;
 import com.comet.keyboard.KeyboardApp;
 import com.comet.keyboard.KeyboardService;
 import com.comet.keyboard.R;
-import com.comet.keyboard.dictionary.suggestions.Suggestion;
-import com.comet.keyboard.dictionary.suggestions.Suggestions;
+import com.comet.keyboard.suggestions.Suggestion;
+import com.comet.keyboard.suggestions.Suggestions;
 import com.comet.keyboard.layouts.KeyboardLayout;
 
 import junit.framework.Assert;

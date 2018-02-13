@@ -1,4 +1,4 @@
-package com.comet.keyboard.dictionary.suggestions;
+package com.comet.keyboard.suggestions;
 
 import android.support.annotation.NonNull;
 

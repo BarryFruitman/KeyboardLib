@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 import android.content.Context;
 
-import com.comet.keyboard.dictionary.suggestions.Suggestion;
-import com.comet.keyboard.dictionary.suggestions.Suggestions;
+import com.comet.keyboard.suggestions.Suggestion;
+import com.comet.keyboard.suggestions.Suggestions;
 import com.comet.keyboard.settings.ShortcutData;
 import com.comet.keyboard.util.DatabaseHelper;
 

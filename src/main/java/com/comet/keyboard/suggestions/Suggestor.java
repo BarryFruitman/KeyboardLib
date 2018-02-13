@@ -4,22 +4,19 @@
  * All Rights Reserved
  */
 
-package com.comet.keyboard.dictionary.suggestions;
+package com.comet.keyboard.suggestions;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-
-import junit.framework.Assert;
 
 import com.comet.keyboard.KeyboardApp;
 import com.comet.keyboard.KeyboardService;
@@ -29,7 +26,6 @@ import com.comet.keyboard.dictionary.KeyCollator;
 import com.comet.keyboard.dictionary.LearningDictionary;
 import com.comet.keyboard.dictionary.LookAheadDictionary;
 import com.comet.keyboard.dictionary.ContactsDictionary;
-import com.comet.keyboard.dictionary.DictionaryUtils;
 import com.comet.keyboard.dictionary.LanguageDictionary;
 import com.comet.keyboard.dictionary.ShortcutsDictionary;
 import com.comet.keyboard.dictionary.NumberDictionary;

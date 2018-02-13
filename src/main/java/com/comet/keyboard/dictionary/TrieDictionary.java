@@ -4,8 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.comet.keyboard.KeyboardApp;
-import com.comet.keyboard.dictionary.suggestions.Suggestor.SuggestionsExpiredException;
-import com.comet.keyboard.dictionary.suggestions.Suggestions;
+import com.comet.keyboard.suggestions.Suggestor.SuggestionsExpiredException;
+import com.comet.keyboard.suggestions.Suggestions;
 import com.comet.keyboard.dictionary.radixtrie.Node;
 import com.comet.keyboard.dictionary.radixtrie.RadixTrie;
 

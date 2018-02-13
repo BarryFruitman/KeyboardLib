@@ -1,4 +1,4 @@
-package com.comet.keyboard.dictionary.suggestions;
+package com.comet.keyboard.suggestions;
 
 import com.comet.keyboard.KeyboardService;
 import com.comet.keyboard.dictionary.DictionaryUtils;
