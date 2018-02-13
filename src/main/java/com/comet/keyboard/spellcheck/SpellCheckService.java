@@ -29,9 +29,9 @@ import java.util.Iterator;
 
 import com.comet.keyboard.KeyboardApp;
 import com.comet.keyboard.KeyboardService;
-import com.comet.keyboard.suggestions.Suggestion;
-import com.comet.keyboard.suggestions.Suggestions;
-import com.comet.keyboard.suggestions.Suggestor.SuggestionsExpiredException;
+import com.comet.keyboard.dictionary.Suggestion;
+import com.comet.keyboard.dictionary.Suggestions;
+import com.comet.keyboard.dictionary.Suggestor.SuggestionsExpiredException;
 
 public class SpellCheckService extends SpellCheckerService {
     private static final boolean DBG = true;

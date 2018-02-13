@@ -4,12 +4,11 @@ import android.content.Context;
 import android.util.Log;
 
 import com.comet.keyboard.KeyboardApp;
-import com.comet.keyboard.suggestions.Suggestor.SuggestionsExpiredException;
-import com.comet.keyboard.suggestions.Suggestions;
+import com.comet.keyboard.dictionary.Suggestor.SuggestionsExpiredException;
 import com.comet.keyboard.dictionary.radixtrie.Node;
 import com.comet.keyboard.dictionary.radixtrie.RadixTrie;
 
-public abstract class TrieDictionary implements LearningDictionary {
+/*package*/ abstract class TrieDictionary implements LearningDictionary {
 
 	private static final int MAX_DELETABLE_COUNT = 100;
 	protected static final int COUNT_INCREMENT = 10;

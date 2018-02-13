@@ -20,8 +20,8 @@ import android.view.View;
 import android.view.View.OnLongClickListener;
 import android.widget.Toast;
 
-import com.comet.keyboard.suggestions.Suggestion;
-import com.comet.keyboard.suggestions.Suggestions;
+import com.comet.keyboard.dictionary.Suggestion;
+import com.comet.keyboard.dictionary.Suggestions;
 import com.comet.keyboard.settings.CandidateHeightSetting;
 import com.comet.keyboard.theme.KeyboardTheme;
 import com.comet.keyboard.theme.KeyboardThemeManager;

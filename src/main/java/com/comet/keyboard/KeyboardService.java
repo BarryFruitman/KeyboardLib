@@ -56,9 +56,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.comet.keyboard.suggestions.Suggestions;
-import com.comet.keyboard.suggestions.Suggestor;
-import com.comet.keyboard.suggestions.Suggestion;
+import com.comet.keyboard.dictionary.Suggestions;
+import com.comet.keyboard.dictionary.Suggestor;
+import com.comet.keyboard.dictionary.Suggestion;
 import com.comet.keyboard.dictionary.DictionaryUtils;
 import com.comet.keyboard.dictionary.updater.DictionaryDownloader;
 import com.comet.keyboard.dictionary.updater.DictionaryItem;

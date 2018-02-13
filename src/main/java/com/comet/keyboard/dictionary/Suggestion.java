@@ -1,7 +1,6 @@
-package com.comet.keyboard.suggestions;
+package com.comet.keyboard.dictionary;
 
 import com.comet.keyboard.KeyboardService;
-import com.comet.keyboard.dictionary.DictionaryUtils;
 
 import junit.framework.Assert;
 
@@ -15,7 +14,7 @@ public abstract class Suggestion implements Cloneable {
     protected String mWord;
 
 
-    protected Suggestion(final String word, final int order) {
+    /*package*/ Suggestion(final String word, final int order) {
         mWord = word;
         mOrder = order;
     }

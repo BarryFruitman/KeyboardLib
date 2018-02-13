@@ -4,8 +4,6 @@ import java.util.regex.Pattern;
 
 import com.comet.keyboard.KeyboardService;
 import com.comet.keyboard.R;
-import com.comet.keyboard.suggestions.Suggestion;
-import com.comet.keyboard.suggestions.Suggestions;
 
 public class NumberDictionary implements Dictionary {
 
@@ -14,7 +12,7 @@ public class NumberDictionary implements Dictionary {
 	private final String NUMBER_REGEX = "[\\d]+";
 	private final String TEEN_REGEX = "[\\d]*1[\\d]";
 
-	public NumberDictionary() {
+	/*package*/ NumberDictionary() {
 		mNumberPattern = Pattern.compile(NUMBER_REGEX);
 		mTeenPattern = Pattern.compile(TEEN_REGEX);
 	}

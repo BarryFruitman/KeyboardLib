@@ -10,8 +10,6 @@ import java.util.ArrayList;
 
 import android.content.Context;
 
-import com.comet.keyboard.suggestions.Suggestion;
-import com.comet.keyboard.suggestions.Suggestions;
 import com.comet.keyboard.settings.ShortcutData;
 import com.comet.keyboard.util.DatabaseHelper;
 
@@ -21,7 +19,7 @@ public class ShortcutsDictionary implements Dictionary {
 	private static ArrayList<ShortcutData> mShortcuts;
 	private static Context mContext;
 
-	public ShortcutsDictionary(Context context) {
+	/*package*/ ShortcutsDictionary(Context context) {
 		mContext = context;
 		getShortcutsList(mContext);
 	}

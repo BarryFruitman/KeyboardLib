@@ -10,8 +10,6 @@ import android.util.Log;
 import com.comet.keyboard.KeyboardApp;
 import com.comet.keyboard.KeyboardService;
 import com.comet.keyboard.R;
-import com.comet.keyboard.suggestions.Suggestion;
-import com.comet.keyboard.suggestions.Suggestions;
 import com.comet.keyboard.layouts.KeyboardLayout;
 
 import junit.framework.Assert;
@@ -24,7 +22,7 @@ public final class LanguageDictionary extends TrieDictionary {
 	private int countSum;
 
 
-	public LanguageDictionary(Context context, KeyCollator collator) {
+	/*package*/ LanguageDictionary(Context context, KeyCollator collator) {
 		super(context, collator);
 	}
 

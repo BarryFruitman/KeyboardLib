@@ -6,9 +6,6 @@
 
 package com.comet.keyboard.dictionary;
 
-import com.comet.keyboard.suggestions.Suggestion;
-import com.comet.keyboard.suggestions.Suggestions;
-
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -19,8 +16,8 @@ import android.provider.ContactsContract.PhoneLookup;
 public class ContactsDictionary implements Dictionary {
 	
 	private Context mContext;
-	
-	public ContactsDictionary(Context context) {
+
+	/*package*/ ContactsDictionary(Context context) {
 		mContext = context;
 	}
 

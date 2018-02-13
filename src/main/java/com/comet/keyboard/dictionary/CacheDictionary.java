@@ -3,8 +3,6 @@ package com.comet.keyboard.dictionary;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.comet.keyboard.suggestions.Suggestions;
-
 public final class CacheDictionary implements LearningDictionary {
 
 	final LearningDictionary mDicCached;

@@ -1,10 +1,8 @@
-package com.comet.keyboard.suggestions;
+package com.comet.keyboard.dictionary;
 
 /**
  * Created by barry on 2/13/18.
  */
-
-import com.comet.keyboard.dictionary.BoundedPriorityQueue;
 
 import junit.framework.Assert;
 
@@ -25,13 +23,13 @@ public class Suggestions implements Cloneable, Iterable<Suggestion> {
     public static final int MAX_SUGGESTIONS = 12;
 
 
-    public Suggestions(final SuggestionRequest request) {
+    /*package*/ Suggestions(final SuggestionRequest request) {
         mRequest = request;
         mSuggestions = new BoundedPriorityQueue<>(new SuggestionComparator(getComposing()), MAX_SUGGESTIONS);
     }
 
 
-    public Suggestions(final Suggestions suggestions) {
+    /*package*/ Suggestions(final Suggestions suggestions) {
         mRequest = suggestions.getRequest();
         mSuggestions = new BoundedPriorityQueue<>(new SuggestionComparator(getComposing()), MAX_SUGGESTIONS);
     }
