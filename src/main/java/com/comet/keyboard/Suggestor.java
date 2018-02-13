@@ -283,7 +283,8 @@ public final class Suggestor {
 			final PrefixSuggestion prefixSuggestion = new PrefixSuggestion(composing);
 			suggestions.add(prefixSuggestion);
 
-			if(!mDicLanguage.contains(suggestions.getComposing())) {
+			if(!mDicLanguage.contains(suggestions.getComposing())
+					&& !mDicLanguage.contains(suggestions.getComposing().toLowerCase())) {
 				// Don't make it the default
 				suggestions.mDefault++;
 			}
@@ -503,12 +504,6 @@ public final class Suggestor {
 		public Suggestions(final Suggestions suggestions) {
 			mRequest = suggestions.getRequest();
 			mSuggestions = new BoundedPriorityQueue<>(new SuggestionComparator(getComposing()), MAX_SUGGESTIONS);
-		}
-
-
-		public Suggestions(final String composing, SuggestionComparator comparator, final SuggestionRequest request) {
-			mRequest = request;
-			mSuggestions = new BoundedPriorityQueue<>(comparator, MAX_SUGGESTIONS);
 		}
 
 
