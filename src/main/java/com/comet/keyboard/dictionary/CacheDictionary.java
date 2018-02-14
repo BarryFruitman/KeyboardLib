@@ -14,16 +14,17 @@ public final class CacheDictionary implements LearningDictionary {
 
 
 	@Override
-	public Suggestions getSuggestions(Suggestions suggestions) {
+	public Suggestions getSuggestions(SuggestionRequest request) {
+		final Suggestions suggestions = new Suggestions(request);
 		if(suggestions.getComposing().length() > 2)
-			return mDicCached.getSuggestions(suggestions);
+			return mDicCached.getSuggestions(request);
 		
 		Suggestions cachedSuggestions = mCache.get(suggestions.getComposing());
 		if(cachedSuggestions != null)
 			return cachedSuggestions;
 
 		// Cache these suggestions on-the-fly
-		cachedSuggestions = mDicCached.getSuggestions(suggestions);
+		cachedSuggestions = mDicCached.getSuggestions(request);
 		mCache.put(suggestions.getComposing(), (Suggestions) cachedSuggestions.clone()); // Flag as cached
 		
 		return cachedSuggestions;

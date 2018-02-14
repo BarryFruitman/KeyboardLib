@@ -19,7 +19,8 @@ public class NumberDictionary implements Dictionary {
 
 
 	@Override
-	public Suggestions getSuggestions(Suggestions suggestions) {
+	public Suggestions getSuggestions(SuggestionRequest request) {
+		final Suggestions suggestions = new Suggestions(request);
 		String prefix = suggestions.getComposing();
 		if(!mNumberPattern.matcher(prefix).matches())
 			return suggestions;

@@ -17,14 +17,15 @@ public class ContactsDictionary implements Dictionary {
 	
 	private Context mContext;
 
-	/*package*/ ContactsDictionary(Context context) {
+	public ContactsDictionary(Context context) {
 		mContext = context;
 	}
 
 	
 	
 	@Override
-	public Suggestions getSuggestions(Suggestions suggestions) {
+	public Suggestions getSuggestions(SuggestionRequest request) {
+		final Suggestions suggestions = new Suggestions(request);
 		String prefix = suggestions.getComposing();
 		if(prefix != null && prefix.length() < 5)
 			// Don't look up short words

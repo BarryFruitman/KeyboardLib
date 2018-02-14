@@ -65,7 +65,8 @@ public class LookAheadDictionary extends TrieDictionary {
 
 
 	@Override
-	public Suggestions getSuggestions(Suggestions suggestions) {
+	public Suggestions getSuggestions(SuggestionRequest request) {
+		final Suggestions suggestions = new Suggestions(request);
 		StringBuilder word1 = new StringBuilder();
 		StringBuilder word2 = new StringBuilder();
 		// TODO: extracting words from KeyboardService is hacky. Pass them in somehow?

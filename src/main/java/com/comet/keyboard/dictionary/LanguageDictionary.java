@@ -72,7 +72,8 @@ public final class LanguageDictionary extends TrieDictionary {
 
 
 	@Override
-	public Suggestions getSuggestions(Suggestions suggestions) {
+	public Suggestions getSuggestions(SuggestionRequest request) {
+		final Suggestions suggestions = new Suggestions(request);
 		if(getCountSum() <= 0) {
 			return suggestions;
 		}
@@ -82,7 +83,7 @@ public final class LanguageDictionary extends TrieDictionary {
 		 * 2. Add static suggestions
 		 * 3. Merge user suggestions
 		 */
-		return super.getSuggestions(findConjoinedBiGrams(suggestions));
+		return findConjoinedBiGrams(super.getSuggestions(request));
 	}
 
 

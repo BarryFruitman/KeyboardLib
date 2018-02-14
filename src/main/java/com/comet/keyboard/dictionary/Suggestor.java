@@ -176,10 +176,9 @@ public final class Suggestor {
 		newPendingRequest(request);
 
 		// Get look-ahead suggestions
-		Suggestions lookAheadSuggestions =
-				new Suggestions(request);
+		Suggestions lookAheadSuggestions = new Suggestions(request);
 		if (mPredictNextWord) {
-			lookAheadSuggestions = mDicLookAhead.getSuggestions(lookAheadSuggestions);
+			lookAheadSuggestions = mDicLookAhead.getSuggestions(request);
 		}
 
 		if(request.getComposing().length() == 0) {
@@ -192,23 +191,20 @@ public final class Suggestor {
 		}
 
 		// Get numeric suggestions
-		final Suggestions numberSuggestions =
-				mDicNumber.getSuggestions(new Suggestions(request));
+		final Suggestions numberSuggestions = mDicNumber.getSuggestions(request);
 
 		// Add shortcut suggestions
 		final Suggestions shortcutsSuggestions =
-				mDicShortcuts.getSuggestions(new Suggestions(request));
+				mDicShortcuts.getSuggestions(request);
 
 		// Get contact suggestions
-		Suggestions contactsSuggestions =
-				new Suggestions(request);
+		Suggestions contactsSuggestions = new Suggestions(request);
 		if(mIncludeContacts) {
-			contactsSuggestions = mDicContacts.getSuggestions(contactsSuggestions);
+			contactsSuggestions = mDicContacts.getSuggestions(request);
 		}
 
 		// Get suggestions from language dictionary
-		final Suggestions languageSuggestions =
-				mDicLanguage.getSuggestions(new Suggestions(request));
+		final Suggestions languageSuggestions = mDicLanguage.getSuggestions(request);
 
 		suggestions.addAll(languageSuggestions);
 		suggestions.addAll(lookAheadSuggestions);
