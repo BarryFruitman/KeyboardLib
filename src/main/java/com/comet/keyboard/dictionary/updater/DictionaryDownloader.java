@@ -259,10 +259,10 @@ public class DictionaryDownloader extends Activity {
 	/**
 	 * Get language name from value
 	 */
-	public String getLangNameFromCode(String prefix) {
+	public String getLangNameFromCode(String code) {
 		Assert.assertTrue(mLangCodes != null);
 		
-		return getLangNameFromCode(this, mLangNames, mLangCodes, prefix);
+		return getLangNameFromCode(this, mLangNames, mLangCodes, code);
 	}
 	
 	/**
@@ -574,14 +574,14 @@ public class DictionaryDownloader extends Activity {
 		 * @param 
 		 * @return
 		 */
-		private String getDownloadURL(String langPrefix, String extension) {
+		private String getDownloadURL(String langCode, String extension) {
 			String url;
 
 			url = mActivity.getResources().getString(R.string.install_base_url);
 
-			Assert.assertTrue(langPrefix != null);
+			Assert.assertTrue(langCode != null);
 			Assert.assertTrue(extension != null);
-			url += langPrefix;
+			url += langCode;
 			url += extension;
 
 			return url;

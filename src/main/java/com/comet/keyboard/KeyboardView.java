@@ -3039,59 +3039,34 @@ public class KeyboardView extends View {
 	}
 
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
- 
-	
-	
-	
-	
-	public String toString(String prefix) {
+	public String toString(String name) {
 		StringBuilder buffer = new StringBuilder();
 
-		Utils.appendLine(buffer, prefix, getClass().getName());
-		Utils.appendLine(buffer, prefix, "{");
+		Utils.appendLine(buffer, name, getClass().getName());
+		Utils.appendLine(buffer, name, "{");
 
-		String subPrefix = prefix + "\t"; 
-		Utils.appendLine(buffer, subPrefix, "mDrawPending" + " = " + mDrawPending);
-		Utils.appendLine(buffer, subPrefix, "mBuffer" + " = " + mBuffer);
-		Utils.appendLine(buffer, subPrefix, "mCanvas" + " = " + mCanvas);
-		Utils.appendLine(buffer, subPrefix, "mInvalidatedKey" + " = " + mInvalidatedKey);
-		Utils.appendLine(buffer, subPrefix, "mPhotoBackground" + " = " + mPhotoBackground);
-		Utils.appendLine(buffer, subPrefix, "mKeyBGAlpha" + " = " + mPhotoKeyBGAlpha);
-		Utils.appendLine(buffer, subPrefix, "mBackgroundFit" + " = " + mBackgroundFit);
-		Utils.appendLine(buffer, subPrefix, "mPopupKeyboardWindow" + " = " + mPopupKeyboardWindow);
-		Utils.appendLine(buffer, subPrefix, "mPopupKeyboardLayout" + " = " + mPopupKeyboardLayout);
-		Utils.appendLine(buffer, subPrefix, "mPopupKeyboardView" + " = " + mPopupKeyboardView);
-		Utils.appendLine(buffer, subPrefix, "mSymMenuWindow" + " = " + mSymMenuWindow);
-		Utils.appendLine(buffer, subPrefix, "mSymMenuLayout" + " = " + mSymMenuLayout);
-		Utils.appendLine(buffer, subPrefix, "mSymQuickMenuWindow" + " = " + mSymQuickMenuWindow);
-		Utils.appendLine(buffer, subPrefix, "mTranslatorWindow" + " = " + mTranslatorWindow);
-		Utils.appendLine(buffer, subPrefix, "mTranslatorView" + " = " + mTranslatorView);
+		String subName = name + "\t";
+		Utils.appendLine(buffer, subName, "mDrawPending" + " = " + mDrawPending);
+		Utils.appendLine(buffer, subName, "mBuffer" + " = " + mBuffer);
+		Utils.appendLine(buffer, subName, "mCanvas" + " = " + mCanvas);
+		Utils.appendLine(buffer, subName, "mInvalidatedKey" + " = " + mInvalidatedKey);
+		Utils.appendLine(buffer, subName, "mPhotoBackground" + " = " + mPhotoBackground);
+		Utils.appendLine(buffer, subName, "mKeyBGAlpha" + " = " + mPhotoKeyBGAlpha);
+		Utils.appendLine(buffer, subName, "mBackgroundFit" + " = " + mBackgroundFit);
+		Utils.appendLine(buffer, subName, "mPopupKeyboardWindow" + " = " + mPopupKeyboardWindow);
+		Utils.appendLine(buffer, subName, "mPopupKeyboardLayout" + " = " + mPopupKeyboardLayout);
+		Utils.appendLine(buffer, subName, "mPopupKeyboardView" + " = " + mPopupKeyboardView);
+		Utils.appendLine(buffer, subName, "mSymMenuWindow" + " = " + mSymMenuWindow);
+		Utils.appendLine(buffer, subName, "mSymMenuLayout" + " = " + mSymMenuLayout);
+		Utils.appendLine(buffer, subName, "mSymQuickMenuWindow" + " = " + mSymQuickMenuWindow);
+		Utils.appendLine(buffer, subName, "mTranslatorWindow" + " = " + mTranslatorWindow);
+		Utils.appendLine(buffer, subName, "mTranslatorView" + " = " + mTranslatorView);
 
 		// Add all native fields
-		Utils.appendLine(buffer, subPrefix, "");
-		Utils.appendLine(buffer, subPrefix,
-				Utils.getClassString(this, subPrefix));
-		Utils.appendLine(buffer, prefix, "}");
+		Utils.appendLine(buffer, subName, "");
+		Utils.appendLine(buffer, subName,
+				Utils.getClassString(this, subName));
+		Utils.appendLine(buffer, name, "}");
 
 		return buffer.toString();
 	}

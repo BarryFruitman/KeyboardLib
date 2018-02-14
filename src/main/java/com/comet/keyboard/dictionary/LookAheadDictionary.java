@@ -70,7 +70,7 @@ public class LookAheadDictionary extends TrieDictionary {
 		StringBuilder word1 = new StringBuilder();
 		StringBuilder word2 = new StringBuilder();
 		// TODO: extracting words from KeyboardService is hacky. Pass them in somehow?
-		KeyboardService.getIME().getTwoWordsBeforePrefix(word1, word2);
+		KeyboardService.getIME().getTwoWordsBeforeComposing(word1, word2);
 
 		word1 = new StringBuilder(word1.toString().toLowerCase());
 		word2 = new StringBuilder(word2.toString().toLowerCase());
@@ -172,7 +172,7 @@ public class LookAheadDictionary extends TrieDictionary {
 		private final int mDepth;
 		private final int mCountSum;
 
-		public LookAheadSuggestions(Suggestions suggestions, String prefix, int countSum, int depth) {
+		public LookAheadSuggestions(Suggestions suggestions, String composing, int countSum, int depth) {
 			super(suggestions);
 			
 			mCountSum = countSum;
@@ -217,9 +217,9 @@ public class LookAheadDictionary extends TrieDictionary {
 
 		
 		@Override
-		protected int compareTo(Suggestion suggestion, String prefix) {
+		protected int compareTo(Suggestion suggestion, String composing) {
 			if(!(suggestion instanceof LookAheadSuggestion)) {
-				return super.compareTo(suggestion, prefix);
+				return super.compareTo(suggestion, composing);
 			}
 
 			final LookAheadSuggestion another = (LookAheadSuggestion) suggestion;
@@ -229,10 +229,10 @@ public class LookAheadDictionary extends TrieDictionary {
 			}
 
 			// Is either one an exact match?
-			if(mEditDistance == 0 && mWord.length() == prefix.length()) {
+			if(mEditDistance == 0 && mWord.length() == composing.length()) {
 				return -1;
 			} else {
-				if(another.mEditDistance == 0 && another.mWord.length() == prefix.length()) {
+				if(another.mEditDistance == 0 && another.mWord.length() == composing.length()) {
 					return 1;
 				}
 			}

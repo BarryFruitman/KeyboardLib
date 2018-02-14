@@ -664,26 +664,26 @@ public class BaseKeyboard extends Keyboard {
 		return toString("");
 	}
 
-	public String toString(String prefix) {
+	public String toString(String name) {
 		StringBuilder buffer = new StringBuilder();
-		Utils.appendLine(buffer, prefix, getClass().getName());
-		Utils.appendLine(buffer, prefix, "{");
+		Utils.appendLine(buffer, name, getClass().getName());
+		Utils.appendLine(buffer, name, "{");
 
-		String subPrefix = prefix + "\t";
+		String subName = name + "\t";
 
 		try {
 			// Retrieve all variables.
-			Utils.appendLine(buffer, subPrefix, "mTotalHeight" + " = " + mTotalHeight);
-			Utils.appendLine(buffer, subPrefix, "mXMLLayoutID" + " = " + mXMLLayoutID);
-			Utils.appendLine(buffer, subPrefix, "mColumns" + " = " + mColumns);
-			Utils.appendLine(buffer, subPrefix, "mHorizontalPadding" + " = " + mHorizontalPadding);
+			Utils.appendLine(buffer, subName, "mTotalHeight" + " = " + mTotalHeight);
+			Utils.appendLine(buffer, subName, "mXMLLayoutID" + " = " + mXMLLayoutID);
+			Utils.appendLine(buffer, subName, "mColumns" + " = " + mColumns);
+			Utils.appendLine(buffer, subName, "mHorizontalPadding" + " = " + mHorizontalPadding);
 
 			// Add all native fields
-			Utils.appendLine(buffer, subPrefix, Utils.getClassString(this, subPrefix));
+			Utils.appendLine(buffer, subName, Utils.getClassString(this, subName));
 		} catch (Exception e) {
-			Utils.appendLine(buffer, subPrefix, "exception = " + e.getMessage());
+			Utils.appendLine(buffer, subName, "exception = " + e.getMessage());
 		}
-		Utils.appendLine(buffer, prefix, "}");
+		Utils.appendLine(buffer, name, "}");
 
 		return buffer.toString();
 	}

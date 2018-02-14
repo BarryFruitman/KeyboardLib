@@ -2451,12 +2451,12 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
 
     /**
-     * Gets a list of suggestions based on prefix, to display to the user.
+     * Gets a list of suggestions based on composing, to display to the user.
      *
-     * @param prefix The prefix to match. Equal to the composition.
+     * @param composing The composing to match. Equal to the composition.
      */
-    protected void updateCandidates(final CharSequence prefix) {
-        callTrace("updateCandidates(" + prefix + ")");
+    protected void updateCandidates(final CharSequence composing) {
+        callTrace("updateCandidates(" + composing + ")");
 
         if (mIsPassword) {
             updatePassword(mShowPassword);
@@ -2469,7 +2469,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
         // Find suggestions asynchronously. Suggestor will call
         // returnCandidates() when done.
-        mSuggestor.findSuggestionsAsync(prefix.toString(), new Suggestor.SuggestionsListener() {
+        mSuggestor.findSuggestionsAsync(composing.toString(), new Suggestor.SuggestionsListener() {
             @Override
             public void onSuggestionsReady(final Suggestions suggestions) {
                 returnCandidates(suggestions);
@@ -3017,15 +3017,15 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
     }
 
     /**
-     * Returns up to two words in front of the prefix, less leading or trailing
+     * Returns up to two words in front of the composing, less leading or trailing
      * whitespace and punctuation. For example, if the user is typing
-     * "nice to meet", word1="nice", word2="to" and prefix="meet".
+     * "nice to meet", word1="nice", word2="to" and composing="meet".
      *
      * @param word1 A StringBuilder that is filled with the word before word2.
-     * @param word2 A StringBuilder that is filled with the word before the prefix/cursor.
+     * @param word2 A StringBuilder that is filled with the word before the composing/cursor.
      * @return The number of words returned. May be < 2.
      */
-    public int getTwoWordsBeforePrefix(final StringBuilder word1, final StringBuilder word2) {
+    public int getTwoWordsBeforeComposing(final StringBuilder word1, final StringBuilder word2) {
         final InputConnection inputConnection = getCurrentInputConnection();
         if (inputConnection == null) {
             return 0;
@@ -3034,7 +3034,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         // Clear the StringBuilders, just in case.
         word1.setLength(0);
         word2.setLength(0);
-        int iEndOfWord = 0, iStartOfWord = 0, iStartOfPrefix = 0;
+        int iEndOfWord = 0, iStartOfWord = 0, iStartOfComposing = 0;
 
 
         // Get the text before the cursor, up to 50 chars.
@@ -3044,22 +3044,22 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         }
 
 
-        // Skip the prefix (if any)
-        for (iStartOfPrefix = textBeforeCursor.length() - 1; iStartOfPrefix >= 0; iStartOfPrefix--)
-            if (!isWordCharacter(textBeforeCursor.charAt(iStartOfPrefix))) {
+        // Skip the composing (if any)
+        for (iStartOfComposing = textBeforeCursor.length() - 1; iStartOfComposing >= 0; iStartOfComposing--)
+            if (!isWordCharacter(textBeforeCursor.charAt(iStartOfComposing))) {
                 break;
             }
 
-        if (iStartOfPrefix < 0) {
+        if (iStartOfComposing < 0) {
             return 0;
         }
 
 		/*
-		 * Get the word in front of the prefix/cursor (i.e. word2)
+		 * Get the word in front of the composing/cursor (i.e. word2)
 		 */
 
         // Skip trailing whitespace & punctuation.
-        for (iEndOfWord = iStartOfPrefix; iEndOfWord >= 0; iEndOfWord--) {
+        for (iEndOfWord = iStartOfComposing; iEndOfWord >= 0; iEndOfWord--) {
             if (isWordCharacter(textBeforeCursor.charAt(iEndOfWord))) {
                 break;
             } else if (isSentenceSeparator(textBeforeCursor.charAt(iEndOfWord))) {
@@ -4027,11 +4027,11 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
         DictionaryDownloader.setOnResultListener(new OnResultListener() {
             public void onSuccess() {
-                String currLangPrefix =
+                String currLangCode =
                         LanguageSelector.getLanguagePreference(KeyboardService.this);
 
                 DictionaryItem dicItem =
-                        KeyboardApp.getApp().getUpdater().getDictionaryItem(currLangPrefix);
+                        KeyboardApp.getApp().getUpdater().getDictionaryItem(currLangCode);
                 if (dicItem != null && !dicItem.isNeedUpdate) {
                     // Set install step to final
                     Installer.setCurrStep(
@@ -4202,68 +4202,68 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
     }
 
 
-    public String toString(final String prefix) {
+    public String toString(final String name) {
         final StringBuilder buffer = new StringBuilder();
         buffer.append(getClass().getName());
-        final String subPrefix = prefix + "\t";
-        Utils.appendLine(buffer, prefix, "{");
+        final String subName = name + "\t";
+        Utils.appendLine(buffer, name, "{");
 
         // Add important fields
-        Utils.appendLine(buffer, subPrefix, "mKeyboardType" + " = " + mKeyboardLayoutId);
-        Utils.appendLine(buffer, subPrefix, "mKeyboardLayout" + " = " + mKeyboardLayout);
-        Utils.appendLine(buffer, subPrefix, "mKeyboardView" + " = " + mKeyboardView);
+        Utils.appendLine(buffer, subName, "mKeyboardType" + " = " + mKeyboardLayoutId);
+        Utils.appendLine(buffer, subName, "mKeyboardLayout" + " = " + mKeyboardLayout);
+        Utils.appendLine(buffer, subName, "mKeyboardView" + " = " + mKeyboardView);
         if (mKeyboardView != null)
-            Utils.appendLine(buffer, subPrefix, "mKeyboardView.getKeyboard()" + " = " + mKeyboardView.getKeyboard());
-        Utils.appendLine(buffer, subPrefix, "mCandidateView" + " = " + mCandidateView);
-        Utils.appendLine(buffer, subPrefix, "mCompletions" + " = " + mCompletions);
-        Utils.appendLine(buffer, subPrefix, "mPredictions" + " = " + mSuggestions);
-        Utils.appendLine(buffer, subPrefix, "mIsAlarmMessageFirstAppeared" + " = " + mIsAlarmMessageFirstAppeared);
-        Utils.appendLine(buffer, subPrefix, "mLastWord" + " = " + mLastWord);
-        Utils.appendLine(buffer, subPrefix, "mWordMatcher" + " = " + mWordMatcher);
-        Utils.appendLine(buffer, subPrefix, "mWindowVisible" + " = " + mWindowVisible);
-        Utils.appendLine(buffer, subPrefix, "mPrefsChanged" + " = " + mPrefsChanged);
-        Utils.appendLine(buffer, subPrefix, "mComposing" + " = " + mComposing);
-        Utils.appendLine(buffer, subPrefix, "mLastDisplayWidth" + " = " + mLastDisplayWidth);
-        Utils.appendLine(buffer, subPrefix, "mLastShiftTime" + " = " + mLastShiftTime);
-        Utils.appendLine(buffer, subPrefix, "mLastSpaceTime" + " = " + mLastSpaceTime);
-        Utils.appendLine(buffer, subPrefix, "mMetaState" + " = " + mMetaState);
-        Utils.appendLine(buffer, subPrefix, "bAutoSpace" + " = " + bAutoSpace);
-        Utils.appendLine(buffer, subPrefix, "mIsPassword" + " = " + mIsPassword);
-        Utils.appendLine(buffer, subPrefix, "mURL" + " = " + mURL);
-        Utils.appendLine(buffer, subPrefix, "mNumRowOn" + " = " + mNumRowOn);
-        // Utils.appendLine(buffer, subPrefix, "mWordSeparators" + " = " +
+            Utils.appendLine(buffer, subName, "mKeyboardView.getKeyboard()" + " = " + mKeyboardView.getKeyboard());
+        Utils.appendLine(buffer, subName, "mCandidateView" + " = " + mCandidateView);
+        Utils.appendLine(buffer, subName, "mCompletions" + " = " + mCompletions);
+        Utils.appendLine(buffer, subName, "mPredictions" + " = " + mSuggestions);
+        Utils.appendLine(buffer, subName, "mIsAlarmMessageFirstAppeared" + " = " + mIsAlarmMessageFirstAppeared);
+        Utils.appendLine(buffer, subName, "mLastWord" + " = " + mLastWord);
+        Utils.appendLine(buffer, subName, "mWordMatcher" + " = " + mWordMatcher);
+        Utils.appendLine(buffer, subName, "mWindowVisible" + " = " + mWindowVisible);
+        Utils.appendLine(buffer, subName, "mPrefsChanged" + " = " + mPrefsChanged);
+        Utils.appendLine(buffer, subName, "mComposing" + " = " + mComposing);
+        Utils.appendLine(buffer, subName, "mLastDisplayWidth" + " = " + mLastDisplayWidth);
+        Utils.appendLine(buffer, subName, "mLastShiftTime" + " = " + mLastShiftTime);
+        Utils.appendLine(buffer, subName, "mLastSpaceTime" + " = " + mLastSpaceTime);
+        Utils.appendLine(buffer, subName, "mMetaState" + " = " + mMetaState);
+        Utils.appendLine(buffer, subName, "bAutoSpace" + " = " + bAutoSpace);
+        Utils.appendLine(buffer, subName, "mIsPassword" + " = " + mIsPassword);
+        Utils.appendLine(buffer, subName, "mURL" + " = " + mURL);
+        Utils.appendLine(buffer, subName, "mNumRowOn" + " = " + mNumRowOn);
+        // Utils.appendLine(buffer, subComposing, "mWordSeparators" + " = " +
         // mWordSeparators);
-        Utils.appendLine(buffer, subPrefix, "mSmartSpacePreceders" + " = " + mSmartSpacePreceders);
-        Utils.appendLine(buffer, subPrefix, "suggestor" + " = " + mSuggestor);
-        Utils.appendLine(buffer, subPrefix, "mVoiceIsShifted" + " = " + mVoiceIsShifted);
-        Utils.appendLine(buffer, subPrefix, "mVoiceCapsLock" + " = " + mVoiceCapsLock);
-        Utils.appendLine(buffer, subPrefix, "mLang" + " = " + mLanguage);
-        Utils.appendLine(buffer, subPrefix, "mTheme" + " = " + mTheme);
-        Utils.appendLine(buffer, subPrefix, "mDefaultCurrency" + " = " + mDefaultCurrency);
+        Utils.appendLine(buffer, subName, "mSmartSpacePreceders" + " = " + mSmartSpacePreceders);
+        Utils.appendLine(buffer, subName, "suggestor" + " = " + mSuggestor);
+        Utils.appendLine(buffer, subName, "mVoiceIsShifted" + " = " + mVoiceIsShifted);
+        Utils.appendLine(buffer, subName, "mVoiceCapsLock" + " = " + mVoiceCapsLock);
+        Utils.appendLine(buffer, subName, "mLang" + " = " + mLanguage);
+        Utils.appendLine(buffer, subName, "mTheme" + " = " + mTheme);
+        Utils.appendLine(buffer, subName, "mDefaultCurrency" + " = " + mDefaultCurrency);
 
         // Add KeyboardView
         if (mKeyboardView != null) {
-            Utils.appendLine(buffer, subPrefix, "mKeyboardView = " + mKeyboardView.toString(subPrefix));
+            Utils.appendLine(buffer, subName, "mKeyboardView = " + mKeyboardView.toString(subName));
         }
         if (mAlphaKeyboard != null) {
-            Utils.appendLine(buffer, subPrefix, "mAlphaKeyboard = ");
-            Utils.append(buffer, subPrefix,
-                    ((BaseKeyboard) mAlphaKeyboard).toString(subPrefix));
+            Utils.appendLine(buffer, subName, "mAlphaKeyboard = ");
+            Utils.append(buffer, subName,
+                    ((BaseKeyboard) mAlphaKeyboard).toString(subName));
         }
         if (mNumPadKeyboard != null) {
-            Utils.appendLine(buffer, subPrefix, "mNumPadKeyboard = ");
-            Utils.appendLine(buffer, subPrefix, ((BaseKeyboard) mNumPadKeyboard).toString(subPrefix));
+            Utils.appendLine(buffer, subName, "mNumPadKeyboard = ");
+            Utils.appendLine(buffer, subName, ((BaseKeyboard) mNumPadKeyboard).toString(subName));
         }
         if (mAlphaNumKeyboard != null) {
-            Utils.appendLine(buffer, subPrefix, "mAlphaNumKeyboard = ");
-            Utils.appendLine(buffer, subPrefix, ((BaseKeyboard) mAlphaNumKeyboard).toString(subPrefix));
+            Utils.appendLine(buffer, subName, "mAlphaNumKeyboard = ");
+            Utils.appendLine(buffer, subName, ((BaseKeyboard) mAlphaNumKeyboard).toString(subName));
         }
 
         // Add all native fields
-        Utils.appendLine(buffer, subPrefix, "");
-        Utils.appendLine(buffer, subPrefix,
-                Utils.getClassString(this, subPrefix));
-        Utils.appendLine(buffer, prefix, "}");
+        Utils.appendLine(buffer, subName, "");
+        Utils.appendLine(buffer, subName,
+                Utils.getClassString(this, subName));
+        Utils.appendLine(buffer, name, "}");
 
         return buffer.toString();
     }

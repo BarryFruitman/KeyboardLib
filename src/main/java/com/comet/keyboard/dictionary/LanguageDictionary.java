@@ -91,10 +91,10 @@ public final class LanguageDictionary extends TrieDictionary {
 		// Check for conjoined bi-grams (e.g. "areyou")
 		if(languageSuggestions.getComposing().length() >= 5) {
 			// Check if this is a conjoined bi-gram
-			for(int iPrefix = 1; iPrefix < languageSuggestions.getComposing().length() - 1; iPrefix++) {
+			for(int iComposing = 1; iComposing < languageSuggestions.getComposing().length() - 1; iComposing++) {
 				// Split into two words
-				final String word1 = languageSuggestions.getComposing().substring(0, iPrefix + 1);
-				final String word2 = languageSuggestions.getComposing().substring(iPrefix + 1, languageSuggestions.getComposing().length());
+				final String word1 = languageSuggestions.getComposing().substring(0, iComposing + 1);
+				final String word2 = languageSuggestions.getComposing().substring(iComposing + 1, languageSuggestions.getComposing().length());
 				final int count = ((TrieDictionary) KeyboardService.getIME().getSuggestor().getLookAheadDictionary()).getCount(word1 + " " + word2);
 				if(count > 0) {
 					final int count1 = getCount(word1);
@@ -108,11 +108,11 @@ public final class LanguageDictionary extends TrieDictionary {
 			}
 
 			// Check if this is a bi-gram conjoined by a space-adjacent key
-			for(int iPrefix = 1; iPrefix < languageSuggestions.getComposing().length() - 1; iPrefix++) {
-				if(KeyboardLayout.getCurrentLayout().isAdjacentToSpaceBar(languageSuggestions.getComposing().charAt(iPrefix))) {
+			for(int iComposing = 1; iComposing < languageSuggestions.getComposing().length() - 1; iComposing++) {
+				if(KeyboardLayout.getCurrentLayout().isAdjacentToSpaceBar(languageSuggestions.getComposing().charAt(iComposing))) {
 					// Split into two words, omitting space-adjacent key
-					final String word1 = languageSuggestions.getComposing().substring(0, iPrefix);
-					final String word2 = languageSuggestions.getComposing().substring(iPrefix + 1, languageSuggestions.getComposing().length());
+					final String word1 = languageSuggestions.getComposing().substring(0, iComposing);
+					final String word2 = languageSuggestions.getComposing().substring(iComposing + 1, languageSuggestions.getComposing().length());
 					final int count = ((TrieDictionary) KeyboardService.getIME().getSuggestor().getLookAheadDictionary()).getCount(word1 + " " + word2);
 					if(count > 0) {
 						final int count1 = getCount(word1);
@@ -173,9 +173,9 @@ public final class LanguageDictionary extends TrieDictionary {
 		
 		
 		@Override
-		protected int compareTo(Suggestion suggestion, String prefix) {
+		protected int compareTo(Suggestion suggestion, String composing) {
 			if(!(suggestion instanceof LanguageDictionary.LanguageSuggestion)) {
-				return super.compareTo(suggestion, prefix);
+				return super.compareTo(suggestion, composing);
 			}
 
 			LanguageSuggestion another = (LanguageSuggestion) suggestion;

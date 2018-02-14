@@ -588,11 +588,10 @@ public class DictionaryUpdater {
 			return false;
 		}
         
-		boolean prefix = preference.getBoolean(mContext.getResources().getString(R.string.prefs_is_dic_updated), 
+		boolean isUpdated = preference.getBoolean(mContext.getResources().getString(R.string.prefs_is_dic_updated),
 				false);
-		
-		
-		return prefix;
+
+		return isUpdated;
 	}
 
 	

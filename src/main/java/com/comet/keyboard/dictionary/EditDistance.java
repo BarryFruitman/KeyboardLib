@@ -10,10 +10,10 @@ public final class EditDistance {
 	public static final double JOINED = 1;		// Conjoined bigram
 
 
-	public static double getMaxEditDistance(CharSequence prefix) {
-		if(prefix.length() <= 4) {
+	public static double getMaxEditDistance(CharSequence composing) {
+		if(composing.length() <= 4) {
 			return 2;
-		} else if(prefix.length() <= 8) {
+		} else if(composing.length() <= 8) {
 			return 3;
 		}
 

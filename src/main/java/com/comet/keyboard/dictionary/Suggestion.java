@@ -40,7 +40,7 @@ public abstract class Suggestion implements Cloneable {
     }
 
 
-    protected int compareTo(final Suggestion another, final String prefix) {
+    protected int compareTo(final Suggestion another, final String composing) {
         return another.getOrder() - getOrder();
     }
 

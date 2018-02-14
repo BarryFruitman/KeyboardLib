@@ -114,9 +114,9 @@ import com.comet.keyboard.dictionary.radixtrie.RadixTrie;
 
 
 	private void findSuggestionsInTrie(
-			final StringBuilder prefix,
+			final StringBuilder composing,
 			final Suggestions suggestions,
-			final int iPrefix,
+			final int iComposing,
 			final Node node,
 			final int iNodeValue,
 			final double editDistance,
@@ -132,12 +132,12 @@ import com.comet.keyboard.dictionary.radixtrie.RadixTrie;
 
 		final char[] value = node.getValue();
 
-		if(iPrefix >= prefix.length()) {
-			// End of prefix. Look for suggestions below this node and add them.
-			final double trailingEditDistance = node.getWord().length() - prefix.length();
-			prefix.append(Node.copyOfRange(value, iNodeValue, value.length));
-			addSuggestions(node, prefix, suggestions, editDistance + trailingEditDistance);
-			prefix.setLength(prefix.length() - (value.length - iNodeValue));
+		if(iComposing >= composing.length()) {
+			// End of composing. Look for suggestions below this node and add them.
+			final double trailingEditDistance = node.getWord().length() - composing.length();
+			composing.append(Node.copyOfRange(value, iNodeValue, value.length));
+			addSuggestions(node, composing, suggestions, editDistance + trailingEditDistance);
+			composing.setLength(composing.length() - (value.length - iNodeValue));
 
 			return;
 		}
@@ -146,9 +146,9 @@ import com.comet.keyboard.dictionary.radixtrie.RadixTrie;
 			// End of this node's key. Traverse children.
 			for(Node child : node.getChildren()) {
 				findSuggestionsInTrie(
-						prefix,
+						composing,
 						suggestions,
-						iPrefix,
+						iComposing,
 						child,
 						0,
 						editDistance,
@@ -160,68 +160,68 @@ import com.comet.keyboard.dictionary.radixtrie.RadixTrie;
 
 		// Skip non-letter characters
 		if(!Character.isLetter(value[iNodeValue])) {
-			prefix.insert(iPrefix, value[iNodeValue]);
+			composing.insert(iComposing, value[iNodeValue]);
 			findSuggestionsInTrie(
-					prefix,
+					composing,
 					suggestions,
-					iPrefix + 1,
+					iComposing + 1,
 					node,
 					iNodeValue + 1,
 					editDistance,
 					maxEditDistance);
-			prefix.deleteCharAt(iPrefix);
+			composing.deleteCharAt(iComposing);
 
 			return;
 		}
 
-		final char keyStroke = prefix.charAt(iPrefix);
+		final char keyStroke = composing.charAt(iComposing);
 
 		// Compare the keystroke to the next character in the trie traversal
 		int iKeyDistance = mCollator.compareCharToKey(value[iNodeValue], keyStroke);
 		if(iKeyDistance >= 0 && iKeyDistance + editDistance <= maxEditDistance) {
 			// Matched key. Follow this node, then return.
-			prefix.setCharAt(iPrefix, value[iNodeValue]);
+			composing.setCharAt(iComposing, value[iNodeValue]);
 			findSuggestionsInTrie(
-					prefix,
+					composing,
 					suggestions,
-					iPrefix + 1,
+					iComposing + 1,
 					node,
 					iNodeValue + 1,
 					iKeyDistance == 0 ? editDistance : editDistance + EditDistance.SUBSTITUTE,
 					maxEditDistance);
-			prefix.setCharAt(iPrefix, keyStroke);
+			composing.setCharAt(iComposing, keyStroke);
 		}
 
-		// Assume this prefix is missing a keystroke. Insert missing char and follow node.
-		prefix.insert(iPrefix, value[iNodeValue]);
+		// Assume this composing is missing a keystroke. Insert missing char and follow node.
+		composing.insert(iComposing, value[iNodeValue]);
 		findSuggestionsInTrie(
-				prefix,
+				composing,
 				suggestions,
-				iPrefix + 1,
+				iComposing + 1,
 				node,
 				iNodeValue + 1,
 				editDistance + EditDistance.DELETE,
 				maxEditDistance);
-		prefix.deleteCharAt(iPrefix);
+		composing.deleteCharAt(iComposing);
 
 		// Is this key adjacent the next keystroke?
-		if(iPrefix < prefix.length() - 1) {
-			iKeyDistance = mCollator.compareCharToKey(prefix.charAt(iPrefix +1), keyStroke);
+		if(iComposing < composing.length() - 1) {
+			iKeyDistance = mCollator.compareCharToKey(composing.charAt(iComposing +1), keyStroke);
 			if(iKeyDistance >= 0) {
 				// Assume it is a double-tap. Delete it and follow node.
-				final char deleted = prefix.charAt(iPrefix);
-				prefix.deleteCharAt(iPrefix);
+				final char deleted = composing.charAt(iComposing);
+				composing.deleteCharAt(iComposing);
 
 				findSuggestionsInTrie(
-						prefix,
+						composing,
 						suggestions,
-						iPrefix,
+						iComposing,
 						node,
 						iNodeValue	,
 						editDistance + EditDistance.INSERT,
 						maxEditDistance);
 
-				prefix.insert(iPrefix, deleted);
+				composing.insert(iComposing, deleted);
 			}
 		}
 	}
@@ -229,21 +229,21 @@ import com.comet.keyboard.dictionary.radixtrie.RadixTrie;
 
 	private void addSuggestions(
 			final Node node,
-			final StringBuilder prefix,
+			final StringBuilder composing,
 			final Suggestions suggestions,
 			final double editDistance) {
 
 		// Add this node if it's a leaf
 		if(node.isEntry()) {
-			addSuggestion(suggestions, prefix.toString(), node.getCount(), editDistance);
+			addSuggestion(suggestions, composing.toString(), node.getCount(), editDistance);
 		}
 
 
 		// Recursively traverse all children
 		for(Node child : node.getChildren()) {
-			prefix.append(child.getValue());
-			addSuggestions(child, prefix, suggestions, editDistance + child.getValue().length);
-			prefix.setLength(prefix.length() - child.getValue().length);
+			composing.append(child.getValue());
+			addSuggestions(child, composing, suggestions, editDistance + child.getValue().length);
+			composing.setLength(composing.length() - child.getValue().length);
 		}
 	}
 

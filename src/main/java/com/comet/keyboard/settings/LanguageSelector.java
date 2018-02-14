@@ -193,10 +193,10 @@ public class LanguageSelector extends Activity implements View.OnClickListener {
 	/**
 	 * Get language name from value
 	 */
-	public String getLangNameFromCode(String prefix) {
+	public String getLangNameFromCode(String code) {
 		Assert.assertTrue(mLangCodes != null);
 		
-		return getLangNameFromCode(this, mLangNames, mLangCodes, prefix);
+		return getLangNameFromCode(this, mLangNames, mLangCodes, code);
 	}
 	
 	/**
@@ -331,12 +331,12 @@ public class LanguageSelector extends Activity implements View.OnClickListener {
 	 */
 	protected void saveTranslateLanguage() {
 		// Save default translating language
-		String langPrefix, lang;
+		String langCode, lang;
 
 		SharedPreferences preference = getSharedPreferences(Settings.SETTINGS_FILE, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editPrefs = preference.edit();
-		langPrefix = preference.getString("language", getResources().getString(R.string.lang_code_default));
-		lang = LanguageSelector.getLangNameFromCode(this, langPrefix);
+		langCode = preference.getString("language", getResources().getString(R.string.lang_code_default));
+		lang = LanguageSelector.getLangNameFromCode(this, langCode);
 		
 		// Set from language
 		editPrefs.putString(TranslatorView.PREF_LANG_FROM, lang);

@@ -230,15 +230,15 @@ public final class Suggestor {
 		boolean hasPerfect = false;
 		final String composing = suggestions.getComposing();
 		final Iterator<Suggestion> iterator = suggestions.iterator();
-		final Suggestions prefixes = new Suggestions(suggestions.getRequest());
+		final Suggestions composingMatches = new Suggestions(suggestions.getRequest());
 
 		while(iterator.hasNext()) {
 			Suggestion suggestion = iterator.next();
 			if(mCollator.compareWords(composing, suggestion.getWord())) {
-				// Move this exact match to the top of the list with the prefix suggestions.
+				// Move this exact match to the top of the list with the composing suggestions.
 				ComposingSuggestion composingSuggestion = new ComposingSuggestion(suggestion);
 				iterator.remove();
-				prefixes.add(composingSuggestion);
+				composingMatches.add(composingSuggestion);
 				if(suggestion.getWord().equals(composing))
 					// This suggestion is a perfect match with the composing
 					hasPerfect = true;
@@ -248,19 +248,19 @@ public final class Suggestor {
 			}
 		}
 
-		if(prefixes.size() > 0) {
-			suggestions.addAll(prefixes);
+		if(composingMatches.size() > 0) {
+			suggestions.addAll(composingMatches);
 			if(hasShortcut) {
-				suggestions.mDefault = prefixes.size();
+				suggestions.mDefault = composingMatches.size();
 			}
 			if(!hasPerfect) {
-				// Add the prefix as the perfect (non-default) match
+				// Add the composing as the perfect (non-default) match
 				ComposingSuggestion composingSuggestion = new ComposingSuggestion(composing);
 				suggestions.add(composingSuggestion);
 				suggestions.mDefault++;
 			}
 		} else {
-			// Add the prefix as the first match
+			// Add the composing as the first match
 			final ComposingSuggestion composingSuggestion = new ComposingSuggestion(composing);
 			suggestions.add(composingSuggestion);
 
@@ -418,9 +418,9 @@ public final class Suggestor {
 
 
 		@Override
-		protected int compareTo(final Suggestion suggestion, final String prefix) {
+		protected int compareTo(final Suggestion suggestion, final String composing) {
 			if(!(suggestion instanceof ComposingSuggestion)) {
-				return super.compareTo(suggestion, prefix);
+				return super.compareTo(suggestion, composing);
 			}
 			ComposingSuggestion another = (ComposingSuggestion) suggestion;
 

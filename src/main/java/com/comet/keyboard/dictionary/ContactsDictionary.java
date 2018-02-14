@@ -26,19 +26,19 @@ public class ContactsDictionary implements Dictionary {
 	@Override
 	public Suggestions getSuggestions(SuggestionRequest request) {
 		final Suggestions suggestions = new Suggestions(request);
-		String prefix = suggestions.getComposing();
-		if(prefix != null && prefix.length() < 5)
+		String composing = suggestions.getComposing();
+		if(composing != null && composing.length() < 5)
 			// Don't look up short words
 			return suggestions;
 
-		prefix = prefix.toLowerCase();
+		composing = composing.toLowerCase();
 
 		// We only need the names
 		String[] columns = new String[] {PhoneLookup.DISPLAY_NAME};
 
 		// Query the custom dictionary
 		ContentResolver contentResolver = mContext.getContentResolver();
-		Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, columns, PhoneLookup.DISPLAY_NAME + " LIKE \"" + prefix + "%\" OR " + PhoneLookup.DISPLAY_NAME + " LIKE \"% " + prefix + "%\"", null, null);
+		Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, columns, PhoneLookup.DISPLAY_NAME + " LIKE \"" + composing + "%\" OR " + PhoneLookup.DISPLAY_NAME + " LIKE \"% " + composing + "%\"", null, null);
 		if(cursor == null)
 			return suggestions;
 
@@ -47,7 +47,7 @@ public class ContactsDictionary implements Dictionary {
 	        String name = cursor.getString(cursor.getColumnIndex(PhoneLookup.DISPLAY_NAME));
 	        String names[] = name.split(" ");
 	        for(int iName = 0; iName < names.length; iName++)
-	        	if(names[iName].toLowerCase().startsWith(prefix) && suggestions.findIndex(names[iName]) != -1)
+	        	if(names[iName].toLowerCase().startsWith(composing) && suggestions.findIndex(names[iName]) != -1)
 	        		suggestions.add(new ContactSuggestion(names[iName]));
 		}
 		cursor.close();
@@ -64,7 +64,7 @@ public class ContactsDictionary implements Dictionary {
 		}
 
 		@Override
-		protected int compareTo(Suggestion another, String prefix) {
+		protected int compareTo(Suggestion another, String composing) {
 			return 0;
 		}
 	}

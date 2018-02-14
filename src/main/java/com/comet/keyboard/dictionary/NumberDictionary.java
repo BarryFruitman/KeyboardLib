@@ -21,13 +21,13 @@ public class NumberDictionary implements Dictionary {
 	@Override
 	public Suggestions getSuggestions(SuggestionRequest request) {
 		final Suggestions suggestions = new Suggestions(request);
-		String prefix = suggestions.getComposing();
-		if(!mNumberPattern.matcher(prefix).matches())
+		String composing = suggestions.getComposing();
+		if(!mNumberPattern.matcher(composing).matches())
 			return suggestions;
 
-		suggestions.add(new NumberSuggestion(prefix.toString(), NumberSuggestion.NumberType.NORMAL));
+		suggestions.add(new NumberSuggestion(composing.toString(), NumberSuggestion.NumberType.NORMAL));
 
-		final int value = Integer.parseInt(prefix);
+		final int value = Integer.parseInt(composing);
 		if(value >= 0 && value <=20) {
 			// Add word
 			String[] words = KeyboardService.getIME().getResources().getStringArray(R.array.number_words);
@@ -36,9 +36,9 @@ public class NumberDictionary implements Dictionary {
 
 		// Add commaed number
 		StringBuilder commaed = new StringBuilder();
-		if(prefix.length() > 3) {
-			commaed.append(prefix);
-			for(int iComma = prefix.length() - 3; iComma > 0; iComma-= 3)
+		if(composing.length() > 3) {
+			commaed.append(composing);
+			for(int iComma = composing.length() - 3; iComma > 0; iComma-= 3)
 				commaed.insert(iComma, ',');
 			suggestions.add(new NumberSuggestion(commaed.toString(), NumberSuggestion.NumberType.COMMAED));
 		}
@@ -48,15 +48,15 @@ public class NumberDictionary implements Dictionary {
 		if(commaed.length() > 0)
 			ordinal.append(commaed);
 		else
-			ordinal.append(prefix);
+			ordinal.append(composing);
 
-		if(mTeenPattern.matcher(prefix).matches())
+		if(mTeenPattern.matcher(composing).matches())
 			ordinal.append("th");
-		else if(prefix.endsWith("1"))
+		else if(composing.endsWith("1"))
 			ordinal.append("st");
-		else if(prefix.endsWith("2"))
+		else if(composing.endsWith("2"))
 			ordinal.append("nd");
-		else if(prefix.endsWith("3"))
+		else if(composing.endsWith("3"))
 			ordinal.append("rd");
 		else 
 			ordinal.append("th");
@@ -82,7 +82,7 @@ public class NumberDictionary implements Dictionary {
 		}
 
 		@Override
-		protected int compareTo(Suggestion suggestion, String prefix) {
+		protected int compareTo(Suggestion suggestion, String composing) {
 			NumberSuggestion numSuggestion = (NumberSuggestion) suggestion;
 
 			return mType.compareTo(numSuggestion.mType);

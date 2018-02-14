@@ -72,12 +72,12 @@ public class ShortcutsDictionary implements Dictionary {
 		}
 
 		@Override
-		public void matchCase(final String prefix) {
+		public void matchCase(final String composing) {
 			// Do nothing
 		}
 		
 		@Override
-		protected int compareTo(Suggestion another, String prefix) {
+		protected int compareTo(Suggestion another, String composing) {
 			return 0;
 		}
 	}
