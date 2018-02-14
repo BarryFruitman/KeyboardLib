@@ -118,7 +118,7 @@ public final class Suggestor {
 
 	public boolean forget(final Suggestion suggestion) {
 		if (suggestion instanceof LanguageDictionary.LanguageSuggestion
-				|| suggestion instanceof PrefixSuggestion) {
+				|| suggestion instanceof ComposingSuggestion) {
 			return mDicLanguage.forget(suggestion.getWord());
 		}
 
@@ -236,9 +236,9 @@ public final class Suggestor {
 			Suggestion suggestion = iterator.next();
 			if(mCollator.compareWords(composing, suggestion.getWord())) {
 				// Move this exact match to the top of the list with the prefix suggestions.
-				PrefixSuggestion prefixSuggestion = new PrefixSuggestion(suggestion);
+				ComposingSuggestion composingSuggestion = new ComposingSuggestion(suggestion);
 				iterator.remove();
-				prefixes.add(prefixSuggestion);
+				prefixes.add(composingSuggestion);
 				if(suggestion.getWord().equals(composing))
 					// This suggestion is a perfect match with the composing
 					hasPerfect = true;
@@ -255,14 +255,14 @@ public final class Suggestor {
 			}
 			if(!hasPerfect) {
 				// Add the prefix as the perfect (non-default) match
-				PrefixSuggestion prefixSuggestion = new PrefixSuggestion(composing);
-				suggestions.add(prefixSuggestion);
+				ComposingSuggestion composingSuggestion = new ComposingSuggestion(composing);
+				suggestions.add(composingSuggestion);
 				suggestions.mDefault++;
 			}
 		} else {
 			// Add the prefix as the first match
-			final PrefixSuggestion prefixSuggestion = new PrefixSuggestion(composing);
-			suggestions.add(prefixSuggestion);
+			final ComposingSuggestion composingSuggestion = new ComposingSuggestion(composing);
+			suggestions.add(composingSuggestion);
 
 			if(!mDicLanguage.contains(suggestions.getComposing())
 					&& !mDicLanguage.contains(suggestions.getComposing().toLowerCase())) {
@@ -400,18 +400,18 @@ public final class Suggestor {
 	}
 
 
-	private static class PrefixSuggestion extends Suggestion {
+	private static class ComposingSuggestion extends Suggestion {
 		private final double mScore;
 		private final static int ORDER = 0;
 
 
-		private PrefixSuggestion(final String word) {
+		private ComposingSuggestion(final String word) {
 			super(word, ORDER);
 			mScore = 0;
 		}
 
 
-		private PrefixSuggestion(final Suggestion suggestion) {
+		private ComposingSuggestion(final Suggestion suggestion) {
 			super(suggestion.getWord(), 0);
 			mScore = suggestion.getScore();
 		}
@@ -419,10 +419,10 @@ public final class Suggestor {
 
 		@Override
 		protected int compareTo(final Suggestion suggestion, final String prefix) {
-			if(!(suggestion instanceof PrefixSuggestion)) {
+			if(!(suggestion instanceof ComposingSuggestion)) {
 				return super.compareTo(suggestion, prefix);
 			}
-			PrefixSuggestion another = (PrefixSuggestion) suggestion;
+			ComposingSuggestion another = (ComposingSuggestion) suggestion;
 
 			return mScore == another.mScore ? 0 : (mScore < another.mScore ? -1 : 1);
 		}
