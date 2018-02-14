@@ -400,18 +400,18 @@ public final class Suggestor {
 	}
 
 
-	public static class PrefixSuggestion extends Suggestion {
+	private static class PrefixSuggestion extends Suggestion {
 		private final double mScore;
 		private final static int ORDER = 0;
 
 
-		public PrefixSuggestion(final String word) {
+		private PrefixSuggestion(final String word) {
 			super(word, ORDER);
 			mScore = 0;
 		}
 
 
-		public PrefixSuggestion(final Suggestion suggestion) {
+		private PrefixSuggestion(final Suggestion suggestion) {
 			super(suggestion.getWord(), 0);
 			mScore = suggestion.getScore();
 		}
