@@ -82,7 +82,7 @@ import com.comet.keyboard.dictionary.radixtrie.RadixTrie;
 
 	
 	@Override
-	public Suggestions getSuggestions(SuggestionRequest request) {
+	public Suggestions getSuggestions(SuggestionsRequest request) {
 		final Suggestions suggestions = new Suggestions(request);
 		return findSuggestionsInTrie(suggestions, mTrie.getRoot(), 1);
 	}

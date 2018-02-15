@@ -24,7 +24,7 @@ public class ContactsDictionary implements Dictionary {
 	
 	
 	@Override
-	public Suggestions getSuggestions(SuggestionRequest request) {
+	public Suggestions getSuggestions(SuggestionsRequest request) {
 		final Suggestions suggestions = new Suggestions(request);
 		String composing = suggestions.getComposing();
 		if(composing != null && composing.length() < 5)

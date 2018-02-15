@@ -17,13 +17,13 @@ import java.util.Iterator;
  *
  */
 public class Suggestions implements Cloneable, Iterable<Suggestion> {
-    private final SuggestionRequest mRequest;
+    private final SuggestionsRequest mRequest;
     /*package*/ int mDefault = 0;
     private BoundedPriorityQueue<Suggestion> mSuggestions;
     public static final int MAX_SUGGESTIONS = 12;
 
 
-    /*package*/ Suggestions(final SuggestionRequest request) {
+    /*package*/ Suggestions(final SuggestionsRequest request) {
         mRequest = request;
         mSuggestions = new BoundedPriorityQueue<>(new SuggestionComparator(getComposing()), MAX_SUGGESTIONS);
     }
@@ -40,7 +40,7 @@ public class Suggestions implements Cloneable, Iterable<Suggestion> {
     }
 
 
-    public SuggestionRequest getRequest() {
+    public SuggestionsRequest getRequest() {
         return mRequest;
     }
 

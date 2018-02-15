@@ -65,7 +65,7 @@ public class LookAheadDictionary extends TrieDictionary {
 
 
 	@Override
-	public Suggestions getSuggestions(SuggestionRequest request) {
+	public Suggestions getSuggestions(SuggestionsRequest request) {
 		final Suggestions suggestions = new Suggestions(request);
 		StringBuilder word1 = new StringBuilder();
 		StringBuilder word2 = new StringBuilder();

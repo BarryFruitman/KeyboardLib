@@ -14,7 +14,7 @@ public final class CacheDictionary implements LearningDictionary {
 
 
 	@Override
-	public Suggestions getSuggestions(SuggestionRequest request) {
+	public Suggestions getSuggestions(SuggestionsRequest request) {
 		final Suggestions suggestions = new Suggestions(request);
 		if(suggestions.getComposing().length() > 2)
 			return mDicCached.getSuggestions(request);

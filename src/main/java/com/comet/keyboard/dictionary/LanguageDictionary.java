@@ -72,7 +72,7 @@ public final class LanguageDictionary extends TrieDictionary {
 
 
 	@Override
-	public Suggestions getSuggestions(SuggestionRequest request) {
+	public Suggestions getSuggestions(SuggestionsRequest request) {
 		final Suggestions suggestions = new Suggestions(request);
 		if(getCountSum() <= 0) {
 			return suggestions;

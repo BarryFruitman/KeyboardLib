@@ -2,19 +2,19 @@ package com.comet.keyboard.dictionary;
 
 import android.support.annotation.NonNull;
 
-public final class SuggestionRequest {
+public final class SuggestionsRequest {
     private boolean mExpired = false;
     private final String mComposing;
     private final Suggestor.SuggestionsListener mListener;
 
 
-    /*package*/ SuggestionRequest(String composing) {
+    /*package*/ SuggestionsRequest(String composing) {
         mComposing = composing;
         mListener = null;
     }
 
 
-    /*package*/ SuggestionRequest(String composing, @NonNull Suggestor.SuggestionsListener listener) {
+    /*package*/ SuggestionsRequest(String composing, @NonNull Suggestor.SuggestionsListener listener) {
         mComposing = composing;
         mListener = listener;
     }

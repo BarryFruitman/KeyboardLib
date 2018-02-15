@@ -32,7 +32,7 @@ public class ShortcutsDictionary implements Dictionary {
 
 	
 	@Override
-	public Suggestions getSuggestions(SuggestionRequest request) {
+	public Suggestions getSuggestions(SuggestionsRequest request) {
 		final Suggestions suggestions = new Suggestions(request);
 		for(int iShortcut = 0; iShortcut < mShortcuts.size(); iShortcut++) {
 			ShortcutData shortcut = mShortcuts.get(iShortcut);

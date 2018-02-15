@@ -41,7 +41,7 @@ public final class Suggestor {
 	private final Dictionary mDicShortcuts;
 	private final Dictionary mDicNumber;
 	private static Suggestor mInstance = null;
-	private SuggestionRequest mPendingRequest = null;
+	private SuggestionsRequest mPendingRequest = null;
 	private final ThreadPool mThreadPool;
 	private boolean mPredictNextWord;
 	private boolean mIncludeContacts;
@@ -82,7 +82,7 @@ public final class Suggestor {
 	};
 
 
-	private synchronized void newPendingRequest(final SuggestionRequest request) {
+	private synchronized void newPendingRequest(final SuggestionsRequest request) {
 		if(mPendingRequest != null) {
 			mPendingRequest.setExpired();
 		}
@@ -92,7 +92,7 @@ public final class Suggestor {
 
 
 	public void findSuggestionsAsync(final String composing, final SuggestionsListener listener) {
-		final SuggestionRequest request = new SuggestionRequest(composing, listener);
+		final SuggestionsRequest request = new SuggestionsRequest(composing, listener);
 
 		mThreadPool.run(new Runnable() {
 			public void run() {
@@ -165,11 +165,11 @@ public final class Suggestor {
 
 
 	public Suggestions findSuggestions(final String composing) {
-		return findSuggestions(new SuggestionRequest(composing));
+		return findSuggestions(new SuggestionsRequest(composing));
 	}
 
 
-	public Suggestions findSuggestions(final SuggestionRequest request) {
+	public Suggestions findSuggestions(final SuggestionsRequest request) {
 		final Suggestions suggestions = new Suggestions(request);
 
 		// Terminate previous thread
