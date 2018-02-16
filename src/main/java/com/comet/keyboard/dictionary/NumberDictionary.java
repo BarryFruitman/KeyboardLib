@@ -20,7 +20,7 @@ public class NumberDictionary implements Dictionary {
 
 	@Override
 	public Suggestions getSuggestions(SuggestionsRequest request) {
-		final Suggestions suggestions = new Suggestions(request);
+		final NumberSuggestions suggestions = new NumberSuggestions(request);
 		String composing = suggestions.getComposing();
 		if(!mNumberPattern.matcher(composing).matches())
 			return suggestions;
@@ -66,7 +66,14 @@ public class NumberDictionary implements Dictionary {
 	}
 
 
-	public static class NumberSuggestion extends Suggestion {
+	private static class NumberSuggestions extends SortedSuggestions {
+		NumberSuggestions(SuggestionsRequest request) {
+			super(request);
+		}
+	}
+
+
+	private static class NumberSuggestion extends Suggestion {
 
 		enum NumberType {
 			NORMAL,

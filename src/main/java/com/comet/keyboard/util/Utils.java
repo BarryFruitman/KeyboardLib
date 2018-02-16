@@ -194,7 +194,7 @@ public class Utils {
 	public static String getStringDate(long longDate){
 		String resultDate;
 
-		// TimeZone mytimezone = TimeZone.getDefault();
+		// TimeZone mytimezone = TimeZone.getDefaultIndex();
 		// int offset = mytimezone.getRawOffset();
 		
 		//long tmpPubDate = Long.parseLong(longDate + "000") + offset;

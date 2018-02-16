@@ -25,7 +25,7 @@ public class ContactsDictionary implements Dictionary {
 	
 	@Override
 	public Suggestions getSuggestions(SuggestionsRequest request) {
-		final Suggestions suggestions = new Suggestions(request);
+		final ContactSuggestions suggestions = new ContactSuggestions(request);
 		String composing = suggestions.getComposing();
 		if(composing != null && composing.length() < 5)
 			// Don't look up short words
@@ -47,7 +47,7 @@ public class ContactsDictionary implements Dictionary {
 	        String name = cursor.getString(cursor.getColumnIndex(PhoneLookup.DISPLAY_NAME));
 	        String names[] = name.split(" ");
 	        for(int iName = 0; iName < names.length; iName++)
-	        	if(names[iName].toLowerCase().startsWith(composing) && suggestions.findIndex(names[iName]) != -1)
+	        	if(names[iName].toLowerCase().startsWith(composing) && suggestions.getSuggestions().contains(names[iName]))
 	        		suggestions.add(new ContactSuggestion(names[iName]));
 		}
 		cursor.close();
@@ -56,8 +56,14 @@ public class ContactsDictionary implements Dictionary {
 	}
 
 
+	private static class ContactSuggestions extends SortedSuggestions {
+		ContactSuggestions(SuggestionsRequest request) {
+			super(request);
+		}
+	}
 
-	public static class ContactSuggestion extends Suggestion {
+
+	private static class ContactSuggestion extends Suggestion {
 
 		public ContactSuggestion(String name) {
 			super(name, 2);

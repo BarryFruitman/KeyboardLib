@@ -30,7 +30,7 @@ import java.util.Iterator;
 import com.comet.keyboard.KeyboardApp;
 import com.comet.keyboard.KeyboardService;
 import com.comet.keyboard.dictionary.Suggestion;
-import com.comet.keyboard.dictionary.Suggestions;
+import com.comet.keyboard.dictionary.Suggestor.FinalSuggestions;
 import com.comet.keyboard.dictionary.Suggestor.SuggestionsExpiredException;
 
 public class SpellCheckService extends SpellCheckerService {
@@ -79,7 +79,8 @@ public class SpellCheckService extends SpellCheckerService {
 
             	try {
             		// TODO Checking suggestions again is incredibly inefficient!
-            		Suggestions suggestions = KeyboardService.getIME().mSuggestor.findSuggestions(input);
+            		FinalSuggestions suggestions = KeyboardService.getIME().mSuggestor.findSuggestions(input);
+
             		suggestions.matchCase();
 
             		if(suggestions.size() > 0)

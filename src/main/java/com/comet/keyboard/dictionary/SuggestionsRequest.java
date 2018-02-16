@@ -8,13 +8,15 @@ public final class SuggestionsRequest {
     private final Suggestor.SuggestionsListener mListener;
 
 
-    /*package*/ SuggestionsRequest(String composing) {
+    /*package*/ SuggestionsRequest(final String composing) {
         mComposing = composing;
         mListener = null;
     }
 
 
-    /*package*/ SuggestionsRequest(String composing, @NonNull Suggestor.SuggestionsListener listener) {
+    /*package*/ SuggestionsRequest(
+            final String composing,
+            @NonNull final Suggestor.SuggestionsListener listener) {
         mComposing = composing;
         mListener = listener;
     }

@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.comet.keyboard.dictionary.Suggestion;
 import com.comet.keyboard.dictionary.Suggestions;
+import com.comet.keyboard.dictionary.Suggestor.FinalSuggestions;
 import com.comet.keyboard.settings.CandidateHeightSetting;
 import com.comet.keyboard.theme.KeyboardTheme;
 import com.comet.keyboard.theme.KeyboardThemeManager;
@@ -38,7 +39,7 @@ public class CandidateView extends View implements OnLongClickListener {
 	public static final int NO_DEFAULT = -1;
 
 	private KeyboardService mIME;
-    private Suggestions mSuggestions;
+    private FinalSuggestions mSuggestions;
     public String mOrgWord;
     public String mDisplayMessage;
     
@@ -58,7 +59,7 @@ public class CandidateView extends View implements OnLongClickListener {
     
     private static final int X_GAP = 10;
     
-    private static final Suggestions EMPTY_LIST = null;
+    private static final FinalSuggestions EMPTY_LIST = null;
 
     private int mVerticalPadding;
     private Paint mPaint;
@@ -240,10 +241,9 @@ public class CandidateView extends View implements OnLongClickListener {
         if(mSuggestions == null) return;
         
         // Draw the rest of the suggestions
-        Object[] aSuggestions = mSuggestions.getSuggestions().toArray();
         final int count = Math.min(mSuggestions.size(), Suggestions.MAX_SUGGESTIONS);
         for (int i = 0; i < count; i++) {
-            Suggestion suggestion = (Suggestion) aSuggestions[i];
+            Suggestion suggestion = (Suggestion) mSuggestions.getSuggestions().get(i);
             
             // Compute text metrics
             float textWidth = paint.measureText(suggestion.getWord());
@@ -251,7 +251,7 @@ public class CandidateView extends View implements OnLongClickListener {
 
             mWordX[i] = x;
             mWordWidth[i] = wordWidth;
-    		if (mIME.mAutoSelect && i == mSuggestions.getDefault()) {
+    		if (mIME.mAutoSelect && i == mSuggestions.getDefaultIndex()) {
     			// This is the default suggestion
     			paint.setColor(KeyboardThemeManager.getCurrentTheme().getCandidateRecommendedColor());
     			paint.setFakeBoldText(true);
@@ -337,7 +337,7 @@ public class CandidateView extends View implements OnLongClickListener {
         mSelectedIndex = NO_DEFAULT;
     }
 
-    public boolean setSuggestions(Suggestions suggestions) {
+    public boolean setSuggestions(FinalSuggestions suggestions) {
     	if (mMessageType == MessageType.MESSAGE_STATIC)
     		return false;
     	

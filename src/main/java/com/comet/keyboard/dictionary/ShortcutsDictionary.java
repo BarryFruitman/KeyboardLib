@@ -33,7 +33,7 @@ public class ShortcutsDictionary implements Dictionary {
 	
 	@Override
 	public Suggestions getSuggestions(SuggestionsRequest request) {
-		final Suggestions suggestions = new Suggestions(request);
+		final ShortcutSuggestions suggestions = new ShortcutSuggestions(request);
 		for(int iShortcut = 0; iShortcut < mShortcuts.size(); iShortcut++) {
 			ShortcutData shortcut = mShortcuts.get(iShortcut);
 			if(shortcut.mKeystroke.equalsIgnoreCase(suggestions.getComposing())) {
@@ -63,6 +63,12 @@ public class ShortcutsDictionary implements Dictionary {
 		return false;
 	}
 
+
+	private static class ShortcutSuggestions extends SortedSuggestions {
+		ShortcutSuggestions(SuggestionsRequest request) {
+			super(request);
+		}
+	}
 
 
 	public static class ShortcutSuggestion extends Suggestion {

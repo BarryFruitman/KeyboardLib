@@ -72,7 +72,7 @@ public final class Suggestor {
 	private Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(final Message result) {
-			Suggestions suggestions = (Suggestions) result.obj;
+			FinalSuggestions suggestions = (FinalSuggestions) result.obj;
 			if(!suggestions.isExpired()
 					&& suggestions.getRequest() != null
 					&& suggestions.getRequest().getListener() != null) {
@@ -112,7 +112,7 @@ public final class Suggestor {
 
 
 	public interface SuggestionsListener {
-		void onSuggestionsReady(Suggestions suggestions);
+		void onSuggestionsReady(FinalSuggestions suggestions);
 	}
 
 
@@ -164,19 +164,19 @@ public final class Suggestor {
 	}
 
 
-	public Suggestions findSuggestions(final String composing) {
+	public FinalSuggestions findSuggestions(final String composing) {
 		return findSuggestions(new SuggestionsRequest(composing));
 	}
 
 
-	public Suggestions findSuggestions(final SuggestionsRequest request) {
-		final Suggestions suggestions = new Suggestions(request);
+	public FinalSuggestions findSuggestions(final SuggestionsRequest request) {
+		final FinalSuggestions suggestions = new FinalSuggestions(request);
 
 		// Terminate previous thread
 		newPendingRequest(request);
 
 		// Get look-ahead suggestions
-		Suggestions lookAheadSuggestions = new Suggestions(request);
+		Suggestions lookAheadSuggestions = new SortedSuggestions(request);
 		if (mPredictNextWord) {
 			lookAheadSuggestions = mDicLookAhead.getSuggestions(request);
 		}
@@ -185,7 +185,7 @@ public final class Suggestor {
 			// There is no composing to match. Just return the look-ahead matches.
 			suggestions.addAll(lookAheadSuggestions);
 			suggestions.matchCase();
-			suggestions.noDefault();
+			suggestions.setNoDefault();
 			removeDuplicates(suggestions);
 			return suggestions;
 		}
@@ -194,11 +194,10 @@ public final class Suggestor {
 		final Suggestions numberSuggestions = mDicNumber.getSuggestions(request);
 
 		// Add shortcut suggestions
-		final Suggestions shortcutsSuggestions =
-				mDicShortcuts.getSuggestions(request);
+		final Suggestions shortcutsSuggestions = mDicShortcuts.getSuggestions(request);
 
 		// Get contact suggestions
-		Suggestions contactsSuggestions = new Suggestions(request);
+		Suggestions contactsSuggestions = null;
 		if(mIncludeContacts) {
 			contactsSuggestions = mDicContacts.getSuggestions(request);
 		}
@@ -225,12 +224,12 @@ public final class Suggestor {
 	}
 
 
-	private void addComposingSuggestion(Suggestions suggestions) {
+	private void addComposingSuggestion(FinalSuggestions suggestions) {
 		boolean hasShortcut = false;
 		boolean hasPerfect = false;
 		final String composing = suggestions.getComposing();
 		final Iterator<Suggestion> iterator = suggestions.iterator();
-		final Suggestions composingMatches = new Suggestions(suggestions.getRequest());
+		final Suggestions composingMatches = new SortedSuggestions(suggestions.getRequest());
 
 		while(iterator.hasNext()) {
 			Suggestion suggestion = iterator.next();
@@ -251,13 +250,13 @@ public final class Suggestor {
 		if(composingMatches.size() > 0) {
 			suggestions.addAll(composingMatches);
 			if(hasShortcut) {
-				suggestions.mDefault = composingMatches.size();
+				suggestions.mDefaultIndex = composingMatches.size();
 			}
 			if(!hasPerfect) {
 				// Add the composing as the perfect (non-default) match
 				ComposingSuggestion composingSuggestion = new ComposingSuggestion(composing);
 				suggestions.add(composingSuggestion);
-				suggestions.mDefault++;
+				suggestions.mDefaultIndex++;
 			}
 		} else {
 			// Add the composing as the first match
@@ -267,17 +266,17 @@ public final class Suggestor {
 			if(!mDicLanguage.contains(suggestions.getComposing())
 					&& !mDicLanguage.contains(suggestions.getComposing().toLowerCase())) {
 				// Don't make it the default
-				suggestions.mDefault++;
+				suggestions.mDefaultIndex++;
 			}
 		}
 
 		if(suggestions.getDefaultSuggestion().getScore() > MIN_SCORE_FOR_DEFAULT) {
-			suggestions.mDefault = -1;
+			suggestions.mDefaultIndex = -1;
 		}
 	}
 
 
-	private void removeDuplicates(Suggestions suggestions) {
+	private void removeDuplicates(FinalSuggestions suggestions) {
 		final Iterator<Suggestion> iterator = suggestions.iterator();
 		final ArrayList<String> words = new ArrayList<String>();
 		int iSuggestion = -1;
@@ -289,14 +288,52 @@ public final class Suggestor {
 				continue;
 			} else {
 				iterator.remove();
-				if(iSuggestion < suggestions.mDefault) {
-					suggestions.mDefault--;
-				} else if(iSuggestion == suggestions.mDefault) {
+				if(iSuggestion < suggestions.mDefaultIndex) {
+					suggestions.mDefaultIndex--;
+				} else if(iSuggestion == suggestions.mDefaultIndex) {
 					// Deleting the default???
 					// Don't do it
 					continue;
 				}
 			}
+		}
+	}
+
+
+	public class FinalSuggestions extends SortedSuggestions {
+		private int mDefaultIndex;
+
+		private FinalSuggestions(SuggestionsRequest request) {
+			super(request);
+		}
+
+
+		public int getDefaultIndex() {
+			return mDefaultIndex;
+		}
+
+
+		public Suggestion getDefaultSuggestion() {
+			if(mDefaultIndex < 0 || getSuggestions().size() < mDefaultIndex) {
+				return null;
+			}
+
+			Iterator<Suggestion> iterator = getSuggestions().iterator();
+			Suggestion result = null;
+			int i = 0;
+			while(iterator.hasNext()) {
+				result = iterator.next();
+				if(i++ == mDefaultIndex) {
+					break;
+				}
+			}
+
+			return result;
+		}
+
+
+		public void setNoDefault() {
+			mDefaultIndex = -1;
 		}
 	}
 
@@ -366,7 +403,7 @@ public final class Suggestor {
 		final SharedPreferences sharedPrefs = KeyboardApp.getApp().getSharedPreferences(Settings.SETTINGS_FILE, Context.MODE_PRIVATE);
 		mLanguage = Language.createLanguage(sharedPrefs.getString("language", "en"));
 		mCollator = new KeyCollator(mLanguage, KeyboardLayout.getCurrentLayout());
-		mDicLanguage = new CacheDictionary(new LanguageDictionary(mContext, mCollator));
+		mDicLanguage = new LanguageDictionary(mContext, mCollator);
 		mDicLookAhead = new LookAheadDictionary(mContext, mCollator);
 	}
 

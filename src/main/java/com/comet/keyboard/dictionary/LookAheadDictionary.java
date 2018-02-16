@@ -66,7 +66,7 @@ public class LookAheadDictionary extends TrieDictionary {
 
 	@Override
 	public Suggestions getSuggestions(SuggestionsRequest request) {
-		final Suggestions suggestions = new Suggestions(request);
+		final Suggestions suggestions = new SortedSuggestions(request);
 		StringBuilder word1 = new StringBuilder();
 		StringBuilder word2 = new StringBuilder();
 		// TODO: extracting words from KeyboardService is hacky. Pass them in somehow?
@@ -94,7 +94,7 @@ public class LookAheadDictionary extends TrieDictionary {
 			suggestions.addAll(lookAheadSuggestions2);
 		}
 
-		if(suggestions.getRequest().getComposing().equals("")) {
+		if(suggestions.getComposing().equals("")) {
 			// Depth = 1
 			if (word2.length() > 0) {
 				String prefix = word2.toString();
@@ -168,12 +168,12 @@ public class LookAheadDictionary extends TrieDictionary {
 	}
 
 
-	private class LookAheadSuggestions extends Suggestions {
+	private class LookAheadSuggestions extends SortedSuggestions {
 		private final int mDepth;
 		private final int mCountSum;
 
 		public LookAheadSuggestions(Suggestions suggestions, String composing, int countSum, int depth) {
-			super(suggestions);
+			super(new SuggestionsRequest(suggestions.getComposing()));
 			
 			mCountSum = countSum;
 			mDepth = depth;

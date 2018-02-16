@@ -58,6 +58,7 @@ import android.widget.Toast;
 
 import com.comet.keyboard.dictionary.Suggestions;
 import com.comet.keyboard.dictionary.Suggestor;
+import com.comet.keyboard.dictionary.Suggestor.FinalSuggestions;
 import com.comet.keyboard.dictionary.Suggestion;
 import com.comet.keyboard.dictionary.DictionaryUtils;
 import com.comet.keyboard.dictionary.updater.DictionaryDownloader;
@@ -95,10 +96,10 @@ import com.google.android.voiceime.VoiceRecognitionTrigger;
  */
 public class KeyboardService extends InputMethodService implements KeyboardView.OnKeyboardActionListener {
 
-    static private KeyboardService mIME;
-    static private final int MAX_INPUT_LENGTH = 499;
-    static private final int MAX_WORD_LENGTH = 32;
-    static private final int VIBRATE_LENGTH_ON_TYPO_CORRECTION = 100;
+    private static KeyboardService mIME;
+    private static final int MAX_INPUT_LENGTH = 499;
+    private static final int MAX_WORD_LENGTH = 32;
+    private static final int VIBRATE_LENGTH_ON_TYPO_CORRECTION = 100;
 
     // click
     static public final int SOUND_CLICK = 0;
@@ -109,7 +110,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
     protected View mKeyboardLayout = null;
     protected CandidateView mCandidateView;
     protected CompletionInfo mCompletions[];
-    private Suggestions mSuggestions;
+    private FinalSuggestions mSuggestions;
 
     private SoundPool mSoundPool;
     private SparseIntArray mSoundsMap;
@@ -2471,7 +2472,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         // returnCandidates() when done.
         mSuggestor.findSuggestionsAsync(composing.toString(), new Suggestor.SuggestionsListener() {
             @Override
-            public void onSuggestionsReady(final Suggestions suggestions) {
+            public void onSuggestionsReady(final FinalSuggestions suggestions) {
                 returnCandidates(suggestions);
             }
         });
@@ -2489,7 +2490,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      *
      * @param suggestions The list of suggestions to display.
      */
-    private void returnCandidates(final Suggestions suggestions) {
+    private void returnCandidates(final FinalSuggestions suggestions) {
         mPendingRequest = false;
         mSuggestions = suggestions;
 
@@ -2524,7 +2525,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
      * @param suggestions The suggestions.
      * @param completions true if these are completions provided by the app, not the suggestor.
      */
-    public void setSuggestions(final Suggestions suggestions, final boolean completions) {
+    public void setSuggestions(final FinalSuggestions suggestions, final boolean completions) {
         // Make sure CandidateView is visible.
         if (suggestions != null && suggestions.size() > 0) {
             setCandidatesViewShown(true);
@@ -3635,8 +3636,8 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         pickSuggestionManually(index);
 
         // Remember word if it's the first suggestion but not the default.
-        if (index == 0 && mSuggestions.getDefault() != 0) {
-            final Suggestion suggestion = mSuggestions.getSuggestion(index);
+        if (index == 0 && mSuggestions.getDefaultIndex() != 0) {
+            final Suggestion suggestion = mSuggestions.getSuggestionAt(index);
             rememberWord(suggestion.getWord());
         }
 
@@ -3677,7 +3678,8 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
             committedWord = orgWord;
         } else {
             // Insert the default suggestion
-            final Suggestion defaultSuggestion = mSuggestions.getDefaultSuggestion();
+            final Suggestion defaultSuggestion =
+                    mSuggestions.getSuggestionAt(mSuggestions.getDefaultIndex());
             if (defaultSuggestion == null) {
                 committedWord = orgWord;
             } else {
@@ -3737,7 +3739,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         } else if (mPredictionOn && mSuggestions != null && index >= 0
                 && mSuggestions.size() > 0 && index < mSuggestions.size()) {
             // Use dictionary suggestion
-            String prediction = mSuggestions.getSuggestion(index).getWord();
+            String prediction = mSuggestions.getSuggestionAt(index).getWord();
             committedStr = prediction;
 
             setLastWord(prediction);
@@ -4290,7 +4292,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         // Candidate View
         protected boolean isCandidateViewShown = false;
         protected String orgWord;
-        protected Suggestions suggestions;
+        protected FinalSuggestions suggestions;
         protected boolean completions;
 
         protected boolean mChanged = false;
@@ -4336,7 +4338,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         }
 
         // Save current suggestions
-        protected void saveSuggestions(Suggestions suggestions,
+        protected void saveSuggestions(FinalSuggestions suggestions,
                                        boolean completions) {
             this.suggestions = suggestions;
             this.completions = completions;

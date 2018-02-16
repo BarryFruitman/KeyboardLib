@@ -66,7 +66,7 @@ public class LanguageSelector extends Activity implements View.OnClickListener {
 		Assert.assertTrue(mLangCodes != null);
 
 		// Retrieve system language
-//		Locale currLocale = java.util.Locale.getDefault();
+//		Locale currLocale = java.util.Locale.getDefaultIndex();
 //		mCurrLocaleLang = currLocale.getLanguage().toString();
 		
 		// Load language preference
