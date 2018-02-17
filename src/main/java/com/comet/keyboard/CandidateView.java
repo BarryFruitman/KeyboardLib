@@ -243,7 +243,7 @@ public class CandidateView extends View implements OnLongClickListener {
         // Draw the rest of the suggestions
         final int count = Math.min(mSuggestions.size(), Suggestions.MAX_SUGGESTIONS);
         for (int i = 0; i < count; i++) {
-            Suggestion suggestion = (Suggestion) mSuggestions.getSuggestions().get(i);
+            Suggestion suggestion = (Suggestion) mSuggestions.get(i);
             
             // Compute text metrics
             float textWidth = paint.measureText(suggestion.getWord());

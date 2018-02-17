@@ -20,6 +20,8 @@ import com.comet.keyboard.util.ProfileTracer;
 
 import junit.framework.Assert;
 
+import java.util.Comparator;
+
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
 
 
@@ -66,7 +68,7 @@ public class LookAheadDictionary extends TrieDictionary {
 
 	@Override
 	public Suggestions getSuggestions(SuggestionsRequest request) {
-		final Suggestions suggestions = new SortedSuggestions(request);
+		final SortedSuggestions suggestions = new SortedSuggestions(request, mComparator);
 		StringBuilder word1 = new StringBuilder();
 		StringBuilder word2 = new StringBuilder();
 		// TODO: extracting words from KeyboardService is hacky. Pass them in somehow?
@@ -83,7 +85,7 @@ public class LookAheadDictionary extends TrieDictionary {
 	}
 
 
-	private Suggestions getSuggestions(StringBuilder word1, StringBuilder word2, Suggestions suggestions) {
+	private Suggestions getSuggestions(StringBuilder word1, StringBuilder word2, SortedSuggestions suggestions) {
 		// Depth = 2
 		if(word1.length() > 0 && word2.length() > 0) {
 			String prefix = word1 + " " + word2;
@@ -114,6 +116,12 @@ public class LookAheadDictionary extends TrieDictionary {
 	protected void addSuggestion(Suggestions suggestions, String word, int count, double editDistance) {
 		// TODO: THIS CAST IS HACKY
 		suggestions.add(new LookAheadSuggestion(word, count, getCountSum(), editDistance, ((LookAheadSuggestions) suggestions).mDepth));
+	}
+
+
+	@Override
+	protected Comparator<LookAheadSuggestion> getComparator() {
+		return mComparator;
 	}
 
 
@@ -173,8 +181,8 @@ public class LookAheadDictionary extends TrieDictionary {
 		private final int mCountSum;
 
 		public LookAheadSuggestions(Suggestions suggestions, String composing, int countSum, int depth) {
-			super(new SuggestionsRequest(suggestions.getComposing()));
-			
+			super(new SuggestionsRequest(suggestions.getComposing()), mComparator);
+
 			mCountSum = countSum;
 			mDepth = depth;
 		}
@@ -189,7 +197,7 @@ public class LookAheadDictionary extends TrieDictionary {
 		private final int mDepth;
 
 		public LookAheadSuggestion(String word, int count, int countSum, double editDistance, int depth) {
-			super(word, 4);
+			super(word);
 
 			mCount = count;
 			mEditDistance = editDistance;
@@ -210,43 +218,8 @@ public class LookAheadDictionary extends TrieDictionary {
 		}
 		
 
-		@Override
 		public double getScore() {
 			return mScore;
-		}
-
-		
-		@Override
-		protected int compareTo(Suggestion suggestion, String composing) {
-			if(!(suggestion instanceof LookAheadSuggestion)) {
-				return super.compareTo(suggestion, composing);
-			}
-
-			final LookAheadSuggestion another = (LookAheadSuggestion) suggestion;
-
-			if(mDepth != another.mDepth) {
-				return another.mDepth - mDepth;
-			}
-
-			// Is either one an exact match?
-			if(mEditDistance == 0 && mWord.length() == composing.length()) {
-				return -1;
-			} else {
-				if(another.mEditDistance == 0 && another.mWord.length() == composing.length()) {
-					return 1;
-				}
-			}
-
-			// Compare scores
-			final double score = getScore();
-			final double otherScore = another.getScore();
-
-			if(score == otherScore) {
-				return getWord().compareTo(another.getWord());
-			}
-			
-			// Return the comparison
-			return score < otherScore ? -1 : 1;
 		}
 
 
@@ -255,6 +228,36 @@ public class LookAheadDictionary extends TrieDictionary {
 			return "LookAhead(" + getWord() + "," + mEditDistance + "," + mDepth + "," + String.format("%.4f", mFrequency) + "," + String.format("%.4f", getScore()) + ")";
 		}
 	}
+
+
+	private final Comparator<LookAheadSuggestion> mComparator = new Comparator<LookAheadSuggestion>() {
+		@Override
+		public int compare(LookAheadSuggestion o1, LookAheadSuggestion o2) {
+			if(o1.mDepth != o2.mDepth) {
+				return o2.mDepth - o2.mDepth;
+			}
+
+			// Is either one an exact match?
+			if(o1.mEditDistance == 0 /*&& mWord.length() == composing.length()*/) {
+				return -1;
+			} else {
+				if(o2.mEditDistance == 0 /*&& another.mWord.length() == composing.length()*/) {
+					return 1;
+				}
+			}
+
+			// Compare scores
+			final double score = o1.getScore();
+			final double otherScore = o2.getScore();
+
+			if(score == otherScore) {
+				return o1.getWord().compareTo(o2.getWord());
+			}
+
+			// Return the comparison
+			return score < otherScore ? -1 : 1;
+		}
+	};
 
 
 	/**

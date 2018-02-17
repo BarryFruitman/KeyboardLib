@@ -2,21 +2,17 @@ package com.comet.keyboard.dictionary;
 
 import com.comet.keyboard.KeyboardService;
 
-import junit.framework.Assert;
-
 /**
  * Abstract parent class for all suggestion types.
  * @author Barry Fruitman
  *
  */
-public abstract class Suggestion implements Cloneable {
-    protected int mOrder;
-    protected String mWord;
+public abstract class Suggestion {
+    private String mWord;
 
 
-    /*package*/ Suggestion(final String word, final int order) {
+    /*package*/ Suggestion(final String word) {
         mWord = word;
-        mOrder = order;
     }
 
 
@@ -27,21 +23,6 @@ public abstract class Suggestion implements Cloneable {
 
     protected void setWord(final String word) {
         mWord = word;
-    }
-
-
-    public int getOrder() {
-        return mOrder;
-    }
-
-
-    public double getScore() {
-        return 0;
-    }
-
-
-    protected int compareTo(final Suggestion another, final String composing) {
-        return another.getOrder() - getOrder();
     }
 
 
@@ -58,27 +39,9 @@ public abstract class Suggestion implements Cloneable {
             return ((Suggestion) object).getWord().equals(mWord);
         }
 
-        if(object instanceof String) {
-            return ((String) object).equals(mWord);
-        }
-
-        return false;
+        return object instanceof String && object.equals(mWord);
     }
 
-
-    @Override
-    public Object clone()  {
-        try {
-            final Suggestion s = (Suggestion) super.clone();
-            s.mWord = new String(mWord);
-            return s;
-        } catch (CloneNotSupportedException e) {
-            // Should never reach here since this class implements Clonable and its parent is Object.
-            Assert.assertTrue("The class '" + this.getClass().getName() + "' is not clonable.", true); // Just in case.
-        }
-
-        return null;
-    }
 
     @Override
     public String toString() {

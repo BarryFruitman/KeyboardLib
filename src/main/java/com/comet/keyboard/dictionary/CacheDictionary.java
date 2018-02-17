@@ -14,17 +14,17 @@ public final class CacheDictionary /*implements LearningDictionary*/ {
 //
 //
 //	@Override
-//	public Suggestions getSuggestions(SuggestionsRequest request) {
+//	public Suggestions getSuggestionsList(SuggestionsRequest request) {
 //		final Suggestions suggestions = new Suggestions(request);
 //		if(suggestions.getComposing().length() > 2)
-//			return mDicCached.getSuggestions(request);
+//			return mDicCached.getSuggestionsList(request);
 //
 //		Suggestions cachedSuggestions = mCache.get(suggestions.getComposing());
 //		if(cachedSuggestions != null)
 //			return cachedSuggestions;
 //
 //		// Cache these suggestions on-the-fly
-//		cachedSuggestions = mDicCached.getSuggestions(request);
+//		cachedSuggestions = mDicCached.getSuggestionsList(request);
 //		mCache.put(suggestions.getComposing(), (Suggestions) cachedSuggestions.clone()); // Flag as cached
 //
 //		return cachedSuggestions;

@@ -8,6 +8,8 @@ import com.comet.keyboard.dictionary.Suggestor.SuggestionsExpiredException;
 import com.comet.keyboard.dictionary.radixtrie.Node;
 import com.comet.keyboard.dictionary.radixtrie.RadixTrie;
 
+import java.util.Comparator;
+
 /*package*/ abstract class TrieDictionary implements LearningDictionary {
 
 	private static final int MAX_DELETABLE_COUNT = 100;
@@ -80,10 +82,10 @@ import com.comet.keyboard.dictionary.radixtrie.RadixTrie;
 		return node.getCount();
 	}
 
-	
+
 	@Override
 	public Suggestions getSuggestions(SuggestionsRequest request) {
-		final Suggestions suggestions = new SortedSuggestions(request);
+		final Suggestions suggestions = new SortedSuggestions(request, getComparator());
 		return findSuggestionsInTrie(suggestions, mTrie.getRoot(), 1);
 	}
 
@@ -253,6 +255,9 @@ import com.comet.keyboard.dictionary.radixtrie.RadixTrie;
 			String word,
 			int count,
 			double editDistance);
+
+
+	abstract protected Comparator<? extends Suggestion> getComparator();
 
 
 	/**

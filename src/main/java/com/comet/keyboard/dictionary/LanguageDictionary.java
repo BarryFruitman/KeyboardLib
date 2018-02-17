@@ -14,12 +14,13 @@ import com.comet.keyboard.layouts.KeyboardLayout;
 
 import junit.framework.Assert;
 
+import java.util.Comparator;
+
 
 public final class LanguageDictionary extends TrieDictionary {
 
 	private static TrieDictionary mLoading = null;
 	private LanguageDictionaryDB mLanguageDB;
-	private int countSum;
 
 
 	/*package*/ LanguageDictionary(Context context, KeyCollator collator) {
@@ -137,6 +138,28 @@ public final class LanguageDictionary extends TrieDictionary {
 	}
 
 
+	@Override
+	protected Comparator<LanguageSuggestion> getComparator() {
+		return mComparator;
+	}
+
+
+	private final Comparator<LanguageSuggestion> mComparator = new Comparator<LanguageSuggestion>() {
+		@Override
+		public int compare(LanguageSuggestion suggestion1, LanguageSuggestion o2) {
+			double score = suggestion1.getScore();
+			double otherScore = o2.getScore();
+
+			if(score == otherScore) {
+				return suggestion1.getWord().compareTo(o2.getWord());
+			}
+
+			// Return the comparison
+			return score < otherScore ? -1 : 1;
+		}
+	};
+
+
 	/**
 	 * Class LanguageSuggestion
 	 * @author Barry
@@ -148,7 +171,7 @@ public final class LanguageDictionary extends TrieDictionary {
 		private final double mScore;
 
 		public LanguageSuggestion(String word, int count, int countSum, double editDistance) {
-			super(word, 6);
+			super(word);
 			mCount = count;
 			mFrequency = (double) count / (double) countSum;
 			mEditDistance = editDistance;
@@ -164,37 +187,16 @@ public final class LanguageDictionary extends TrieDictionary {
 
 			return score;
 		}
+
 		
-		
-		@Override
 		public double getScore() {
 			return mScore;
-		}
-		
-		
-		@Override
-		protected int compareTo(Suggestion suggestion, String composing) {
-			if(!(suggestion instanceof LanguageDictionary.LanguageSuggestion)) {
-				return super.compareTo(suggestion, composing);
-			}
-
-			LanguageSuggestion another = (LanguageSuggestion) suggestion;
-
-			double score = getScore();
-			double otherScore = another.getScore();
-
-			if(score == otherScore) {
-				return suggestion.getWord().compareTo(another.getWord());
-			}
-
-			// Return the comparison
-			return score < otherScore ? -1 : 1;
 		}
 
 
 		@Override
 		public String toString() {
-			return "Language(" + getWord() + "," + mEditDistance  + "," + mCount + "," + String.format("%.6f", mFrequency) + "," + String.format("%.6f", getScore())  + ")";
+			return getWord() + "," + mEditDistance  + "," + mCount + "," + String.format("%.6f", mFrequency) + "," + String.format("%.6f", getScore())  + ")";
 		}
 	}
 

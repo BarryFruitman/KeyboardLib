@@ -3,24 +3,23 @@ package com.comet.keyboard.dictionary;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
 /**
  * Suggestions is a list of suggestions returned by the various dictionaries.
- * The suggestions are sorted using the provided Comparator and truncated to a max size.
+ * The suggestions are ordered by order of insertion.
  * @author Barry Fruitman
  *
  */
-public class SortedSuggestions<S extends Suggestion> implements Suggestions<S> {
+public class ArraySuggestions<S extends Suggestion> implements Suggestions<S> {
     private final SuggestionsRequest mRequest;
-    private final BoundedPriorityQueue<S> mSuggestions;
+    private ArrayList<S> mSuggestions;
 
 
-    SortedSuggestions(final SuggestionsRequest request, final Comparator<S> comparator) {
+    ArraySuggestions(final SuggestionsRequest request) {
         mRequest = request;
-        mSuggestions = new BoundedPriorityQueue<>(comparator, MAX_SUGGESTIONS);
+        mSuggestions = new ArrayList<>();
     }
 
 
@@ -45,7 +44,7 @@ public class SortedSuggestions<S extends Suggestion> implements Suggestions<S> {
         final Iterator<S> iterator = mSuggestions.iterator();
         final ArrayList<String> words = new ArrayList<>();
         while(iterator.hasNext()) {
-            Suggestion suggestion = iterator.next();
+            S suggestion = iterator.next();
             words.add(suggestion.getWord());
         }
 
@@ -64,12 +63,59 @@ public class SortedSuggestions<S extends Suggestion> implements Suggestions<S> {
             throw new Suggestor.SuggestionsExpiredException();
         }
 
-        return mSuggestions.offer(suggestion);
+        return mSuggestions.add(suggestion);
+    }
+
+
+    public void add(final int index, final S suggestion) {
+        if(suggestion == null) {
+            return;
+        }
+
+        if(mRequest.isExpired()) {
+            // Too late
+            throw new Suggestor.SuggestionsExpiredException();
+        }
+
+        mSuggestions.add(index, suggestion);
+    }
+
+
+    public S get(final int index) {
+        if(index < 0) {
+            return null;
+        }
+
+        return mSuggestions.get(index);
+    }
+
+
+    public S get(final String word) {
+        final int index = indexOf(word);
+        return index >= 0 ? mSuggestions.get(index) : null;
+    }
+
+
+    public int indexOf(final String word) {
+        int iSuggestion;
+        for (iSuggestion = 0; iSuggestion < mSuggestions.size(); iSuggestion++) {
+            final Suggestion suggestion = mSuggestions.get(iSuggestion);
+            if(suggestion.getWord().equals(word)) {
+                return iSuggestion;
+            }
+        }
+
+        return -1;
+    }
+
+
+    public boolean remove(final S suggestion) {
+        return mSuggestions.remove(suggestion);
     }
 
 
     @Override
-    public void addAll(final Suggestions<S> suggestions) {
+    public void addAll(final Suggestions suggestions) {
         if(suggestions == null) {
             return;
         }
@@ -79,7 +125,7 @@ public class SortedSuggestions<S extends Suggestion> implements Suggestions<S> {
             throw new Suggestor.SuggestionsExpiredException();
         }
 
-        mSuggestions.offerAll(suggestions.getSuggestionsList());
+        mSuggestions.addAll(suggestions.getSuggestionsList());
     }
 
 

@@ -16,11 +16,11 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import com.comet.keyboard.KeyboardApp;
 import com.comet.keyboard.KeyboardService;
-import com.comet.keyboard.dictionary.ShortcutsDictionary.ShortcutSuggestion;
 import com.comet.keyboard.languages.Language;
 import com.comet.keyboard.layouts.KeyboardLayout;
 import com.comet.keyboard.settings.Settings;
@@ -69,7 +69,10 @@ public final class Suggestor {
 	}
 
 
-	private Handler mHandler = new Handler() {
+	private Handler mHandler = new SuggestionsHandler();
+
+
+	private static class SuggestionsHandler extends Handler {
 		@Override
 		public void handleMessage(final Message result) {
 			FinalSuggestions suggestions = (FinalSuggestions) result.obj;
@@ -79,7 +82,7 @@ public final class Suggestor {
 				suggestions.getRequest().getListener().onSuggestionsReady(suggestions);
 			}
 		}
-	};
+	}
 
 
 	private synchronized void newPendingRequest(final SuggestionsRequest request) {
@@ -131,7 +134,7 @@ public final class Suggestor {
 		private int mThreadCount = 0;
 
 
-		public ThreadPool() {
+		ThreadPool() {
 			mHandlers = new HashSet<Handler>();
 		}
 
@@ -169,14 +172,14 @@ public final class Suggestor {
 	}
 
 
-	public FinalSuggestions findSuggestions(final SuggestionsRequest request) {
+	private FinalSuggestions findSuggestions(final SuggestionsRequest request) {
 		final FinalSuggestions suggestions = new FinalSuggestions(request);
 
 		// Terminate previous thread
 		newPendingRequest(request);
 
 		// Get look-ahead suggestions
-		Suggestions lookAheadSuggestions = new SortedSuggestions(request);
+		Suggestions lookAheadSuggestions = null;
 		if (mPredictNextWord) {
 			lookAheadSuggestions = mDicLookAhead.getSuggestions(request);
 		}
@@ -186,7 +189,7 @@ public final class Suggestor {
 			suggestions.addAll(lookAheadSuggestions);
 			suggestions.matchCase();
 			suggestions.setNoDefault();
-			removeDuplicates(suggestions);
+			suggestions.removeDuplicates();
 			return suggestions;
 		}
 
@@ -205,102 +208,26 @@ public final class Suggestor {
 		// Get suggestions from language dictionary
 		final Suggestions languageSuggestions = mDicLanguage.getSuggestions(request);
 
-		suggestions.addAll(languageSuggestions);
-		suggestions.addAll(lookAheadSuggestions);
+		suggestions.addAll(shortcutsSuggestions);
 		suggestions.addAll(numberSuggestions);
 		suggestions.addAll(contactsSuggestions);
-		suggestions.addAll(shortcutsSuggestions);
+		suggestions.addAll(languageSuggestions);
+		suggestions.addAll(lookAheadSuggestions);
 
 		// Match case of suggestions to composing.
 		suggestions.matchCase();
 
 		// Make sure composing is one of the suggestions.
-		addComposingSuggestion(suggestions);
+		suggestions.addComposing();
 
 		// Remove duplicates
-		removeDuplicates(suggestions);
+		suggestions.removeDuplicates();
 
 		return suggestions;
 	}
 
 
-	private void addComposingSuggestion(FinalSuggestions suggestions) {
-		boolean hasShortcut = false;
-		boolean hasPerfect = false;
-		final String composing = suggestions.getComposing();
-		final Iterator<Suggestion> iterator = suggestions.iterator();
-		final Suggestions composingMatches = new SortedSuggestions(suggestions.getRequest());
-
-		while(iterator.hasNext()) {
-			Suggestion suggestion = iterator.next();
-			if(mCollator.compareWords(composing, suggestion.getWord())) {
-				// Move this exact match to the top of the list with the composing suggestions.
-				ComposingSuggestion composingSuggestion = new ComposingSuggestion(suggestion);
-				iterator.remove();
-				composingMatches.add(composingSuggestion);
-				if(suggestion.getWord().equals(composing))
-					// This suggestion is a perfect match with the composing
-					hasPerfect = true;
-			} else if(suggestion instanceof ShortcutSuggestion) {
-				// This suggestion is a shortcut
-				hasShortcut = true;
-			}
-		}
-
-		if(composingMatches.size() > 0) {
-			suggestions.addAll(composingMatches);
-			if(hasShortcut) {
-				suggestions.mDefaultIndex = composingMatches.size();
-			}
-			if(!hasPerfect) {
-				// Add the composing as the perfect (non-default) match
-				ComposingSuggestion composingSuggestion = new ComposingSuggestion(composing);
-				suggestions.add(composingSuggestion);
-				suggestions.mDefaultIndex++;
-			}
-		} else {
-			// Add the composing as the first match
-			final ComposingSuggestion composingSuggestion = new ComposingSuggestion(composing);
-			suggestions.add(composingSuggestion);
-
-			if(!mDicLanguage.contains(suggestions.getComposing())
-					&& !mDicLanguage.contains(suggestions.getComposing().toLowerCase())) {
-				// Don't make it the default
-				suggestions.mDefaultIndex++;
-			}
-		}
-
-		if(suggestions.getDefaultSuggestion().getScore() > MIN_SCORE_FOR_DEFAULT) {
-			suggestions.mDefaultIndex = -1;
-		}
-	}
-
-
-	private void removeDuplicates(FinalSuggestions suggestions) {
-		final Iterator<Suggestion> iterator = suggestions.iterator();
-		final ArrayList<String> words = new ArrayList<String>();
-		int iSuggestion = -1;
-		while(iterator.hasNext()) {
-			iSuggestion++;
-			Suggestion suggestion = iterator.next();
-			if(!words.contains(suggestion.getWord())) {
-				words.add(suggestion.getWord());
-				continue;
-			} else {
-				iterator.remove();
-				if(iSuggestion < suggestions.mDefaultIndex) {
-					suggestions.mDefaultIndex--;
-				} else if(iSuggestion == suggestions.mDefaultIndex) {
-					// Deleting the default???
-					// Don't do it
-					continue;
-				}
-			}
-		}
-	}
-
-
-	public class FinalSuggestions extends SortedSuggestions {
+	public class FinalSuggestions extends ArraySuggestions<Suggestion> {
 		private int mDefaultIndex;
 
 		private FinalSuggestions(SuggestionsRequest request) {
@@ -313,27 +240,75 @@ public final class Suggestor {
 		}
 
 
-		public Suggestion getDefaultSuggestion() {
-			if(mDefaultIndex < 0 || getSuggestions().size() < mDefaultIndex) {
-				return null;
-			}
-
-			Iterator<Suggestion> iterator = getSuggestions().iterator();
-			Suggestion result = null;
-			int i = 0;
-			while(iterator.hasNext()) {
-				result = iterator.next();
-				if(i++ == mDefaultIndex) {
-					break;
-				}
-			}
-
-			return result;
+		public void setNoDefault() {
+			mDefaultIndex = -1;
 		}
 
 
-		public void setNoDefault() {
-			mDefaultIndex = -1;
+		public void matchCase() {
+			final Iterator<Suggestion> iterator = iterator();
+			while(iterator.hasNext()) {
+				iterator.next().matchCase(getComposing());
+			}
+		}
+
+
+		public void addComposing() {
+			if(size() > 0 && get(0) instanceof ShortcutsDictionary.ShortcutSuggestion) {
+				mDefaultIndex = 0;
+			}
+
+			Suggestion composingSuggestion = get(getComposing());
+			if(composingSuggestion != null) {
+				// Move it to position zero and make it the default.
+				remove(composingSuggestion);
+				add(0, composingSuggestion);
+				mDefaultIndex = 0;
+			} else {
+				// Move it to position zero and make position one the default.
+				composingSuggestion = new ComposingSuggestion(getComposing());
+				add(0, composingSuggestion);
+				mDefaultIndex = size() == 1 ? -1 : 1;
+			}
+
+//			if(mDefaultIndex >= 0 && mDefaultIndex < size()) {
+//				final Suggestion defaultSuggestion = get(mDefaultIndex);
+//				if (defaultSuggestion instanceof LanguageDictionary.LanguageSuggestion) {
+//					if (((LanguageDictionary.LanguageSuggestion)
+//							defaultSuggestion).getScore() > MIN_SCORE_FOR_DEFAULT) {
+//						setNoDefault();
+//					}
+//				} else if (defaultSuggestion instanceof LookAheadDictionary.LookAheadSuggestion) {
+//					if (((LookAheadDictionary.LookAheadSuggestion)
+//							defaultSuggestion).getScore() > MIN_SCORE_FOR_DEFAULT) {
+//						setNoDefault();
+//					}
+//				}
+//			}
+		}
+
+
+		private void removeDuplicates() {
+			final Iterator<Suggestion> iterator = iterator();
+			final ArrayList<String> words = new ArrayList<String>();
+			int iSuggestion = -1;
+			while(iterator.hasNext()) {
+				iSuggestion++;
+				Suggestion suggestion = iterator.next();
+				if(!words.contains(suggestion.getWord())) {
+					words.add(suggestion.getWord());
+					continue;
+				} else {
+					iterator.remove();
+					if(iSuggestion < mDefaultIndex) {
+						mDefaultIndex--;
+					} else if(iSuggestion == mDefaultIndex) {
+						// Deleting the default???
+						// Don't do it
+						continue;
+					}
+				}
+			}
 		}
 	}
 
@@ -438,30 +413,8 @@ public final class Suggestor {
 
 
 	private static class ComposingSuggestion extends Suggestion {
-		private final double mScore;
-		private final static int ORDER = 0;
-
-
 		private ComposingSuggestion(final String word) {
-			super(word, ORDER);
-			mScore = 0;
-		}
-
-
-		private ComposingSuggestion(final Suggestion suggestion) {
-			super(suggestion.getWord(), 0);
-			mScore = suggestion.getScore();
-		}
-
-
-		@Override
-		protected int compareTo(final Suggestion suggestion, final String composing) {
-			if(!(suggestion instanceof ComposingSuggestion)) {
-				return super.compareTo(suggestion, composing);
-			}
-			ComposingSuggestion another = (ComposingSuggestion) suggestion;
-
-			return mScore == another.mScore ? 0 : (mScore < another.mScore ? -1 : 1);
+			super(word);
 		}
 	}
 

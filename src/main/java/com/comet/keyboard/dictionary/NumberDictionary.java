@@ -1,5 +1,6 @@
 package com.comet.keyboard.dictionary;
 
+import java.util.Comparator;
 import java.util.regex.Pattern;
 
 import com.comet.keyboard.KeyboardService;
@@ -12,7 +13,7 @@ public class NumberDictionary implements Dictionary {
 	private final String NUMBER_REGEX = "[\\d]+";
 	private final String TEEN_REGEX = "[\\d]*1[\\d]";
 
-	/*package*/ NumberDictionary() {
+	NumberDictionary() {
 		mNumberPattern = Pattern.compile(NUMBER_REGEX);
 		mTeenPattern = Pattern.compile(TEEN_REGEX);
 	}
@@ -20,7 +21,7 @@ public class NumberDictionary implements Dictionary {
 
 	@Override
 	public Suggestions getSuggestions(SuggestionsRequest request) {
-		final NumberSuggestions suggestions = new NumberSuggestions(request);
+		final Suggestions suggestions = new NumberSuggestions(request);
 		String composing = suggestions.getComposing();
 		if(!mNumberPattern.matcher(composing).matches())
 			return suggestions;
@@ -66,15 +67,22 @@ public class NumberDictionary implements Dictionary {
 	}
 
 
+	private static final Comparator<NumberSuggestion> mComparator = new Comparator<NumberSuggestion>() {
+		@Override
+		public int compare(NumberSuggestion o1, NumberSuggestion o2) {
+			return o1.mType.compareTo(o2.mType);
+		}
+	};
+
+
 	private static class NumberSuggestions extends SortedSuggestions {
 		NumberSuggestions(SuggestionsRequest request) {
-			super(request);
+			super(request, mComparator);
 		}
 	}
 
 
 	private static class NumberSuggestion extends Suggestion {
-
 		enum NumberType {
 			NORMAL,
 			WORD,
@@ -83,16 +91,9 @@ public class NumberDictionary implements Dictionary {
 		}
 		private final NumberType mType;
 		
-		public NumberSuggestion(String ordinal, NumberType type) {
-			super(ordinal, 3);
+		public NumberSuggestion(String cardinal, NumberType type) {
+			super(cardinal);
 			mType = type;
-		}
-
-		@Override
-		protected int compareTo(Suggestion suggestion, String composing) {
-			NumberSuggestion numSuggestion = (NumberSuggestion) suggestion;
-
-			return mType.compareTo(numSuggestion.mType);
 		}
 	}
 

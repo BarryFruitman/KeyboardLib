@@ -38,7 +38,13 @@ public class ContactsDictionary implements Dictionary {
 
 		// Query the custom dictionary
 		ContentResolver contentResolver = mContext.getContentResolver();
-		Cursor cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI, columns, PhoneLookup.DISPLAY_NAME + " LIKE \"" + composing + "%\" OR " + PhoneLookup.DISPLAY_NAME + " LIKE \"% " + composing + "%\"", null, null);
+		Cursor cursor = contentResolver.query(
+				ContactsContract.Contacts.CONTENT_URI,
+				columns,
+				PhoneLookup.DISPLAY_NAME + " LIKE \"" + composing + "%\" OR "
+						+ PhoneLookup.DISPLAY_NAME + " LIKE \"% " + composing + "%\"",
+				null,
+				PhoneLookup.DISPLAY_NAME);
 		if(cursor == null)
 			return suggestions;
 
@@ -47,7 +53,7 @@ public class ContactsDictionary implements Dictionary {
 	        String name = cursor.getString(cursor.getColumnIndex(PhoneLookup.DISPLAY_NAME));
 	        String names[] = name.split(" ");
 	        for(int iName = 0; iName < names.length; iName++)
-	        	if(names[iName].toLowerCase().startsWith(composing) && suggestions.getSuggestions().contains(names[iName]))
+	        	if(names[iName].toLowerCase().startsWith(composing) && suggestions.getSuggestionsList().contains(names[iName]))
 	        		suggestions.add(new ContactSuggestion(names[iName]));
 		}
 		cursor.close();
@@ -56,7 +62,7 @@ public class ContactsDictionary implements Dictionary {
 	}
 
 
-	private static class ContactSuggestions extends SortedSuggestions {
+	private static class ContactSuggestions extends ArraySuggestions {
 		ContactSuggestions(SuggestionsRequest request) {
 			super(request);
 		}
@@ -64,14 +70,8 @@ public class ContactsDictionary implements Dictionary {
 
 
 	private static class ContactSuggestion extends Suggestion {
-
 		public ContactSuggestion(String name) {
-			super(name, 2);
-		}
-
-		@Override
-		protected int compareTo(Suggestion another, String composing) {
-			return 0;
+			super(name);
 		}
 	}
 

@@ -1,28 +1,24 @@
 package com.comet.keyboard.dictionary;
 
-import java.util.Iterator;
 import java.util.List;
 
-public interface Suggestions extends Iterable<Suggestion> {
+public interface Suggestions<S extends Suggestion> extends Iterable<S> {
     int MAX_SUGGESTIONS = 12;
 
 
     String getComposing();
 
 
-    List<Suggestion> getSuggestions();
-
-
-    Iterator<Suggestion> iterator();
+    List<S> getSuggestionsList();
 
 
     boolean isExpired();
 
 
-    void add(Suggestion suggestion);
+    boolean add(S suggestion);
 
 
-    void addAll(Suggestions suggestions);
+    void addAll(Suggestions<S> suggestions);
 
 
     int size();

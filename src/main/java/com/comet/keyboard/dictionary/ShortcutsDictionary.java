@@ -17,11 +17,9 @@ import com.comet.keyboard.util.DatabaseHelper;
 public class ShortcutsDictionary implements Dictionary {
 
 	private static ArrayList<ShortcutData> mShortcuts;
-	private static Context mContext;
 
 	/*package*/ ShortcutsDictionary(Context context) {
-		mContext = context;
-		getShortcutsList(mContext);
+		getShortcutsList(context);
 	}
 
 
@@ -64,7 +62,7 @@ public class ShortcutsDictionary implements Dictionary {
 	}
 
 
-	private static class ShortcutSuggestions extends SortedSuggestions {
+	private static class ShortcutSuggestions extends ArraySuggestions {
 		ShortcutSuggestions(SuggestionsRequest request) {
 			super(request);
 		}
@@ -74,17 +72,12 @@ public class ShortcutsDictionary implements Dictionary {
 	public static class ShortcutSuggestion extends Suggestion {
 
 		public ShortcutSuggestion(String phrase) {
-			super(phrase, 1);
+			super(phrase);
 		}
 
 		@Override
 		public void matchCase(final String composing) {
-			// Do nothing
-		}
-		
-		@Override
-		protected int compareTo(Suggestion another, String composing) {
-			return 0;
+			// Don't alter shortcut case.
 		}
 	}
 }

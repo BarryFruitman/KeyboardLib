@@ -13,6 +13,7 @@ import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -56,10 +57,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.comet.keyboard.dictionary.Suggestions;
+import com.comet.keyboard.dictionary.Suggestion;
 import com.comet.keyboard.dictionary.Suggestor;
 import com.comet.keyboard.dictionary.Suggestor.FinalSuggestions;
-import com.comet.keyboard.dictionary.Suggestion;
 import com.comet.keyboard.dictionary.DictionaryUtils;
 import com.comet.keyboard.dictionary.updater.DictionaryDownloader;
 import com.comet.keyboard.dictionary.updater.DictionaryItem;
@@ -2495,7 +2495,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         mSuggestions = suggestions;
 
         if (mDebug) {
-            final ArrayList<Suggestion> list = suggestions.getSuggestions();
+            final List<Suggestion> list = suggestions.getSuggestionsList();
             final StringBuilder debug = new StringBuilder("returnCandidates(): suggestions={");
             for (int i = 0; i < list.size(); i++)
                 debug.append(list.get(i)).append(",");
@@ -3637,7 +3637,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
         // Remember word if it's the first suggestion but not the default.
         if (index == 0 && mSuggestions.getDefaultIndex() != 0) {
-            final Suggestion suggestion = mSuggestions.getSuggestionAt(index);
+            final Suggestion suggestion = mSuggestions.get(index);
             rememberWord(suggestion.getWord());
         }
 
@@ -3679,7 +3679,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         } else {
             // Insert the default suggestion
             final Suggestion defaultSuggestion =
-                    mSuggestions.getSuggestionAt(mSuggestions.getDefaultIndex());
+                    mSuggestions.get(mSuggestions.getDefaultIndex());
             if (defaultSuggestion == null) {
                 committedWord = orgWord;
             } else {
@@ -3739,7 +3739,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         } else if (mPredictionOn && mSuggestions != null && index >= 0
                 && mSuggestions.size() > 0 && index < mSuggestions.size()) {
             // Use dictionary suggestion
-            String prediction = mSuggestions.getSuggestionAt(index).getWord();
+            String prediction = mSuggestions.get(index).getWord();
             committedStr = prediction;
 
             setLastWord(prediction);
