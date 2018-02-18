@@ -350,16 +350,16 @@ public final class Suggestor {
 						mDicLanguage.learn(words[iWord]);
 
 						// Save to lookahead dictionary
-						if (iWord < words.length - 2) {
-							String word1 = words[iWord];
-							String word2 = words[iWord + 1];
-							String word3 = words[iWord + 2];
-							if (!word1.matches(".*[a-zA-Z'-].*") || !word2.matches(".*[a-zA-Z'-].*") || !word3.matches(".*[a-zA-Z'-].*")) {
-								// word1 and word2 don't contain any letters
-								continue;
-							}
-							mDicLookAhead.learn(new StringBuilder(word1).append(" ").append(word2).append(" ").append(word3).toString());
-						}
+//						if (iWord < words.length - 2) {
+//							String word1 = words[iWord];
+//							String word2 = words[iWord + 1];
+//							String word3 = words[iWord + 2];
+//							if (!word1.matches(".*[a-zA-Z'-].*") || !word2.matches(".*[a-zA-Z'-].*") || !word3.matches(".*[a-zA-Z'-].*")) {
+//								// word1 and word2 don't contain any letters
+//								continue;
+//							}
+//							mDicLookAhead.learn(new StringBuilder(word1).append(" ").append(word2).append(" ").append(word3).toString());
+//						}
 					}
 				}
 			}
