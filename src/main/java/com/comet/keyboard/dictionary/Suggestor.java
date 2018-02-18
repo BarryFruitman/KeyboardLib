@@ -208,6 +208,7 @@ public final class Suggestor {
 		// Get suggestions from language dictionary
 		final Suggestions languageSuggestions = mDicLanguage.getSuggestions(request);
 
+		// Merge all suggestions into FinalSuggestions.
 		suggestions.addAll(shortcutsSuggestions);
 		suggestions.addAll(numberSuggestions);
 		suggestions.addAll(contactsSuggestions);
@@ -240,6 +241,26 @@ public final class Suggestor {
 		}
 
 
+		private void setDefaultIndex(final int defaultIndex) {
+			mDefaultIndex = defaultIndex;
+
+			if(mDefaultIndex >= 0 && mDefaultIndex < size()) {
+				final Suggestion defaultSuggestion = get(mDefaultIndex);
+				if (defaultSuggestion instanceof LanguageDictionary.LanguageSuggestion) {
+					if (((LanguageDictionary.LanguageSuggestion)
+							defaultSuggestion).getScore() > MIN_SCORE_FOR_DEFAULT) {
+						setNoDefault();
+					}
+				} else if (defaultSuggestion instanceof LookAheadDictionary.LookAheadSuggestion) {
+					if (((LookAheadDictionary.LookAheadSuggestion)
+							defaultSuggestion).getScore() > MIN_SCORE_FOR_DEFAULT) {
+						setNoDefault();
+					}
+				}
+			}
+		}
+
+
 		public void setNoDefault() {
 			mDefaultIndex = -1;
 		}
@@ -255,36 +276,22 @@ public final class Suggestor {
 
 		public void addComposing() {
 			if(size() > 0 && get(0) instanceof ShortcutsDictionary.ShortcutSuggestion) {
-				mDefaultIndex = 0;
+				setDefaultIndex(0);
 			}
 
-			Suggestion composingSuggestion = get(getComposing());
-			if(composingSuggestion != null) {
+			final Suggestion composingSuggestion;
+			if(get(getComposing()) != null) {
 				// Move it to position zero and make it the default.
+				composingSuggestion = get(getComposing());
 				remove(composingSuggestion);
 				add(0, composingSuggestion);
-				mDefaultIndex = 0;
+				setDefaultIndex(0);
 			} else {
 				// Move it to position zero and make position one the default.
 				composingSuggestion = new ComposingSuggestion(getComposing());
 				add(0, composingSuggestion);
-				mDefaultIndex = size() == 1 ? -1 : 1;
+				setDefaultIndex(size() == 1 ? -1 : 1);
 			}
-
-//			if(mDefaultIndex >= 0 && mDefaultIndex < size()) {
-//				final Suggestion defaultSuggestion = get(mDefaultIndex);
-//				if (defaultSuggestion instanceof LanguageDictionary.LanguageSuggestion) {
-//					if (((LanguageDictionary.LanguageSuggestion)
-//							defaultSuggestion).getScore() > MIN_SCORE_FOR_DEFAULT) {
-//						setNoDefault();
-//					}
-//				} else if (defaultSuggestion instanceof LookAheadDictionary.LookAheadSuggestion) {
-//					if (((LookAheadDictionary.LookAheadSuggestion)
-//							defaultSuggestion).getScore() > MIN_SCORE_FOR_DEFAULT) {
-//						setNoDefault();
-//					}
-//				}
-//			}
 		}
 
 
@@ -301,7 +308,7 @@ public final class Suggestor {
 				} else {
 					iterator.remove();
 					if(iSuggestion < mDefaultIndex) {
-						mDefaultIndex--;
+						setDefaultIndex(mDefaultIndex-1);
 					} else if(iSuggestion == mDefaultIndex) {
 						// Deleting the default???
 						// Don't do it
