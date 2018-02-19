@@ -129,6 +129,20 @@ public class ArraySuggestions<S extends Suggestion> implements Suggestions<S> {
     }
 
 
+    public void addAll(final int index, final Suggestions suggestions) {
+        if(suggestions == null) {
+            return;
+        }
+
+        if(mRequest.isExpired()) {
+            // Too late
+            throw new Suggestor.SuggestionsExpiredException();
+        }
+
+        mSuggestions.addAll(index, suggestions.getSuggestionsList());
+    }
+
+
     @Override
     public int size() {
         return mSuggestions.size();

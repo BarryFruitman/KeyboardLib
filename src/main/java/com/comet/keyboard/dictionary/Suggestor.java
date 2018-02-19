@@ -35,8 +35,8 @@ import com.comet.keyboard.settings.Settings;
  */
 public final class Suggestor {
 	private KeyCollator mCollator;
-	private LearningDictionary mDicLanguage;
-	private LearningDictionary mDicLookAhead;
+	private LanguageDictionary mDicLanguage;
+	private LookAheadDictionary mDicLookAhead;
 	private Dictionary mDicContacts;
 	private final Dictionary mDicShortcuts;
 	private final Dictionary mDicNumber;
@@ -279,12 +279,17 @@ public final class Suggestor {
 				setDefaultIndex(0);
 			}
 
+			final Suggestions<Suggestion> composingMatches =
+					mDicLanguage.getMatches(getRequest());
 			final Suggestion composingSuggestion;
 			if(get(getComposing()) != null) {
 				// Move it to position zero and make it the default.
 				composingSuggestion = get(getComposing());
 				remove(composingSuggestion);
 				add(0, composingSuggestion);
+				setDefaultIndex(0);
+			} else if(composingMatches.size() > 0) {
+				addAll(0, composingMatches);
 				setDefaultIndex(0);
 			} else {
 				// Move it to position zero and make position one the default.
@@ -337,7 +342,9 @@ public final class Suggestor {
 						continue;
 					}
 
-					if(KeyboardService.getIME().getIsAutoCaps()) {
+					if(KeyboardService.getIME().getIsAutoCaps()
+							&& !DictionaryUtils.isAllCaps(sentence)
+							&& !DictionaryUtils.isMixedCase(sentence)) {
 						// De-capitalize the first letter.
 						final StringBuilder sbGroup = new StringBuilder(sentence);
 						sbGroup.replace(0, 1, String.valueOf(Character.toLowerCase(sentence.charAt(0))));

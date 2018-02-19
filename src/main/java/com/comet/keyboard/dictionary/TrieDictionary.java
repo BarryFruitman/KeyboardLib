@@ -90,6 +90,21 @@ import java.util.Comparator;
 	}
 
 
+	public Suggestions getMatches(SuggestionsRequest request) {
+		final Suggestions suggestions = new SortedSuggestions(request, getComparator());
+		findSuggestionsInTrie(
+				new StringBuilder(suggestions.getComposing()),
+				suggestions,
+				0,
+				mTrie.getRoot(),
+				1,
+				0,
+				0);
+
+		return suggestions;
+	}
+
+
 	// TODO: THIS METHOD IS HACKY
 	protected Suggestions getSuggestionsWithPrefix(Suggestions suggestions, final String prefix) {
 		final Node node = mTrie.findNode(prefix, mCollator);
@@ -138,7 +153,12 @@ import java.util.Comparator;
 			// End of composing. Look for suggestions below this node and add them.
 			final double trailingEditDistance = node.getWord().length() - composing.length();
 			composing.append(Node.copyOfRange(value, iNodeValue, value.length));
-			addSuggestions(node, composing, suggestions, editDistance + trailingEditDistance);
+			addSuggestions(
+					node,
+					composing,
+					suggestions,
+					editDistance + trailingEditDistance,
+					maxEditDistance);
 			composing.setLength(composing.length() - (value.length - iNodeValue));
 
 			return;
@@ -233,7 +253,12 @@ import java.util.Comparator;
 			final Node node,
 			final StringBuilder composing,
 			final Suggestions suggestions,
-			final double editDistance) {
+			final double editDistance,
+			final double maxEditDistance) {
+
+		if(editDistance > maxEditDistance) {
+			return;
+		}
 
 		// Add this node if it's a leaf
 		if(node.isEntry()) {
@@ -244,7 +269,12 @@ import java.util.Comparator;
 		// Recursively traverse all children
 		for(Node child : node.getChildren()) {
 			composing.append(child.getValue());
-			addSuggestions(child, composing, suggestions, editDistance + child.getValue().length);
+			addSuggestions(
+					child,
+					composing,
+					suggestions,
+					editDistance + child.getValue().length,
+					maxEditDistance);
 			composing.setLength(composing.length() - child.getValue().length);
 		}
 	}
