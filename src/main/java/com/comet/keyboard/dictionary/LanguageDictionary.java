@@ -23,13 +23,13 @@ public final class LanguageDictionary extends TrieDictionary {
 	private LanguageDictionaryDB mLanguageDB;
 
 
-	/*package*/ LanguageDictionary(Context context, KeyCollator collator) {
+	LanguageDictionary(final Context context, final KeyCollator collator) {
 		super(context, collator);
 	}
 
 
 	@Override
-	public void loadDictionary() {
+	protected void loadDictionary() {
 		Thread.currentThread().setName("LanguageLoader-" + mCollator.getLanguageCode());
 		Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
 
@@ -73,7 +73,7 @@ public final class LanguageDictionary extends TrieDictionary {
 
 
 	@Override
-	public Suggestions getSuggestions(SuggestionsRequest request) {
+	public Suggestions getSuggestions(final SuggestionsRequest request) {
 		final Suggestions suggestions = super.getSuggestions(request);
 		if(getCountSum() <= 0) {
 			return suggestions;
@@ -88,7 +88,7 @@ public final class LanguageDictionary extends TrieDictionary {
 	}
 
 
-	private Suggestions findConjoinedBiGrams(Suggestions languageSuggestions) {
+	private Suggestions findConjoinedBiGrams(final Suggestions languageSuggestions) {
 		// Check for conjoined bi-grams (e.g. "areyou")
 		if(languageSuggestions.getComposing().length() >= 5) {
 			// Check if this is a conjoined bi-gram
@@ -133,7 +133,11 @@ public final class LanguageDictionary extends TrieDictionary {
 
 
 	@Override
-	protected void addSuggestion(Suggestions suggestions, String word, int count, double editDistance) {
+	protected void addSuggestion(
+			final Suggestions suggestions,
+			final String word,
+			final int count,
+			final double editDistance) {
 		suggestions.add(new LanguageSuggestion(word, count, getCountSum(), editDistance));
 	}
 
@@ -216,11 +220,11 @@ public final class LanguageDictionary extends TrieDictionary {
 
 
 	private class LanguageDictionaryDB extends DictionaryDB {
-
 		// User lexicon table
 		private static final String LEXICON_TABLE_NAME = "lexicon";
 		private static final String LEXICON_FIELD_WORD = "word";
 		private static final String LEXICON_FIELD_COUNT = "count";
+
 
 		protected LanguageDictionaryDB(Context context, String language) {
 			super(context, language);
@@ -234,7 +238,7 @@ public final class LanguageDictionary extends TrieDictionary {
 		 * @return				The sum of all counts
 		 */
 		@Override
-		public final int loadDictionaryFromDB(TrieDictionary lexicon, int nRecords) {
+		public final int loadDictionaryFromDB(final TrieDictionary lexicon, final int nRecords) {
 			final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 
 			if(db == null) {
@@ -270,7 +274,7 @@ public final class LanguageDictionary extends TrieDictionary {
 		}
 
 
-		public boolean addWordToLexicon(String word, int count) {
+		public boolean addWordToLexicon(final String word, final int count) {
 			Assert.assertTrue(word != null);
 			Assert.assertTrue(count > 0);
 
@@ -300,7 +304,7 @@ public final class LanguageDictionary extends TrieDictionary {
 		}
 
 
-		public void deleteWordFromLexicon(String word) {
+		public void deleteWordFromLexicon(final String word) {
 			final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 			try {
 				db.delete(LEXICON_TABLE_NAME, LEXICON_FIELD_WORD + "=?",
