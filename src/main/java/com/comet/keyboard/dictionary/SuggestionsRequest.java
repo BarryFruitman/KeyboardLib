@@ -2,7 +2,7 @@ package com.comet.keyboard.dictionary;
 
 import android.support.annotation.NonNull;
 
-public final class SuggestionsRequest {
+class SuggestionsRequest {
     private boolean mExpired = false;
     private final String mComposing;
     private final Suggestor.SuggestionsListener mListener;

@@ -13,7 +13,7 @@ import junit.framework.Assert;
 
 import com.comet.keyboard.KeyboardApp;
 import com.comet.keyboard.R;
-import com.comet.keyboard.dictionary.ShortcutsDictionary;
+import com.comet.keyboard.dictionary.ShortcutDictionary;
 import com.comet.keyboard.dictionary.updater.DictionaryFileItem;
 import com.comet.keyboard.dictionary.updater.DictionaryItem;
 import com.comet.keyboard.layouts.KeyboardLayout;
@@ -367,7 +367,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		}
 
 		// Force dictionary to reload from DB
-		ShortcutsDictionary.loadFromDatabase(mContext);
+		ShortcutDictionary.loadFromDatabase(mContext);
 
 		return DBError.DB_ERROR_NONE;
 	}
@@ -406,7 +406,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		}
 
 		// Force dictionary to reload from DB
-		ShortcutsDictionary.loadFromDatabase(mContext);
+		ShortcutDictionary.loadFromDatabase(mContext);
 
 		return DBError.DB_ERROR_NONE;
 	}
@@ -435,7 +435,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		}
 
 		// Force dictionary to reload from DB
-		ShortcutsDictionary.loadFromDatabase(mContext);
+		ShortcutDictionary.loadFromDatabase(mContext);
 
 		return DBError.DB_ERROR_NONE;
 	}

@@ -16,7 +16,6 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import com.comet.keyboard.KeyboardApp;
@@ -53,7 +52,7 @@ public final class Suggestor {
 
 	private Suggestor(final Context context) {
 		mDicContacts = new ContactsDictionary(context);
-		mDicShortcuts = new ShortcutsDictionary(context);
+		mDicShortcuts = new ShortcutDictionary(context);
 		mDicNumber = new NumberDictionary();
 		mThreadPool = new ThreadPool();
 		mContext = context;
@@ -181,7 +180,16 @@ public final class Suggestor {
 		// Get look-ahead suggestions
 		Suggestions lookAheadSuggestions = null;
 		if (mPredictNextWord) {
-			lookAheadSuggestions = mDicLookAhead.getSuggestions(request);
+			StringBuilder word1 = new StringBuilder();
+			StringBuilder word2 = new StringBuilder();
+			KeyboardService.getIME().getTwoWordsBeforeComposing(word1, word2);
+
+			final LookAheadDictionary.LookAheadSuggestionsRequest lookAheadRequest =
+			new LookAheadDictionary.LookAheadSuggestionsRequest(
+					request,
+					word1.toString(),
+					word2.toString());
+			lookAheadSuggestions = mDicLookAhead.getSuggestions(lookAheadRequest);
 		}
 
 		if(request.getComposing().length() == 0) {
@@ -212,8 +220,8 @@ public final class Suggestor {
 		suggestions.addAll(shortcutsSuggestions);
 		suggestions.addAll(numberSuggestions);
 		suggestions.addAll(contactsSuggestions);
-		suggestions.addAll(languageSuggestions);
 		suggestions.addAll(lookAheadSuggestions);
+		suggestions.addAll(languageSuggestions);
 
 		// Match case of suggestions to composing.
 		suggestions.matchCase();
@@ -275,12 +283,12 @@ public final class Suggestor {
 
 
 		public void addComposing() {
-			if(size() > 0 && get(0) instanceof ShortcutsDictionary.ShortcutSuggestion) {
+			if(size() > 0 && get(0) instanceof ShortcutDictionary.ShortcutSuggestion) {
 				setDefaultIndex(0);
 			}
 
-			final Suggestions<Suggestion> composingMatches =
-					mDicLanguage.getMatches(getRequest());
+			final Suggestions<LanguageDictionary.LanguageSuggestion> composingMatches =
+					mDicLanguage.getMatches(getRequest().getComposing());
 			final Suggestion composingSuggestion;
 			if(get(getComposing()) != null) {
 				// Move it to position zero and make it the default.
@@ -302,7 +310,7 @@ public final class Suggestor {
 
 		private void removeDuplicates() {
 			final Iterator<Suggestion> iterator = iterator();
-			final ArrayList<String> words = new ArrayList<String>();
+			final ArrayList<String> words = new ArrayList<>();
 			int iSuggestion = -1;
 			while(iterator.hasNext()) {
 				iSuggestion++;

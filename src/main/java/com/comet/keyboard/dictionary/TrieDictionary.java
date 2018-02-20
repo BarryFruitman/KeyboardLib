@@ -10,19 +10,20 @@ import com.comet.keyboard.dictionary.radixtrie.RadixTrie;
 
 import java.util.Comparator;
 
-/*package*/ abstract class TrieDictionary implements LearningDictionary {
+abstract class TrieDictionary<S extends Suggestion, R extends SuggestionsRequest>
+		 implements LearningDictionary<S, R> {
 
 	private static final int MAX_DELETABLE_COUNT = 100;
-	protected static final int COUNT_INCREMENT = 10;
-	protected final int MIN_COUNT = 2; // Count threshold for suggestions
-	protected final KeyCollator mCollator;
+	static final int COUNT_INCREMENT = 10;
+	private final int MIN_COUNT = 2; // Count threshold for suggestions
+	final KeyCollator mCollator;
 	protected final Context mContext;
 	private final RadixTrie mTrie = new RadixTrie();
 	private boolean mCancelled = false;
 	private int mCountSum;
 
 
-	public TrieDictionary(final Context context, final KeyCollator collator) {
+	TrieDictionary(final Context context, final KeyCollator collator) {
 		mContext = context;
 		mCollator = collator;
 
@@ -51,12 +52,12 @@ import java.util.Comparator;
 	}
 
 	
-	protected final boolean isCancelled() {
+	final boolean isCancelled() {
 		if(mCancelled) {
 			throw new DictionaryCancelledException();
 		}
 
-		return mCancelled;
+		return false;
 	}
 
 
@@ -73,7 +74,7 @@ import java.util.Comparator;
 	}
 
 
-	public int getCount(final String word) {
+	int getCount(final String word) {
 		Node node = mTrie.findNode(word, mExactCharComparator);
 		if(node == null || !node.isEntry() || node.getWord().length() != word.length()) {
 			return -1;
@@ -84,45 +85,17 @@ import java.util.Comparator;
 
 
 	@Override
-	public Suggestions getSuggestions(SuggestionsRequest request) {
-		final Suggestions suggestions = new SortedSuggestions(request, getComparator());
-		return findSuggestionsInTrie(suggestions, mTrie.getRoot(), 1);
-	}
-
-
-	public Suggestions getMatches(SuggestionsRequest request) {
-		final Suggestions suggestions = new SortedSuggestions(request, getComparator());
+	public Suggestions<S> getSuggestions(final R request) {
+		final Suggestions<S> suggestions
+				= new SortedSuggestions<>(request, getComparator());
 		findSuggestionsInTrie(
+				"",
 				new StringBuilder(suggestions.getComposing()),
 				suggestions,
 				0,
 				mTrie.getRoot(),
 				1,
-				0,
-				0);
-
-		return suggestions;
-	}
-
-
-	// TODO: THIS METHOD IS HACKY
-	protected Suggestions getSuggestionsWithPrefix(Suggestions suggestions, final String prefix) {
-		final Node node = mTrie.findNode(prefix, mCollator);
-		if(node != null) {
-			suggestions = findSuggestionsInTrie(suggestions, node, 1);
-		}
-		
-		return suggestions;
-	}
-
-
-	private Suggestions findSuggestionsInTrie(final Suggestions suggestions, final Node node, final int iNodeValue) {
-		findSuggestionsInTrie(
-				new StringBuilder(suggestions.getComposing()),
-				suggestions,
-				0,
-				node,
-				iNodeValue,
+				getCountSum(),
 				0,
 				EditDistance.getMaxEditDistance(suggestions.getComposing()));
 
@@ -130,12 +103,56 @@ import java.util.Comparator;
 	}
 
 
+	Suggestions<S> getMatches(final String word) {
+		final Suggestions<S> suggestions =
+				new SortedSuggestions<>(new SuggestionsRequest(word), getComparator());
+		findSuggestionsInTrie(
+				"",
+				new StringBuilder(suggestions.getComposing()),
+				suggestions,
+				0,
+				mTrie.getRoot(),
+				1,
+				getCountSum(),
+				0,
+				0);
+
+		return suggestions;
+	}
+
+
+	Suggestions<S> getSuggestionsAfterPrefix(
+			final Suggestions<S> suggestions,
+			String prefix,
+			final int countSum) {
+		final Node node = mTrie.findNode(prefix, mExactCharComparator);
+		if(node != null) {
+//			final int iNodeValue = node.getWord().length() - prefix.length();
+			final String composing = suggestions.getComposing();
+			findSuggestionsInTrie(
+					prefix,
+					new StringBuilder(composing),
+					suggestions,
+					0,
+					node,
+					1,
+					countSum,
+					0,
+					composing.length() == 0 ? 8 : EditDistance.getMaxEditDistance(composing));
+		}
+
+		return suggestions;
+	}
+
+
 	private void findSuggestionsInTrie(
+			final String prefix,
 			final StringBuilder composing,
-			final Suggestions suggestions,
+			final Suggestions<S> suggestions,
 			final int iComposing,
 			final Node node,
 			final int iNodeValue,
+			final int countSum,
 			final double editDistance,
 			final double maxEditDistance) {
 
@@ -151,12 +168,13 @@ import java.util.Comparator;
 
 		if(iComposing >= composing.length()) {
 			// End of composing. Look for suggestions below this node and add them.
-			final double trailingEditDistance = node.getWord().length() - composing.length();
+			final double trailingEditDistance = node.getWord().length() - prefix.length() - composing.length();
 			composing.append(Node.copyOfRange(value, iNodeValue, value.length));
 			addSuggestions(
 					node,
 					composing,
 					suggestions,
+					countSum,
 					editDistance + trailingEditDistance,
 					maxEditDistance);
 			composing.setLength(composing.length() - (value.length - iNodeValue));
@@ -168,11 +186,13 @@ import java.util.Comparator;
 			// End of this node's key. Traverse children.
 			for(Node child : node.getChildren()) {
 				findSuggestionsInTrie(
+						prefix,
 						composing,
 						suggestions,
 						iComposing,
 						child,
 						0,
+						countSum,
 						editDistance,
 						maxEditDistance);
 			}
@@ -180,15 +200,19 @@ import java.util.Comparator;
 			return;
 		}
 
+
 		// Skip non-letter characters
-		if(!Character.isLetter(value[iNodeValue])) {
+		if(!Character.isLetter(value[iNodeValue])
+				&& !Character.isSpaceChar(value[iNodeValue])) {
 			composing.insert(iComposing, value[iNodeValue]);
 			findSuggestionsInTrie(
+					prefix,
 					composing,
 					suggestions,
 					iComposing + 1,
 					node,
 					iNodeValue + 1,
+					countSum,
 					editDistance,
 					maxEditDistance);
 			composing.deleteCharAt(iComposing);
@@ -204,11 +228,13 @@ import java.util.Comparator;
 			// Matched key. Follow this node, then return.
 			composing.setCharAt(iComposing, value[iNodeValue]);
 			findSuggestionsInTrie(
+					prefix,
 					composing,
 					suggestions,
 					iComposing + 1,
 					node,
 					iNodeValue + 1,
+					countSum,
 					iKeyDistance == 0 ? editDistance : editDistance + EditDistance.SUBSTITUTE,
 					maxEditDistance);
 			composing.setCharAt(iComposing, keyStroke);
@@ -217,11 +243,13 @@ import java.util.Comparator;
 		// Assume this composing is missing a keystroke. Insert missing char and follow node.
 		composing.insert(iComposing, value[iNodeValue]);
 		findSuggestionsInTrie(
+				prefix,
 				composing,
 				suggestions,
 				iComposing + 1,
 				node,
 				iNodeValue + 1,
+				countSum,
 				editDistance + EditDistance.DELETE,
 				maxEditDistance);
 		composing.deleteCharAt(iComposing);
@@ -235,11 +263,13 @@ import java.util.Comparator;
 				composing.deleteCharAt(iComposing);
 
 				findSuggestionsInTrie(
+						prefix,
 						composing,
 						suggestions,
 						iComposing,
 						node,
-						iNodeValue	,
+						iNodeValue,
+						countSum,
 						editDistance + EditDistance.INSERT,
 						maxEditDistance);
 
@@ -251,8 +281,9 @@ import java.util.Comparator;
 
 	private void addSuggestions(
 			final Node node,
-			final StringBuilder composing,
-			final Suggestions suggestions,
+			final StringBuilder prefix,
+			final Suggestions<S> suggestions,
+			final int countSum,
 			final double editDistance,
 			final double maxEditDistance) {
 
@@ -260,34 +291,36 @@ import java.util.Comparator;
 			return;
 		}
 
-		// Add this node if it's a leaf
+		// Add this node if it's an entry
 		if(node.isEntry()) {
-			addSuggestion(suggestions, composing.toString(), node.getCount(), editDistance);
+			addSuggestion(suggestions, prefix.toString(), node.getCount(), countSum, editDistance);
 		}
 
 
 		// Recursively traverse all children
 		for(Node child : node.getChildren()) {
-			composing.append(child.getValue());
+			prefix.append(child.getValue());
 			addSuggestions(
 					child,
-					composing,
+					prefix,
 					suggestions,
+					countSum,
 					editDistance + child.getValue().length,
 					maxEditDistance);
-			composing.setLength(composing.length() - child.getValue().length);
+			prefix.setLength(prefix.length() - child.getValue().length);
 		}
 	}
 
 
 	protected abstract void addSuggestion(
-			Suggestions suggestions,
+			Suggestions<S> suggestions,
 			String word,
 			int count,
+			int countSum,
 			double editDistance);
 
 
-	abstract protected Comparator<? extends Suggestion> getComparator();
+	abstract protected Comparator<S> getComparator();
 
 
 	/**
@@ -295,7 +328,7 @@ import java.util.Comparator;
 	 * @param word		The word to learn
 	 * @param countIncrement		The default count for new words
 	 */
-	protected int learn(String word, int countIncrement) {
+	int learn(String word, int countIncrement) {
 		final int count;
 		final Node node = mTrie.findNode(word, mExactCharComparator);
 		if(node != null
@@ -318,7 +351,7 @@ import java.util.Comparator;
 	}
 
 
-	public final RadixTrie.CharComparator mExactCharComparator = new RadixTrie.CharComparator() {
+	private final RadixTrie.CharComparator mExactCharComparator = new RadixTrie.CharComparator() {
 		@Override
 		public int compareChars(char c1, char c2) {
 			return c1 - c2;
@@ -371,27 +404,22 @@ import java.util.Comparator;
 
 
 	/**
-	 * Returns true if the word can appear in suggestions.
 	 * @param word	The word to check.
-	 * @return
+	 * @return		Returns true if the word can appear in suggestions.
 	 */
 
 
 	private boolean isRemembered(String word) {
-		if(getCount(word) >= MIN_COUNT) {
-			return true;
-		}
-
-		return false;
+		return getCount(word) >= MIN_COUNT;
 	}
 
 
-	final protected void setCountSum(int countSum) {
+	final void setCountSum(int countSum) {
 		mCountSum = countSum;
 	}
 
 
-	final protected int getCountSum() {
+	final int getCountSum() {
 		return mCountSum;
 	}
 

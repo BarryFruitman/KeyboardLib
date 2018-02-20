@@ -26,13 +26,13 @@ public class NumberDictionary implements Dictionary {
 		if(!mNumberPattern.matcher(composing).matches())
 			return suggestions;
 
-		suggestions.add(new NumberSuggestion(composing.toString(), NumberSuggestion.NumberType.NORMAL));
+		suggestions.add(new NumberSuggestion(composing.toString()));
 
 		final int value = Integer.parseInt(composing);
 		if(value >= 0 && value <=20) {
 			// Add word
 			String[] words = KeyboardService.getIME().getResources().getStringArray(R.array.number_words);
-			suggestions.add(new NumberSuggestion(words[value], NumberSuggestion.NumberType.WORD));
+			suggestions.add(new NumberSuggestion(words[value]));
 		}
 
 		// Add commaed number
@@ -41,7 +41,7 @@ public class NumberDictionary implements Dictionary {
 			commaed.append(composing);
 			for(int iComma = composing.length() - 3; iComma > 0; iComma-= 3)
 				commaed.insert(iComma, ',');
-			suggestions.add(new NumberSuggestion(commaed.toString(), NumberSuggestion.NumberType.COMMAED));
+			suggestions.add(new NumberSuggestion(commaed.toString()));
 		}
 		
 		// Add ordinal
@@ -61,39 +61,22 @@ public class NumberDictionary implements Dictionary {
 			ordinal.append("rd");
 		else 
 			ordinal.append("th");
-		suggestions.add(new NumberSuggestion(ordinal.toString(), NumberSuggestion.NumberType.ORDINAL));
+		suggestions.add(new NumberSuggestion(ordinal.toString()));
 
 		return suggestions;
 	}
 
 
-	private static final Comparator<NumberSuggestion> mComparator = new Comparator<NumberSuggestion>() {
-		@Override
-		public int compare(NumberSuggestion o1, NumberSuggestion o2) {
-			return o1.mType.compareTo(o2.mType);
-		}
-	};
-
-
-	private static class NumberSuggestions extends SortedSuggestions {
+	private static class NumberSuggestions extends ArraySuggestions<NumberSuggestion> {
 		NumberSuggestions(SuggestionsRequest request) {
-			super(request, mComparator);
+			super(request);
 		}
 	}
 
 
 	private static class NumberSuggestion extends Suggestion {
-		enum NumberType {
-			NORMAL,
-			WORD,
-			COMMAED,
-			ORDINAL
-		}
-		private final NumberType mType;
-		
-		public NumberSuggestion(String cardinal, NumberType type) {
-			super(cardinal);
-			mType = type;
+		public NumberSuggestion(String number) {
+			super(number);
 		}
 	}
 

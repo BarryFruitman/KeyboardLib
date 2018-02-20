@@ -96,7 +96,7 @@ public class SortedSuggestions<S extends Suggestion> implements Suggestions<S> {
 
     @Override
     public String toString() {
-        StringBuilder string = new StringBuilder("[" + mSuggestions.size() + ": ");
+        StringBuilder string = new StringBuilder("[" + "\"" + getComposing() + "\":" + mSuggestions.size() + ": ");
         Iterator<S> iterator = mSuggestions.iterator();
         while(iterator.hasNext()) {
             string.append(iterator.next());

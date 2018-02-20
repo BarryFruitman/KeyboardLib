@@ -15,9 +15,10 @@ import com.comet.keyboard.layouts.KeyboardLayout;
 import junit.framework.Assert;
 
 import java.util.Comparator;
+import java.util.Locale;
 
 
-public final class LanguageDictionary extends TrieDictionary {
+public final class LanguageDictionary extends TrieDictionary<LanguageDictionary.LanguageSuggestion, SuggestionsRequest> {
 
 	private static TrieDictionary mLoading = null;
 	private LanguageDictionaryDB mLanguageDB;
@@ -104,7 +105,7 @@ public final class LanguageDictionary extends TrieDictionary {
 						continue;
 					}
 					// This bi-gram is in the LookAhead dictionary, therefore it is common enough to suggest.
-					addSuggestion(languageSuggestions, word1 + " " + word2, Math.max(count1, count2), EditDistance.JOINED);
+					addSuggestion(languageSuggestions, word1 + " " + word2, Math.max(count1, count2), getCountSum(), EditDistance.JOINED);
 				}
 			}
 
@@ -122,7 +123,7 @@ public final class LanguageDictionary extends TrieDictionary {
 							continue;
 						}
 						// This bi-gram is in the LookAhead dictionary, therefore it is common enough to suggest.
-						addSuggestion(languageSuggestions, word1 + " " + word2, Math.max(count1, count2), EditDistance.JOINED);
+						addSuggestion(languageSuggestions, word1 + " " + word2, Math.max(count1, count2), getCountSum(), EditDistance.JOINED);
 					}
 				}
 			}
@@ -137,8 +138,9 @@ public final class LanguageDictionary extends TrieDictionary {
 			final Suggestions suggestions,
 			final String word,
 			final int count,
+			final int countSum,
 			final double editDistance) {
-		suggestions.add(new LanguageSuggestion(word, count, getCountSum(), editDistance));
+		suggestions.add(new LanguageSuggestion(word, count, countSum, editDistance));
 	}
 
 
@@ -150,12 +152,13 @@ public final class LanguageDictionary extends TrieDictionary {
 
 	private final Comparator<LanguageSuggestion> mComparator = new Comparator<LanguageSuggestion>() {
 		@Override
-		public int compare(LanguageSuggestion suggestion1, LanguageSuggestion o2) {
-			double score = suggestion1.getScore();
-			double otherScore = o2.getScore();
+		public int compare(LanguageSuggestion suggestion1, LanguageSuggestion suggestion2) {
+			// Compare scores
+			final double score = suggestion1.getScore();
+			final double otherScore = suggestion2.getScore();
 
 			if(score == otherScore) {
-				return suggestion1.getWord().compareTo(o2.getWord());
+				return suggestion1.getWord().compareTo(suggestion2.getWord());
 			}
 
 			// Return the comparison
@@ -172,11 +175,13 @@ public final class LanguageDictionary extends TrieDictionary {
 		private final double mFrequency;
 		private final double mEditDistance;
 		private final int mCount;
+		private final int mCountSum;
 		private final double mScore;
 
 		public LanguageSuggestion(String word, int count, int countSum, double editDistance) {
 			super(word);
 			mCount = count;
+			mCountSum = countSum;
 			mFrequency = (double) count / (double) countSum;
 			mEditDistance = editDistance;
 			mScore = computeScore();
@@ -192,6 +197,16 @@ public final class LanguageDictionary extends TrieDictionary {
 			return score;
 		}
 
+
+		public int getCount() {
+			return mCount;
+		}
+
+
+		public int getCountSum() {
+			return mCountSum;
+		}
+
 		
 		public double getScore() {
 			return mScore;
@@ -200,7 +215,12 @@ public final class LanguageDictionary extends TrieDictionary {
 
 		@Override
 		public String toString() {
-			return getWord() + "," + mEditDistance  + "," + mCount + "," + String.format("%.6f", mFrequency) + "," + String.format("%.6f", getScore())  + ")";
+			return "Language("
+					+ getWord() + ","
+					+ mEditDistance  + ","
+					+ mCount + ","
+					+ String.format(Locale.getDefault(), "%.6f", mFrequency) + ","
+					+ String.format(Locale.getDefault(), "%.6f", getScore()) + ")\n";
 		}
 	}
 

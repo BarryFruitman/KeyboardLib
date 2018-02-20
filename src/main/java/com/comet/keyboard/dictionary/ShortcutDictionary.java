@@ -14,11 +14,11 @@ import com.comet.keyboard.settings.ShortcutData;
 import com.comet.keyboard.util.DatabaseHelper;
 
 
-public class ShortcutsDictionary implements Dictionary {
+public class ShortcutDictionary implements Dictionary {
 
 	private static ArrayList<ShortcutData> mShortcuts;
 
-	/*package*/ ShortcutsDictionary(Context context) {
+	ShortcutDictionary(Context context) {
 		getShortcutsList(context);
 	}
 
@@ -31,7 +31,7 @@ public class ShortcutsDictionary implements Dictionary {
 	
 	@Override
 	public Suggestions getSuggestions(SuggestionsRequest request) {
-		final ShortcutSuggestions suggestions = new ShortcutSuggestions(request);
+		final ArraySuggestions suggestions = new ArraySuggestions(request);
 		for(int iShortcut = 0; iShortcut < mShortcuts.size(); iShortcut++) {
 			ShortcutData shortcut = mShortcuts.get(iShortcut);
 			if(shortcut.mKeystroke.equalsIgnoreCase(suggestions.getComposing())) {
@@ -59,13 +59,6 @@ public class ShortcutsDictionary implements Dictionary {
 	public boolean contains(String word) {
 		// TODO: Unimplemented
 		return false;
-	}
-
-
-	private static class ShortcutSuggestions extends ArraySuggestions {
-		ShortcutSuggestions(SuggestionsRequest request) {
-			super(request);
-		}
 	}
 
 

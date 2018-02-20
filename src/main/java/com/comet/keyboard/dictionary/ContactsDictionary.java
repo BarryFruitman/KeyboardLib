@@ -25,7 +25,7 @@ public class ContactsDictionary implements Dictionary {
 	
 	@Override
 	public Suggestions getSuggestions(SuggestionsRequest request) {
-		final ContactSuggestions suggestions = new ContactSuggestions(request);
+		final ArraySuggestions suggestions = new ArraySuggestions(request);
 		String composing = suggestions.getComposing();
 		if(composing != null && composing.length() < 5)
 			// Don't look up short words
@@ -59,13 +59,6 @@ public class ContactsDictionary implements Dictionary {
 		cursor.close();
 
 		return suggestions;
-	}
-
-
-	private static class ContactSuggestions extends ArraySuggestions {
-		ContactSuggestions(SuggestionsRequest request) {
-			super(request);
-		}
 	}
 
 
