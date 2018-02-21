@@ -172,7 +172,7 @@ public final class Suggestor {
 
 
 	private FinalSuggestions findSuggestions(final SuggestionsRequest request) {
-		final FinalSuggestions suggestions = new FinalSuggestions(request);
+		final FinalSuggestions finalSuggestions = new FinalSuggestions(request);
 
 		// Terminate previous thread
 		newPendingRequest(request);
@@ -194,11 +194,11 @@ public final class Suggestor {
 
 		if(request.getComposing().length() == 0) {
 			// There is no composing to match. Just return the look-ahead matches.
-			suggestions.addAll(lookAheadSuggestions);
-			suggestions.matchCase();
-			suggestions.setNoDefault();
-			suggestions.removeDuplicates();
-			return suggestions;
+			finalSuggestions.addAll(lookAheadSuggestions);
+			finalSuggestions.matchCase();
+			finalSuggestions.removeDuplicates();
+			finalSuggestions.setNoDefault();
+			return finalSuggestions;
 		}
 
 		// Get numeric suggestions
@@ -217,27 +217,31 @@ public final class Suggestor {
 		final Suggestions languageSuggestions = mDicLanguage.getSuggestions(request);
 
 		// Merge all suggestions into FinalSuggestions.
-		suggestions.addAll(shortcutsSuggestions);
-		suggestions.addAll(numberSuggestions);
-		suggestions.addAll(contactsSuggestions);
-		suggestions.addAll(lookAheadSuggestions);
-		suggestions.addAll(languageSuggestions);
+		finalSuggestions.addAll(shortcutsSuggestions);
+		finalSuggestions.addAll(numberSuggestions);
+		finalSuggestions.addAll(contactsSuggestions);
+		finalSuggestions.addAll(lookAheadSuggestions);
+		finalSuggestions.addAll(languageSuggestions);
 
 		// Match case of suggestions to composing.
-		suggestions.matchCase();
+		finalSuggestions.matchCase();
 
 		// Make sure composing is one of the suggestions.
-		suggestions.addComposing();
+		finalSuggestions.addComposing();
 
 		// Remove duplicates
-		suggestions.removeDuplicates();
+		finalSuggestions.removeDuplicates();
 
-		return suggestions;
+		// Set default suggestion
+		finalSuggestions.assignDefault();
+
+		return finalSuggestions;
 	}
 
 
 	public class FinalSuggestions extends ArraySuggestions<Suggestion> {
 		private int mDefaultIndex;
+
 
 		private FinalSuggestions(SuggestionsRequest request) {
 			super(request);
@@ -249,21 +253,42 @@ public final class Suggestor {
 		}
 
 
-		private void setDefaultIndex(final int defaultIndex) {
+		public void assignDefault() {
+			setDefault(-1);
+
+			if(size() == 0) {
+				return;
+			}
+
+			// Set the default to the shortcut or highest-ranking language or look-ahead suggestion
+			for (final Suggestion suggestion : this) {
+				if (suggestion instanceof ShortcutDictionary.ShortcutSuggestion
+						|| suggestion instanceof LanguageDictionary.LanguageSuggestion
+						|| suggestion instanceof LookAheadDictionary.LookAheadSuggestion) {
+					setDefault(indexOf(suggestion.getWord()));
+					break;
+				}
+			}
+		}
+
+
+		private void setDefault(final int defaultIndex) {
 			mDefaultIndex = defaultIndex;
 
-			if(mDefaultIndex >= 0 && mDefaultIndex < size()) {
-				final Suggestion defaultSuggestion = get(mDefaultIndex);
-				if (defaultSuggestion instanceof LanguageDictionary.LanguageSuggestion) {
-					if (((LanguageDictionary.LanguageSuggestion)
-							defaultSuggestion).getScore() > MIN_SCORE_FOR_DEFAULT) {
-						setNoDefault();
-					}
-				} else if (defaultSuggestion instanceof LookAheadDictionary.LookAheadSuggestion) {
-					if (((LookAheadDictionary.LookAheadSuggestion)
-							defaultSuggestion).getScore() > MIN_SCORE_FOR_DEFAULT) {
-						setNoDefault();
-					}
+			if(mDefaultIndex == -1 || mDefaultIndex >= size()) {
+				return;
+			}
+
+			final Suggestion defaultSuggestion = get(mDefaultIndex);
+			if (defaultSuggestion instanceof LanguageDictionary.LanguageSuggestion) {
+				if (((LanguageDictionary.LanguageSuggestion)
+						defaultSuggestion).getScore() > MIN_SCORE_FOR_DEFAULT) {
+					setNoDefault();
+				}
+			} else if (defaultSuggestion instanceof LookAheadDictionary.LookAheadSuggestion) {
+				if (((LookAheadDictionary.LookAheadSuggestion)
+						defaultSuggestion).getScore() > MIN_SCORE_FOR_DEFAULT) {
+					setNoDefault();
 				}
 			}
 		}
@@ -283,27 +308,24 @@ public final class Suggestor {
 
 
 		public void addComposing() {
-			if(size() > 0 && get(0) instanceof ShortcutDictionary.ShortcutSuggestion) {
-				setDefaultIndex(0);
+			// Move the top match to the front.
+			final Suggestion topMatch = getTopMatch();
+			if(topMatch != null) {
+				remove(topMatch);
+				add(0, topMatch);
 			}
 
-			final Suggestions<LanguageDictionary.LanguageSuggestion> composingMatches =
-					mDicLanguage.getMatches(getRequest().getComposing());
-			final Suggestion composingSuggestion;
-			if(get(getComposing()) != null) {
-				// Move it to position zero and make it the default.
-				composingSuggestion = get(getComposing());
-				remove(composingSuggestion);
-				add(0, composingSuggestion);
-				setDefaultIndex(0);
-			} else if(composingMatches.size() > 0) {
-				addAll(0, composingMatches);
-				setDefaultIndex(0);
-			} else {
-				// Move it to position zero and make position one the default.
-				composingSuggestion = new ComposingSuggestion(getComposing());
-				add(0, composingSuggestion);
-				setDefaultIndex(size() == 1 ? -1 : 1);
+			// Move the exact match to the front and make it a ComposingSuggestion
+			// (unless it's already at the front).
+			final int iExact = indexOf(getComposing());
+			if(iExact > 0) {
+				remove(get(iExact));
+				add(0, new ComposingSuggestion(getComposing()));
+			}
+
+			// Is the composing still missing?
+			if(get(getComposing()) == null) {
+				add(0, new ComposingSuggestion(getComposing()));
 			}
 		}
 
@@ -321,7 +343,7 @@ public final class Suggestor {
 				} else {
 					iterator.remove();
 					if(iSuggestion < mDefaultIndex) {
-						setDefaultIndex(mDefaultIndex-1);
+						setDefault(mDefaultIndex-1);
 					} else if(iSuggestion == mDefaultIndex) {
 						// Deleting the default???
 						// Don't do it
@@ -329,6 +351,17 @@ public final class Suggestor {
 					}
 				}
 			}
+		}
+
+
+		private Suggestion getTopMatch() {
+			for(final Suggestion suggestion : this) {
+				if(suggestion.matches(getComposing())) {
+					return suggestion;
+				}
+			}
+
+			return null;
 		}
 	}
 

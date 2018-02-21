@@ -69,8 +69,9 @@ public class ShortcutDictionary implements Dictionary {
 		}
 
 		@Override
-		public void matchCase(final String composing) {
+		public ShortcutSuggestion matchCase(final String composing) {
 			// Don't alter shortcut case.
+			return this;
 		}
 	}
 }
