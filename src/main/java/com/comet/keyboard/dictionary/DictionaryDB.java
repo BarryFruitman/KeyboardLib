@@ -28,7 +28,7 @@ public abstract class DictionaryDB {
 	static class LexiconDbOpenHelper extends SQLiteOpenHelper {
 
 		private static final String DB_EXT = ".dic";
-		private static final int DB_VERSION = 1;
+		private static final int DB_VERSION = 2;
 		private static String mLanguage;
 		private static int mReferenceCount = 0;
 
@@ -67,7 +67,12 @@ public abstract class DictionaryDB {
 		
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			// Do nothing
+			if(oldVersion < 2) {
+				// Copy UserDB to main db.
+
+
+				// Delete userdb.
+			}
 		}
 	}
 }
