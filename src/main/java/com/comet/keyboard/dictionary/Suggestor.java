@@ -315,8 +315,8 @@ public final class Suggestor {
 				add(0, topMatch);
 			}
 
-			// Move the exact match to the front and make it a ComposingSuggestion
-			// (unless it's already at the front).
+			// If the exact match isn't at the front, make it a
+			// ComposingSuggestion and move it to the front.
 			final int iExact = indexOf(getComposing());
 			if(iExact > 0) {
 				remove(get(iExact));
