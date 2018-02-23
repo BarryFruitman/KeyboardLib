@@ -224,7 +224,7 @@ public class DictionaryDownloader extends Activity {
 	
 	public void downloadDictionary() {
 
-		KeyboardApp.getApp().getUpdater().refreshDiclistFromDb();
+		KeyboardApp.getApp().getUpdater().refreshDictionaryListFromDb();
 		
 		if(mCurrLangCode != null && mCurrLangCode.length() > 0){
 			Log.d(KeyboardApp.LOG_TAG, "downloadDictionary(): downloading dictionary is " + mCurrLangCode);

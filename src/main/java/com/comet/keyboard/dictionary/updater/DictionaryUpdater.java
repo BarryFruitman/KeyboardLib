@@ -10,6 +10,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -30,94 +31,88 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.comet.keyboard.KeyboardApp;
 import com.comet.keyboard.KeyboardService;
 import com.comet.keyboard.R;
-import com.comet.keyboard.install.LanguageSelector;
 import com.comet.keyboard.settings.Settings;
 import com.comet.keyboard.util.DatabaseHelper;
 import com.comet.keyboard.util.Utils;
 
 public class DictionaryUpdater {
-	public final static int HTTP_CONNECTION_MTIMEOUT = 1000 * 20;
-
-	public final static long CHECK_LAST = 24 * 60 * 60 * 1000L; // check new updates every 1 day
-
-	public final static long CHECK_AFTER_UPDATE = 7 * 24 * 60 * 60 * 1000L; // after updating don't check  again for 7 days.
+	private final static long CHECK_LAST = 24 * 60 * 60 * 1000L; // check new updates every 1 day
+	private final static long CHECK_AFTER_UPDATE = 7 * 24 * 60 * 60 * 1000L; // after updating don't check  again for 7 days.
 
 	// Context & Resource Manager
-	private Context mContext;
-	private Resources mRes;
+	private final Context mContext;
+	private final Resources mRes;
 
 	// Current dictionary list
 	private ArrayList<DictionaryItem> mDicList;
 
-	// OnUpdatedListener
 	private OnDictionaryUpdatedListener mDicUpdatedListener;
 
 	// Period of updating time
-	private Thread mEventThread = null;
 	private static Handler mUIHandler = null;
 
 	// Is marked as unread for the updating info
-	public boolean isNeedUpdate = false;
+	private boolean mIsNeedUpdate = false;
 
-	public ReentrantLock lock = new ReentrantLock();
+	private final ReentrantLock lock = new ReentrantLock();
 
-	public DictionaryUpdater(Context context) {
+
+	public DictionaryUpdater(final Context context) {
 		mContext = context;
 		mRes = mContext.getResources();
-		if (mUIHandler == null)
+		if (mUIHandler == null) {
 			mUIHandler = new Handler();
+		}
 
-		mDicList = new ArrayList<DictionaryItem>();
+		mDicList = new ArrayList<>();
 
 		// load dictionary list from database
-		refreshDiclistFromDb();
-
+		refreshDictionaryListFromDb();
 	}
-	
-	public void refreshDiclistFromDb(){
+
+
+	void refreshDictionaryListFromDb() {
 		try {
 			lock.lock();
-			DatabaseHelper.safeGetDatabaseHelper(mContext).loadDicInfo(mContext,
-					mDicList);
+			DatabaseHelper
+					.safeGetDatabaseHelper(mContext)
+					.loadDicInfo(mContext, mDicList);
 		} finally {
 			lock.unlock();
 		}
 	}
 
+
 	public void stopUpdate() {
-		if (mEventThread != null)
-			try {
-				mEventThread.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+		// TODO: Implement this or remove it.
 	}
+
 
 	/**
 	 * Load dictionary list from Internet
 	 */
-	public synchronized boolean loadDictionaryList() {
+	synchronized void loadDictionaryList() {
 		Log.v(KeyboardApp.LOG_TAG, "started loading dictionary list");
 
-		boolean result = true;
-
 		try {
-			ArrayList<DictionaryItem> newDicList = new ArrayList<DictionaryItem>();
-			ArrayList<DictionaryItem> temp;
+			ArrayList<DictionaryItem> newDicList = new ArrayList<>();
+			final ArrayList<DictionaryItem> temp;
 
-			URL xmlURL = new URL(mRes.getString(R.string.install_dic_list_url));
+			final URL xmlURL = new URL(mRes.getString(R.string.install_dic_list_url));
 
 			// Parse dictionary info
-			result = parseDicInfo(newDicList, xmlURL);
+			boolean result = parseDicInfo(newDicList, xmlURL);
 
 			// Save into database
 			if (result) {
 				lock.lock();
+
 				try {
 					// Notify dictionary info changed
 					temp = newDicList;
@@ -126,8 +121,7 @@ public class DictionaryUpdater {
 
 					if (markAndNotifyUpdatedState(mDicList, newDicList)) {
 						// Save new diction list into database
-						DatabaseHelper.safeGetDatabaseHelper(mContext)
-								.saveDicInfos(mDicList);
+						DatabaseHelper.safeGetDatabaseHelper(mContext).saveDicInfos(mDicList);
 						saveDicUpdatedTime(Utils.getTimeMilis());
 					}
 				} finally {
@@ -141,54 +135,45 @@ public class DictionaryUpdater {
 				saveDicCheckTime(Utils.getTimeMilis());
 			}
 		} catch (Exception e) {
-			result = false;
 			Log.e(KeyboardApp.LOG_TAG, e.getMessage(), e);
 		}
 
 		Log.v(KeyboardApp.LOG_TAG, "finished loading dictionary list");
-
-		return result;
 	}
 
 
 	/**
 	 * Returns if checking update is required
-	 * 
-	 * @return
 	 */
-	public boolean isNeedCheckingUpdate() {
-		long curtime = Utils.getTimeMilis();
-		
-		boolean afterUpdate = (getDicUpdatedTime() + CHECK_AFTER_UPDATE) < curtime;
-		boolean afterLastCheck = (getDicCheckTime() + CHECK_LAST < curtime);
-		boolean isNeedAppUpgradeOrDictUpdate = isNeedUpgrade() || isNeedUpdate();
+	boolean isNeedCheckingUpdate() {
+		final long now = Utils.getTimeMilis();
+
+		final boolean afterUpdate = (getDicUpdatedTime() + CHECK_AFTER_UPDATE) < now;
+		final boolean afterLastCheck = (getDicCheckTime() + CHECK_LAST < now);
+		final boolean isNeedAppUpgradeOrDictUpdate = isNeedUpgrade() || isNeedUpdate();
 
 		Log.v(KeyboardApp.LOG_TAG, "isNeedCheckingUpdate(): afterUpdate " + afterUpdate + "; afterLastCheck " + afterLastCheck + "; isNeedAppUpgradeOrDictUpdate "  + isNeedAppUpgradeOrDictUpdate );
 
-		return isNeedAppUpgradeOrDictUpdate ? false : (afterUpdate ? afterLastCheck : false ) ;
+		return !isNeedAppUpgradeOrDictUpdate && afterUpdate && afterLastCheck;
 	}
+
 
 	/**
 	 * Notify diction list changed
-	 * 
-	 * @param newDicList
-	 * @param oldDicList
 	 */
 	private boolean markAndNotifyUpdatedState(
-			ArrayList<DictionaryItem> newDicList,
-			ArrayList<DictionaryItem> oldDicList) {
+			final ArrayList<DictionaryItem> newDicList,
+			final ArrayList<DictionaryItem> oldDicList) {
 		Assert.assertTrue(newDicList != null);
 		Assert.assertTrue(oldDicList != null);
 
-		isNeedUpdate = false;
+		mIsNeedUpdate = false;
 		if (mDicUpdatedListener != null) {
-			ArrayList<DictionaryItem> needUpdateList = new ArrayList<DictionaryItem>();
+			final ArrayList<DictionaryItem> needUpdateList = new ArrayList<>();
 			// Compare 2 dictionary info
-			DictionaryItem newItem = null, oldItem = null;
-			int i = 0;
-			for (i = 0; i < newDicList.size(); i++) {
-				newItem = newDicList.get(i);
-				oldItem = getDictionaryItemPrim(oldDicList, newItem.lang);
+			for (int i = 0; i < newDicList.size(); i++) {
+				final DictionaryItem newItem = newDicList.get(i);
+				final DictionaryItem oldItem = getDictionaryItemPrim(oldDicList, newItem.lang);
 				if (oldItem == null || (newItem.version > oldItem.version)) {
 					Log.v(KeyboardApp.LOG_TAG, "new dictionary available " + newItem.lang);
 					newItem.isNeedUpdate = true;
@@ -200,11 +185,11 @@ public class DictionaryUpdater {
 			}
 
 			if (needUpdateList.size() > 0) {
-				isNeedUpdate = true;
+				mIsNeedUpdate = true;
 
 				// Send updated event
 				mDicUpdatedListener.onDictionaryUpdated(needUpdateList);
-				for (i = 0; i < needUpdateList.size(); i++) {
+				for (int i = 0; i < needUpdateList.size(); i++) {
 					mDicUpdatedListener.onDictionaryItemUpdated(needUpdateList.get(i));
 				}
 			} else {
@@ -213,20 +198,18 @@ public class DictionaryUpdater {
 			}
 		}
 
-		return isNeedUpdate;
+		return mIsNeedUpdate;
 	}
+
 
 	/**
 	 * Parse diction info from xml string
-	 * 
-	 * @param
-	 * @return
 	 */
-	boolean parseDicInfo(ArrayList<DictionaryItem> dicList, URL url) {
+	private boolean parseDicInfo(ArrayList<DictionaryItem> dicList, URL url) {
 		try {
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			DocumentBuilder db = dbf.newDocumentBuilder();
-			Document doc = db.parse(new InputSource(url.openStream()));
+			final DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			final DocumentBuilder db = dbf.newDocumentBuilder();
+			final Document doc = db.parse(new InputSource(url.openStream()));
 			int index = 0;
 
 			doc.getDocumentElement().normalize();
@@ -236,7 +219,7 @@ public class DictionaryUpdater {
 
 			NodeList nodeList = doc.getElementsByTagName(mRes.getString(R.string.xml_entry_dictionaries));
 
-			Element root = (Element) nodeList.item(0);
+			final Element root = (Element) nodeList.item(0);
 
 			nodeList = root.getChildNodes();
 
@@ -248,17 +231,16 @@ public class DictionaryUpdater {
 				Log.e(KeyboardApp.LOG_TAG, "couldn't detect min version code to use up-to-date dictionaries", e);
 			}
 
-			setNeedUpdrade(minAppVersionCode);
-			
-			Node node;
-			DictionaryItem newItem;
+			setNeedUpgrade(minAppVersionCode);
+
 			for (int i = 0; i < nodeList.getLength(); i++) {
-				node = nodeList.item(i);
+				final Node node = nodeList.item(i);
 
 				if (node.getChildNodes().getLength() > 0) {
-					newItem = new DictionaryItem(mContext);
-					if (newItem.parseDicInfo(node, index++))
+					final DictionaryItem newItem = new DictionaryItem(mContext);
+					if (newItem.parseDicInfo(node, index++)) {
 						dicList.add(newItem);
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -269,84 +251,65 @@ public class DictionaryUpdater {
 		return true;
 	}
 
+
 	// Load updated time
-	public long getDicUpdatedTime() {
+	private long getDicUpdatedTime() {
 		// Set update time into preference value
 		Assert.assertTrue(mContext != null);
-		SharedPreferences preference = mContext.getSharedPreferences(
-				Settings.SETTINGS_FILE, Context.MODE_PRIVATE);
+		final SharedPreferences preference = mContext.getSharedPreferences(
+				Settings.SETTINGS_FILE,
+				Context.MODE_PRIVATE);
 
-		long updatedTime = preference.getLong(
-				mRes.getString(R.string.dic_updated_time), 0);
-
-		return updatedTime;
+		return preference.getLong(mRes.getString(R.string.dic_updated_time), 0);
 	}
+
 
 	// Save current wallpaper drawable id
-	public void saveDicUpdatedTime(long updatedTime) {
+	public void saveDicUpdatedTime(final long updatedTime) {
 		Assert.assertTrue(mContext != null);
 		SharedPreferences.Editor preferenceEditor = mContext
-				.getSharedPreferences(Settings.SETTINGS_FILE,
-						Context.MODE_PRIVATE).edit();
+				.getSharedPreferences(
+						Settings.SETTINGS_FILE,
+						Context.MODE_PRIVATE)
+				.edit();
 
-		preferenceEditor.putLong(mRes.getString(R.string.dic_updated_time),
-				updatedTime);
-
-		preferenceEditor.commit();
+		preferenceEditor.putLong(mRes.getString(R.string.dic_updated_time), updatedTime);
+		preferenceEditor.apply();
 	}
+
 
 	// Save current wallpaper drawable id
-	public void saveDicCheckTime(long updatedTime) {
+	private void saveDicCheckTime(final long updatedTime) {
 		Assert.assertTrue(mContext != null);
 		SharedPreferences.Editor preferenceEditor = mContext
-				.getSharedPreferences(Settings.SETTINGS_FILE,
-						Context.MODE_PRIVATE).edit();
+				.getSharedPreferences(
+						Settings.SETTINGS_FILE,
+						Context.MODE_PRIVATE)
+				.edit();
 
-		preferenceEditor.putLong(mRes.getString(R.string.dic_checked_time),
-				updatedTime);
-
-		preferenceEditor.commit();
+		preferenceEditor.putLong(mRes.getString(R.string.dic_checked_time), updatedTime);
+		preferenceEditor.apply();
 	}
+
 
 	// Load checked time
-	public long getDicCheckTime() {
+	long getDicCheckTime() {
 		// Set update time into preference value
 		Assert.assertTrue(mContext != null);
-		SharedPreferences preference = mContext.getSharedPreferences(
-				Settings.SETTINGS_FILE, Context.MODE_PRIVATE);
+		final SharedPreferences preference = mContext
+				.getSharedPreferences(
+						Settings.SETTINGS_FILE,
+						Context.MODE_PRIVATE);
 
-		long checkedTime = preference.getLong(
-				mRes.getString(R.string.dic_checked_time), 0);
-
-		return checkedTime;
+		return preference.getLong(mRes.getString(R.string.dic_checked_time), 0);
 	}
 
-	/**
-	 * Retrieve current dictionary list
-	 * 
-	 * @return
-	 */
-	public ArrayList<DictionaryItem> getDictionaryList() {
-		ArrayList<DictionaryItem> newDicList;
-
-		lock.lock();
-		try {
-			newDicList = new ArrayList<DictionaryItem>(mDicList);
-		} finally {
-			lock.unlock();
-		}
-
-		return newDicList;
-	}
 
 	/**
 	 * Retrieve dictionary item by dictionary name
-	 * 
-	 * @param dicName
-	 * @return
 	 */
-	public DictionaryItem getDictionaryItem(String dicName) {
-		DictionaryItem item;
+	public DictionaryItem getDictionaryItem(final String dicName) {
+		final DictionaryItem item;
 
 		lock.lock();
 		try {
@@ -358,8 +321,11 @@ public class DictionaryUpdater {
 		return item;
 	}
 
+
+	@Nullable
 	private DictionaryItem getDictionaryItemPrim(
-			ArrayList<DictionaryItem> list, String dicName) {
+			final ArrayList<DictionaryItem> list,
+			final String dicName) {
 		DictionaryItem item;
 
 		lock.lock();
@@ -377,66 +343,68 @@ public class DictionaryUpdater {
 		return null;
 	}
 
+
 	/**
 	 * Set event listener
-	 * 
-	 * @param listener
 	 */
 	public void setOnDictionaryUpdatedListener(OnDictionaryUpdatedListener listener) {
 		mDicUpdatedListener = listener;
 	}
 
-	public void markAsReadAll() {
-		isNeedUpdate = false;
-		DictionaryItem item;
-		
-		for (int i = 0; i < mDicList.size(); i++) {
-			item = mDicList.get(i);
 
+	public void markAsReadAll() {
+		mIsNeedUpdate = false;
+		DictionaryItem item;
+
+		for(int i = 0; i < mDicList.size(); i++) {
+			item = mDicList.get(i);
 			item.isNeedUpdate = false;
 		}
 
 		DatabaseHelper.safeGetDatabaseHelper(mContext).saveDicInfos(mDicList);
 	}
 
+
 	/**
 	 * Specified dictionary exist or not
-	 * 
-	 * @param context
-	 * @param langID
-	 * @return
 	 */
-	public boolean isDictionaryExist(Context context, String langID) {
-		if(langID.equals(context.getResources().getString(R.string.lang_code_other))){
-			return true;
-		}		
-		
-		DictionaryItem mDicItem = getDictionaryItem(langID);
-
-		return isDictionaryExist(context, mDicItem);
+	public boolean isDictionaryExist(final Context context, final String langID) {
+		return langID.equals(context.getResources().getString(R.string.lang_code_other)) || isDictionaryExist(
+				context,
+				getDictionaryItem(langID));
 	}
 
-	public static boolean isDictionaryExist(Context context, DictionaryItem item) {
+
+	public static boolean isDictionaryExist(
+			final Context context,
+			final DictionaryItem item) {
+
 		if (item == null) {
 			return false;
 		}
-		
-		ArrayList<DictionaryFileItem> fileItems = item.fileItems;
-		DictionaryFileItem fileItem;
+
+		final ArrayList<DictionaryFileItem> fileItems = item.fileItems;
 
 		// Check dictionary existing
 		for (int i = 0; i < fileItems.size(); i++) {
-			fileItem = fileItems.get(i);
+			final DictionaryFileItem fileItem = fileItems.get(i);
 			String folder = "databases";
-			if(fileItem.filename.contains("2.idx") || fileItem.filename.contains("1.dic") || fileItem.filename.contains("2.dic"))
+			if(fileItem.filename.contains("2.idx")
+					|| fileItem.filename.contains("1.dic")
+					|| fileItem.filename.contains("2.dic")) {
 				folder = "files"; // Old dictionary location
-			File file = new File(Utils.getInternalFilePath(context, folder + "/" + fileItem.filename));
-			if (!file.exists()){
+			}
+
+			final File file = new File(
+					Utils.getInternalFilePath(
+							context,
+							folder + "/" + fileItem.filename));
+			if (!file.exists()) {
 				Log.v(KeyboardApp.LOG_TAG, "!file.exists() "  + file.getAbsolutePath());
 				return false;
 			}
 
-			if (file.length() < fileItem.size){
+			if (file.length() < fileItem.size) {
 				// File can be bigger but not smaller.
 				Log.v(KeyboardApp.LOG_TAG, "file.length() < fileItem.size");
 				return false;
@@ -446,29 +414,30 @@ public class DictionaryUpdater {
 		return true;
 	}
 
+
 	/**
 	 * Retrieve dictionary version info
-	 * 
-	 * @return
 	 */
 	public List<String> getInstalledDictionaryNames() {
-		List<String> installed = new ArrayList<String>();
+		final List<String> installed = new ArrayList<>();
 		
 		try {
 			if (lock.tryLock(500, TimeUnit.MILLISECONDS)) {
-				DictionaryItem item;
-				String lang;
-
 				for (int i = 0; i < mDicList.size(); i++) {
-					item = mDicList.get(i);
-
+					final DictionaryItem item = mDicList.get(i);
 					if (!item.isNeedUpdate) {
-						lang = Settings.getNameFromValue(mContext, "language", item.lang);
-						installed.add(String.format("%s (v%d)", lang, (int) item.version));
+						final String lang = Settings.getNameFromValue(
+								mContext,
+								"language",
+								item.lang);
+						installed.add(
+								String.format(
+										Locale.getDefault(),
+										"%s (v%d)", lang, (int) item.version));
 					}
 				}
 			}
-		} catch (InterruptedException e) {
+		} catch (final InterruptedException e) {
 			e.printStackTrace();
 		} finally {
 			lock.unlock();
@@ -477,23 +446,32 @@ public class DictionaryUpdater {
 		return installed;
 	}
 	
-	
 
 	/**
 	 *  It returns true if there is a new dictionary available, otherwise false
-	 *  
-	 * @return
 	 */
 	public boolean isNeedUpdate() {
 		return getUpdatedStatus() ;
 	} 
-	
-	
-	
-	public boolean checkNeedUpdate(Context context){
+
+
+	public boolean checkNeedUpdate(final Context context){
 		// TODO: Move this to a method in DatabaseHelper
-		Cursor c = DatabaseHelper.safeGetDatabaseHelper(context).mDB.query(DatabaseHelper.DIC_LANGUAGES_TABLE_NAME, null, DatabaseHelper.DIC_LANGUAGES_FIELD_IS_NEED_UPDATE + " = 1 AND " + DatabaseHelper.DIC_LANGUAGES_FIELD_IS_INSTALLED + " = 1", null, null, null, null);
-		int count = c.getCount();
+		final Cursor c = DatabaseHelper
+				.safeGetDatabaseHelper(context)
+				.mDB.query(
+						DatabaseHelper.DIC_LANGUAGES_TABLE_NAME,
+						null,
+						DatabaseHelper.DIC_LANGUAGES_FIELD_IS_NEED_UPDATE
+								+ " = 1 AND "
+								+ DatabaseHelper.DIC_LANGUAGES_FIELD_IS_INSTALLED
+								+ " = 1",
+						null,
+						null,
+						null,
+						null);
+
+		final int count = c.getCount();
 		c.close();
 		
 		Log.v(KeyboardApp.LOG_TAG, "checkNeedUpdate() " + (count > 0) );
@@ -506,103 +484,82 @@ public class DictionaryUpdater {
 		
 		return count > 0;
 	}
-	
-	
-	
+
+
 	/**
 	 * Checks application upgrading required or not  by dictionary minimum application version code   
-	 * 
-	 * @return
 	 */
-	public boolean isNeedUpgrade(){
-		SharedPreferences preference = mContext.getSharedPreferences(Settings.SETTINGS_FILE, Context.MODE_PRIVATE);
+	public boolean isNeedUpgrade() {
+		final SharedPreferences preference = mContext.getSharedPreferences(
+				Settings.SETTINGS_FILE,
+				Context.MODE_PRIVATE);
 
-		int requiredVersionCode = preference.getInt(mContext.getString(R.string.dic_app_version_code), 0);
+		final int requiredVersionCode = preference.getInt(mContext.getString(R.string.dic_app_version_code), 0);
 
 		try {
-			String pkg = mContext.getPackageName();
-	        int mVersionNumber = mContext.getPackageManager().getPackageInfo(pkg, 0).versionCode;
+			final String pkg = mContext.getPackageName();
+			final int mVersionNumber = mContext.getPackageManager().getPackageInfo(pkg, 0).versionCode;
 	        return requiredVersionCode > mVersionNumber;
-	    } catch (NameNotFoundException e) {
+	    } catch (final NameNotFoundException e) {
 	    	Log.e(KeyboardApp.LOG_TAG, "error", e);
 	    }
 		
 		return false;
 	}
 	
-	
-	
+
 	/**
 	 * Dictionary has minimum application version code to up-to-date 
-	 * 
-	 * @param version
 	 */
-	public void setNeedUpdrade(int version){
-		SharedPreferences.Editor preferenceEditor = mContext.getSharedPreferences(Settings.SETTINGS_FILE,
-						Context.MODE_PRIVATE).edit();
+	private void setNeedUpgrade(final int version){
+		SharedPreferences.Editor preferenceEditor
+				= mContext.getSharedPreferences(
+						Settings.SETTINGS_FILE,
+						Context.MODE_PRIVATE)
+				.edit();
 
-		preferenceEditor.putInt(mContext.getString(R.string.dic_app_version_code),
+		preferenceEditor.putInt(
+				mContext.getString(R.string.dic_app_version_code),
 				version);
-
-		preferenceEditor.commit();
+		preferenceEditor.apply();
 		
-		// notify service
+		// Notify service
 		if(KeyboardService.getIME() != null){
-			boolean isNeedUpgrade = isNeedUpgrade();
+			final boolean isNeedUpgrade = isNeedUpgrade();
 			KeyboardService.getIME().setNeedUpgradeApp(isNeedUpgrade);
-			if(isNeedUpgrade)
+			if(isNeedUpgrade) {
 				KeyboardService.getIME().showSuggestionAppUpdateOnUi();
+			}
 		}
-				
 	}
 	
 	
-	
-	public boolean isDicDownloaded() {
-		String currLang = LanguageSelector.getLanguagePreference(mContext);
-
-		if (currLang.equals(mContext.getResources().getString(R.string.lang_code_other))) {
-			// "Other" language doesn't have a dictionary
-			return true;
-		}
-
-		DictionaryItem dicItem = getDictionaryItem(currLang);
-		if (dicItem != null) {// && !dicItem.isMarkedAsUnread) {
-			return true;
-		}
-		
-		return false;
-	}
-	
-	
-	
-	public boolean getUpdatedStatus() {
+	private boolean getUpdatedStatus() {
 		// Get preferences
-		SharedPreferences preference = mContext.getSharedPreferences(Settings.SETTINGS_FILE, Context.MODE_PRIVATE);
+		final SharedPreferences preference
+				= mContext.getSharedPreferences(
+				Settings.SETTINGS_FILE,
+				Context.MODE_PRIVATE);
 
 		// Check language
-        String currLang = preference.getString("language", mContext.getResources().getString(R.string.lang_code_default));
-        
-		if (currLang.equals(mContext.getResources().getString(R.string.lang_code_other))) {
-			// "Other" language doesn't have a dictionary
-			return false;
-		}
-        
-		boolean isUpdated = preference.getBoolean(mContext.getResources().getString(R.string.prefs_is_dic_updated),
-				false);
+		final String currLang = preference.getString(
+        		"language",
+				mContext.getResources().getString(R.string.lang_code_default));
 
-		return isUpdated;
+		return !currLang.equals(mContext.getResources().getString(R.string.lang_code_other)) && preference.getBoolean(
+				mContext.getResources().getString(R.string.prefs_is_dic_updated),
+				false);
 	}
 
-	
-	
-	public void setUpdatedStatus(boolean status) {
-		
-		SharedPreferences.Editor preferenceEditor = mContext.getSharedPreferences(
-				Settings.SETTINGS_FILE, Context.MODE_PRIVATE).edit();
+
+	public void setUpdatedStatus(final boolean status) {
+		final SharedPreferences.Editor preferenceEditor
+				= mContext.getSharedPreferences(
+					Settings.SETTINGS_FILE,
+					Context.MODE_PRIVATE).edit();
 
 		preferenceEditor.putBoolean(mContext.getResources().getString(R.string.prefs_is_dic_updated), status);
 		
-		preferenceEditor.commit();
+		preferenceEditor.apply();
 	}
 }
