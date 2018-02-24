@@ -33,7 +33,7 @@ public abstract class DictionaryDB {
 	public abstract int loadDictionaryFromDB(TrieDictionary lexicon, int nRecords);
 
 
-	class LexiconDbOpenHelper extends SQLiteOpenHelper {
+	public static class LexiconDbOpenHelper extends SQLiteOpenHelper {
 		private static final String DB_EXT = ".dic";
 		private static final int DB_VERSION = 2;
 		private String mLanguage;
@@ -41,7 +41,7 @@ public abstract class DictionaryDB {
 		private final Context mContext;
 
 
-		private LexiconDbOpenHelper(final Context context, final String language) {
+		public LexiconDbOpenHelper(final Context context, final String language) {
 			super(context, language + DB_EXT, null, DB_VERSION);
 
 			mContext = context;

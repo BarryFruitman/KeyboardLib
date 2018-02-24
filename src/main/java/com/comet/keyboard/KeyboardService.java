@@ -4024,6 +4024,7 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         final Intent intent = new Intent(this, DictionaryDownloader.class);
         final Bundle bundle = new Bundle();
         bundle.putStringArray(DictionaryDownloader.LANG_LIST, list);
+        bundle.putBoolean(DictionaryDownloader.IS_UPDATE, true);
         intent.putExtra(Settings.BUNDLE_KEY, bundle);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 

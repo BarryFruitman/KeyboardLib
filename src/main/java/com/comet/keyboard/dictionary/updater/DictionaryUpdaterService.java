@@ -22,11 +22,11 @@ import com.comet.keyboard.KeyboardApp;
 public class DictionaryUpdaterService extends Service {
 
 	// first run
-	public static long TIME_INIT_DELAY = 5 * 60 * 1000L; // runs checking updates timer in 5 min   
+	public static long TIME_INIT_DELAY = 5 * 60 * 1000L; // runs checking updates timer in 5 min
 
 	// repeat check period
 	public static long TIME_REPEAT_CHECK = 1 * 60 * 60 * 1000L; // period of checking updates timer (every 1 hour )
-	
+
 
 	private Timer timer;
 
@@ -35,7 +35,7 @@ public class DictionaryUpdaterService extends Service {
 	private TimerTask updateTask = new TimerTask() {
 		@Override
 		public void run() {
-			
+
 			DictionaryUpdater updater = mApp.getUpdater();
 
 			if (updater != null && mApp.getUpdater().isNeedCheckingUpdate())

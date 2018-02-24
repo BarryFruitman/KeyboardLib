@@ -389,16 +389,12 @@ public class DictionaryUpdater {
 		for (int i = 0; i < fileItems.size(); i++) {
 			final DictionaryFileItem fileItem = fileItems.get(i);
 			String folder = "databases";
-			if(fileItem.filename.contains("2.idx")
-					|| fileItem.filename.contains("1.dic")
-					|| fileItem.filename.contains("2.dic")) {
-				folder = "files"; // Old dictionary location
-			}
 
 			final File file = new File(
 					Utils.getInternalFilePath(
 							context,
 							folder + "/" + fileItem.filename));
+
 			if (!file.exists()) {
 				Log.v(KeyboardApp.LOG_TAG, "!file.exists() "  + file.getAbsolutePath());
 				return false;
@@ -451,7 +447,7 @@ public class DictionaryUpdater {
 	 *  It returns true if there is a new dictionary available, otherwise false
 	 */
 	public boolean isNeedUpdate() {
-		return getUpdatedStatus() ;
+		return getUpdatedStatus();
 	} 
 
 
@@ -503,7 +499,7 @@ public class DictionaryUpdater {
 	    } catch (final NameNotFoundException e) {
 	    	Log.e(KeyboardApp.LOG_TAG, "error", e);
 	    }
-		
+
 		return false;
 	}
 	

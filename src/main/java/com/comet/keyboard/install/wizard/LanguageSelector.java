@@ -1,27 +1,15 @@
 package com.comet.keyboard.install.wizard;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 
 import junit.framework.Assert;
-import android.annotation.SuppressLint;
+
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.net.ConnectivityManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -35,15 +23,10 @@ import com.comet.keyboard.KeyboardApp;
 import com.comet.keyboard.R;
 import com.comet.keyboard.TranslatorView;
 import com.comet.keyboard.dictionary.updater.DictionaryDownloader;
-import com.comet.keyboard.dictionary.updater.DictionaryFileItem;
 import com.comet.keyboard.dictionary.updater.DictionaryItem;
-import com.comet.keyboard.dictionary.updater.DictionaryUpdater;
 import com.comet.keyboard.layouts.KeyboardLayout;
 import com.comet.keyboard.settings.LanguageProfileManager;
 import com.comet.keyboard.settings.Settings;
-import com.comet.keyboard.util.DatabaseHelper;
-import com.comet.keyboard.util.ErrorReport;
-import com.comet.keyboard.util.Utils;
 
 public class LanguageSelector extends Activity implements View.OnClickListener {
 	public static String LANG_LIST = "lang_list";
@@ -175,9 +158,11 @@ public class LanguageSelector extends Activity implements View.OnClickListener {
     public void startDownload() {
         Intent intent = new Intent(this, DictionaryDownloader.class);
         Bundle bundle = new Bundle();
-        if(mDicts != null)
-            bundle.putStringArray(DictionaryDownloader.LANG_LIST, mDicts);
-        intent.putExtra(Settings.BUNDLE_KEY, bundle);
+        if(mDicts != null) {
+			bundle.putStringArray(DictionaryDownloader.LANG_LIST, mDicts);
+		}
+		bundle.putBoolean(DictionaryDownloader.IS_UPDATE, false);
+		intent.putExtra(Settings.BUNDLE_KEY, bundle);
 
         startActivityForResult(intent, REQ_DOWNLOAD);
     }

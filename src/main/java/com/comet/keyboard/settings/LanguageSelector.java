@@ -25,8 +25,6 @@ import com.comet.keyboard.TranslatorView;
 import com.comet.keyboard.dictionary.updater.DictionaryDownloader;
 import com.comet.keyboard.dictionary.updater.DictionaryItem;
 import com.comet.keyboard.dictionary.updater.DictionaryUpdater;
-import com.comet.keyboard.settings.LanguageProfileManager;
-import com.comet.keyboard.settings.Settings;
 
 public class LanguageSelector extends Activity implements View.OnClickListener {
 	public static String LANG_LIST = "lang_list";
@@ -162,8 +160,10 @@ public class LanguageSelector extends Activity implements View.OnClickListener {
 	public void startDownload() {
 		Intent intent = new Intent(this, DictionaryDownloader.class);
 		Bundle bundle = new Bundle();
-		if(mDicts != null)
+		if(mDicts != null) {
 			bundle.putStringArray(DictionaryDownloader.LANG_LIST, mDicts);
+		}
+		bundle.putBoolean(DictionaryDownloader.IS_UPDATE, false);
 		intent.putExtra(Settings.BUNDLE_KEY, bundle);
 
 		startActivityForResult(intent, REQ_DOWNLOAD);

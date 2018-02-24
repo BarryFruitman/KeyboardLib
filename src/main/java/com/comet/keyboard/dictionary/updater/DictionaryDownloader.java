@@ -15,9 +15,13 @@ import junit.framework.Assert;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -27,14 +31,18 @@ import android.view.KeyEvent;
 
 import com.comet.keyboard.KeyboardApp;
 import com.comet.keyboard.R;
+import com.comet.keyboard.dictionary.DictionaryDB;
 import com.comet.keyboard.settings.OnResultListener;
 import com.comet.keyboard.settings.Settings;
 import com.comet.keyboard.util.DatabaseHelper;
 import com.comet.keyboard.util.ErrorReport;
 import com.comet.keyboard.util.Utils;
 
+import static android.database.sqlite.SQLiteDatabase.OPEN_READONLY;
+
 public class DictionaryDownloader extends Activity {
 	public static String LANG_LIST = "lang_list";
+	public static String IS_UPDATE = "is_update";
 
 	private String[] mLangNames;
 	private String[] mLangCodes;
@@ -45,6 +53,7 @@ public class DictionaryDownloader extends Activity {
 	// Current language id
 	private String mCurrLangCode;
 	private String[] mDicts;
+	private boolean mIsUpdate;
 
 	private static DownloadDictionaryTask mddTask = null;
 
@@ -55,7 +64,8 @@ public class DictionaryDownloader extends Activity {
 		// Get dictionaries to download
 		final Bundle bundle = getIntent().getBundleExtra(Settings.BUNDLE_KEY);
 		if (bundle != null) {
-			mDicts = bundle.containsKey(LANG_LIST) ? bundle.getStringArray(LANG_LIST) :  null;
+			mDicts = bundle.containsKey(LANG_LIST) ? bundle.getStringArray(LANG_LIST) : null;
+			mIsUpdate = bundle.containsKey(IS_UPDATE) ? bundle.getBoolean(IS_UPDATE) : null;
 		}
 
 		// Load language
@@ -210,7 +220,7 @@ public class DictionaryDownloader extends Activity {
 					KeyboardApp.LOG_TAG,
 					"downloadDictionaries(): downloading dictionaries are "
 							+ Arrays.toString(mDicts));
-			(mddTask = new DownloadDictionaryTask(this)).execute(mDicts);		
+			(mddTask = new DownloadDictionaryTask(this, mIsUpdate)).execute(new String[] {"en" });
 		} else {
 			// no dictionaries to download
 			final AlertDialog dialog
@@ -227,19 +237,19 @@ public class DictionaryDownloader extends Activity {
 				}
 			});
 			dialog.show();
-			
+
 			KeyboardApp.getApp().removeNotificationTry();
 		}
 	}
 
-	
+
 	public void downloadDictionary() {
 		KeyboardApp.getApp().getUpdater().refreshDictionaryListFromDb();
 		
 		if(mCurrLangCode != null && mCurrLangCode.length() > 0) {
 			Log.d(KeyboardApp.LOG_TAG,
 					"downloadDictionary(): downloading dictionary is " + mCurrLangCode);
-			(mddTask = new DownloadDictionaryTask(this)).execute(mCurrLangCode);
+			(mddTask = new DownloadDictionaryTask(this, mIsUpdate)).execute(mCurrLangCode);
 		} else {
 			Log.v(KeyboardApp.LOG_TAG, "downloadDictionary(): Language is null");
 		}
@@ -320,14 +330,20 @@ public class DictionaryDownloader extends Activity {
 
 
 	private static class DownloadDictionaryTask extends AsyncTask<String, Integer, Boolean> {
+		private final boolean mIsUpdate;
+		private final double mDownloadRatio;
+		private final double mMergeRatio;
 		private DictionaryItem mCurrentItem;
 		private DictionaryDownloader mActivity;
-		
-		private DownloadDictionaryTask(final DictionaryDownloader activity) {
+
+		private DownloadDictionaryTask(final DictionaryDownloader activity, final boolean isUpdate) {
 			mActivity = activity;
+			mIsUpdate = isUpdate;
+			mDownloadRatio = mIsUpdate ? 0.03 : 1;
+			mMergeRatio = 1 - mDownloadRatio;
 		}
-		
-		
+
+
 		private void setActivity(final DictionaryDownloader activity) {
 			mActivity = activity;
 		}
@@ -351,7 +367,7 @@ public class DictionaryDownloader extends Activity {
 				final boolean isOnline = mActivity.isDeviceOnline();
 
 				mCurrentItem = updater.getDictionaryItem(lang);
-				
+
 				publishProgress(0);
 
 				try {
@@ -391,34 +407,19 @@ public class DictionaryDownloader extends Activity {
 							startPercent += weight;
 						}
 
-						// Move from temp location to databases filter
+						// Move from temp location to databases folder
 						for (int i = 0 ; i < mCurrentItem.fileItems.size() ; i++) {
 							final DictionaryFileItem fileItem = mCurrentItem.fileItems.get(i);
-
-							// Delete old file
-							final File destFile
-									= new File(
-											Utils.getInternalFilePath(
-													mActivity,
-													"databases/" + fileItem.filename));
-							if(destFile.exists()) {
-								destFile.delete();
-							}
-
-							// Move temp file
-							final File tempFile
-									= new File(
-											Utils.getInternalFilePath(
-													mActivity,
-													"files/" + fileItem.filename));
-							if (!tempFile.exists() || !tempFile.renameTo(destFile)) {
-								throw new Exception("Rename failed");
+							if(mIsUpdate) {
+								mergeNewDictionary(fileItem);
+							} else {
+								replaceOldDictionary(fileItem);
 							}
 						}
 
 						// Mark download complete
 						publishProgress(100);
-	
+
 						mCurrentItem.isNeedUpdate = false;
 						mCurrentItem.isInstalled = true;
 						
@@ -460,6 +461,134 @@ public class DictionaryDownloader extends Activity {
 		}
 
 
+		private void replaceOldDictionary(final DictionaryFileItem fileItem) {
+			// Delete old file
+			final File destFile
+					= new File(
+					Utils.getInternalFilePath(
+							mActivity,
+							"databases/" + fileItem.filename));
+			if(destFile.exists()) {
+				destFile.delete();
+			}
+
+			// Move temp file
+			final File tempFile
+					= new File(
+					Utils.getInternalFilePath(
+							mActivity,
+							"files/" + fileItem.filename));
+			if (!tempFile.exists() || !tempFile.renameTo(destFile)) {
+				throw new RuntimeException("Rename failed");
+			}
+		}
+
+
+		private void mergeNewDictionary(final DictionaryFileItem fileItem) {
+			final SQLiteDatabase languageDb = new DictionaryDB.LexiconDbOpenHelper(
+					mActivity,
+					mActivity.mCurrLangCode)
+					.getWritableDatabase();
+
+			// Add an index to the word column
+			languageDb.execSQL(
+					"CREATE INDEX IF NOT EXISTS \"word\" ON \"lexicon\" (\"word\")");
+
+			final SQLiteDatabase updateDb = SQLiteDatabase.openDatabase(
+					"/data/data/com.comet.android.TypeSmart/files/" + fileItem.filename,
+					null,
+					OPEN_READONLY,
+					null);
+
+			try {
+				final Cursor updateRowCountCursor = updateDb.query(
+						"lexicon",
+						new String[] { "count(*)" },
+						null,
+						null,
+						null,
+						null,
+						null);
+				final int updateRowCount;
+				if(updateRowCountCursor != null && updateRowCountCursor.moveToNext()) {
+					updateRowCount = updateRowCountCursor.getInt(0);
+				} else {
+					return;
+				}
+
+				final Cursor updateCursor = updateDb.query(
+						"lexicon",
+						new String[] { "word", "count" },
+						null,
+						null,
+						null,
+						null,
+						"count DESC");
+
+				int iRow = 0;
+				while(updateCursor != null && updateCursor.moveToNext()) {
+					final String word = updateCursor.getString(0);
+					final int updateWordCount = updateCursor.getInt(1);
+
+					final Cursor languageCursor = languageDb.query(
+							"lexicon",
+							new String[] { "count" },
+							"word = ?",
+							new String[] { word },
+							null,
+							null,
+							"count DESC");
+
+					final ContentValues values = new ContentValues();
+					values.put("word", word);
+					if(languageCursor == null || !languageCursor.moveToNext()) {
+						// Insert
+						values.put("count", updateWordCount);
+						languageDb.insert(
+								"lexicon",
+								null,
+								values);
+					} else {
+						// Update
+						final int languageWordCount = languageCursor.getInt(0);
+						if(updateWordCount > languageWordCount) {
+							values.put("count", languageWordCount + updateWordCount);
+							languageDb.update(
+									"lexicon",
+									values,
+									"word = ?",
+									new String[]{word});
+						}
+					}
+
+					languageCursor.close();
+
+					Log.e("DICTIONARYDOWNLOAD", "MERGED ROW " + iRow + " of " + updateRowCount);
+
+					mActivity.mProgressDialog
+							.setProgress((int) ((((double) iRow++ / (double) updateRowCount) * 100 * mMergeRatio) + mDownloadRatio * 100));
+				}
+			} catch (SQLiteException e) {
+				Log.e(KeyboardApp.LOG_TAG, "Error while updating database.", e);
+			} finally {
+				if(updateDb != null) {
+					updateDb.close();
+				}
+			}
+
+			// Delete temp file
+			final File tempFile
+					= new File(
+					Utils.getInternalFilePath(
+							mActivity,
+							"files/" + fileItem.filename));
+			if(tempFile.exists()) {
+				tempFile.delete();
+			}
+
+		}
+
+
 		/**
 		 * Download remote file to mobile device
 		 * @throws IOException - when network error occured
@@ -479,7 +608,7 @@ public class DictionaryDownloader extends Activity {
 			
 			// Stop estimating for the calculation
 			if(mActivity.mProgressDialog != null) {
-				mActivity.mProgressDialog.setProgress(baseRate);
+				mActivity.mProgressDialog.setProgress((int) (baseRate * mDownloadRatio));
 			}
 
 			// Create destination file
@@ -562,7 +691,7 @@ public class DictionaryDownloader extends Activity {
 			}
 
 			mActivity.mProgressDialog.setIndeterminate(false);
-			mActivity.mProgressDialog.setProgress(progress[0]);
+			mActivity.mProgressDialog.setProgress((int) (progress[0] * mDownloadRatio));
 			if(progress[0] == 0){
 				if(mCurrentItem != null){
 					Log.d(

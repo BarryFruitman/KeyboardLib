@@ -80,11 +80,6 @@ public final class LanguageDictionary extends TrieDictionary<LanguageDictionary.
 			return suggestions;
 		}
 
-		/*
-		 * 1. Find conjoined bigrams
-		 * 2. Add static suggestions
-		 * 3. Merge user suggestions
-		 */
 		return findConjoinedBiGrams(suggestions);
 	}
 
