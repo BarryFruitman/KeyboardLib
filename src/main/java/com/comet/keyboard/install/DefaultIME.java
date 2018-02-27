@@ -17,31 +17,30 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
-import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 
 public class DefaultIME extends Activity {
 
-	AlertDialog mDialog;
-	View mLayout;
 	boolean mShowInfo = true;
 	boolean mShowPicker = false;
 	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 	}
 
 
-
 	@Override
 	public void onWindowFocusChanged (boolean focus) {
 		Log.d(KeyboardApp.LOG_TAG, "DefaultIME.onWindowFocusChanged(" + focus + ")");
 		
-		if(!focus)
+		if(!focus) {
 			return;
+		}
 		
 		if(Utils.isSelectedToDefault(this)) {
 			// Move to next step in setup
@@ -59,23 +58,23 @@ public class DefaultIME extends Activity {
 			showPicker();
 			mShowInfo = false;
 			mShowPicker = false;
-		} else
+		} else {
 			// User failed. Prompt to try again.
 			tryAgain();
+		}
 	}
 	
 	
-
 	/**
 	 * Show the initial info dialog that tells the user what to do
 	 */
 	private void showInfoDialog() {
-		
 		AlertDialog.Builder builder;
-		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			builder = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK);
-		else
+		} else {
 			builder = new AlertDialog.Builder(this);
+		}
 		builder.setTitle(getString(R.string.ime_short_name));
 		builder.setMessage(getString(R.string.install_wizard_default_ime_dialog, getString(R.string.ime_name)));
 		AlertDialog dialog = builder.create();
@@ -92,7 +91,6 @@ public class DefaultIME extends Activity {
 		dialog.show();
 	}
 
-	
 
 	/**
 	 * The user failed to make TS the default. Prompt to try again or skip.
@@ -131,13 +129,11 @@ public class DefaultIME extends Activity {
 	}
 
 
-
 	private void showPicker() {
 		InputMethodManager inputManager;
 		inputManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);            
 		inputManager.showInputMethodPicker();
 	}
-
 
 
 	private void done() {
@@ -152,8 +148,18 @@ public class DefaultIME extends Activity {
 	}
 	
 	
-	
 	private void tryAgain() {
-		showTryAgainDialog();
+		// We need to wait until keyboard showed
+		new Handler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				if(!Utils.isSelectedToDefault(DefaultIME.this)) {
+					showTryAgainDialog();
+				} else {
+					done();
+				}
+			}
+
+		}, 1000);
 	}
 }
