@@ -42,7 +42,7 @@ public abstract class Suggestion {
 
 
     static String normalize(final String word) {
-        return word.replaceAll("[^a-zA-Z0-9]", "");
+        return word.replaceAll("[^a-zA-Z0-9 ]", "");
     }
 
 

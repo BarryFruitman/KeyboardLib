@@ -74,61 +74,6 @@ public final class LanguageDictionary extends TrieDictionary<LanguageDictionary.
 
 
 	@Override
-	public Suggestions getSuggestions(final SuggestionsRequest request) {
-		final Suggestions suggestions = super.getSuggestions(request);
-		if(getCountSum() <= 0) {
-			return suggestions;
-		}
-
-		return findConjoinedBiGrams(suggestions);
-	}
-
-
-	private Suggestions findConjoinedBiGrams(final Suggestions languageSuggestions) {
-		// Check for conjoined bi-grams (e.g. "areyou")
-		if(languageSuggestions.getComposing().length() >= 5) {
-			// Check if this is a conjoined bi-gram
-			for(int iComposing = 1; iComposing < languageSuggestions.getComposing().length() - 1; iComposing++) {
-				// Split into two words
-				final String word1 = languageSuggestions.getComposing().substring(0, iComposing + 1);
-				final String word2 = languageSuggestions.getComposing().substring(iComposing + 1, languageSuggestions.getComposing().length());
-				final int count = ((TrieDictionary) KeyboardService.getIME().getSuggestor().getLookAheadDictionary()).getCount(word1 + " " + word2);
-				if(count > 0) {
-					final int count1 = getCount(word1);
-					final int count2 = getCount(word2);
-					if (count1 < 1000 || count2 < 1000) {
-						continue;
-					}
-					// This bi-gram is in the LookAhead dictionary, therefore it is common enough to suggest.
-					addSuggestion(languageSuggestions, word1 + " " + word2, Math.max(count1, count2), getCountSum(), EditDistance.JOINED);
-				}
-			}
-
-			// Check if this is a bi-gram conjoined by a space-adjacent key
-			for(int iComposing = 1; iComposing < languageSuggestions.getComposing().length() - 1; iComposing++) {
-				if(KeyboardLayout.getCurrentLayout().isAdjacentToSpaceBar(languageSuggestions.getComposing().charAt(iComposing))) {
-					// Split into two words, omitting space-adjacent key
-					final String word1 = languageSuggestions.getComposing().substring(0, iComposing);
-					final String word2 = languageSuggestions.getComposing().substring(iComposing + 1, languageSuggestions.getComposing().length());
-					final int count = ((TrieDictionary) KeyboardService.getIME().getSuggestor().getLookAheadDictionary()).getCount(word1 + " " + word2);
-					if(count > 0) {
-						final int count1 = getCount(word1);
-						final int count2 = getCount(word2);
-						if (count1 < 1000 || count2 < 1000) {
-							continue;
-						}
-						// This bi-gram is in the LookAhead dictionary, therefore it is common enough to suggest.
-						addSuggestion(languageSuggestions, word1 + " " + word2, Math.max(count1, count2), getCountSum(), EditDistance.JOINED);
-					}
-				}
-			}
-		}
-		
-		return languageSuggestions;
-	}
-
-
-	@Override
 	protected void addSuggestion(
 			final Suggestions suggestions,
 			final String word,
