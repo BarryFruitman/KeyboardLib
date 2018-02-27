@@ -4,13 +4,10 @@
  * All Rights Reserved
  */
 
-package com.comet.keyboard.install.wizard;
-
-import java.util.Locale;
+package com.comet.keyboard.install;
 
 import junit.framework.Assert;
 
-import com.comet.keyboard.Home;
 import com.comet.keyboard.R;
 import com.comet.keyboard.layouts.KeyboardLayout;
 import com.comet.keyboard.settings.Settings;
@@ -20,7 +17,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;

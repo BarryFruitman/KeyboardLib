@@ -1,4 +1,4 @@
-package com.comet.keyboard.install.wizard;
+package com.comet.keyboard.install;
 
 import java.util.Arrays;
 
