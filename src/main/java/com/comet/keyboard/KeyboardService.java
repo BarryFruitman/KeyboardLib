@@ -63,9 +63,7 @@ import com.comet.keyboard.dictionary.Suggestor.FinalSuggestions;
 import com.comet.keyboard.dictionary.DictionaryUtils;
 import com.comet.keyboard.dictionary.updater.DictionaryDownloader;
 import com.comet.keyboard.dictionary.updater.DictionaryItem;
-import com.comet.keyboard.install.Installer;
-import com.comet.keyboard.install.LanguageSelector;
-import com.comet.keyboard.install.Installer.InstallStep;
+import com.comet.keyboard.settings.LanguageSelector;
 import com.comet.keyboard.layouts.KeyboardLayout;
 import com.comet.keyboard.models.KeyHeight;
 import com.comet.keyboard.settings.AppRater;
@@ -4030,18 +4028,6 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
 
         DictionaryDownloader.setOnResultListener(new OnResultListener() {
             public void onSuccess() {
-                String currLangCode =
-                        LanguageSelector.getLanguagePreference(KeyboardService.this);
-
-                DictionaryItem dicItem =
-                        KeyboardApp.getApp().getUpdater().getDictionaryItem(currLangCode);
-                if (dicItem != null && !dicItem.isNeedUpdate) {
-                    // Set install step to final
-                    Installer.setCurrStep(
-                            KeyboardService.this,
-                            InstallStep.INSTALL_FINISHED);
-                }
-
                 KeyboardApp.getApp().getUpdater().markAsReadAll();
 
                 KeyboardApp.getApp().getUpdater().saveDicUpdatedTime(Utils.getTimeMilis());
