@@ -560,10 +560,7 @@ public class DictionaryDownloader extends Activity {
 									new String[]{word});
 						}
 					}
-
 					languageCursor.close();
-
-					Log.e("DICTIONARYDOWNLOAD", "MERGED ROW " + iRow + " of " + updateRowCount);
 
 					mActivity.mProgressDialog
 							.setProgress((int) ((((double) iRow++ / (double) updateRowCount) * 100 * mMergeRatio) + mDownloadRatio * 100));
