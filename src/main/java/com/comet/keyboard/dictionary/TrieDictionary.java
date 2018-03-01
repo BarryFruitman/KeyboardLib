@@ -106,6 +106,7 @@ abstract class TrieDictionary<S extends Suggestion, R extends SuggestionsRequest
 	Suggestions<S> getMatches(final String word) {
 		final Suggestions<S> suggestions =
 				new SortedSuggestions<>(new SuggestionsRequest(word), getComparator());
+
 		findSuggestionsInTrie(
 				"",
 				new StringBuilder(suggestions.getComposing()),

@@ -23,6 +23,12 @@ public class ArraySuggestions<S extends Suggestion> implements Suggestions<S> {
     }
 
 
+    ArraySuggestions(final SuggestionsRequest request, final Suggestions<S> suggestions) {
+        this(request);
+        addAll(suggestions);
+    }
+
+
     @Override
     public String getComposing() {
         return mRequest.getComposing();
@@ -115,7 +121,7 @@ public class ArraySuggestions<S extends Suggestion> implements Suggestions<S> {
 
 
     @Override
-    public void addAll(final Suggestions suggestions) {
+    public void addAll(final Suggestions<S> suggestions) {
         if(suggestions == null) {
             return;
         }
@@ -129,7 +135,7 @@ public class ArraySuggestions<S extends Suggestion> implements Suggestions<S> {
     }
 
 
-    public void addAll(final int index, final Suggestions suggestions) {
+    public void addAll(final int index, final Suggestions<S> suggestions) {
         if(suggestions == null) {
             return;
         }

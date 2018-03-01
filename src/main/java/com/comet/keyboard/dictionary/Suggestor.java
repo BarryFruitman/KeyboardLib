@@ -254,9 +254,8 @@ public final class Suggestor {
 
 
 		public void assignDefault() {
-			setDefault(-1);
-
 			if(size() == 0) {
+				setNoDefault();
 				return;
 			}
 
@@ -265,31 +264,20 @@ public final class Suggestor {
 				if (suggestion instanceof ShortcutDictionary.ShortcutSuggestion
 						|| suggestion instanceof LanguageDictionary.LanguageSuggestion
 						|| suggestion instanceof LookAheadDictionary.LookAheadSuggestion) {
-					setDefault(indexOf(suggestion.getWord()));
+					mDefaultIndex = indexOf(suggestion.getWord());
 					break;
 				}
 			}
-		}
 
-
-		private void setDefault(final int defaultIndex) {
-			mDefaultIndex = defaultIndex;
-
-			if(mDefaultIndex == -1 || mDefaultIndex >= size()) {
-				return;
-			}
-
-			final Suggestion defaultSuggestion = get(mDefaultIndex);
-			if (defaultSuggestion instanceof LanguageDictionary.LanguageSuggestion) {
-				if (((LanguageDictionary.LanguageSuggestion)
-						defaultSuggestion).getScore() > MIN_SCORE_FOR_DEFAULT) {
-					setNoDefault();
-				}
-			} else if (defaultSuggestion instanceof LookAheadDictionary.LookAheadSuggestion) {
-				if (((LookAheadDictionary.LookAheadSuggestion)
-						defaultSuggestion).getScore() > MIN_SCORE_FOR_DEFAULT) {
-					setNoDefault();
-				}
+			if(mDefaultIndex == -1) {
+				// Composing is the default if there is no other.
+				mDefaultIndex = 0;
+			} else if(mDefaultIndex > 0
+					&& getComposing().length() == 1
+					&& !get(mDefaultIndex).matches(getComposing())) {
+				// Single letter composing suggestions should always be the default
+				// unless it's a real word.
+				mDefaultIndex = 0;
 			}
 		}
 
@@ -343,7 +331,7 @@ public final class Suggestor {
 				} else {
 					iterator.remove();
 					if(iSuggestion < mDefaultIndex) {
-						setDefault(mDefaultIndex-1);
+						mDefaultIndex = mDefaultIndex - 1;
 					} else if(iSuggestion == mDefaultIndex) {
 						// Deleting the default???
 						// Don't do it

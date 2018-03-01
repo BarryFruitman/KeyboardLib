@@ -10,11 +10,11 @@ import android.util.Log;
 import com.comet.keyboard.KeyboardApp;
 import com.comet.keyboard.KeyboardService;
 import com.comet.keyboard.R;
-import com.comet.keyboard.layouts.KeyboardLayout;
 
 import junit.framework.Assert;
 
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.Locale;
 
 
@@ -74,8 +74,26 @@ public final class LanguageDictionary extends TrieDictionary<LanguageDictionary.
 
 
 	@Override
+	public Suggestions<LanguageSuggestion> getSuggestions(final SuggestionsRequest request) {
+		final ArraySuggestions<LanguageSuggestion> unsortedSuggestions =
+				new ArraySuggestions<>(
+						request,
+						super.getSuggestions(request));
+
+		// Add top match (if any) to top of results.
+		final Iterator<LanguageSuggestion> matchIterator =
+				getMatches(request.getComposing()).iterator();
+		if(matchIterator.hasNext()) {
+			unsortedSuggestions.add(0, matchIterator.next());
+		}
+
+		return unsortedSuggestions;
+	}
+
+
+	@Override
 	protected void addSuggestion(
-			final Suggestions suggestions,
+			final Suggestions<LanguageSuggestion> suggestions,
 			final String word,
 			final int count,
 			final int countSum,
@@ -115,13 +133,11 @@ public final class LanguageDictionary extends TrieDictionary<LanguageDictionary.
 		private final double mFrequency;
 		private final double mEditDistance;
 		private final int mCount;
-		private final int mCountSum;
 		private final double mScore;
 
-		public LanguageSuggestion(String word, int count, int countSum, double editDistance) {
+		private LanguageSuggestion(String word, int count, int countSum, double editDistance) {
 			super(word);
 			mCount = count;
-			mCountSum = countSum;
 			mFrequency = (double) count / (double) countSum;
 			mEditDistance = editDistance;
 			mScore = computeScore();
@@ -143,12 +159,7 @@ public final class LanguageDictionary extends TrieDictionary<LanguageDictionary.
 		}
 
 
-		public int getCountSum() {
-			return mCountSum;
-		}
-
-		
-		public double getScore() {
+		double getScore() {
 			return mScore;
 		}
 
@@ -186,7 +197,7 @@ public final class LanguageDictionary extends TrieDictionary<LanguageDictionary.
 		private static final String LEXICON_FIELD_COUNT = "count";
 
 
-		protected LanguageDictionaryDB(Context context, String language) {
+		private LanguageDictionaryDB(Context context, String language) {
 			super(context, language);
 		}
 
@@ -234,20 +245,18 @@ public final class LanguageDictionary extends TrieDictionary<LanguageDictionary.
 		}
 
 
-		public boolean addWordToLexicon(final String word, final int count) {
+		private boolean addWordToLexicon(final String word, final int count) {
 			Assert.assertTrue(word != null);
 			Assert.assertTrue(count > 0);
 
-			final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-
-			try {
+			try (SQLiteDatabase db = mOpenHelper.getWritableDatabase()) {
 				// Append new shortcut item to database
 				final ContentValues values = new ContentValues();
 				values.put(LEXICON_FIELD_WORD, word);
 				values.put(LEXICON_FIELD_COUNT, count);
 
-				long result = db.update(LEXICON_TABLE_NAME, values, "word=?", new String[] { word });
-				if(result == 0) {
+				long result = db.update(LEXICON_TABLE_NAME, values, "word=?", new String[]{word});
+				if (result == 0) {
 					result = db.insert(LEXICON_TABLE_NAME, null, values);
 					if (result == -1) {
 						return false;
@@ -256,15 +265,13 @@ public final class LanguageDictionary extends TrieDictionary<LanguageDictionary.
 			} catch (SQLiteException e) {
 				Log.e(KeyboardApp.LOG_TAG, "Failed to add word to " + LEXICON_TABLE_NAME, e);
 				return false;
-			} finally {
-				db.close();
 			}
 
 			return true;
 		}
 
 
-		public void deleteWordFromLexicon(final String word) {
+		private void deleteWordFromLexicon(final String word) {
 			final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 			try {
 				db.delete(LEXICON_TABLE_NAME, LEXICON_FIELD_WORD + "=?",

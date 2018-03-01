@@ -35,14 +35,13 @@ public abstract class Suggestion {
     }
 
 
-
     public boolean matches(final String word) {
         return normalize(mWord).equalsIgnoreCase(normalize(word));
     }
 
 
     static String normalize(final String word) {
-        return word.replaceAll("[^a-zA-Z0-9 ]", "");
+        return word.replaceAll("[^a-zA-Z0-9 \\-]", "");
     }
 
 
