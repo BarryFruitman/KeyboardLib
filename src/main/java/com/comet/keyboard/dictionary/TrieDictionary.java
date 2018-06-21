@@ -77,7 +77,7 @@ abstract class TrieDictionary<S extends Suggestion, R extends SuggestionsRequest
 	int getCount(final String word) {
 		Node node = mTrie.findNode(word, mExactCharComparator);
 		if(node == null || !node.isEntry() || node.getWord().length() != word.length()) {
-			return -1;
+			return 0;
 		}
 
 		return node.getCount();
@@ -346,7 +346,7 @@ abstract class TrieDictionary<S extends Suggestion, R extends SuggestionsRequest
 		mCountSum += countIncrement;
 
 		// Write to db
-		addToDB(word, count);
+		incrementDb(word, countIncrement);
 
 		return count;
 	}
@@ -398,7 +398,7 @@ abstract class TrieDictionary<S extends Suggestion, R extends SuggestionsRequest
 	}
 
 
-	abstract void addToDB(String word, int count);
+	abstract void incrementDb(String word, int increment);
 
 
 	abstract void deleteFromDB(String word);

@@ -20,7 +20,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-compat:24.2.1'
-    compile files('libs/google_translate.jar')
-    compile files('libs/voiceimeutils.jar')
+    implementation 'com.android.support:support-compat:27.1.1'
+    implementation files('libs/google_translate.jar')
+    implementation files('libs/voiceimeutils.jar')
 }

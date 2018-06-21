@@ -1,6 +1,5 @@
 package com.comet.keyboard.dictionary;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -11,8 +10,6 @@ import com.comet.keyboard.KeyboardApp;
 import com.comet.keyboard.KeyboardService;
 import com.comet.keyboard.R;
 
-import junit.framework.Assert;
-
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Locale;
@@ -22,6 +19,7 @@ public final class LanguageDictionary extends TrieDictionary<LanguageDictionary.
 
 	private static TrieDictionary mLoading = null;
 	private LanguageDictionaryDB mLanguageDB;
+	private UserDB mUserDB;
 
 
 	LanguageDictionary(final Context context, final KeyCollator collator) {
@@ -69,7 +67,13 @@ public final class LanguageDictionary extends TrieDictionary<LanguageDictionary.
 		Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
 
 		// Now load all records.
-		setCountSum(mLanguageDB.loadDictionaryFromDB(this, -1));
+		int countSum = mLanguageDB.loadDictionaryFromDB(this, -1);
+
+		// Merge in user db
+		mUserDB = UserDB.getUserDB(mContext, mCollator.getLanguageCode());
+		countSum += mUserDB.loadLanguage(this);
+
+		setCountSum(countSum);
 	}
 
 
@@ -177,16 +181,16 @@ public final class LanguageDictionary extends TrieDictionary<LanguageDictionary.
 
 
 	@Override
-	final void addToDB(String word, int count) {
+	final void incrementDb(String word, int increment) {
 		// Write to db
-		mLanguageDB.addWordToLexicon(word, count);
+		mUserDB.insertOrIncrement(mCollator.getLanguageCode(), word, increment);
 	}
 
 
 	@Override
 	final void deleteFromDB(String word) {
 		// Write to db
-		mLanguageDB.deleteWordFromLexicon(word);
+		mUserDB.deleteWordFromLexicon(mCollator.getLanguageCode(), word);
 	}
 
 
@@ -242,45 +246,6 @@ public final class LanguageDictionary extends TrieDictionary<LanguageDictionary.
 			}
 
 			return countSum;
-		}
-
-
-		private boolean addWordToLexicon(final String word, final int count) {
-			Assert.assertTrue(word != null);
-			Assert.assertTrue(count > 0);
-
-			try (SQLiteDatabase db = mOpenHelper.getWritableDatabase()) {
-				// Append new shortcut item to database
-				final ContentValues values = new ContentValues();
-				values.put(LEXICON_FIELD_WORD, word);
-				values.put(LEXICON_FIELD_COUNT, count);
-
-				long result = db.update(LEXICON_TABLE_NAME, values, "word=?", new String[]{word});
-				if (result == 0) {
-					result = db.insert(LEXICON_TABLE_NAME, null, values);
-					if (result == -1) {
-						return false;
-					}
-				}
-			} catch (SQLiteException e) {
-				Log.e(KeyboardApp.LOG_TAG, "Failed to add word to " + LEXICON_TABLE_NAME, e);
-				return false;
-			}
-
-			return true;
-		}
-
-
-		private void deleteWordFromLexicon(final String word) {
-			final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-			try {
-				db.delete(LEXICON_TABLE_NAME, LEXICON_FIELD_WORD + "=?",
-						new String[] { word } );
-			} catch (SQLiteException e) {
-				Log.e(KeyboardApp.LOG_TAG, e.getMessage(), e);
-			} finally {
-				mOpenHelper.close();
-			}
 		}
 	}
 }

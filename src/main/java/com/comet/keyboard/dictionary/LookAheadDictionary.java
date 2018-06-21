@@ -196,7 +196,7 @@ public class LookAheadDictionary
 
 
 	@Override
-	final void addToDB(final String trigram, final int count) {
+	final void incrementDb(final String trigram, final int count) {
 		// Write to db
 		mLookAheadDB.addTriGramToLookAhead(trigram, count);
 	}

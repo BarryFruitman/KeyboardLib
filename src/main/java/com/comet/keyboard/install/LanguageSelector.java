@@ -161,7 +161,6 @@ public class LanguageSelector extends Activity implements View.OnClickListener {
         if(mDicts != null) {
 			bundle.putStringArray(DictionaryDownloader.LANG_LIST, mDicts);
 		}
-		bundle.putBoolean(DictionaryDownloader.IS_UPDATE, false);
 		intent.putExtra(Settings.BUNDLE_KEY, bundle);
 
         startActivityForResult(intent, REQ_DOWNLOAD);
