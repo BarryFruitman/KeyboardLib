@@ -1154,31 +1154,31 @@ public class KeyboardView extends View {
 	 * @param state
 	 * @return
 	 */
-	protected int getFnKeyCode(String state) {
-		int primaryCode = 0;
-		if (state.equals(getContext().getString(
-				R.string.any_key_action_id_emoji_menu))) {
-			primaryCode = BaseKeyboard.KEYCODE_EMOJI;
-		} else if (state.equals(getContext().getString(
-				R.string.any_key_action_id_arrow_keypad))) {
-			primaryCode = BaseKeyboard.KEYCODE_ARROWS;
-		} else if (state.equals(getContext().getString(
-				R.string.any_key_action_id_voice_input))) {
-			primaryCode = BaseKeyboard.KEYCODE_VOICE;
-		} else if (state.equals(getContext().getString(
-				R.string.any_key_action_id_translator))) {
-			primaryCode = BaseKeyboard.KEYCODE_TRANSLATE;
-		} else if (state.equals(getContext().getString(
-				R.string.any_key_action_id_locale))) {
-			primaryCode = BaseKeyboard.KEYCODE_LOCALE;
-		} else if (state.equals(getContext().getString(
-				R.string.any_key_action_id_settings))) {
-			primaryCode = BaseKeyboard.KEYCODE_SETTINGS;
-		} else {
-			throw new IllegalArgumentException("Can not detect any key code");
-		}    
+    protected int getFnKeyCode(String state) {
+        int primaryCode = 0;
+        if (state.equals(getContext().getString(R.string.any_key_action_id_emoji_menu))
+                || state.equals(getContext().getString(R.string.any_key_action_id_smiley_menu_deprecated))) {
+            primaryCode = BaseKeyboard.KEYCODE_EMOJI;
+        } else if (state.equals(getContext().getString(
+                R.string.any_key_action_id_arrow_keypad))) {
+            primaryCode = BaseKeyboard.KEYCODE_ARROWS;
+        } else if (state.equals(getContext().getString(
+                R.string.any_key_action_id_voice_input))) {
+            primaryCode = BaseKeyboard.KEYCODE_VOICE;
+        } else if (state.equals(getContext().getString(
+                R.string.any_key_action_id_translator))) {
+            primaryCode = BaseKeyboard.KEYCODE_TRANSLATE;
+        } else if (state.equals(getContext().getString(
+                R.string.any_key_action_id_locale))) {
+            primaryCode = BaseKeyboard.KEYCODE_LOCALE;
+        } else if (state.equals(getContext().getString(
+                R.string.any_key_action_id_settings))) {
+            primaryCode = BaseKeyboard.KEYCODE_SETTINGS;
+        } else {
+            throw new IllegalArgumentException("I don't recognize state '" + state + "'");
+        }
 
-		return primaryCode;
+        return primaryCode;
 	}
 
 	
@@ -1342,8 +1342,8 @@ public class KeyboardView extends View {
 
 		KeyboardTheme theme = KeyboardThemeManager.getCurrentTheme(); 
 
-		if (state.equals(getContext().getString(
-				R.string.any_key_action_id_emoji_menu))) {
+		if (state.equals(getContext().getString(R.string.any_key_action_id_emoji_menu))
+                || state.equals(getContext().getString(R.string.any_key_action_id_smiley_menu_deprecated))) {
 			// Emoji
 			icon = theme.getDrawable(superEnabled
 					? KeyboardTheme.KEY_SYM_SUPER_EMOJI
@@ -1989,8 +1989,8 @@ public class KeyboardView extends View {
 			return;
 
 		// Override default label/icon for customizable Any Key
-		if (mAnyKeyAction.equals(getContext().getString(
-				R.string.any_key_action_id_emoji_menu))) {
+		if (mAnyKeyAction.equals(getContext().getString(R.string.any_key_action_id_emoji_menu))
+                || mAnyKeyAction.equals(getContext().getString(R.string.any_key_action_id_smiley_menu_deprecated))) {
 			key.icon = getAnyKeyIcon(mAnyKeyAction, false);
 			key.iconPreview = kbTheme.getDrawable(KeyboardTheme.KEY_SYM_POPUP_EMOJI);
 			key.codes[0] = BaseKeyboard.KEYCODE_EMOJI;

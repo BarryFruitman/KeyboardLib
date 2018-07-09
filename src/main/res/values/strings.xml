@@ -142,6 +142,7 @@
     <string name="theme_id_eastereggs2">eastereggs2</string>
     
     <!-- Any Key action ids -->
+    <string name="any_key_action_id_smiley_menu_deprecated">smiley_menu</string>
     <string name="any_key_action_id_emoji_menu">emoji_menu</string>
     <string name="any_key_action_id_voice_input">voice_input</string>
     <string name="any_key_action_id_arrow_keypad">arrow_keypad</string>

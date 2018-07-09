@@ -634,7 +634,8 @@ public class BaseKeyboard extends Keyboard {
 
 			KeyboardTheme theme = KeyboardThemeManager.getCurrentTheme(); 
 
-			if (state.equals(context.getString(R.string.any_key_action_id_emoji_menu))) {
+			if (state.equals(context.getString(R.string.any_key_action_id_emoji_menu))
+					|| state.equals(context.getString(R.string.any_key_action_id_smiley_menu_deprecated))) {
 				// Emoji
 				icon = theme.getDrawable(superEnabled ? KeyboardTheme.KEY_SYM_SUPER_EMOJI : KeyboardTheme.KEY_SYM_EMOJI);
 			} else if (state.equals(context.getString(R.string.any_key_action_id_arrow_keypad))) {
