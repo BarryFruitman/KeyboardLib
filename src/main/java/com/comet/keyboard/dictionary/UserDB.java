@@ -1,10 +1,5 @@
 package com.comet.keyboard.dictionary;
 
-import junit.framework.Assert;
-
-import com.comet.keyboard.KeyboardApp;
-
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -13,6 +8,10 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
+
+import com.comet.keyboard.KeyboardApp;
+
+import junit.framework.Assert;
 
 public final class UserDB {
 
@@ -57,6 +56,7 @@ public final class UserDB {
 			final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
 			// Append new shortcut item to database
 			final ContentValues values = new ContentValues();
+			values.put(LEXICON_FIELD_LANG, language);
 			values.put(LEXICON_FIELD_WORD, word);
 			int count = 0;
 
@@ -362,7 +362,7 @@ public final class UserDB {
 	private class UserDbOpenHelper extends SQLiteOpenHelper {
 
 		private static final String DB_FILE = "user_dictionary.db";
-		private static final int DB_VERSION = 2;
+		private static final int DB_VERSION = 3;
 
 		private UserDbOpenHelper(final Context context) {
 			super(context, DB_FILE, null, DB_VERSION);
@@ -409,7 +409,25 @@ public final class UserDB {
 
 		@Override
 		public void onUpgrade(final SQLiteDatabase db, final int versionOld, final int versionNew) {
-			// Do nothing
+			upgradeToV3(db, versionOld, versionNew);
+		}
+
+		public void upgradeToV3(final SQLiteDatabase db, final int versionOld, final int versionNew) {
+			if (versionOld >= 3) {
+				return;
+			}
+
+			if (versionOld == 2) {
+				// Delete entries with missing language values
+				try {
+					db.delete(LEXICON_TABLE_NAME,
+							LEXICON_FIELD_LANG + "=''",
+							null);
+				} catch (SQLiteException e) {
+					Log.e(KeyboardApp.LOG_TAG, e.getMessage(), e);
+				}
+
+			}
 		}
 	}
 }
