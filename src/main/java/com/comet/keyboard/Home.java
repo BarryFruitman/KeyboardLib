@@ -232,13 +232,6 @@ public class Home extends Activity /* implements Runnable */{
 
 	
 	
-	public void onClickGooglePlus(View view) {
-		launchBrowser(getResources().getString(
-				R.string.settings_follow_google_plus_url));
-	}
-
-	
-	
 	public void launchBrowser(String url) {
 		Uri uri = Uri.parse(url);
 		Intent intent = new Intent(Intent.ACTION_VIEW, uri);

@@ -120,28 +120,21 @@ public class Settings extends PreferenceActivity {
             p.setOnPreferenceClickListener(surveyListener);
         }
 
-        p = findPreference("knowledge_base");
-        if (p != null)
-            p.setOnPreferenceClickListener(knowledgeBaseListener);
-
-        p = findPreference("community");
-        if (p != null) {
-            p.setTitle(Utils.formatStringWithAppName(this, R.string.settings_title_community));
-            p.setSummary(Utils.formatStringWithAppName(this, R.string.settings_summary_community));
-            p.setOnPreferenceClickListener(communityClickListener);
-        }
-
-        p = findPreference("open_ticket");
-        if (p != null)
-            p.setOnPreferenceClickListener(openTicketClickListener);
-
-        p = findPreference("my_tickets");
-        if (p != null)
-            p.setOnPreferenceClickListener(myTicketsClickListener);
-
-        p = findPreference("email_support");
-        if (p != null)
-            p.setOnPreferenceClickListener(mEmailListener);
+//        p = findPreference("knowledge_base");
+//        if (p != null)
+//            p.setOnPreferenceClickListener(knowledgeBaseListener);
+//
+//        p = findPreference("open_ticket");
+//        if (p != null)
+//            p.setOnPreferenceClickListener(openTicketClickListener);
+//
+//        p = findPreference("my_tickets");
+//        if (p != null)
+//            p.setOnPreferenceClickListener(myTicketsClickListener);
+//
+//        p = findPreference("email_support");
+//        if (p != null)
+//            p.setOnPreferenceClickListener(mEmailListener);
 
         p = findPreference("key_follow_twitter");
         if (p != null)
@@ -292,10 +285,10 @@ public class Settings extends PreferenceActivity {
         if (p != null)
             p.setOnPreferenceChangeListener(preferenceChangeListener);
 
-        // submit logs
-        p = findPreference("submit_logs");
-        if (p != null)
-            p.setOnPreferenceClickListener(submitLogsClickListener);
+//        // submit logs
+//        p = findPreference("submit_logs");
+//        if (p != null)
+//            p.setOnPreferenceClickListener(submitLogsClickListener);
 
         p = findPreference("debug_mode");
         if (p != null)
@@ -733,20 +726,6 @@ public class Settings extends PreferenceActivity {
     };
 
     /**
-     * Listener for community website option.
-     */
-    private Preference.OnPreferenceClickListener communityClickListener = new Preference.OnPreferenceClickListener() {
-        public boolean onPreferenceClick(Preference p) {
-
-            // Launch the ticket list in a browser
-            Uri uri = Uri.parse("http://community.cometapps.com");
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(intent);
-            return true;
-        }
-    };
-
-    /**
      * Listener for social media options.
      */
     private Preference.OnPreferenceClickListener followUsListener = new Preference.OnPreferenceClickListener() {
@@ -788,19 +767,19 @@ public class Settings extends PreferenceActivity {
         }
     };
 
-    /**
-     * Listener for help option.
-     */
-    private Preference.OnPreferenceClickListener knowledgeBaseListener = new Preference.OnPreferenceClickListener() {
-        public boolean onPreferenceClick(Preference p) {
-
-            // Launch the knowledge base in a browser
-            Uri uri = Uri.parse("http://support.cometapps.com/forums/20173382-tips-how-to-s"); // TEMPORARILY CHANGED FROM http://support.cometapps.com/forums
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(intent);
-            return true;
-        }
-    };
+//    /**
+//     * Listener for help option.
+//     */
+//    private Preference.OnPreferenceClickListener knowledgeBaseListener = new Preference.OnPreferenceClickListener() {
+//        public boolean onPreferenceClick(Preference p) {
+//
+//            // Launch the knowledge base in a browser
+//            Uri uri = Uri.parse("http://support.cometapps.com/forums/20173382-tips-how-to-s"); // TEMPORARILY CHANGED FROM http://support.cometapps.com/forums
+//            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//            startActivity(intent);
+//            return true;
+//        }
+//    };
 
     /**
      * Listener for portrait key height option.
@@ -841,33 +820,33 @@ public class Settings extends PreferenceActivity {
 
     private KillActivityReceiver mKillReceiver;
 
-    /**
-     * Listener for open tickets option.
-     */
-    private Preference.OnPreferenceClickListener myTicketsClickListener = new Preference.OnPreferenceClickListener() {
-        public boolean onPreferenceClick(Preference p) {
-
-            // Launch the ticket list in a browser
-            Uri uri = Uri.parse("http://support.cometapps.com/requests");
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(intent);
-            return true;
-        }
-    };
-
-    /**
-     * Listener for support ticket option.
-     */
-    private Preference.OnPreferenceClickListener openTicketClickListener = new Preference.OnPreferenceClickListener() {
-        public boolean onPreferenceClick(Preference p) {
-
-            // Launch the ticket list in a browser
-            Uri uri = Uri.parse("http://support.cometapps.com/anonymous_requests/new");
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            startActivity(intent);
-            return true;
-        }
-    };
+//    /**
+//     * Listener for open tickets option.
+//     */
+//    private Preference.OnPreferenceClickListener myTicketsClickListener = new Preference.OnPreferenceClickListener() {
+//        public boolean onPreferenceClick(Preference p) {
+//
+//            // Launch the ticket list in a browser
+//            Uri uri = Uri.parse("http://support.cometapps.com/requests");
+//            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//            startActivity(intent);
+//            return true;
+//        }
+//    };
+//
+//    /**
+//     * Listener for support ticket option.
+//     */
+//    private Preference.OnPreferenceClickListener openTicketClickListener = new Preference.OnPreferenceClickListener() {
+//        public boolean onPreferenceClick(Preference p) {
+//
+//            // Launch the ticket list in a browser
+//            Uri uri = Uri.parse("http://support.cometapps.com/anonymous_requests/new");
+//            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//            startActivity(intent);
+//            return true;
+//        }
+//    };
 
     /**
      * Listener for portrait key height option.
@@ -952,65 +931,65 @@ public class Settings extends PreferenceActivity {
         }
     };
 
-    /**
-     * Listener for submit logs
-     */
-    private Preference.OnPreferenceClickListener submitLogsClickListener = new Preference.OnPreferenceClickListener() {
-        public boolean onPreferenceClick(Preference p) {
-
-            File file = getFileStreamPath("debug.log");
-            if (file.exists() && file.length() > 0) {
-
-                HttpLogSender sender = new HttpLogSender() {
-                    ProgressDialog loaderDialog;
-
-                    @Override
-                    protected void onPreExecute() {
-                        loaderDialog = new ProgressDialog(Settings.this);
-                        loaderDialog.setMessage(Settings.this.getString(R.string.submit_logs_loader));
-                        loaderDialog.setCancelable(false);
-                        loaderDialog.setOnCancelListener(new OnCancelListener() {
-                            @Override
-                            public void onCancel(DialogInterface dialog) {
-                                cancel(true);
-                            }
-                        });
-                        loaderDialog.show();
-                    }
-
-                    @Override
-                    protected void onPostExecute(Boolean result) {
-                        loaderDialog.dismiss();
-
-                        if (!isCancelled()) {
-                            if (result == false) {
-                                Toast.makeText(Settings.this,
-                                        R.string.submit_logs_fail_msg,
-                                        Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(Settings.this,
-                                        R.string.submit_logs_success_msg,
-                                        Toast.LENGTH_SHORT).show();
-                            }
-
-                            enableDebugMode(false);
-                            ((CheckBoxPreference) findPreference("debug_mode")).setChecked(false);
-
-                            deleteDebugLogs();
-                        }
-                    }
-
-                };
-                sender.execute(file);
-
-            } else {
-                Toast.makeText(Settings.this, R.string.submit_logs_no_file,
-                        Toast.LENGTH_LONG).show();
-            }
-
-            return true;
-        }
-    };
+//    /**
+//     * Listener for submit logs
+//     */
+//    private Preference.OnPreferenceClickListener submitLogsClickListener = new Preference.OnPreferenceClickListener() {
+//        public boolean onPreferenceClick(Preference p) {
+//
+//            File file = getFileStreamPath("debug.log");
+//            if (file.exists() && file.length() > 0) {
+//
+//                HttpLogSender sender = new HttpLogSender() {
+//                    ProgressDialog loaderDialog;
+//
+//                    @Override
+//                    protected void onPreExecute() {
+//                        loaderDialog = new ProgressDialog(Settings.this);
+//                        loaderDialog.setMessage(Settings.this.getString(R.string.submit_logs_loader));
+//                        loaderDialog.setCancelable(false);
+//                        loaderDialog.setOnCancelListener(new OnCancelListener() {
+//                            @Override
+//                            public void onCancel(DialogInterface dialog) {
+//                                cancel(true);
+//                            }
+//                        });
+//                        loaderDialog.show();
+//                    }
+//
+//                    @Override
+//                    protected void onPostExecute(Boolean result) {
+//                        loaderDialog.dismiss();
+//
+//                        if (!isCancelled()) {
+//                            if (result == false) {
+//                                Toast.makeText(Settings.this,
+//                                        R.string.submit_logs_fail_msg,
+//                                        Toast.LENGTH_SHORT).show();
+//                            } else {
+//                                Toast.makeText(Settings.this,
+//                                        R.string.submit_logs_success_msg,
+//                                        Toast.LENGTH_SHORT).show();
+//                            }
+//
+//                            enableDebugMode(false);
+//                            ((CheckBoxPreference) findPreference("debug_mode")).setChecked(false);
+//
+//                            deleteDebugLogs();
+//                        }
+//                    }
+//
+//                };
+//                sender.execute(file);
+//
+//            } else {
+//                Toast.makeText(Settings.this, R.string.submit_logs_no_file,
+//                        Toast.LENGTH_LONG).show();
+//            }
+//
+//            return true;
+//        }
+//    };
 
 
     /**

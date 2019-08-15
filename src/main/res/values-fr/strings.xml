@@ -228,8 +228,6 @@
     <string name="settings_survey_description">Aider à améliorer %1$s en complétant un petit sondage clients</string>
  <!-- Contact us -->
     <string name="settings_category_contact">Contactez-nous</string>
-    <string name="settings_title_community">Communauté %1$s</string>
-    <string name="settings_summary_community">Rejoignez notre communauté et donnez votre avis sur %1$s</string>
     <string name="settings_title_open_ticket">Ouvrir un ticket de support</string>
     <string name="settings_title_my_ticket">Mes tickets ouverts</string>
     <string name="settings_title_email_support">Support par email</string>
@@ -461,14 +459,7 @@
     <string name="submit_logs_success_msg">Le fichier journal a été correctement envoyé. L\&apos;enregistrement de débogage a été désactivé.</string>
     <string name="submit_logs_fail_msg">Échec d\&apos;envoi du fichier journal.</string>
     <string name="submit_logs_no_file">Le journal est vide. Veuillez recueillir des données et réessayer.</string>
- <!-- Coupon codes -->
- <!-- Coupon codes are used to unlock the app -->
-    <string name="settings_category_coupon">Coupon</string>
-    <string name="settings_title_enter_coupon_code">Entrez le code du coupon</string>
-    <string name="settings_summary_enter_coupon">Si vous avez un code de promotion, saisissez-le ici.</string>
-    <string name="error_coupon_code">Ce code de promotion n\&apos;est pas valide.</string>
-    <string name="coupon_applied">Merci. Jours restants : %1$d jours</string>
- <!-- Days left in coupon code -->
+
     <string name="waiting">attente...</string>
     <string name="dictionary_loading_message">Chargement du dictionnaire...</string>
     <string name="dictionary_nothing_to_download">Aucun dictionnaire à télécharger</string>

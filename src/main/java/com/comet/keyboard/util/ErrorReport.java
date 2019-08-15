@@ -49,34 +49,34 @@ public class ErrorReport implements Runnable {
 	public ErrorReport(Context context, Throwable exception, String errorId) {
 		mContext = context;
 		
-		// Get stack trace
-		mException = exception;
-		StringWriter stackWriter = new StringWriter();
-		PrintWriter printWriter = new PrintWriter(stackWriter);
-		if(mException == null) {
-			mException = new Exception("No exception");
-			mException.fillInStackTrace();
-		}
-		mException.printStackTrace(printWriter);
-
-		String enabledIMEs = android.provider.Settings.Secure.getString(mContext.getApplicationContext().getContentResolver(),
-				android.provider.Settings.Secure.ENABLED_INPUT_METHODS); 
-		putParam("enabled_imes", enabledIMEs);
-
-		// Get screen size		
-		int SCREEN_WIDTH = ((WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
-		int SCREEN_HEIGHT = ((WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getHeight();
-
-		putParam("stack_trace", stackWriter.getBuffer().toString());
-		putParam("error_id", errorId);
-		putParam("device_id", Utils.getDeviceID(context));
-//		putParam("google_id", Utils.getGmailAcount(context));
-		putParam("heap_size", "" + Debug.getNativeHeapSize());
-		putParam("heap_free", "" + Debug.getNativeHeapFreeSize());
-		putParam("heap_used", "" + Debug.getNativeHeapAllocatedSize());
-		putParam("app_ver", KeyboardApp.version);
-		putParam("os_ver", android.os.Build.VERSION.RELEASE);
-		putParam("screen", SCREEN_WIDTH + "x" + SCREEN_HEIGHT);
+//		// Get stack trace
+//		mException = exception;
+//		StringWriter stackWriter = new StringWriter();
+//		PrintWriter printWriter = new PrintWriter(stackWriter);
+//		if(mException == null) {
+//			mException = new Exception("No exception");
+//			mException.fillInStackTrace();
+//		}
+//		mException.printStackTrace(printWriter);
+//
+//		String enabledIMEs = android.provider.Settings.Secure.getString(mContext.getApplicationContext().getContentResolver(),
+//				android.provider.Settings.Secure.ENABLED_INPUT_METHODS);
+//		putParam("enabled_imes", enabledIMEs);
+//
+//		// Get screen size
+//		int SCREEN_WIDTH = ((WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
+//		int SCREEN_HEIGHT = ((WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getHeight();
+//
+//		putParam("stack_trace", stackWriter.getBuffer().toString());
+//		putParam("error_id", errorId);
+//		putParam("device_id", Utils.getDeviceID(context));
+////		putParam("google_id", Utils.getGmailAcount(context));
+//		putParam("heap_size", "" + Debug.getNativeHeapSize());
+//		putParam("heap_free", "" + Debug.getNativeHeapFreeSize());
+//		putParam("heap_used", "" + Debug.getNativeHeapAllocatedSize());
+//		putParam("app_ver", KeyboardApp.version);
+//		putParam("os_ver", android.os.Build.VERSION.RELEASE);
+//		putParam("screen", SCREEN_WIDTH + "x" + SCREEN_HEIGHT);
 	}
 
 
@@ -240,20 +240,20 @@ public class ErrorReport implements Runnable {
 
 	@Override
 	public void run() {
-		// Post to server
-		try {
-			HttpClient client = new DefaultHttpClient();  
-			String postURL = "http://cometapps.com/typesmart/reports/error_report.php";
-			HttpPost post = new HttpPost(postURL);
-			UrlEncodedFormEntity ent = new UrlEncodedFormEntity(mParams,HTTP.UTF_8);
-			post.setEntity(ent);
-			HttpResponse responsePOST = client.execute(post);  
-			HttpEntity resEntity = responsePOST.getEntity();  
-			if (resEntity != null) {    
-				Log.d(KeyboardApp.LOG_TAG, EntityUtils.toString(resEntity));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		// Post to server
+//		try {
+//			HttpClient client = new DefaultHttpClient();
+//			String postURL = "http://cometapps.com/typesmart/reports/error_report.php";
+//			HttpPost post = new HttpPost(postURL);
+//			UrlEncodedFormEntity ent = new UrlEncodedFormEntity(mParams,HTTP.UTF_8);
+//			post.setEntity(ent);
+//			HttpResponse responsePOST = client.execute(post);
+//			HttpEntity resEntity = responsePOST.getEntity();
+//			if (resEntity != null) {
+//				Log.d(KeyboardApp.LOG_TAG, EntityUtils.toString(resEntity));
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 	}
 }

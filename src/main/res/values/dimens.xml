@@ -7,6 +7,7 @@
     <dimen name="sym_menu_heading_font_size">14sp</dimen>
     <dimen name="lang_menu_item_font_size">16sp</dimen>
     <dimen name="home_status_font_size">18sp</dimen>
+    <dimen name="home_fine_print_font_size">12sp</dimen>
     <dimen name="home_btn_font_size">14sp</dimen>
     <dimen name="std_btn_font_size">18sp</dimen>
     <dimen name="popup_title_font_size">24sp</dimen>

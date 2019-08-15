@@ -9,79 +9,73 @@
         android:summary="@string/settings_upgrade_description"
         android:title="@string/settings_title_upgrade" />
  -->
-    <!-- Help & Support -->
-    <PreferenceScreen
-        android:key="help_support"
-        android:title="@string/settings_category_help_support_title" >
-<!--         <PreferenceCategory android:title="@string/settings_category_help" >
-            <Preference
-                android:key="knowledge_base"
-                android:selectable="true"
-                android:title="@string/settings_title_tutorials" />
-        </PreferenceCategory>
- -->
-        <PreferenceCategory android:title="@string/settings_category_support" >
-<!--             <Preference
-                android:key="open_ticket"
-                android:selectable="true"
-                android:title="@string/settings_title_open_ticket" />
-            <Preference
-                android:key="my_tickets"
-                android:selectable="true"
-                android:title="@string/settings_title_my_ticket" />
- -->
-            <Preference
-                android:key="email_support"
-                android:selectable="true"
-                android:title="@string/settings_title_email_support" />
-        </PreferenceCategory>
-        <PreferenceCategory android:title="@string/settings_category_contact" >
-            <PreferenceScreen
-                android:key="key_follow_us"
-                android:summary="@string/settings_category_follow_us_summary"
-                android:title="@string/settings_category_follow_us" >
-                <Preference
-                    android:key="key_follow_twitter"
-                    android:selectable="true"
-                    android:title="@string/settings_follow_twitter" />
-                <Preference
-                    android:key="key_follow_facebook"
-                    android:selectable="true"
-                    android:title="@string/settings_follow_facebook" />
-                <Preference
-                    android:key="key_follow_google_plus"
-                    android:selectable="true"
-                    android:title="@string/settings_follow_google_plus" />
-                <Preference
-                    android:key="key_follow_youtube"
-                    android:selectable="true"
-                    android:title="@string/settings_follow_youtube" />
-            </PreferenceScreen>
+    <!--&lt;!&ndash; Help & Support &ndash;&gt;-->
+    <!--<PreferenceScreen-->
+        <!--android:key="help_support"-->
+        <!--android:title="@string/settings_category_help_support_title" >-->
+<!--&lt;!&ndash;         <PreferenceCategory android:title="@string/settings_category_help" >-->
+            <!--<Preference-->
+                <!--android:key="knowledge_base"-->
+                <!--android:selectable="true"-->
+                <!--android:title="@string/settings_title_tutorials" />-->
+        <!--</PreferenceCategory>-->
+ <!--&ndash;&gt;-->
+        <!--<PreferenceCategory android:title="@string/settings_category_support" >-->
+<!--&lt;!&ndash;             <Preference-->
+                <!--android:key="open_ticket"-->
+                <!--android:selectable="true"-->
+                <!--android:title="@string/settings_title_open_ticket" />-->
+            <!--<Preference-->
+                <!--android:key="my_tickets"-->
+                <!--android:selectable="true"-->
+                <!--android:title="@string/settings_title_my_ticket" />-->
+ <!--&ndash;&gt;-->
+            <!--<Preference-->
+                <!--android:key="email_support"-->
+                <!--android:selectable="true"-->
+                <!--android:title="@string/settings_title_email_support" />-->
+        <!--</PreferenceCategory>-->
+        <!--<PreferenceCategory android:title="@string/settings_category_contact" >-->
+            <!--<PreferenceScreen-->
+                <!--android:key="key_follow_us"-->
+                <!--android:summary="@string/settings_category_follow_us_summary"-->
+                <!--android:title="@string/settings_category_follow_us" >-->
+                <!--<Preference-->
+                    <!--android:key="key_follow_twitter"-->
+                    <!--android:selectable="true"-->
+                    <!--android:title="@string/settings_follow_twitter" />-->
+                <!--<Preference-->
+                    <!--android:key="key_follow_facebook"-->
+                    <!--android:selectable="true"-->
+                    <!--android:title="@string/settings_follow_facebook" />-->
+                <!--<Preference-->
+                    <!--android:key="key_follow_google_plus"-->
+                    <!--android:selectable="true"-->
+                    <!--android:title="@string/settings_follow_google_plus" />-->
+                <!--<Preference-->
+                    <!--android:key="key_follow_youtube"-->
+                    <!--android:selectable="true"-->
+                    <!--android:title="@string/settings_follow_youtube" />-->
+            <!--</PreferenceScreen>-->
 
-<!--             <Preference
-                android:key="community"
-                android:selectable="true"
-                android:summary="@string/settings_summary_community"
-                android:title="@string/settings_title_community" />
- -->            
-       </PreferenceCategory>
-        <PreferenceCategory android:title="@string/settings_category_more" >
-            <Preference
-                android:key="rate_app"
-                android:selectable="true"
-                android:title="@string/settings_title_rate" />
-<!--             <Preference
-                android:key="survey"
-                android:selectable="true"
-                android:summary="@string/settings_survey_description"
-                android:title="@string/settings_title_take_our_survey" />
- -->
-            <Preference
-                android:key="about"
-                android:selectable="true"
-                android:title="@string/settings_title_about" />
-        </PreferenceCategory>
-    </PreferenceScreen>
+       <!--</PreferenceCategory>-->
+        <!--<PreferenceCategory android:title="@string/settings_category_more" >-->
+            <!--<Preference-->
+                <!--android:key="rate_app"-->
+                <!--android:selectable="true"-->
+                <!--android:title="@string/settings_title_rate" />-->
+<!--&lt;!&ndash;             <Preference-->
+                <!--android:key="survey"-->
+                <!--android:selectable="true"-->
+                <!--android:summary="@string/settings_survey_description"-->
+                <!--android:title="@string/settings_title_take_our_survey" />-->
+ <!--&ndash;&gt;-->
+            <!--<Preference-->
+                <!--android:key="about"-->
+                <!--android:selectable="true"-->
+                <!--android:title="@string/settings_title_about" />-->
+        <!--</PreferenceCategory>-->
+    <!--</PreferenceScreen>-->
 
     <!-- Locale -->
     <PreferenceScreen android:title="@string/settings_category_locale_title" >
@@ -318,25 +312,19 @@
                 android:summary="@string/settings_summary_closest_match"
                 android:title="@string/settings_title_closest_match" />
         </PreferenceCategory>
-        <PreferenceCategory android:title="@string/settings_category_debug" >
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="debug_mode"
-                android:summary="@string/settings_summary_debug_mode"
-                android:title="@string/settings_title_debug_mode" />
+        <!--<PreferenceCategory android:title="@string/settings_category_debug" >-->
+            <!--<CheckBoxPreference-->
+                <!--android:defaultValue="false"-->
+                <!--android:key="debug_mode"-->
+                <!--android:summary="@string/settings_summary_debug_mode"-->
+                <!--android:title="@string/settings_title_debug_mode" />-->
 
-            <Preference
-                android:key="submit_logs"
-                android:selectable="true"
-                android:summary="@string/settings_summary_submit_logs"
-                android:title="@string/settings_title_submit_logs" />
-        </PreferenceCategory>
-
-        <Preference
-            android:key="coupon"
-            android:selectable="true"
-            android:summary="@string/settings_summary_enter_coupon"
-            android:title="@string/settings_title_enter_coupon_code" />
+            <!--<Preference-->
+                <!--android:key="submit_logs"-->
+                <!--android:selectable="true"-->
+                <!--android:summary="@string/settings_summary_submit_logs"-->
+                <!--android:title="@string/settings_title_submit_logs" />-->
+        <!--</PreferenceCategory>-->
     </PreferenceScreen>
 
 </PreferenceScreen>

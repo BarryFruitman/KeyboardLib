@@ -18,7 +18,6 @@ import com.comet.keyboard.dictionary.updater.DictionaryItem;
 import com.comet.keyboard.dictionary.updater.DictionaryUpdater;
 import com.comet.keyboard.dictionary.updater.DictionaryUpdaterService;
 import com.comet.keyboard.dictionary.updater.OnDictionaryUpdatedListener;
-import com.comet.keyboard.license.LicenseClient;
 import com.comet.keyboard.settings.LanguageProfileManager;
 import com.comet.keyboard.settings.Settings;
 import com.comet.keyboard.theme.KeyboardThemeManager;
@@ -38,8 +37,6 @@ public class KeyboardApp extends Application implements OnDictionaryUpdatedListe
 	public static String packageName = "";
 	public final static String LOG_TAG = "Comet Keyboard";
 
-	private LicenseClient mLicenseClient;
-	
 	// Dictionary Updater
 	private DictionaryUpdater mUpdater;
 	private Intent mUpdaterService;
@@ -74,9 +71,6 @@ public class KeyboardApp extends Application implements OnDictionaryUpdatedListe
         // build profile manager
      	new LanguageProfileManager(this);
      	
-		// Start license manager
-		mLicenseClient = getLicenseClient();
-		
 		// Start dictionary updater
 		mUpdater = getUpdater();
 
@@ -158,16 +152,7 @@ public class KeyboardApp extends Application implements OnDictionaryUpdatedListe
 	}
 	
 	
-	
-	public LicenseClient getLicenseClient() {
-		if(mLicenseClient == null)
-			mLicenseClient = new LicenseClient(this);
-		
-		return mLicenseClient;
-	}
-	
-	
-	
+
 	public String getAppStoreUrl() {
 		String ratingUrl = getString(R.string.google_play_url);
 		if(mAppStore == AppStore.Amazon)

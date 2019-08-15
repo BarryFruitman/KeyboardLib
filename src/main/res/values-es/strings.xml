@@ -229,8 +229,6 @@
     <string name="settings_survey_description">Ayuda a mejorar %1$s completando una breve encuesta de opinión del cliente</string>
  <!-- Contact us -->
     <string name="settings_category_contact">Comunícate con nosotros</string>
-    <string name="settings_title_community">Comunidad %1$s</string>
-    <string name="settings_summary_community">Únete a nuestra comunidad y dinos qué opinas sobre %1$s</string>
     <string name="settings_title_open_ticket">Abrir un tiquete de soporte técnico</string>
     <string name="settings_title_my_ticket">Mis tiquetes abiertos</string>
     <string name="settings_title_email_support">Enviar correo electrónico al soporte técnico</string>
@@ -462,14 +460,7 @@
     <string name="submit_logs_success_msg">El archivo de registro se envió correctamente. Se deshabilitó el registro de depuración.</string>
     <string name="submit_logs_fail_msg">Error al enviar el archivo de registro.</string>
     <string name="submit_logs_no_file">El registro está vacío. Recopila datos e inténtalo otra vez.</string>
- <!-- Coupon codes -->
- <!-- Coupon codes are used to unlock the app -->
-    <string name="settings_category_coupon">Cupón</string>
-    <string name="settings_title_enter_coupon_code">Ingresar el código de cupón</string>
-    <string name="settings_summary_enter_coupon">Si tienes un código de cupón, escríbelo aquí.</string>
-    <string name="error_coupon_code">Ese código de cupón no es válido.</string>
-    <string name="coupon_applied">Gracias. Días restantes: %1$d días</string>
- <!-- Days left in coupon code -->
+
     <string name="waiting">En espera...</string>
     <string name="dictionary_loading_message">Cargando diccionario...</string>
     <string name="dictionary_nothing_to_download">No hay ningún diccionario para descargar</string>

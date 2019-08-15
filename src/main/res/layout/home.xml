@@ -72,7 +72,8 @@
                 android:padding="10dp"
                 android:text="@string/home_label_enable"
                 android:textColor="@color/label_text"
-                android:textSize="@dimen/home_status_font_size" />
+                android:textSize="@dimen/home_status_font_size"
+                />
 
             <Button
                 android:id="@+id/btn_enable"
@@ -163,7 +164,7 @@
             android:inputType="text"
             android:textSize="@dimen/heading_font_size" />
 		 -->
-		 
+
 		 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -195,18 +196,19 @@
                     android:onClick="onClickTwitter"
                     android:src="@drawable/home_icn_twitter" />
             </FrameLayout>
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" >
-
-                <ImageButton
-                    style="@style/btn_home_icon"
-                    android:onClick="onClickGooglePlus"
-                    android:src="@drawable/home_icn_gplus" />
-            </FrameLayout>
         </LinearLayout>
+
+
+        <!--&lt;!&ndash; Privacy &ndash;&gt;-->
+
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="20dp"-->
+            <!--android:gravity="center"-->
+            <!--android:textColor="@color/label_text"-->
+            <!--android:textSize="@dimen/home_fine_print_font_size"-->
+            <!--android:text="@string/home_label_privacy"/>-->
 
         <!-- Comet logo -->
 

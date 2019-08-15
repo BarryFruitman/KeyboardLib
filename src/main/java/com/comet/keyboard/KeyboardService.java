@@ -559,40 +559,9 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         createKeyboards();
         createKeyboardLayout();
 
-        // HACK. Used to catch and report a mystery exception.
-        final ViewParent parent = mKeyboardLayout.getParent();
-        if (parent != null && parent instanceof ViewGroup) {
-            reportError_192(new NullPointerException().fillInStackTrace());
-
-            ViewGroup group = (ViewGroup) parent;
-            group.removeView(mKeyboardLayout);
-        }
-
         mInputViewCreated = true;
 
         return mKeyboardLayout;
-    }
-
-
-    /**
-     * Temporary method used to report a mystery exception. (Is it still
-     * necessary?)
-     *
-     * @param e The exception.
-     */
-    public void reportError_192(Throwable e) {
-        final ErrorReport errorReport = new ErrorReport(this, e, "192");
-
-        try {
-            errorReport.putSharedPrefs(Settings.SETTINGS_FILE);
-            errorReport.putRunningProcesses();
-            errorReport.putInstalledPackages();
-            errorReport.putMainObjects();
-        } catch (Exception e2) {
-            errorReport.putParam("meta_error", e2.toString());
-        }
-
-        errorReport.post();
     }
 
 
@@ -693,16 +662,16 @@ public class KeyboardService extends InputMethodService implements KeyboardView.
         dismissAllPopupWindows();
     }
 
-    /**
-     * Callback for the Comet logo.
-     *
-     * @param activity The activity that displayed the logo.
-     */
-    public static void onClickComet(final Activity activity) {
-        final Uri uri = Uri.parse("http://m.cometapps.com/");
-        final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-        activity.startActivity(intent);
-    }
+//    /**
+//     * Callback for the Comet logo.
+//     *
+//     * @param activity The activity that displayed the logo.
+//     */
+//    public static void onClickComet(final Activity activity) {
+//        final Uri uri = Uri.parse("http://m.cometapps.com/");
+//        final Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//        activity.startActivity(intent);
+//    }
 
     /**
      * Callback for the share button in the Any Key menu.

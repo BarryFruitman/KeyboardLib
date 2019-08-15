@@ -92,7 +92,7 @@ public class Welcome extends Activity {
 		editor.commit();
 	}
 	
-	public void onClickComet(View view) {
-		KeyboardService.onClickComet(this);
-	}
+//	public void onClickComet(View view) {
+//		KeyboardService.onClickComet(this);
+//	}
 }

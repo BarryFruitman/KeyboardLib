@@ -375,6 +375,7 @@
 	<string name="home_btn_settings">Settings</string>
 	<string name="home_btn_help_support">Help &amp; support</string>
 	<string name="home_btn_about">About</string>
+	<string name="home_label_privacy">Your privacy: TypeSmart may ask for permission to access your contact list, for the purpose of offering your contacts as typing suggestions. You may decline to provide permission and we do not share or collect any other personal information.</string>
 
 	<!--
 		About
@@ -519,8 +520,6 @@
 	<string name="settings_survey_description">Help improve %1$s by completing a short customer feedback survey</string>
 	<!-- Contact us -->
     <string name="settings_category_contact">Contact Us</string>
-    <string name="settings_title_community">%1$s community</string>
-    <string name="settings_summary_community">Join our community and give feedback on %1$s</string>
     <string name="settings_title_open_ticket">Open a support ticket</string>
     <string name="settings_title_my_ticket">My open tickets</string>
     <string name="settings_title_email_support">Email support</string>
@@ -771,13 +770,7 @@
 	<string name="submit_logs_success_msg">The log file was successfully sent. Debug logging has been disabled.</string>
 	<string name="submit_logs_fail_msg">Sending log file failed.</string>
 	<string name="submit_logs_no_file">The log is empty. Please collect data and try again.</string>    
-    <!-- Coupon codes -->
-    <!-- Coupon codes are used to unlock the app -->
-    <string name="settings_category_coupon">Coupon</string>
-	<string name="settings_title_enter_coupon_code">Enter coupon code</string>
-	<string name="settings_summary_enter_coupon">If you have a coupon code, enter it here.</string>	
-	<string name="error_coupon_code">That coupon code is invalid.</string>
-	<string name="coupon_applied">Thank you. Remaining days : %1$d days</string> <!-- Days left in coupon code -->
+
 	<string name="waiting">Waiting...</string>
 	<string name="dictionary_loading_message">Loading dictionary...</string>	
 	<string name="dictionary_nothing_to_download">There is no dictionary to download</string>	
