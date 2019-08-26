@@ -1235,7 +1235,6 @@ public class KeyboardView extends View {
 				invalidateAllKeys();
 			}
 
-			mCanvas.clipRect(mDirtyRect, Op.REPLACE);
 			drawKeyboard(mCanvas);
 			mDirtyRect.setEmpty();
 		}
