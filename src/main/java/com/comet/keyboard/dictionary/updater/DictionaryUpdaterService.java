@@ -8,6 +8,7 @@ package com.comet.keyboard.dictionary.updater;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
@@ -52,6 +53,8 @@ public class DictionaryUpdaterService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+
+		startForeground(1, new Notification());
 
 		mApp = (KeyboardApp) getApplicationContext();
 

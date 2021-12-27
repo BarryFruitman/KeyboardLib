@@ -541,91 +541,13 @@ public class Utils {
 	  
 	
 	
-	public static Drawable getBitmapDrawable1(Context context, String imagePath) throws IOException {
-		Drawable drawable = null;
-
-		Assert.assertTrue(imagePath != null);
-
-		InputStream inStream;
-		try {
-			inStream = context.getAssets().open(imagePath);
-			TypedValue value = new TypedValue();
-			value.density = TypedValue.DENSITY_DEFAULT;
-			drawable = Drawable.createFromResourceStream(context.getResources(), value, inStream, imagePath);
-		} catch (Exception e) {
-//			reportError_getBitmapDrawable(context, e, imagePath);
-			return getBitmapDrawable2(context, imagePath);
-		}
-
-//		if(drawable instanceof NinePatchDrawable) {
-//			Rect padding = new Rect();
-//			drawable.getPadding(padding);
-//			Log.d(KeyboardApp.LOG_TAG, "getBitmapDrawable():" + drawable.toString() + ",imagePath=" + imagePath + ",padding=" + padding.left + "," + padding.right + "," + padding.top + "," + padding.bottom);
-//		}
-
-//		mSuccess = 1;
-		return drawable;
-	}
-
-
-	/*
-	 * This version tries to decode the stream to a regular Bitmap, then construct a NinePatchDrawable using the bitmap and 9-patch chunk 
-	 */
-	public static Drawable getBitmapDrawable2(Context context, String imagePath) throws IOException {
-		Drawable drawable = null;
-
-		Assert.assertTrue(imagePath != null);
-
-		try {
-			InputStream inStream = context.getAssets().open(imagePath);
-			Bitmap bitmap = BitmapFactory.decodeStream(inStream);
-			byte[] chunk = bitmap.getNinePatchChunk();
-			boolean isNinePatch = NinePatch.isNinePatchChunk(chunk);
-			if(isNinePatch) {
-				// <HACK>
-				float density = context.getResources().getDisplayMetrics().density;
-				Rect padding = new Rect();
-				if(imagePath.contains("_ss_") || imagePath.contains("_any_")) {
-					padding.left = (int) (12f*density);
-					padding.top = (int) (16f*density);
-					padding.right = (int) (12f*density);
-					padding.bottom = (int) (8f*density);
-				} else {
-					padding.left = (int) (12f*density);
-					padding.top = (int) (12f*density);
-					padding.right = (int) (12f*density);
-					padding.bottom = (int) (12f*density);
-				}
-				// </HACK>
-				drawable = new NinePatchDrawable(context.getResources(), bitmap, chunk, padding, imagePath);
-//				drawable.getPadding(padding);
-//				Log.d(KeyboardApp.LOG_TAG, "getBitmapDrawable2():" + drawable.toString() + ",imagePath=" + imagePath + ",padding=" + padding.left + "," + padding.right + "," + padding.top + "," + padding.bottom);
-			} else
-				drawable = new BitmapDrawable(context.getResources(), bitmap);
-		} catch (Exception e) {
-			reportError_getBitmapDrawable(context, e, imagePath);
-			return getBitmapDrawable3(context, imagePath);
-		}
-		
-//		mSuccess = 2;
-		return drawable;
-	}
-	
-
 	public static Drawable getBitmapDrawable3(Context context, String imagePath) {
 		String resourceName = context.getString(R.string.ime_packagename) + ":drawable/" + imagePath.replace('/', '_').replace(".9.png", "").replace(".png", "");
 		int drawableId = context.getResources().getIdentifier(resourceName, null, null);
 		if(drawableId <= 0)
 			return null;
 
-		Drawable drawable = context.getResources().getDrawable(drawableId);
-//		Rect padding = new Rect();
-//		drawable.getPadding(padding);
-//		Log.d(KeyboardApp.LOG_TAG, "getBitmapDrawable3():" + drawable.toString() + ",imagePath=" + imagePath + ",padding=" + padding.left + "," + padding.right + "," + padding.top + "," + padding.bottom);
-
-//		mSuccess = 3;
-		
-		return drawable;
+		return context.getResources().getDrawable(drawableId, null);
 	}
 
 	
@@ -715,19 +637,20 @@ public class Utils {
 		return null;
 	}
 	
-	public static int getScreenWidth(Context context) {
-		Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-		int width = display.getWidth();
-		
-		return width;
-	}
-	
-	public static int getScreenHeight(Context context) {
-		Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-		int height = display.getHeight();
-		
-		return height;
-	}
+//	public static int getScreenWidth(Context context) {
+//		Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+//		int width = display.getWidth();
+//
+//		return width;
+//	}
+//
+//	public static int getScreenHeight(Context context) {
+//		Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+//		int height = display.getHeight();
+//
+//		return height;
+//	}
+
 	/**
 	 * Show out of memory dialog
 	 * @param context

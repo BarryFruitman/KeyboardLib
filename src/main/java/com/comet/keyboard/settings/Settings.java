@@ -12,10 +12,8 @@ import junit.framework.Assert;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -32,8 +30,8 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceGroup;
 import android.preference.PreferenceScreen;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -43,7 +41,6 @@ import com.comet.keyboard.KeyboardService;
 import com.comet.keyboard.R;
 import com.comet.keyboard.theme.KeyboardTheme;
 import com.comet.keyboard.theme.KeyboardThemeManager;
-import com.comet.keyboard.util.HttpLogSender;
 import com.comet.keyboard.util.KillActivityReceiver;
 import com.comet.keyboard.util.Utils;
 

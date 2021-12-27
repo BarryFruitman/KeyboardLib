@@ -77,9 +77,8 @@ public class KeyboardApp extends Application implements OnDictionaryUpdatedListe
         // Create theme manager
         new KeyboardThemeManager(this);
         
-        mUpdaterService = new Intent(this, DictionaryUpdaterService.class);
-        
-        startService(mUpdaterService);
+//        mUpdaterService = new Intent(this, DictionaryUpdaterService.class);
+//        startForegroundService(mUpdaterService);
         
         Settings.enableDebugMode(false);
         

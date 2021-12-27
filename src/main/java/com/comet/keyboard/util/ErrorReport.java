@@ -6,22 +6,12 @@
 
 package com.comet.keyboard.util;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
-import org.apache.http.util.EntityUtils;
+//import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -29,19 +19,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Point;
-import android.os.Debug;
-import android.util.Log;
-import android.view.Display;
-import android.view.WindowManager;
 
 import com.comet.keyboard.KeyboardService;
-import com.comet.keyboard.KeyboardApp;
 import com.comet.keyboard.settings.Settings;
 
 public class ErrorReport implements Runnable {
 
-	private ArrayList<BasicNameValuePair> mParams = new ArrayList<BasicNameValuePair>();
+//	private ArrayList<BasicNameValuePair> mParams = new ArrayList<BasicNameValuePair>();
 
 	Throwable mException;
 	Context mContext;
@@ -87,7 +71,7 @@ public class ErrorReport implements Runnable {
 
 
 	public void putParam(String name, String value) {
-		mParams.add(new BasicNameValuePair(name, value));
+//		mParams.add(new BasicNameValuePair(name, value));
 	}
 	
 	

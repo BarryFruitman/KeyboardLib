@@ -1,11 +1,11 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 31
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 27
+        minSdkVersion 27
+        targetSdkVersion 31
     }
 
     buildTypes {
@@ -19,7 +19,8 @@ android {
 }
 
 dependencies {
-    implementation 'com.android.support:support-compat:27.1.1'
+    implementation 'androidx.core:core:1.7.0'
     implementation files('libs/google_translate.jar')
     implementation files('libs/voiceimeutils.jar')
+    implementation 'junit:junit:4.12'
 }

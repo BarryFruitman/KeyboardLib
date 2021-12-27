@@ -429,7 +429,6 @@ public class KeyboardTheme {
 			mKeySymEmoji = basePath + propMap.getNamedItem(
 					res.getString(R.string.xml_theme_property_sym_kb_emoji))
 					.getNodeValue();
-
 			mKeySymPopupShiftLocked = propMap.getNamedItem(
 					res.getString(R.string.xml_theme_property_sym_kb_popup_shift_locked))
 					.getNodeValue();	

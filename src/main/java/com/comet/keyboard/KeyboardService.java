@@ -18,11 +18,8 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import junit.framework.Assert;
-
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -49,7 +46,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.view.inputmethod.CompletionInfo;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
@@ -78,12 +74,13 @@ import com.comet.keyboard.settings.Settings;
 import com.comet.keyboard.settings.SoundVolumeSetting;
 import com.comet.keyboard.theme.KeyboardThemeManager;
 import com.comet.keyboard.util.DatabaseHelper;
-import com.comet.keyboard.util.ErrorReport;
 import com.comet.keyboard.util.OnPopupMenuItemClickListener;
 import com.comet.keyboard.util.PopupMenuView;
 import com.comet.keyboard.util.ProfileTracer;
 import com.comet.keyboard.util.Utils;
 import com.google.android.voiceime.VoiceRecognitionTrigger;
+
+import junit.framework.Assert;
 
 /**
  * KeyboardService represents the IME service and is the "core" of the keyboard.
