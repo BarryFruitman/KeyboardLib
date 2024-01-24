@@ -612,7 +612,7 @@ open class KeyboardView @JvmOverloads constructor(
         mPopupKeyboardRect = assemblePopupKeyboard(
             R.layout.popup_keyboard_layout,
             keyboard,
-            this.keyboard!!.emojiKey
+            this.keyboard!!.emojiKey!!
         )
         mPopupKeyboardView!!.isOneTouch = true
         showPopupWindow(
@@ -630,7 +630,7 @@ open class KeyboardView @JvmOverloads constructor(
         // Create a new keyboard
         val keyboard = PopupKeyboard(context, R.xml.url_menu)
         mPopupKeyboardRect =
-            assemblePopupKeyboard(R.layout.popup_keyboard_layout, keyboard, this.keyboard!!.anyKey)
+            assemblePopupKeyboard(R.layout.popup_keyboard_layout, keyboard, this.keyboard!!.anyKey!!)
         mPopupKeyboardView!!.isOneTouch = true
         mPopupKeyboardView!!.setNearestKey(-201)
         showPopupWindow(
@@ -1223,14 +1223,14 @@ open class KeyboardView @JvmOverloads constructor(
         // Switch the character to uppercase if shift is pressed
         val label = getLabel(key)
         var textSize = (resources.getDimension(R.dimen.key_text_size)
-            * keyboard!!.keyScale.rowDefault)
+            * keyboard!!.keyScale!!.rowDefault)
         var labelSize = (resources.getDimension(R.dimen.label_text_size)
-            * keyboard!!.keyScale.rowDefault)
+            * keyboard!!.keyScale!!.rowDefault)
         if (key.edgeFlags == Keyboard.EDGE_BOTTOM) {
             textSize = (resources.getDimension(R.dimen.key_text_size)
-                * keyboard!!.keyScale.rowBottom)
+                * keyboard!!.keyScale!!.rowBottom)
             labelSize = (resources.getDimension(R.dimen.label_text_size)
-                * keyboard!!.keyScale.rowBottom)
+                * keyboard!!.keyScale!!.rowBottom)
         }
         val color = KeyboardThemeManager.getCurrentTheme().keyFGColor
         mPaint.color = color
@@ -1308,20 +1308,20 @@ open class KeyboardView @JvmOverloads constructor(
         val superLabel = getSuperLabel(key)
         if (superLabel.length == 0) return
         var size = (resources.getDimension(R.dimen.key_super_label_text_size)
-            * keyboard!!.keyScale.rowDefault)
+            * keyboard!!.keyScale!!.rowDefault)
         if (key.edgeFlags == Keyboard.EDGE_BOTTOM) size =
             (resources.getDimension(R.dimen.key_super_label_text_size)
-                * keyboard!!.keyScale.rowBottom)
+                * keyboard!!.keyScale!!.rowBottom)
         var color = KeyboardThemeManager.getCurrentTheme().keySuperFGColor
         var horizOffset = KeyboardThemeManager.getCurrentTheme().superHorizOffset.toFloat()
         mPaint.setTypeface(Typeface.DEFAULT)
 
         // Calculate vertical location of label
         var verticalGap = (resources.getDimension(R.dimen.kb_gap_vertical)
-            * keyboard!!.keyScale.rowDefault)
+            * keyboard!!.keyScale!!.rowDefault)
         if (key.edgeFlags == Keyboard.EDGE_BOTTOM) {
             verticalGap = (resources.getDimension(R.dimen.kb_gap_vertical)
-                * keyboard!!.keyScale.rowBottom)
+                * keyboard!!.keyScale!!.rowBottom)
         }
         val vertOffset = verticalGap + size
 
@@ -1411,10 +1411,10 @@ open class KeyboardView @JvmOverloads constructor(
      */
     private fun drawIcon(key: Keyboard.Key, canvas: Canvas?, kbPadding: Rect, keyPadding: Rect) {
         var size = (resources.getDimension(R.dimen.key_text_size)
-            * keyboard!!.keyScale.rowDefault).toInt()
+            * keyboard!!.keyScale!!.rowDefault).toInt()
         if (key.edgeFlags == Keyboard.EDGE_BOTTOM) size =
             (resources.getDimension(R.dimen.key_text_size)
-                * keyboard!!.keyScale.rowBottom).toInt()
+                * keyboard!!.keyScale!!.rowBottom).toInt()
         if (hasSuper(key)) {
             // Bottom align icon to content area.
             mIconRect.left = kbPadding.left + key.x + (key.width - size) / 2
@@ -1510,7 +1510,7 @@ open class KeyboardView @JvmOverloads constructor(
     ) {
         val theme = KeyboardThemeManager.getCurrentTheme()
         val size = (resources.getDimension(R.dimen.key_super_label_text_size)
-            * keyboard!!.keyScale.rowDefault).toInt()
+            * keyboard!!.keyScale!!.rowDefault).toInt()
         val horizOffset = theme.superHorizOffset
         // Calculate horizontal location of label
         if (horizOffset == 0) {

@@ -420,7 +420,7 @@ open class KeyboardService : InputMethodService(), KeyboardView.OnKeyboardAction
      * @param resId   The keyboard resource id.
      * @return The BaseKeyboard object.
      */
-    protected fun constructMainKB(context: Context?, resId: Int): BaseKeyboard {
+    private fun constructMainKB(context: Context, resId: Int): BaseKeyboard {
         return BaseKeyboard(context, resId)
     }
 
