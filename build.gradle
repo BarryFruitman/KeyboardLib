@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
     compileSdkVersion 34
@@ -30,4 +31,5 @@ dependencies {
     implementation files('libs/google_translate.jar')
     implementation files('libs/voiceimeutils.jar')
     implementation 'junit:junit:4.13.2'
+    implementation 'androidx.core:core-ktx:+'
 }
