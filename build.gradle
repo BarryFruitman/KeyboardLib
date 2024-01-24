@@ -1,11 +1,11 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 34
 
     defaultConfig {
         minSdkVersion 27
-        targetSdkVersion 31
+        targetSdkVersion 34
     }
 
     buildTypes {
@@ -14,13 +14,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    buildToolsVersion '33.0.1'
+    ndkVersion '26.1.10909125'
+    namespace 'com.comet.keyboard'
 
-    useLibrary 'org.apache.http.legacy'
+//    useLibrary 'org.apache.http.legacy'
 }
 
 dependencies {
-    implementation 'androidx.core:core:1.7.0'
+    implementation 'androidx.core:core:1.12.0'
     implementation files('libs/google_translate.jar')
     implementation files('libs/voiceimeutils.jar')
-    implementation 'junit:junit:4.12'
+    implementation 'junit:junit:4.13.2'
 }

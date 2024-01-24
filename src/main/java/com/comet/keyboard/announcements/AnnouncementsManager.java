@@ -25,7 +25,7 @@ public class AnnouncementsManager {
 			Intent intent = new Intent(context, Announcements.class);
 			intent.putExtra("message", message);
 
-			PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+			PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
 			// Build the notification
 			Notification notification = new NotificationCompat.Builder(context)
@@ -64,5 +64,4 @@ public class AnnouncementsManager {
 
 		return message.toString();
 	}
-
 }

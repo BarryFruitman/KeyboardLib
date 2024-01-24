@@ -636,7 +636,7 @@ public class KeyboardTheme {
 	
 	
 	/**
-	 * I DON'T KNOW WHAT THIS DOES
+	 * Save current theme
 	 * @param context
 	 * @param value
 	 */
@@ -650,9 +650,8 @@ public class KeyboardTheme {
 	
 	
 	/**
-	 * I DON'T KNOW WHAT THIS DOES
+	 * Get current theme
 	 * @param context
-	 * @param value
 	 */
 	public static String getThemeKey(Context context) {
 		SharedPreferences sharedPrefs = context.getSharedPreferences(Settings.SETTINGS_FILE, Context.MODE_PRIVATE);
