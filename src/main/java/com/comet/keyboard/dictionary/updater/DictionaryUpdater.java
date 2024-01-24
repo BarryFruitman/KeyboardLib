@@ -475,8 +475,8 @@ public class DictionaryUpdater {
 		
 		setUpdatedStatus(count > 0);
 		
-		if(KeyboardService.getIME() != null){
-			KeyboardService.getIME().setNeedUpdateDicts(count > 0);
+		if(KeyboardService.IME != null){
+			KeyboardService.IME.setNeedUpdateDicts(count > 0);
 		}
 		
 		return count > 0;
@@ -521,11 +521,11 @@ public class DictionaryUpdater {
 		preferenceEditor.apply();
 		
 		// Notify service
-		if(KeyboardService.getIME() != null){
+		if(KeyboardService.IME != null){
 			final boolean isNeedUpgrade = isNeedUpgrade();
-			KeyboardService.getIME().setNeedUpgradeApp(isNeedUpgrade);
+			KeyboardService.IME.setNeedUpgradeApp(isNeedUpgrade);
 			if(isNeedUpgrade) {
-				KeyboardService.getIME().showSuggestionAppUpdateOnUi();
+				KeyboardService.IME.showSuggestionAppUpdateOnUi();
 			}
 		}
 	}

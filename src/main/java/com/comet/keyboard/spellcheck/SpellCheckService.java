@@ -72,14 +72,14 @@ public class SpellCheckService extends SpellCheckerService {
             final String input = textInfo.getText();
 
             // Check language dictionary
-            boolean isInDictionary = KeyboardService.getIME().mSuggestor.containsIgnoreCase(input);
+            boolean isInDictionary = KeyboardService.IME.getSuggestor().containsIgnoreCase(input);
         	ArrayList<String> results = new ArrayList<String>();
             if(!isInDictionary) {
             	flags = SuggestionsInfo.RESULT_ATTR_LOOKS_LIKE_TYPO;
 
             	try {
             		// TODO Checking suggestions again is incredibly inefficient!
-            		FinalSuggestions suggestions = KeyboardService.getIME().mSuggestor.findSuggestions(input);
+            		FinalSuggestions suggestions = KeyboardService.IME.getSuggestor().findSuggestions(input);
 
             		suggestions.matchCase();
 

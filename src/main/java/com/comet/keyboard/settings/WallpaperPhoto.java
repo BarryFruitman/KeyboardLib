@@ -127,15 +127,15 @@ public class WallpaperPhoto extends Activity implements OnClickListener {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				mWallpaperFit = isChecked;
-				if(KeyboardService.getIME() != null)
-					KeyboardService.getIME().applyWallpaper(mWallpaper, mAlpha, mWallpaperFit);
+				if(KeyboardService.IME != null)
+					KeyboardService.IME.applyWallpaper(mWallpaper, mAlpha, mWallpaperFit);
 			}
 		});
 
 		if(Utils.isSelectedToDefault(this)) {
 			// Apply wallpaper and show keyboard
-			if(KeyboardService.getIME() != null)
-				KeyboardService.getIME().applyWallpaper(mWallpaper, mAlpha, mWallpaperFit);
+			if(KeyboardService.IME != null)
+				KeyboardService.IME.applyWallpaper(mWallpaper, mAlpha, mWallpaperFit);
 			getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
 			mLLNoDefaultIME.setVisibility(View.GONE);
 		} else {
@@ -171,11 +171,11 @@ public class WallpaperPhoto extends Activity implements OnClickListener {
 				mTBWhiteTheme.setChecked(true);
 		}
 
-		if(KeyboardService.getIME() != null)
-			KeyboardService.getIME().applyWallpaper(mWallpaper, mAlpha, mWallpaperFit);
+		if(KeyboardService.IME != null)
+			KeyboardService.IME.applyWallpaper(mWallpaper, mAlpha, mWallpaperFit);
 		
-		if(KeyboardService.getIME() != null)
-			KeyboardService.getIME().updateKeyboardView();
+		if(KeyboardService.IME != null)
+			KeyboardService.IME.updateKeyboardView();
 	}
 
 	
@@ -284,8 +284,8 @@ public class WallpaperPhoto extends Activity implements OnClickListener {
 		preferenceEditor.putBoolean("wallpaper_fit", true);
 		preferenceEditor.commit();
 		// Reset the view
-		if(KeyboardService.getIME() != null)
-			KeyboardService.getIME().reloadWallpaper();
+		if(KeyboardService.IME != null)
+			KeyboardService.IME.reloadWallpaper();
 	}
 
 
@@ -300,9 +300,9 @@ public class WallpaperPhoto extends Activity implements OnClickListener {
 	protected void onStop() {
 		super.onStop();
 
-		if (KeyboardService.getIME() != null) {
+		if (KeyboardService.IME != null) {
 			// Always reload the wallpaper when closing
-			KeyboardService.getIME().reloadWallpaper();
+			KeyboardService.IME.reloadWallpaper();
 		}
 	}
 

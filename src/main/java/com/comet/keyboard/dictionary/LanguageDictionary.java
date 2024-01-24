@@ -48,9 +48,9 @@ public final class LanguageDictionary extends TrieDictionary<LanguageDictionary.
 		}
 
 		// TODO Replace this with OnLoadLexiconListener interface
-		final KeyboardService ime = KeyboardService.getIME();
+		final KeyboardService ime = KeyboardService.IME;
 		if(ime != null && ime.isInputViewCreated() && !ime.isNeedUpdateDicts()) {
-			KeyboardService.getIME().showMessage(mContext.getString(R.string.dictionary_loading_message), null);
+			KeyboardService.IME.showMessage(mContext.getString(R.string.dictionary_loading_message), null);
 		}
 
 		// Load dictionary from DB
@@ -61,7 +61,7 @@ public final class LanguageDictionary extends TrieDictionary<LanguageDictionary.
 
 		// Clear the cache of any suggestions that were cached during pre-loading
 		if (ime != null && ime.isInputViewCreated() && !ime.isNeedUpdateDicts()) {
-			KeyboardService.getIME().clearMessage();
+			KeyboardService.IME.clearMessage();
 		}
 
 		Thread.currentThread().setPriority(Thread.MIN_PRIORITY);

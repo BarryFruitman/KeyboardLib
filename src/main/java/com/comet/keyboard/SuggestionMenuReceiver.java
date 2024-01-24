@@ -16,6 +16,6 @@ public class SuggestionMenuReceiver extends BroadcastReceiver {
 		String after = intent.getExtras().getString(SuggestionSpan.SUGGESTION_SPAN_PICKED_AFTER);
 		String hash = intent.getExtras().getString(SuggestionSpan.SUGGESTION_SPAN_PICKED_HASHCODE);
 
-		KeyboardService.getIME().onSuggestionMenuItemClick(before, after);
+		KeyboardService.IME.onSuggestionMenuItemClick(after);
 	}
 }

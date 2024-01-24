@@ -189,8 +189,8 @@ OnCheckedChangeListener, OnClickListener {
 	@Override
 	public void finish() {
 		// Refresh input view
-		if (KeyboardService.getIME() != null)
-			KeyboardService.getIME().updateKeyHeight();
+		if (KeyboardService.IME != null)
+			KeyboardService.IME.updateKeyHeight();
 
 		super.finish();
 	}
@@ -232,8 +232,8 @@ OnCheckedChangeListener, OnClickListener {
 		onUpdateUI();
 
 		// Refresh input view
-		if (KeyboardService.getIME() != null)
-			KeyboardService.getIME().updateKeyHeight();
+		if (KeyboardService.IME != null)
+			KeyboardService.IME.updateKeyHeight();
 	}
 
 	@Override
@@ -367,8 +367,8 @@ OnCheckedChangeListener, OnClickListener {
 			onUpdateUI();
 
 			// Refresh input view
-			if (KeyboardService.getIME() != null)
-				KeyboardService.getIME().updateKeyHeight();
+			if (KeyboardService.IME != null)
+				KeyboardService.IME.updateKeyHeight();
 		}
 	}
 }

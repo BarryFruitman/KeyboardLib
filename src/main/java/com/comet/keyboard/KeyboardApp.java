@@ -123,8 +123,8 @@ public class KeyboardApp extends Application implements OnDictionaryUpdatedListe
 		Log.v(KeyboardApp.LOG_TAG, "Dictionaries is not up-to-date - " + items.size());
 
 		if(getUpdater().checkNeedUpdate(this)){
-			if(KeyboardService.getIME() != null){
-				KeyboardService.getIME().showSuggestionDictionaryUpdateOnUi();
+			if(KeyboardService.IME != null){
+				KeyboardService.IME.showSuggestionDictionaryUpdateOnUi();
 			}
 
 		}
@@ -133,8 +133,8 @@ public class KeyboardApp extends Application implements OnDictionaryUpdatedListe
 	
 	
 	public void removeNotificationTry() {
-		if(KeyboardService.getIME() != null)
-			KeyboardService.getIME().setNeedUpdateDicts(false);		
+		if(KeyboardService.IME != null)
+			KeyboardService.IME.setNeedUpdateDicts(false);
 
 		getUpdater().setUpdatedStatus(false);
 	}

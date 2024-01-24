@@ -117,10 +117,10 @@ OnClickListener {
 			@Override
 			public void run() {
 				// Refresh input view
-				if (KeyboardService.getIME() != null) {
-					KeyboardService.getIME().setCandidatesViewShown(true);
-					KeyboardService.getIME().showSampleSuggestion();
-					KeyboardService.getIME().setPreviewMode(true);
+				if (KeyboardService.IME != null) {
+					KeyboardService.IME.setCandidatesViewShown(true);
+					KeyboardService.IME.showSampleSuggestion();
+					KeyboardService.IME.setPreviewMode(true);
 				}
 			}
 		}, 1000);
@@ -202,9 +202,9 @@ OnClickListener {
 		}
 
 		// Refresh input view
-		if (KeyboardService.getIME() != null) {
-			KeyboardService.getIME().setCandidatesViewShown(true);
-			KeyboardService.getIME().showSampleSuggestion();
+		if (KeyboardService.IME != null) {
+			KeyboardService.IME.setCandidatesViewShown(true);
+			KeyboardService.IME.showSampleSuggestion();
 		}
 	}
 
@@ -224,8 +224,8 @@ OnClickListener {
 	protected void onStop() {
 		super.onStop();
 
-		if (KeyboardService.getIME() != null)
-			KeyboardService.getIME().clearMessage();
+		if (KeyboardService.IME != null)
+			KeyboardService.IME.clearMessage();
 	}
 
 	@Override
@@ -253,9 +253,9 @@ OnClickListener {
 		putFontSizePreference();
 
 		// Refresh input view
-		if (KeyboardService.getIME() != null) {
-			KeyboardService.getIME().setCandidatesViewShown(true);
-			KeyboardService.getIME().showSampleSuggestion();
+		if (KeyboardService.IME != null) {
+			KeyboardService.IME.setCandidatesViewShown(true);
+			KeyboardService.IME.showSampleSuggestion();
 		}
 	}
 }

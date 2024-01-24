@@ -90,8 +90,8 @@ View.OnClickListener, DialogInterface.OnClickListener {
 
 		preferenceEditor.commit();
 
-		if(KeyboardService.getIME() != null && KeyboardService.getIME().getKeyboardView() != null)
-			KeyboardService.getIME().getKeyboardView().setSwipeThreshold(mSwipeSensitivityVal);
+		if(KeyboardService.IME != null && KeyboardService.IME.getKeyboardView() != null)
+			KeyboardService.IME.getKeyboardView().setSwipeThreshold(mSwipeSensitivityVal);
 
 		Log.v(KeyboardApp.LOG_TAG, "saved swipe sensitivity val = " + mSwipeSensitivityVal);
 
@@ -118,8 +118,8 @@ View.OnClickListener, DialogInterface.OnClickListener {
 
 		showCandidateDialog();
 
-		if (KeyboardService.getIME() != null)
-			KeyboardService.getIME().setPreviewMode(true);
+		if (KeyboardService.IME != null)
+			KeyboardService.IME.setPreviewMode(true);
 	}
 
 	/**

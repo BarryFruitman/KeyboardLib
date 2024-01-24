@@ -31,7 +31,7 @@ public class NumberDictionary implements Dictionary {
 		final int value = Integer.parseInt(composing);
 		if(value >= 0 && value <=20) {
 			// Add word
-			String[] words = KeyboardService.getIME().getResources().getStringArray(R.array.number_words);
+			String[] words = KeyboardService.IME.getResources().getStringArray(R.array.number_words);
 			suggestions.add(new NumberSuggestion(words[value]));
 		}
 

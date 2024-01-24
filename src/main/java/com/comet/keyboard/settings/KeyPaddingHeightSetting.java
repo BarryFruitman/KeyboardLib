@@ -119,9 +119,9 @@ public class KeyPaddingHeightSetting extends Activity implements OnSeekBarChange
 		}
 		
 		// Refresh input view
-		if (KeyboardService.getIME() != null)
-			KeyboardService.getIME().updateKeyPaddingHeight();
-	}
+		if (KeyboardService.IME != null) {
+			KeyboardService.IME.updateKeyPaddingHeight();
+		}	}
 	
 	
 	
@@ -159,8 +159,8 @@ public class KeyPaddingHeightSetting extends Activity implements OnSeekBarChange
 		}
 		
 		// Refresh input view
-		if (KeyboardService.getIME() != null)
-			KeyboardService.getIME().updateKeyPaddingHeight();
+		if (KeyboardService.IME != null)
+			KeyboardService.IME.updateKeyPaddingHeight();
 	}
 
 	

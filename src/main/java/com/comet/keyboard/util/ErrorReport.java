@@ -108,13 +108,13 @@ public class ErrorReport implements Runnable {
 
 	public void putMainObjects() {
 		// BaseKeybaordService
-		if (KeyboardService.getIME() != null) {
-			putParam("class_" + KeyboardService.class.getName(), KeyboardService.getIME().toString());
+		if (KeyboardService.IME != null) {
+			putParam("class_" + KeyboardService.class.getName(), KeyboardService.IME.toString());
 		}
 	}
 	
 	public void putCallTrace() {
-		KeyboardService ime = KeyboardService.getIME();
+		KeyboardService ime = KeyboardService.IME;
 		if(ime == null)
 			return;
 		

@@ -55,7 +55,7 @@ public class Translator implements Runnable {
 
 		// If Google returns the same phrase, that means it could not translate the phrase.
 		if(phrase.equals(translation)) {
-			translation = KeyboardService.getIME().getString(R.string.google_translate_failed);
+			translation = KeyboardService.IME.getString(R.string.google_translate_failed);
 			error = RESULT_ERROR;
 		}
 

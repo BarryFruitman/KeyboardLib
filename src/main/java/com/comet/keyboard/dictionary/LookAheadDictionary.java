@@ -125,7 +125,7 @@ public class LookAheadDictionary
 //					// Split into two words, omitting space-adjacent key
 //					final String word1 = languageSuggestions.getComposing().substring(0, iComposing);
 //					final String word2 = languageSuggestions.getComposing().substring(iComposing + 1, languageSuggestions.getComposing().length());
-//					final int count = ((TrieDictionary) KeyboardService.getIME().getSuggestor().getLookAheadDictionary()).getCount(word1 + " " + word2);
+//					final int count = ((TrieDictionary) KeyboardService.IME.getSuggestor().getLookAheadDictionary()).getCount(word1 + " " + word2);
 //					if(count > 0) {
 //						final int count1 = getCount(word1);
 //						final int count2 = getCount(word2);

@@ -102,8 +102,8 @@ public class SoundVolumeSetting extends Activity implements
 		preferenceEditor.putFloat(PREFERENCE_VIBRATE, newVal);
 		preferenceEditor.commit();
 		
-		if(KeyboardService.getIME() != null){
-			KeyboardService.getIME().setSoundVolume(newVal);
+		if(KeyboardService.IME != null){
+			KeyboardService.IME.setSoundVolume(newVal);
 		}
 
 		Log.v(KeyboardApp.LOG_TAG, "saved volume val=" + mVolumeVal);

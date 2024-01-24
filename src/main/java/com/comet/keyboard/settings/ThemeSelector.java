@@ -133,8 +133,8 @@ public class ThemeSelector extends Activity implements OnClickListener {
 
 		WallpaperPhoto.removeWallpaper(this);
 		KeyboardThemeManager.setCurrKeyboardThemeByName(this, (String)mCurrTheme);
-		if(KeyboardService.getIME() != null)
-			KeyboardService.getIME().updateKeyboardView();
+		if(KeyboardService.IME != null)
+			KeyboardService.IME.updateKeyboardView();
 	}
 	
 	public void showSoftInput(View view, boolean isShow) {

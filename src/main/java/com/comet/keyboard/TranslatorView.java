@@ -75,7 +75,7 @@ public class TranslatorView extends RelativeLayout implements View.OnClickListen
 			} else if(translator.caller == TRANSLATE_TEXT) {
 				// Show the translation in a text edit
 				if(!translator.translation.equals("")) {
-					KeyboardService.getIME().replaceText(translator.translation);
+					KeyboardService.IME.replaceText(translator.translation);
 
 					if(creditsShowing()) {
 						// Decrease purchased item point
@@ -87,7 +87,7 @@ public class TranslatorView extends RelativeLayout implements View.OnClickListen
 			} else if(translator.caller == TRANSLATE_VOICE_INPUT) {
 				// Show the translation in a text edit
 				if(!translator.translation.equals("")) {
-					KeyboardService.getIME().inputVoiceResult(translator.translation);
+					KeyboardService.IME.inputVoiceResult(translator.translation);
 				}
 			} else if(translator.caller == TRANSLATE_CLIPBOARD) {
 				// Show the translation in a popup
@@ -98,7 +98,7 @@ public class TranslatorView extends RelativeLayout implements View.OnClickListen
 				imgCloseButton.setVisibility(View.VISIBLE);
 			}
 
-			KeyboardService.getIME().clearCandidates();
+			KeyboardService.IME.clearCandidates();
 		}
 	};
 
@@ -261,12 +261,12 @@ public class TranslatorView extends RelativeLayout implements View.OnClickListen
 
 
 	private void onClickTranslate()	{
-		InputConnection inputConnection = KeyboardService.getIME().getCurrentInputConnection();
+		InputConnection inputConnection = KeyboardService.IME.getCurrentInputConnection();
 		if(inputConnection == null)
 			return;
 
 		// Commit any outstanding typing
-		KeyboardService.getIME().commitTyped();
+		KeyboardService.IME.commitTyped();
 		// Get text from TextEdit
 		ExtractedText extractedText = inputConnection.getExtractedText(new ExtractedTextRequest(), 0);
 		if(extractedText == null || extractedText.text == null)
@@ -279,7 +279,7 @@ public class TranslatorView extends RelativeLayout implements View.OnClickListen
 	@SuppressWarnings("unused")
 	private void onClickTranslateSelected()	{
 		// Commit any outstanding typing
-		KeyboardService.getIME().commitTyped();
+		KeyboardService.IME.commitTyped();
 
 		// Get selected text from TextEdit
 		// String phrase = inputConnection.getExtractedText(new ExtractedTextRequest(), 0).text.toString();
@@ -391,7 +391,7 @@ public class TranslatorView extends RelativeLayout implements View.OnClickListen
 	 * TODO Refactor this
 	 */
 	public static void resetView() {
-		KeyboardService IME = KeyboardService.getIME();
+		KeyboardService IME = KeyboardService.IME;
 		if(IME != null) {
 			KeyboardView kbv = IME.getKeyboardView();
 			if(kbv != null) {

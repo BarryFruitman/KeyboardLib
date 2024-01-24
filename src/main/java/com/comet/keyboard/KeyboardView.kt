@@ -125,7 +125,7 @@ open class KeyboardView @JvmOverloads constructor(
      * @return the listener attached to this keyboard
      */
     /** Listener for [OnKeyboardActionListener].  */
-    protected var onKeyboardActionListener: OnKeyboardActionListener? = null
+    var onKeyboardActionListener: OnKeyboardActionListener? = null
         set
     private var mVerticalCorrection = 0
     private var mProximityThreshold = 0
@@ -1957,15 +1957,13 @@ open class KeyboardView @JvmOverloads constructor(
         mPreviewText!!.background.setState(
             if (key.popupResId != 0) LONG_PRESSABLE_STATE_SET else EMPTY_STATE_SET
         )
-        if (KeyboardService.getIME() != null
-            && !KeyboardService.getIME().isFullscreenMode
-        ) {
+        if (KeyboardService.IME != null && !KeyboardService.IME.isFullscreenMode) {
             mPopupPreviewX += mWindowOffsetCoordinates[0]
             mPopupPreviewY += mWindowOffsetCoordinates[1]
         }
         mPopupPreviewX += mScreenOffsetCoordinates[0]
-        if (KeyboardService.getIME() != null
-            && !KeyboardService.getIME().isFullscreenMode
+        if (KeyboardService.IME != null
+            && !KeyboardService.IME.isFullscreenMode
         ) {
             if (mScreenOffsetCoordinates[1] == 0) postDelayed({ showPreview(key) }, 100)
         }

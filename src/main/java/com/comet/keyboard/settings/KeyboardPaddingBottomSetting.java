@@ -136,8 +136,8 @@ public class KeyboardPaddingBottomSetting extends Activity implements OnSeekBarC
 		}
 		
 		// Refresh input view
-		if (KeyboardService.getIME() != null)
-			KeyboardService.getIME().updateKeyboardBottomPaddingHeight();
+		if (KeyboardService.IME != null)
+			KeyboardService.IME.updateKeyboardBottomPaddingHeight();
 	}
 	
 	
@@ -255,8 +255,8 @@ public class KeyboardPaddingBottomSetting extends Activity implements OnSeekBarC
 		}
 		
 		// Refresh input view
-		if (KeyboardService.getIME() != null)
-			KeyboardService.getIME().updateKeyboardBottomPaddingHeight();
+		if (KeyboardService.IME != null)
+			KeyboardService.IME.updateKeyboardBottomPaddingHeight();
 	}
 	
 	protected void saveChanges(int index, int progress){

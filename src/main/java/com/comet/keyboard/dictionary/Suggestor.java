@@ -13,6 +13,7 @@ import android.os.HandlerThread;
 import android.os.Message;
 import android.util.Log;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -182,7 +183,7 @@ public final class Suggestor {
 		if (mPredictNextWord) {
 			StringBuilder word1 = new StringBuilder();
 			StringBuilder word2 = new StringBuilder();
-			KeyboardService.getIME().getTwoWordsBeforeComposing(word1, word2);
+			KeyboardService.IME.getTwoWordsBeforeComposing(word1, word2);
 
 			final LookAheadDictionary.LookAheadSuggestionsRequest lookAheadRequest =
 			new LookAheadDictionary.LookAheadSuggestionsRequest(
@@ -371,7 +372,7 @@ public final class Suggestor {
 						continue;
 					}
 
-					if(KeyboardService.getIME().getIsAutoCaps()
+					if(KeyboardService.IME.isAutoCaps()
 							&& !DictionaryUtils.isAllCaps(sentence)
 							&& !DictionaryUtils.isMixedCase(sentence)) {
 						// De-capitalize the first letter.
@@ -380,10 +381,10 @@ public final class Suggestor {
 						sentence = sbGroup.toString();
 					}
 
-					final String words[] = sentence.split("[^a-zA-Z0-9'-]");
-					for(int iWord = 0; iWord < words.length; iWord++) {
+					final String[] words = sentence.split("[^a-zA-Z0-9'-]");
+					for (String word : words) {
 						// Save to language dictionary
-						mDicLanguage.learn(words[iWord]);
+						mDicLanguage.learn(word);
 
 						// Save to lookahead dictionary
 //						if (iWord < words.length - 2) {
@@ -447,11 +448,7 @@ public final class Suggestor {
 		}
 
 		// Check contacts dictionary
-		if(mIncludeContacts && mDicContacts.contains(word)) {
-			return true;
-		}
-
-		return false;
+		return mIncludeContacts && mDicContacts.contains(word);
 	}
 
 
@@ -463,6 +460,7 @@ public final class Suggestor {
 
 
 	public static class SuggestionsExpiredException extends RuntimeException {
+		@Serial
 		private static final long serialVersionUID = -241038711087099668L;
 	}
 }

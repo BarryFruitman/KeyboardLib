@@ -28,8 +28,8 @@ public abstract class Suggestion {
 
     public Suggestion matchCase(final String composing) {
         setWord(DictionaryUtils.matchCase(composing, getWord(),
-                KeyboardService.getIME().getKeyboardView().isShifted(),
-                KeyboardService.getIME().getKeyboardView().getCapsLock()));
+                KeyboardService.IME.getKeyboardView().isShifted(),
+                KeyboardService.IME.getKeyboardView().getCapsLock()));
 
         return this;
     }

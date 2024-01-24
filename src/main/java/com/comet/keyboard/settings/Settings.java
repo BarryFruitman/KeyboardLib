@@ -405,8 +405,8 @@ public class Settings extends PreferenceActivity {
             }
 
             // Notify the IME that prefs have changed.
-            if (KeyboardService.getIME() != null)
-                KeyboardService.getIME().onPrefsChanged();
+            if (KeyboardService.IME != null)
+                KeyboardService.IME.onPrefsChanged();
 
             updatePrefs();
 
