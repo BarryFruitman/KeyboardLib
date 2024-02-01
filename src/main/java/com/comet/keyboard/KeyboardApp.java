@@ -14,9 +14,8 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.comet.keyboard.announcements.AnnouncementsManager;
-import com.comet.keyboard.dictionary.updater.DictionaryItem;
+import com.comet.data.api.DictionaryItem;
 import com.comet.keyboard.dictionary.updater.DictionaryUpdater;
-import com.comet.keyboard.dictionary.updater.DictionaryUpdaterService;
 import com.comet.keyboard.dictionary.updater.OnDictionaryUpdatedListener;
 import com.comet.keyboard.settings.LanguageProfileManager;
 import com.comet.keyboard.settings.Settings;

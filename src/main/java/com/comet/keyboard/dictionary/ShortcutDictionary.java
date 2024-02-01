@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import android.content.Context;
 
 import com.comet.keyboard.settings.ShortcutData;
-import com.comet.keyboard.util.DatabaseHelper;
+import com.comet.data.db.DatabaseHelper;
 
 
 public class ShortcutDictionary implements Dictionary {

@@ -180,8 +180,7 @@
 	<string name="install_base_url">http://m.cometapps.com/typesmart/dictionaries/</string>
 	<string name="install_dic_list_url">http://m.cometapps.com/typesmart/dictionaries/dictionaries.xml</string>
 	-->
-	<string name="install_base_url">https://sites.google.com/a/fruitman.me/typesmart/</string>
-	<string name="install_dic_list_url">https://sites.google.com/a/fruitman.me/typesmart/dictionaries.xml</string>
+	<string name="install_base_url">https://barfru.dreamhosters.com/dictionaries/</string>
 	<string name="dic_updated_time">dic_updated_time</string>
 	<string name="dic_checked_time">dic_checked_time</string>
 	<string name="dic_app_version_code">dic_app_version_code</string>	

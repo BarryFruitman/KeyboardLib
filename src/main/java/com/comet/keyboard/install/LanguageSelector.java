@@ -23,7 +23,7 @@ import com.comet.keyboard.KeyboardApp;
 import com.comet.keyboard.R;
 import com.comet.keyboard.TranslatorView;
 import com.comet.keyboard.dictionary.updater.DictionaryDownloader;
-import com.comet.keyboard.dictionary.updater.DictionaryItem;
+import com.comet.data.api.DictionaryItem;
 import com.comet.keyboard.layouts.KeyboardLayout;
 import com.comet.keyboard.settings.LanguageProfileManager;
 import com.comet.keyboard.settings.Settings;

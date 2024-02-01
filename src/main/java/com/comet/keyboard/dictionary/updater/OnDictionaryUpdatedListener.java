@@ -6,6 +6,8 @@
 
 package com.comet.keyboard.dictionary.updater;
 
+import com.comet.data.api.DictionaryItem;
+
 import java.util.ArrayList;
 
 public interface OnDictionaryUpdatedListener {

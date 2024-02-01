@@ -7,8 +7,8 @@
 package com.comet.keyboard.settings;
 
 import com.comet.keyboard.R;
-import com.comet.keyboard.util.DatabaseHelper;
-import com.comet.keyboard.util.DatabaseHelper.DBError;
+import com.comet.data.db.DatabaseHelper;
+import com.comet.data.db.DatabaseHelper.DBError;
 
 import android.app.Activity;
 import android.app.AlertDialog;

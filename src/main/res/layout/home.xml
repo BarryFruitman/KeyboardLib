@@ -155,17 +155,15 @@
                 android:drawableTop="@drawable/home_btn_about"
                 android:text="@string/home_btn_about" />
 
-
-<!--        &lt;!&ndash; FOR DEVELOPMENT PURPOSES ONLY-->
+        <!-- FOR DEVELOPMENT PURPOSES ONLY
         <EditText
             android:id="@+id/dev_edit"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
             android:textSize="@dimen/heading_font_size" />
-<!--		 &ndash;&gt;-->
+		 -->
 
-		 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

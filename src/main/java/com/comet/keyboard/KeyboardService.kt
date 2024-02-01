@@ -38,7 +38,7 @@ import com.comet.keyboard.dictionary.DictionaryUtils
 import com.comet.keyboard.dictionary.Suggestor
 import com.comet.keyboard.dictionary.Suggestor.FinalSuggestions
 import com.comet.keyboard.dictionary.updater.DictionaryDownloader
-import com.comet.keyboard.dictionary.updater.DictionaryItem
+import com.comet.data.api.DictionaryItem
 import com.comet.keyboard.layouts.KeyboardLayout
 import com.comet.keyboard.settings.AppRater
 import com.comet.keyboard.settings.CandidateHeightSetting
@@ -51,7 +51,7 @@ import com.comet.keyboard.settings.OnResultListener
 import com.comet.keyboard.settings.Settings
 import com.comet.keyboard.settings.SoundVolumeSetting
 import com.comet.keyboard.theme.KeyboardThemeManager
-import com.comet.keyboard.util.DatabaseHelper
+import com.comet.data.db.DatabaseHelper
 import com.comet.keyboard.util.OnPopupMenuItemClickListener
 import com.comet.keyboard.util.PopupMenuView
 import com.comet.keyboard.util.ProfileTracer
@@ -1148,7 +1148,7 @@ open class KeyboardService : InputMethodService(), KeyboardView.OnKeyboardAction
         if (!inPreviewMode()) {
             if (!KeyboardApp.getApp().updater.isDictionaryExist(
                     this,
-                    language
+                    language!!
                 ) || isNeedUpdateDicts
             ) {
                 // No dictionary installed. Display a prompt in the candidate view
@@ -1172,7 +1172,7 @@ open class KeyboardService : InputMethodService(), KeyboardView.OnKeyboardAction
                     override fun onClick(v: View) {
                         if (!KeyboardApp.getApp().updater.isDictionaryExist(
                                 this@KeyboardService,
-                                language
+                                language!!
                             )
                         ) launchDictionariesUpdate(
                             arrayOf<String?>(
@@ -3445,14 +3445,14 @@ open class KeyboardService : InputMethodService(), KeyboardView.OnKeyboardAction
     }
 
     fun launchDictionariesUpdate() {
-        val t = ArrayList<DictionaryItem>()
-        DatabaseHelper.safeGetDatabaseHelper(this).getDictionariesForUpdate(this, t)
-        val list = arrayOfNulls<String>(t.size)
-        for (i in t.indices) {
-            val item = t[i]
-            list[i] = item.lang
-        }
-        launchDictionariesUpdate(list)
+//        val t = ArrayList<DictionaryItem>()
+//        DatabaseHelper.safeGetDatabaseHelper(this).getDictionariesForUpdate(this, t)
+//        val list = arrayOfNulls<String>(t.size)
+//        for (i in t.indices) {
+//            val item = t[i]
+//            list[i] = item.lang
+//        }
+//        launchDictionariesUpdate(list)
     }
 
     /**

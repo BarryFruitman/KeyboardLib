@@ -13,24 +13,23 @@ import android.util.Log
 import com.comet.keyboard.KeyboardApp
 import com.comet.keyboard.KeyboardService
 import com.comet.keyboard.R
+import com.comet.data.api.DictionaryItem
+import com.comet.data.api.DictionaryService
 import com.comet.keyboard.settings.Settings
-import com.comet.keyboard.util.DatabaseHelper
+import com.comet.data.db.DatabaseHelper
 import com.comet.keyboard.util.Utils
 import junit.framework.Assert
-import org.w3c.dom.Element
-import org.xml.sax.InputSource
 import java.io.File
-import java.net.URL
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantLock
-import javax.xml.parsers.DocumentBuilderFactory
 
 class DictionaryUpdater(private val mContext: Context) {
+    private val service = DictionaryService.create()
     private val mRes: Resources
 
     // Current dictionary list
-    private var mDicList: ArrayList<DictionaryItem>
+    private var mDicList: List<DictionaryItem>
     private var mDicUpdatedListener: OnDictionaryUpdatedListener? = null
 
     // Is marked as unread for the updating info
@@ -42,21 +41,21 @@ class DictionaryUpdater(private val mContext: Context) {
         if (mUIHandler == null) {
             mUIHandler = Handler()
         }
-        mDicList = ArrayList()
+        mDicList = mutableListOf()
 
         // load dictionary list from database
         refreshDictionaryListFromDb()
     }
 
     fun refreshDictionaryListFromDb() {
-        try {
-            lock.lock()
-            DatabaseHelper
-                .safeGetDatabaseHelper(mContext)
-                .loadDicInfo(mContext, mDicList)
-        } finally {
-            lock.unlock()
-        }
+//        try {
+//            lock.lock()
+//            DatabaseHelper
+//                .safeGetDatabaseHelper(mContext)
+//                .loadDicInfo(mContext, mDicList)
+//        } finally {
+//            lock.unlock()
+//        }
     }
 
     fun stopUpdate() {
@@ -70,31 +69,28 @@ class DictionaryUpdater(private val mContext: Context) {
     fun loadDictionaryList() {
         Log.v(KeyboardApp.LOG_TAG, "started loading dictionary list")
         try {
-            var newDicList = ArrayList<DictionaryItem>()
-            val temp: ArrayList<DictionaryItem>
-            val xmlURL = URL(mRes.getString(R.string.install_dic_list_url))
+            val call = service.getDictionaries()
+            val response = call.execute()
+            val index = response.body() ?: return
 
-            // Parse dictionary info
-            val result = parseDicInfo(newDicList, xmlURL)
+            Log.e("RETROFIT_DEBUG", "$index")
 
             // Save into database
-            if (result) {
+            if (index.dictionaries.isNotEmpty()) {
                 lock.lock()
                 try {
                     // Notify dictionary info changed
-                    temp = newDicList
-                    newDicList = mDicList
-                    mDicList = temp
-                    if (markAndNotifyUpdatedState(mDicList, newDicList)) {
-                        // Save new diction list into database
-                        DatabaseHelper.safeGetDatabaseHelper(mContext).saveDicInfos(mDicList)
-                        saveDicUpdatedTime(Utils.getTimeMilis())
-                    }
+                    mDicList = index.dictionaries
+//                    if (markAndNotifyUpdatedState(mDicList, newDicList)) {
+//                        // Save new diction list into database
+//                        DatabaseHelper.safeGetDatabaseHelper(mContext).saveDicInfos(mDicList)
+//                        saveDicUpdatedTime(Utils.getTimeMilis())
+//                    }
                 } finally {
                     lock.unlock()
                 }
             }
-            if (result) {
+            if (index.dictionaries.isNotEmpty()) {
                 Log.v(KeyboardApp.LOG_TAG, "saving check dictionary time ")
                 // Set update time into preference value
                 saveDicCheckTime(Utils.getTimeMilis())
@@ -136,9 +132,9 @@ class DictionaryUpdater(private val mContext: Context) {
             // Compare 2 dictionary info
             for (i in newDicList!!.indices) {
                 val newItem = newDicList[i]
-                val oldItem = getDictionaryItemPrim(oldDicList, newItem.lang)
+                val oldItem = getDictionaryItemPrim(oldDicList, newItem.language)
                 if (oldItem == null || newItem.version > oldItem.version) {
-                    Log.v(KeyboardApp.LOG_TAG, "new dictionary available " + newItem.lang)
+                    Log.v(KeyboardApp.LOG_TAG, "new dictionary available " + newItem.language)
                     newItem.isNeedUpdate = true
                     if (oldItem != null) {
                         newItem.isInstalled = oldItem.isInstalled
@@ -164,57 +160,11 @@ class DictionaryUpdater(private val mContext: Context) {
         return mIsNeedUpdate
     }
 
-    /**
-     * Parse diction info from xml string
-     */
-    private fun parseDicInfo(dicList: ArrayList<DictionaryItem>, url: URL): Boolean {
-        try {
-            val dbf = DocumentBuilderFactory.newInstance()
-            val db = dbf.newDocumentBuilder()
-            val doc = db.parse(InputSource(url.openStream()))
-            var index = 0
-            doc.documentElement.normalize()
-
-            // Clear dictionary list
-            dicList.clear()
-            var nodeList = doc.getElementsByTagName(mRes.getString(R.string.xml_entry_dictionaries))
-            val root = nodeList.item(0) as Element
-            nodeList = root.childNodes
-            var minAppVersionCode = 0
-            try {
-                minAppVersionCode =
-                    root.getAttribute(mRes.getString(R.string.xml_dictionaries_property_min_version_code))
-                        .toInt()
-            } catch (e: Exception) {
-                Log.e(
-                    KeyboardApp.LOG_TAG,
-                    "couldn't detect min version code to use up-to-date dictionaries",
-                    e
-                )
-            }
-            setNeedUpgrade(minAppVersionCode)
-            for (i in 0 until nodeList.length) {
-                val node = nodeList.item(i)
-                if (node.childNodes.length > 0) {
-                    val newItem = DictionaryItem(mContext)
-                    if (newItem.parseDicInfo(node, index++)) {
-                        dicList.add(newItem)
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            Log.e(KeyboardApp.LOG_TAG, "parse dic info", e)
-            return false
-        }
-        return true
-    }
-
     private val dicUpdatedTime: Long
         // Load updated time
-        private get() {
+        get() {
             // Set update time into preference value
-            Assert.assertTrue(mContext != null)
-            val preference = mContext!!.getSharedPreferences(
+            val preference = mContext.getSharedPreferences(
                 Settings.SETTINGS_FILE,
                 Context.MODE_PRIVATE
             )
@@ -223,7 +173,6 @@ class DictionaryUpdater(private val mContext: Context) {
 
     // Save current wallpaper drawable id
     fun saveDicUpdatedTime(updatedTime: Long) {
-        Assert.assertTrue(mContext != null)
         val preferenceEditor = mContext
             .getSharedPreferences(
                 Settings.SETTINGS_FILE,
@@ -236,7 +185,6 @@ class DictionaryUpdater(private val mContext: Context) {
 
     // Save current wallpaper drawable id
     private fun saveDicCheckTime(updatedTime: Long) {
-        Assert.assertTrue(mContext != null)
         val preferenceEditor = mContext
             .getSharedPreferences(
                 Settings.SETTINGS_FILE,
@@ -251,7 +199,6 @@ class DictionaryUpdater(private val mContext: Context) {
         // Load checked time
         get() {
             // Set update time into preference value
-            Assert.assertTrue(mContext != null)
             val preference = mContext
                 .getSharedPreferences(
                     Settings.SETTINGS_FILE,
@@ -275,7 +222,7 @@ class DictionaryUpdater(private val mContext: Context) {
     }
 
     private fun getDictionaryItemPrim(
-        list: ArrayList<DictionaryItem>?,
+        list: List<DictionaryItem>?,
         dicName: String
     ): DictionaryItem? {
         var item: DictionaryItem
@@ -283,7 +230,7 @@ class DictionaryUpdater(private val mContext: Context) {
         try {
             for (i in list!!.indices) {
                 item = list[i]
-                if (item.lang == dicName) {
+                if (item.language == dicName) {
                     return item
                 }
             }
@@ -307,7 +254,7 @@ class DictionaryUpdater(private val mContext: Context) {
             item = mDicList[i]
             item.isNeedUpdate = false
         }
-        DatabaseHelper.safeGetDatabaseHelper(mContext).saveDicInfos(mDicList)
+//        DatabaseHelper.safeGetDatabaseHelper(mContext).saveDicInfos(mDicList)
     }
 
     /**
@@ -334,12 +281,12 @@ class DictionaryUpdater(private val mContext: Context) {
                             val lang = Settings.getNameFromValue(
                                 mContext,
                                 "language",
-                                item.lang
+                                item.language
                             )
                             installed.add(
                                 String.format(
                                     Locale.getDefault(),
-                                    "%s (v%d)", lang, item.version.toInt()
+                                    "%s (v%d)", lang, item.version
                                 )
                             )
                         }
@@ -377,9 +324,7 @@ class DictionaryUpdater(private val mContext: Context) {
         c.close()
         Log.v(KeyboardApp.LOG_TAG, "checkNeedUpdate() " + (count > 0))
         updatedStatus = count > 0
-        if (KeyboardService.IME != null) {
-            KeyboardService.IME.isNeedUpdateDicts = count > 0
-        }
+        KeyboardService.IME.isNeedUpdateDicts = count > 0
         return count > 0
     }
 
@@ -388,7 +333,7 @@ class DictionaryUpdater(private val mContext: Context) {
          * Checks application upgrading required or not  by dictionary minimum application version code
          */
         get() {
-            val preference = mContext!!.getSharedPreferences(
+            val preference = mContext.getSharedPreferences(
                 Settings.SETTINGS_FILE,
                 Context.MODE_PRIVATE
             )
@@ -404,30 +349,30 @@ class DictionaryUpdater(private val mContext: Context) {
             return false
         }
 
-    /**
-     * Dictionary has minimum application version code to up-to-date
-     */
-    private fun setNeedUpgrade(version: Int) {
-        val preferenceEditor = mContext!!.getSharedPreferences(
-            Settings.SETTINGS_FILE,
-            Context.MODE_PRIVATE
-        )
-            .edit()
-        preferenceEditor.putInt(
-            mContext.getString(R.string.dic_app_version_code),
-            version
-        )
-        preferenceEditor.apply()
-
-        // Notify service
-        if (KeyboardService.IME != null) {
-            val isNeedUpgrade = isNeedUpgrade
-            KeyboardService.IME.isNeedUpgradeApp = isNeedUpgrade
-            if (isNeedUpgrade) {
-                KeyboardService.IME.showSuggestionAppUpdateOnUi()
-            }
-        }
-    }
+//    /**
+//     * Dictionary has minimum application version code to up-to-date
+//     */
+//    private fun setNeedUpgrade(version: Int) {
+//        val preferenceEditor = mContext.getSharedPreferences(
+//            Settings.SETTINGS_FILE,
+//            Context.MODE_PRIVATE
+//        )
+//            .edit()
+//        preferenceEditor.putInt(
+//            mContext.getString(R.string.dic_app_version_code),
+//            version
+//        )
+//        preferenceEditor.apply()
+//
+//        // Notify service
+//        if (KeyboardService.IME != null) {
+//            val isNeedUpgrade = isNeedUpgrade
+//            KeyboardService.IME.isNeedUpgradeApp = isNeedUpgrade
+//            if (isNeedUpgrade) {
+//                KeyboardService.IME.showSuggestionAppUpdateOnUi()
+//            }
+//        }
+//    }
 
     var updatedStatus: Boolean
         get() {
@@ -466,35 +411,32 @@ class DictionaryUpdater(private val mContext: Context) {
 
         // Period of updating time
         private var mUIHandler: Handler? = null
+
         @JvmStatic
-		fun isDictionaryExist(
+        fun isDictionaryExist(
             context: Context?,
             item: DictionaryItem?
         ): Boolean {
             if (item == null) {
                 return false
             }
-            val fileItems = item.fileItems
 
             // Check dictionary existing
-            for (i in fileItems.indices) {
-                val fileItem = fileItems[i]
-                val folder = "databases"
-                val file = File(
-                    Utils.getInternalFilePath(
-                        context,
-                        folder + "/" + fileItem.filename
-                    )
+            val folder = "databases"
+            val file = File(
+                Utils.getInternalFilePath(
+                    context,
+                    folder + "/" + item.filename
                 )
-                if (!file.exists()) {
-                    Log.v(KeyboardApp.LOG_TAG, "!file.exists() " + file.absolutePath)
-                    return false
-                }
-                if (file.length() < fileItem.size) {
-                    // File can be bigger but not smaller.
-                    Log.v(KeyboardApp.LOG_TAG, "file.length() < fileItem.size")
-                    return false
-                }
+            )
+            if (!file.exists()) {
+                Log.v(KeyboardApp.LOG_TAG, "!file.exists() " + file.absolutePath)
+                return false
+            }
+            if (file.length() < item.size) {
+                // File can be bigger but not smaller.
+                Log.v(KeyboardApp.LOG_TAG, "file.length() < fileItem.size")
+                return false
             }
             return true
         }

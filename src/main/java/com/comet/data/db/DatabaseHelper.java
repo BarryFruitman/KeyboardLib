@@ -4,7 +4,7 @@
  * All Rights Reserved
  */
 
-package com.comet.keyboard.util;
+package com.comet.data.db;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,8 +14,6 @@ import junit.framework.Assert;
 import com.comet.keyboard.KeyboardApp;
 import com.comet.keyboard.R;
 import com.comet.keyboard.dictionary.ShortcutDictionary;
-import com.comet.keyboard.dictionary.updater.DictionaryFileItem;
-import com.comet.keyboard.dictionary.updater.DictionaryItem;
 import com.comet.keyboard.layouts.KeyboardLayout;
 import com.comet.keyboard.settings.LanguageProfile;
 import com.comet.keyboard.settings.LanguageProfileManager;
@@ -34,17 +32,17 @@ import android.util.Log;
 public class DatabaseHelper extends SQLiteOpenHelper {
 	// Database Manager
 	private static DatabaseHelper dbHelper;
-	
+
 	private Context mContext;
 
 	// Defines database name and table names
 	private static final String DB_NAME = "keyboard.db";
-	
+
 	// "shortcuts" table
 	private static final String SHORTCUTS_TABLE_NAME = "shortcuts";
 	private static final String SHORTCUTS_FIELD_KEYSTROKES = "keystrokes";
 	private static final String SHORTCUTS_FIELD_EXPANSION = "expansion";
-	
+
 	// "dic_languages" table
 	public static final String DIC_LANGUAGES_TABLE_NAME = "dic_languages";
 	public static final String DIC_LANGUAGES_FIELD_ID = "id";
@@ -52,13 +50,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public static final String DIC_LANGUAGES_FIELD_IS_INSTALLED = "is_installed";
 	public static final String DIC_LANGUAGES_FIELD_VERSION = "version";
 	public static final String DIC_LANGUAGES_FIELD_LANG = "lang";
-	
+
 	// "dic_items" table
 	private static final String DIC_ITEM_TABLE_NAME = "dic_items";
 	private static final String DIC_ITEM_FIELD_LANGUAGE_ID = "language_id";
 	private static final String DIC_ITEM_FIELD_NAME = "name";
 	private static final String DIC_ITEM_FIELD_SIZE = "size";
-	
+
 	/// "profile" table
 	private static final String PROFILE_TABLE_NAME = "profile";
 	private static final String PROFILE_FIELD_LANG = "lang";
@@ -79,35 +77,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		if(mDB == null || !mDB.isOpen())
 			mDB = getWritableDatabase();
 	}
-	
-	
-	
-	
+
+
+
+
 	public static DatabaseHelper safeGetDatabaseHelper(Context context) {
 		safeGetDatabaseHelper(context, false);
-		
+
 		return dbHelper;
 	}
-	
+
 	public static DatabaseHelper safeGetDatabaseHelper(Context context,
 			boolean force) {
-		
+
 		if (force && dbHelper != null) {
 			dbHelper.close();
 			dbHelper = null;
 		}
-		
+
 		if (dbHelper == null)
 			dbHelper = new DatabaseHelper(context);
 		return dbHelper;
 	}
-	
+
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		try {
 			Log.d(KeyboardApp.LOG_TAG, "DatabaseHelper.onCreate()...");
 //			android.os.Debug.waitForDebugger();
-			
+
 			// Create shortcut table
 			db.execSQL("CREATE TABLE IF NOT EXISTS "
 					+ SHORTCUTS_TABLE_NAME
@@ -118,19 +116,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			createDicItemsTable(db);
 			// Create profile table
 			createProfileTable(db);
-			
+
 		} catch (SQLiteException e) {
 			Log.e(KeyboardApp.LOG_TAG, e.getMessage(), e);
 			return;
 		}
 	}
-	
+
 	private void createDicLanguagesTable(SQLiteDatabase db) throws SQLiteException {
 		db.execSQL("CREATE TABLE IF NOT EXISTS " + DIC_LANGUAGES_TABLE_NAME
 				+ "(" + DIC_LANGUAGES_FIELD_ID
 				+ " INTEGER PRIMARY KEY, " + DIC_LANGUAGES_FIELD_VERSION
 				+ " FLOAT, " + DIC_LANGUAGES_FIELD_LANG + " TEXT,"
-				+ DIC_LANGUAGES_FIELD_IS_NEED_UPDATE + " INTEGER, " + DIC_LANGUAGES_FIELD_IS_INSTALLED + " INTEGER " + ")");	
+				+ DIC_LANGUAGES_FIELD_IS_NEED_UPDATE + " INTEGER, " + DIC_LANGUAGES_FIELD_IS_INSTALLED + " INTEGER " + ")");
 	}
 
 
@@ -138,7 +136,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL("CREATE TABLE IF NOT EXISTS " + DIC_ITEM_TABLE_NAME
 				+ "(" + DIC_ITEM_FIELD_LANGUAGE_ID
 				+ " INTEGER, " + DIC_ITEM_FIELD_NAME + " TEXT, "
-				+ DIC_ITEM_FIELD_SIZE + " INTEGER)");		
+				+ DIC_ITEM_FIELD_SIZE + " INTEGER)");
 	}
 
 	private void createProfileTable(SQLiteDatabase db) throws SQLiteException {
@@ -147,24 +145,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				+ " TEXT)");
 	}
 
-	
+
 //	private void importLexicon(SQLiteDatabase db) throws SQLiteException {
 //		// TODO: Import the custom dictionary to the lexicon table
 //	}
 
-	
-	
-	
-	
+
+
+
+
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		mDB = db;
-		
+
 		Log.d(KeyboardApp.LOG_TAG, "DatabaseHelper.onUpgrade() old version " + oldVersion + "; new version " + newVersion );
 
 		if(oldVersion < 7) {
 			upgradeProfiles(db);
-			
+
 			// Recreate dictionary tables from scratch
 			db.execSQL("DROP TABLE IF EXISTS dic_categories");
 			db.execSQL("DROP TABLE IF EXISTS dic_languages");
@@ -173,7 +171,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			createDicLanguagesTable(db);
 		}
 	}
-	
+
 
 
 	// Upgrade database to v4
@@ -186,7 +184,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		ArrayList<String> dictionaries = getLanguagesForUpgrade(db, "dic_categories");
 		if(dictionaries.size() == 0)
 			dictionaries = getLanguagesForUpgrade(db, "dic_languages");
-		
+
     	for(String dictionary : dictionaries) {
 			LanguageProfile newItem = LanguageProfileManager.createDefaultProfile(mContext, dictionary);
 			newProfileMap.put(newItem.getLang(), newItem);
@@ -200,33 +198,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     	LanguageProfile currProfile = new LanguageProfile(lang, keyboard);
     	newProfileMap.put(lang, currProfile);
 
-    	
+
     	// Step 3: Load existing profiles from db
     	ArrayList<LanguageProfile> profileList = getProfileItems();
     	for (LanguageProfile profile : profileList) {
    			newProfileMap.put(profile.getLang(), profile);
     	}
-    	
-    	
+
+
     	// Drop and re-create the table
     	db.execSQL("DROP TABLE " + PROFILE_TABLE_NAME);
     	// Create new table
     	createProfileTable(db);
 
-    	
+
     	// Save the profiles back to the db
     	if (newProfileMap.size() > 0) {
 	    	Object[] newProfileList = newProfileMap.values().toArray();
 	    	for (Object object : newProfileList) {
-	    		LanguageProfile profile = (LanguageProfile) object;	    		
+	    		LanguageProfile profile = (LanguageProfile) object;
 	    		addProfileItem(profile.getLang(), profile.getKeyboard());
 	    		Log.d(KeyboardApp.LOG_TAG, "upgradeProfiles(" + profile.getLang() + "," + profile.getKeyboard() + ")");
 	    	}
     	}
     }
-    
-    
-    
+
+
+
     @Deprecated
     private ArrayList<String> getLanguagesForUpgrade(SQLiteDatabase db, String table) {
     	ArrayList<String> dictionaries = new ArrayList<String>();
@@ -267,7 +265,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	 ********************************************************************/
 	/**
 	 * Retrieve shortcut items from database
-	 * 
+	 *
 	 * @param list
 	 * @return
 	 */
@@ -307,9 +305,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	/**
 	 * Retrieve shortcut item from database
-	 * 
-	 * @param keystroke
-	 * @return
 	 */
 	public DBError getShortcutItem(ShortcutData shortcut) {
 		try {
@@ -341,11 +336,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	/**
 	 * Add one shortcut item
-	 * 
+	 *
 	 * @param newShortcut
 	 * @return
 	 */
-	public DBError addShortcutItem(ShortcutData newShortcut) {	
+	public DBError addShortcutItem(ShortcutData newShortcut) {
 		Assert.assertTrue(newShortcut != null);
 
 		try {
@@ -353,7 +348,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			if (getShortcutItem(newShortcut) == DBError.DB_ERROR_NONE)
 				return DBError.DB_ERROR_ALREADY_EXIST;
 
-			// Append new shortcut item to database 
+			// Append new shortcut item to database
 			ContentValues values = new ContentValues();
 			values.put(SHORTCUTS_FIELD_KEYSTROKES, newShortcut.mKeystroke);
 			values.put(SHORTCUTS_FIELD_EXPANSION, newShortcut.mExpand);
@@ -374,12 +369,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	/**
 	 * Update specified shortcut item
-	 * 
-	 * @param newShortcut
-	 * @return
 	 */
-	public DBError updateShortcutItem(ShortcutData orgShortcut, 
-			ShortcutData updatedShortcut) {		
+	public DBError updateShortcutItem(ShortcutData orgShortcut,
+			ShortcutData updatedShortcut) {
 		Assert.assertTrue(updatedShortcut != null);
 
 		try {
@@ -387,7 +379,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			if (getShortcutItem(orgShortcut) != DBError.DB_ERROR_NONE)
 				return DBError.DB_ERROR_ALREADY_EXIST;
 
-			// Append new shortcut item to database 
+			// Append new shortcut item to database
 			ContentValues values = new ContentValues();
 			values.put(SHORTCUTS_FIELD_KEYSTROKES, updatedShortcut.mKeystroke);
 			values.put(SHORTCUTS_FIELD_EXPANSION, updatedShortcut.mExpand);
@@ -413,13 +405,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	/**
 	 * Remove specified shortcut item
-	 * 
+	 *
 	 * @param shortcut
 	 * @return
 	 */
 	public DBError removeShortcutItems(ShortcutData shortcut) {
 		try {
-			int result = mDB.delete(SHORTCUTS_TABLE_NAME, 
+			int result = mDB.delete(SHORTCUTS_TABLE_NAME,
 					SHORTCUTS_FIELD_KEYSTROKES + "=?" + " and "
 							+ SHORTCUTS_FIELD_EXPANSION + "=?", new String[] {
 							shortcut.mKeystroke, shortcut.mExpand });
@@ -440,7 +432,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		return DBError.DB_ERROR_NONE;
 	}
 
-	
+
 	/********************************************************************
 	 * Dictionary methods
 	 ********************************************************************/
@@ -451,24 +443,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			ArrayList<DictionaryFileItem> dicFileItems, int categoryID) {
 		return loadDicItems(context, mDB, dicFileItems, categoryID);
 	}
-	
+
 	public synchronized DBError loadDicItems(Context context,
 			SQLiteDatabase db, ArrayList<DictionaryFileItem> dicFileItems,
 			long categoryID) {
 		// clear all dictionary item list
 		Assert.assertTrue(dicFileItems != null);
 		dicFileItems.clear();
-		
+
 		try {
-			
+
 			Cursor cursor = db.query(DIC_ITEM_TABLE_NAME, new String[] {DIC_ITEM_FIELD_NAME, DIC_ITEM_FIELD_SIZE},
 					DIC_ITEM_FIELD_LANGUAGE_ID + "=" + categoryID, null, null,
 					null, null, null);
-			
+
 			if (cursor == null)
 				return DBError.DB_ERROR_FAILED;
 
-			DictionaryFileItem newItem = new DictionaryFileItem(context);
+			DictionaryFileItem newItem = new DictionaryFileItem();
 			while(cursor.moveToNext() == true) {
 				newItem.filename = cursor.getString(0);
 				newItem.size = Long.parseLong(cursor.getString(1));
@@ -476,7 +468,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			}
 
 			// Add new dictionary item
-			
+
 			// Close query
 			cursor.close();
 
@@ -484,34 +476,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			Log.e(KeyboardApp.LOG_TAG, e.getMessage(), e);
 			return DBError.DB_ERROR_FAILED;
 		}
-		
+
 		return DBError.DB_ERROR_NONE;
 	}
-	
+
 	/**
 	 * Load dictionary info from "dic_languages", "dic_items" table
-	 * 
-	 * @param dic
 	 */
 	public synchronized DBError loadDicInfo(Context context,
 			ArrayList<DictionaryItem> dicList) {
 		return loadDicInfo(context, mDB, dicList);
 	}
-	
+
 	/**
 	 * Load dictionary info from "dic_languages", "dic_items" table
-	 * 
-	 * @param dic
 	 */
 	private synchronized DBError loadDicInfo(Context context,
 			ArrayList<DictionaryItem> dicList, String sqlWhere, String[] selectionArgs) {
 		return loadDicInfo(context, mDB, dicList, sqlWhere, selectionArgs);
 	}
-	
-	
+
+
 	/**
-	 * Gets dictionaries collection which needs to be updated. 
-	 * 
+	 * Gets dictionaries collection which needs to be updated.
+	 *
 	 * @param context
 	 * @param dicList
 	 * @return
@@ -519,19 +507,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public DBError getDictionariesForUpdate(Context context, ArrayList<DictionaryItem> dicList) {
 		return loadDicInfo(context, dicList,
 				DatabaseHelper.DIC_LANGUAGES_FIELD_IS_NEED_UPDATE + " = ? AND " + DatabaseHelper.DIC_LANGUAGES_FIELD_IS_INSTALLED + " = ?" ,
-				new String[] { "1", "1" });		
-	}	
-	
+				new String[] { "1", "1" });
+	}
+
 
 	public synchronized DBError loadDicInfo(Context context, SQLiteDatabase db,
 			ArrayList<DictionaryItem> dicList, String sqlWhere, String[] selectionArgs) {
 		// clear all dictionary list
 		Assert.assertTrue(dicList != null);
 		dicList.clear();
-		
+
 		try {
 			DBError error;
-			
+
 			Cursor dicListCursor = db.query(DIC_LANGUAGES_TABLE_NAME, new String[]{DIC_LANGUAGES_FIELD_ID, DIC_LANGUAGES_FIELD_VERSION,DIC_LANGUAGES_FIELD_LANG,DIC_LANGUAGES_FIELD_IS_NEED_UPDATE, DIC_LANGUAGES_FIELD_IS_INSTALLED},
 					sqlWhere, selectionArgs, null, null, null);
 			if (dicListCursor == null)
@@ -539,13 +527,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 			while(dicListCursor.moveToNext() == true) {
 				DictionaryItem newItem = new DictionaryItem(context);
-				
+
 				newItem.id = dicListCursor.getInt(0);
 				newItem.version = Integer.parseInt(dicListCursor.getString(1));
 				newItem.lang = dicListCursor.getString(2);
 				newItem.isNeedUpdate = (dicListCursor.getInt(3) == 1);
 				newItem.isInstalled = (dicListCursor.getInt(4) == 1);
-				
+
 				error = loadDicItems(context, db, newItem.fileItems,
 						newItem.id);
 				if (error == DBError.DB_ERROR_NONE) {
@@ -577,7 +565,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			DictionaryFileItem fileItem, boolean isNeedUpdate) {
 		Assert.assertTrue(categoryId >= 0);
 		Assert.assertTrue(fileItem != null);
-		
+
 		try {
 			if (isNeedUpdate) {
 				// Clear dic_cartegories, dic_items table
@@ -586,7 +574,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 						+ DIC_ITEM_FIELD_NAME + "=" + fileItem.filename, null) == -1)
 					return DBError.DB_ERROR_FAILED;
 			}
-			
+
 			// Save dictionary item
 			ContentValues values = new ContentValues();
 			values.put(DIC_ITEM_FIELD_LANGUAGE_ID, categoryId);
@@ -594,9 +582,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			values.put(DIC_ITEM_FIELD_SIZE, (int)fileItem.size);
 			if(mDB.insert(DIC_ITEM_TABLE_NAME, null, values) == -1) {
 				Log.e(KeyboardApp.LOG_TAG, fileItem.toString());
-				return DBError.DB_ERROR_FAILED; 
+				return DBError.DB_ERROR_FAILED;
 			}
-			
+
 		} catch (SQLiteException e) {
 			Log.e(KeyboardApp.LOG_TAG, e.getMessage(), e);
 			return DBError.DB_ERROR_FAILED;
@@ -604,14 +592,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		return DBError.DB_ERROR_NONE;
 	}
-	
+
 	/**
 	 * Save dictionary items to "dic_items" table
 	 */
 	public synchronized DBError saveDicItems(long oldCategoryId, long categoryId,
 			ArrayList<DictionaryFileItem> dicItemList) {
 		Assert.assertTrue(dicItemList != null);
-		
+
 		DBError error;
 		try {
 			if(oldCategoryId != 0) {
@@ -620,7 +608,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 						+ "=?", new String[] { String.valueOf(oldCategoryId) }) == -1)
 				return DBError.DB_ERROR_FAILED;
 			}
-			
+
 			DictionaryFileItem item;
 			for (int i = 0 ; i < dicItemList.size() ; i++) {
 				item = dicItemList.get(i);
@@ -635,31 +623,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		return DBError.DB_ERROR_NONE;
 	}
-	
+
 	/**
 	 * Save dictionary info
 	 */
 	public synchronized DBError saveDicItem(DictionaryItem dicItem,
 			boolean isNeedDelete) {
 		Assert.assertTrue(dicItem != null);
-		
+
 		DBError error;
-		
+
 		try {
 			long oldId = 0;
-			
+
 			// Clear dic_cartegories, dic_items table
 			if (isNeedDelete) {
-				
+
 				Cursor c = mDB.query(DIC_LANGUAGES_TABLE_NAME, new String[] { DIC_LANGUAGES_FIELD_ID }, DIC_LANGUAGES_FIELD_LANG
 						+ "=?", new String[] { dicItem.lang }, null, null, null);
-				
+
 				int count = c.getCount();
-				
+
 				if(count > 0){
 					c.moveToFirst();
 					oldId = c.getLong(0);
-					
+
 				if (mDB.delete(DIC_LANGUAGES_TABLE_NAME, DIC_LANGUAGES_FIELD_LANG
 						+ "=?", new String[] { dicItem.lang }) == -1)
 					return DBError.DB_ERROR_FAILED;
@@ -673,12 +661,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			values.put(DIC_LANGUAGES_FIELD_IS_NEED_UPDATE,
 					dicItem.isNeedUpdate);
 			values.put(DIC_LANGUAGES_FIELD_IS_INSTALLED,
-					dicItem.isInstalled);			
+					dicItem.isInstalled);
 			if ((dicItem.id = mDB.insert(DIC_LANGUAGES_TABLE_NAME, null, values)) == -1) {
 				Log.e(KeyboardApp.LOG_TAG, dicItem.toString());
 				return DBError.DB_ERROR_FAILED;
 			}
-				
+
 			error = saveDicItems(oldId, dicItem.id, dicItem.fileItems);
 			if (error == DBError.DB_ERROR_FAILED)
 				return DBError.DB_ERROR_FAILED;
@@ -689,21 +677,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		return DBError.DB_ERROR_NONE;
 	}
-	
+
 	/**
 	 * Save dictionary info to "dic_cartegories", "dic_items" table
 	 */
 	public synchronized DBError saveDicInfos(ArrayList<DictionaryItem> dicList) {
 		Assert.assertTrue(dicList != null);
-		
+
 		try {
 			// Clear dic_cartegories, dic_items table
 			if (mDB.delete(DIC_LANGUAGES_TABLE_NAME, null, null) == -1)
 				return DBError.DB_ERROR_FAILED;
-			
+
 			if (mDB.delete(DIC_ITEM_TABLE_NAME, null, null) == -1)
-				return DBError.DB_ERROR_FAILED;			
-			
+				return DBError.DB_ERROR_FAILED;
+
 			DictionaryItem item;
 			for (int i = 0 ; i < dicList.size() ; i++) {
 				item = dicList.get(i);
@@ -717,12 +705,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 		return DBError.DB_ERROR_NONE;
 	}
-	
+
 	/***********************************************************************************
 	 * Profile function
 	 **********************************************************************************/
 	public ArrayList<LanguageProfile> getProfileItems() {
-		ArrayList<LanguageProfile> profiles = new ArrayList<LanguageProfile>(); 
+		ArrayList<LanguageProfile> profiles = new ArrayList<LanguageProfile>();
 		try {
 			Cursor mCursor = mDB.query(PROFILE_TABLE_NAME, new String[] {
 					PROFILE_FIELD_LANG, PROFILE_FIELD_KEYBOARD }, null, null,
@@ -752,9 +740,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	/**
 	 * Retrieve profile item from database
-	 * 
-	 * @param item
-	 * @return
 	 */
 	public LanguageProfile getProfileItem(String lang) {
 		LanguageProfile profile = null;
@@ -782,17 +767,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			Log.e(KeyboardApp.LOG_TAG, e.getMessage(), e);
 			return null;
 		}
-		
+
 		return profile;
 	}
 
 	/**
 	 * Add new profile item
-	 * 
-	 * @param newItem
-	 * @return
 	 */
-	public DBError addProfileItem(String lang, String keyboard) {	
+	public DBError addProfileItem(String lang, String keyboard) {
 		Assert.assertTrue(lang != null);
 		Assert.assertTrue(keyboard != null);
 
@@ -801,7 +783,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			if (getProfileItem(lang) != null)
 				return updateProfileItem(lang, keyboard);
 
-			// Append new shortcut item to database 
+			// Append new shortcut item to database
 			ContentValues values = new ContentValues();
 			values.put(PROFILE_FIELD_LANG, lang);
 			values.put(PROFILE_FIELD_KEYBOARD, keyboard);
@@ -819,12 +801,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	/**
 	 * Update specified profile item
-	 * 
-	 * @param orgProfile
-	 * @param newProfile
-	 * @return
 	 */
-	public DBError updateProfileItem(String lang, String keyboard) {		
+	public DBError updateProfileItem(String lang, String keyboard) {
 		Assert.assertTrue(lang != null);
 		Assert.assertTrue(keyboard != null);
 
@@ -833,7 +811,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			if (getProfileItem(lang) == null)
 				return addProfileItem(lang, keyboard);
 
-			// Append new profile item to database 
+			// Append new profile item to database
 			ContentValues values = new ContentValues();
 			values.put(PROFILE_FIELD_LANG, lang);
 			values.put(PROFILE_FIELD_KEYBOARD, keyboard);
@@ -855,9 +833,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	/**
 	 * Remove specified profile item
-	 * 
-	 * @param profile
-	 * @return
 	 */
 	public void removeProfileItem(String lang) {
 		try {

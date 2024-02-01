@@ -28,8 +28,12 @@ android {
 
 dependencies {
     implementation 'androidx.core:core:1.12.0'
+    implementation 'androidx.core:core-ktx:1.12.0'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
     implementation files('libs/google_translate.jar')
     implementation files('libs/voiceimeutils.jar')
     implementation 'junit:junit:4.13.2'
-    implementation 'androidx.core:core-ktx:+'
 }

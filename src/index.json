@@ -1,0 +1,31 @@
+{
+  "minVersionCode": 2,
+  "dictionaries": [
+    {
+      "language": "de",
+      "filename": "de.dic",
+      "size": 786432,
+      "version": 3
+    }, {
+      "language": "en",
+      "filename": "en.dic",
+      "size": 3538944,
+      "version": 3
+    }, {
+      "language": "es",
+      "filename": "es.dic",
+      "size": 2719744,
+      "version": 3
+    }, {
+      "language": "fr",
+      "filename": "fr.dic",
+      "size": 2424832,
+      "version": 3
+    }, {
+      "language": "hu",
+      "filename": "hu.dic",
+      "size": 1703936,
+      "version": 3
+    }
+  ]
+}

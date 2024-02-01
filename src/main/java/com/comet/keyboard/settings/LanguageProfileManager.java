@@ -6,14 +6,13 @@
 
 package com.comet.keyboard.settings;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
 
 import junit.framework.Assert;
 
 import com.comet.keyboard.R;
 import com.comet.keyboard.layouts.KeyboardLayout;
-import com.comet.keyboard.util.DatabaseHelper;
+import com.comet.data.db.DatabaseHelper;
 
 import android.content.Context;
 import android.content.SharedPreferences;

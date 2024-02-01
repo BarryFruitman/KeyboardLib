@@ -26,8 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.comet.keyboard.R;
-import com.comet.keyboard.util.DatabaseHelper;
-import com.comet.keyboard.util.DatabaseHelper.DBError;
+import com.comet.data.db.DatabaseHelper;
+import com.comet.data.db.DatabaseHelper.DBError;
 
 public class ShortcutSetting extends Activity implements OnClickListener,
 		OnItemClickListener {
