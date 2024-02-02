@@ -1,4 +1,6 @@
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"
+    translatable="false">
+
     <!-- Manifest  -->
     <string name="ime_name">Comet Keyboard</string>
     <string name="ime_short_name">Comet</string>
@@ -20,7 +22,6 @@
     <string name="google_rating_url">@string/google_play_url</string>
     <string name="amazon_rating_url">@string/amazon_appstore_url</string>
 
-    <string name="upgrade_sku"></string>
     <string name="upgrade_product_type">upgrade</string>
     
 
@@ -174,16 +175,11 @@
 	<string name="symbols_business">\u2122\u00A9\u00AE</string>
 	<string name="symbols_arrows">\u2190\u2191\u2192\u2193\u2194\u2195\u2196\u2197\u2198\u2199</string>
 	<string name="symbols_fractions">\u215b\u00bc\u215c\u00bd\u215d\u00be\u215e\u2153\u2154</string>
-	<string name="symbols_misc"></string>
 
-	<!-- Location of dictionary files
-	<string name="install_base_url">http://m.cometapps.com/typesmart/dictionaries/</string>
-	<string name="install_dic_list_url">http://m.cometapps.com/typesmart/dictionaries/dictionaries.xml</string>
-	-->
 	<string name="install_base_url">https://barfru.dreamhosters.com/dictionaries/</string>
 	<string name="dic_updated_time">dic_updated_time</string>
 	<string name="dic_checked_time">dic_checked_time</string>
-	<string name="dic_app_version_code">dic_app_version_code</string>	
+	<string name="dic_app_version_code">dic_app_version_code</string>
 	<string name="prefs_is_dic_updated">is_dic_updated</string>
 
 
@@ -381,7 +377,7 @@
 	-->
     <string name="about_title">About %1$s</string>
 	<string name="about_product_version">Version: %1$s (%2$s)</string>	<!-- Version number, release number -->
-    <string name="about_special_thanks"></string>
+    <string name="about_special_thanks" />
 	<string name="about_dic_version">Dictionaries installed: %1$s</string>
 	<string name="about_expires_on">Expires on: %1$s</string>
 		
@@ -389,7 +385,7 @@
 		Welcome
 	-->
     <string name="welcome_title">@string/home_title</string>
-    <string name="welcome_message"></string>
+    <string name="welcome_message" />
     <!--<string name="welcome_message2"></string>-->
     <string name="welcome_button">Setup</string>
 	
@@ -689,14 +685,12 @@
 	<string name="settings_new_words_ask_first">Ask first</string>
 	
     <string name="settings_category_behavior_title">Behavior</string>
-    <string name="settings_category_behavior_summary"></string>
-	
+
 
     <!--
 		Sound & Vibration
     -->
     <string name="settings_category_feedback_title">Sound &amp; vibration</string>
-    <string name="settings_category_feedback_summary"></string>
     <string name="settings_title_vibrate_on_key_press">Vibrate on key press</string>
     <string name="settings_title_long_press_duration">Long-press duration</string>
 	<string name="long_press_duration_summary">Duration: %d ms</string>	
@@ -764,14 +758,14 @@
     <string name="settings_summary_debug_mode">Log all events for support.</string>
     <string name="settings_title_submit_logs">Submit debug log</string>
     <string name="settings_summary_submit_logs">Submit the debug log to support.</string>    
-	<string name="submit_logs_loader">Loading...</string>
+	<string name="submit_logs_loader">Loading…</string>
 	<string name="personal_info_can_be_send_to_server">Please do not type personal information while debug logging is enabled. It will be visible to support personnel.</string>
 	<string name="submit_logs_success_msg">The log file was successfully sent. Debug logging has been disabled.</string>
 	<string name="submit_logs_fail_msg">Sending log file failed.</string>
 	<string name="submit_logs_no_file">The log is empty. Please collect data and try again.</string>    
 
-	<string name="waiting">Waiting...</string>
-	<string name="dictionary_loading_message">Loading dictionary...</string>	
+	<string name="waiting">Waiting…</string>
+	<string name="dictionary_loading_message">Loading dictionary…</string>
 	<string name="dictionary_nothing_to_download">There is no dictionary to download</string>	
     <!-- Swipe sensitivity -->
     <!-- This preference controls how sensitive the app is to swipe gestures -->
@@ -815,7 +809,7 @@
 	-->
     <string name="select_ime_label">%1$s is enabled.</string>
     <string name="select_ime_label_question">Would you like to make it your default keyboard?</string>
-    <string name="select_ime_message">%1$s is enabled, but it is not yet the default keyboard. Press OK to continue...</string>
+    <string name="select_ime_message">%1$s is enabled, but it is not yet the default keyboard. Press OK to continue…</string>
     <string name="select_ime_btn_yes">@string/yes</string>
     <string name="select_ime_btn_no">@string/no</string>    
     <string name="install_default_ime_dialog_title">Set as default keyboard</string>

@@ -386,11 +386,9 @@
     <string name="settings_new_words_never_add">No agregar nunca</string>
     <string name="settings_new_words_ask_first">Preguntar antes</string>
     <string name="settings_category_behavior_title">Comportamiento</string>
-    <string name="settings_category_behavior_summary"></string>
 <!-- 		Sound & Vibration
  -->
     <string name="settings_category_feedback_title">Sonido y vibración</string>
-    <string name="settings_category_feedback_summary"></string>
     <string name="settings_title_vibrate_on_key_press">Vibrar al pulsar las teclas</string>
     <string name="settings_title_long_press_duration">Duración de la pulsación prolongada</string>
     <string name="long_press_duration_summary">Duración: %d min.</string>

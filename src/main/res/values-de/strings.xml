@@ -388,11 +388,10 @@
     <string name="settings_new_words_never_add">Niemals hinzufügen</string>
     <string name="settings_new_words_ask_first">Vorher nachfragen</string>
     <string name="settings_category_behavior_title">Verhalten</string>
-    <string name="settings_category_behavior_summary"></string>
 <!-- 		Sound & Vibration
  -->
     <string name="settings_category_feedback_title">Ton &amp; Vibration</string>
-    <string name="settings_category_feedback_summary"></string>
+    <string name="settings_category_feedback_summar"></string>
     <string name="settings_title_vibrate_on_key_press">Vibration bei Tastendruck</string>
     <string name="settings_title_long_press_duration">Dauer eines langen Tastendrucks</string>
     <string name="long_press_duration_summary">Dauer: %d ms</string>
