@@ -5,11 +5,13 @@
  */
 package com.comet.data.api
 
+import com.comet.domain.entities.Dictionary
+
 data class DictionaryItem(
-	var language: String,
-    var version: Int,
-    var filename: String,
-    var size: Int) {
+    override var language: String,
+    override var version: Int,
+    override var filename: String,
+    override var size: Int) : Dictionary {
 
     var isNeedUpdate = false
     var isInstalled = false
